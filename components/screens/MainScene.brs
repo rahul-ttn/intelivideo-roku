@@ -2,17 +2,26 @@
 
 sub init()
     m.top.SetFocus(true)
-    m.isLoggedIn = true
+    m.isLoggedIn = false
     if(m.isLoggedIn)
         moveToLoginScreen()
+    else
+        moveToHomeScreen()
     end if
 End sub
 
-sub moveToLoginScreen()
-    m.loginScreen = m.top.createChild("LoginScreen")
-    m.loginScreen.visible = true
+sub moveToHomeScreen()
+    homeScreen = m.top.createChild("HomeScreen")
+    homeScreen.visible = true
     m.top.setFocus(false)
-    m.loginScreen.setFocus(true)
+    homeScreen.setFocus(true)
+End sub
+
+sub moveToLoginScreen()
+    loginScreen = m.top.createChild("LoginScreen")
+    loginScreen.visible = true
+    m.top.setFocus(false)
+    loginScreen.setFocus(true)
 End sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
