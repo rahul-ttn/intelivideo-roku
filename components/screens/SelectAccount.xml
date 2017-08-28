@@ -15,5 +15,9 @@
 	>
 	</Label>
 	
+	<SelectAccountList
+	id = "selectAccountList"
+	translation = "[10,800]"></SelectAccountList>
+	
 	</children>
 </component>

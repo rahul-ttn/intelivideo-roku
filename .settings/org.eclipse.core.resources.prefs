@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
+encoding//components/SelectAccountList/SelectAccount.xml=UTF-8
+encoding//components/SelectAccountList/SelectAccountListItemsData.xml=UTF-8
+encoding//components/SelectAccountList/SelectAccountListItemsLayout.xml=UTF-8
 encoding//components/screens/LoginScreen.xml=UTF-8
 encoding//components/screens/SelectAccount.xml=UTF-8
-encoding//components/selectaccountlist/SelectAccount.xml=UTF-8
-encoding//components/selectaccountlist/SelectAccountListItemsData.xml=UTF-8
-encoding//components/selectaccountlist/SelectAccountListItemsLayout.xml=UTF-8
