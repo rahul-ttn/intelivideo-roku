@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="SelectAccount" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri = "pkj:/components/screens/SelectAccount.brs"/>
+	
+	<children>
+	
+	<Label
+	id = "selectAccLabel"
+	translation = "[0,100]"
+	width = "1920"
+	height = "100"
+	text = "Select Account"
+	color = "0xffffffff"
+	horizAlign = "center"
+	>
+	</Label>
+	
+	</children>
+</component>
