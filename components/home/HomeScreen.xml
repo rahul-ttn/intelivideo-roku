@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component name="HomeScreen" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
-<script type="text/brightscript" uri="pkg:/components/home/HomeScreen.brs"/>
+<component name="HomeScreen" extends="Group"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/components/home/HomeScreen.brs" />
+	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
+	<children>
 
-<children>  
-          
-        
-               
-            <NavigationBar 
-                                id="NavigationBar" 
-                               
-                          /> 
-                          
-</children>  
+		<NavigationBar id="NavigationBar" />
+
+		<HomeRowList id="homeRowList" translation="[500,60]" />
+
+	</children>
 </component>

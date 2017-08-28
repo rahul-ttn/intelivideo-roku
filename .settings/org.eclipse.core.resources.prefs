@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
 encoding//components/home/HomeScreen.xml=UTF-8
-encoding//components/home/NavigationBar.xml=UTF-8
+encoding//components/home/homeRowList/HomeRowList.xml=UTF-8
+encoding//components/home/homeRowList/HomeRowListItemData.xml=UTF-8
+encoding//components/home/homeRowList/HomeRowListItemLayout.xml=UTF-8
+encoding//components/navigation/NavigationBar.xml=UTF-8
 encoding//components/screens/LoginScreen.xml=UTF-8

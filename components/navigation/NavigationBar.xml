@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="NavigationBar" extends="Group"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
+
+	<children>
+
+		<Rectangle id="navRectangleClose" color="0x880088FF" width="250"
+			height="1080" translation="[0,0]" visible="false">
+
+			<ButtonGroup id="navButtonGroupClose" translation="[0,50]">
+
+				<Button id="buttonHomeClose" focusBitmapUri="" text=""
+					focusFootprintBitmapUri="" showFocusFootprint="true" focusable="true"
+					iconUri="pkg:/images/$$RES$$/home.png" focusedIconUri="pkg:/images/$$RES$$/home_selected.png" />
+
+				<Button id="buttonFavoriteClose" focusBitmapUri=""
+					focusFootprintBitmapUri="" showFocusFootprint="true" focusable="true"
+					iconUri="pkg:/images/$$RES$$/home.png" focusedIconUri="pkg:/images/$$RES$$/home_selected.png" />
+
+				<Button id="buttonSearchClose" focusBitmapUri=""
+					focusFootprintBitmapUri="" showFocusFootprint="true" focusable="true"
+					iconUri="pkg:/images/$$RES$$/home.png" focusedIconUri="pkg:/images/$$RES$$/home_selected.png" />
+
+				<Button id="buttonProfileClose" focusBitmapUri=""
+					focusFootprintBitmapUri="" showFocusFootprint="true" focusable="true"
+					iconUri="pkg:/images/$$RES$$/home.png" focusedIconUri="pkg:/images/$$RES$$/home_selected.png" />
+
+			</ButtonGroup>
+		</Rectangle>
+		
+		<Rectangle id="navRectangleOpen" color="0x880088FF" width="400"
+			height="1080" translation="[0,0]">
+
+			<ButtonGroup id="navButtonGroupOpen" translation="[0,50]">
+
+				<Button id="buttonHomeOpen" focusBitmapUri="" text="Home"
+					focusFootprintBitmapUri="" showFocusFootprint="true" focusable="true"
+					iconUri="pkg:/images/$$RES$$/home.png" focusedIconUri="pkg:/images/$$RES$$/home_selected.png" />
+
+				<Button id="buttonFavoriteOpen" focusBitmapUri="" text="Favorites"
+					focusFootprintBitmapUri="" showFocusFootprint="true" focusable="true"
+					iconUri="pkg:/images/$$RES$$/home.png" focusedIconUri="pkg:/images/$$RES$$/home_selected.png" />
+
+				<Button id="buttonSearchOpen" focusBitmapUri="" text="Search"
+					focusFootprintBitmapUri="" showFocusFootprint="true" focusable="true"
+					iconUri="pkg:/images/$$RES$$/home.png" focusedIconUri="pkg:/images/$$RES$$/home_selected.png" />
+
+				<Button id="buttonProfileOpen" focusBitmapUri="" text="Profile"
+					focusFootprintBitmapUri="" showFocusFootprint="true" focusable="true"
+					iconUri="pkg:/images/$$RES$$/home.png" focusedIconUri="pkg:/images/$$RES$$/home_selected.png" />
+
+			</ButtonGroup>
+		</Rectangle>
+
+	</children>
+
+</component>
