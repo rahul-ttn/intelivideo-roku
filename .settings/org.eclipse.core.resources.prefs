@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
-encoding//components/screens/HomeScreen.xml=UTF-8
+encoding//components/home/HomeScreen.xml=UTF-8
+encoding//components/home/NavigationBar.xml=UTF-8
 encoding//components/screens/LoginScreen.xml=UTF-8
-encoding//components/screens/NavigationBar.xml=UTF-8
