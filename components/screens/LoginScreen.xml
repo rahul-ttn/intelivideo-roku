@@ -24,15 +24,16 @@
 		<Rectangle
 			id = "rect"
 			width = "500"
-			height = "50">
+			height = "60">
 			<Button
 				id="editTextButton"
-			  	height="50"
-			  	width = "500"
+				height = "50"
 			  	translation="[0,0]"
 			  	textFont = "font:LargeSystemFont"
 			  	iconUri=""
-				focusedIconUri=""/>
+				focusedIconUri=""
+				focusBitmapUri=""
+				focusFootprintBitmapUri=""/>
 			<Label
 		  		id = "hintlabel"
 		  		text = "Account Email"
@@ -52,13 +53,16 @@
 	
 	</LayoutGroup>
 	
+	
 	 <Keyboard
 		id = "keyboard"
+		translation = "[225,525]"
 	    showTextEditBox = "true"
 	    keyboardBitmapUri = ""
 	    visible = "false"
 	    focusedKeyColor = "0xff0000ff">
 	</Keyboard>
+	
 	
 	</children> 
 </component>

@@ -13,9 +13,11 @@ sub init()
 '    m.textEditTextEmail.visible = false
 
     m.editTextButton = m.top.findNode("editTextButton")
-    m.textLabel = m.top.findNode("hintlabel")
     m.editTextButton.observeField("buttonSelected","showKeyboard")
     m.editTextButton.setFocus(true)
+    
+    
+    m.textLabel = m.top.findNode("hintlabel")
     m.keyboard = m.top.findNode("keyboard")
     
         
@@ -35,7 +37,10 @@ end sub
 
 'method to let user enter and display registered email id
 sub showKeyboard()
-    
+    m.keyboard.visible = true
+    m.keyboard.setFocus(true)
+    m.editTextButton.setFocus(false)
+    m.buttonNext.visible = false
 end sub
 
 Function onKeyEvent(key as String,press as Boolean) as Boolean
@@ -43,15 +48,22 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     
     if(press)
         if key = "down"
-            if m.textLabel.hasFocus()
-                m.textLabel.setFocus(false)
+            if m.editTextButton.hasFocus()
+                m.editTextButton.setFocus(false)
                 m.buttonNext.setFocus(true)
             end if
         else if key = "up"
             if m.buttonNext.hasFocus()
                 m.buttonNext.setFocus(false)
-                m.textLabel.setFocus(true)
+                m.editTextButton.setFocus(true)
             end if
+        else if key = "play"  'change event on back press
+                emailId = m.keyboard.text
+                m.textLabel.text = emailId
+                m.textLabel.textColor = "0x1c2833ff"
+                m.keyboard.visible = false
+                m.buttonNext.visible = true
+                m.buttonNext.setFocus(true)
         end if
     end if
     return result 
