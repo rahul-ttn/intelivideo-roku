@@ -1,7 +1,7 @@
 sub init()
     m.top.SetFocus(true)
         m.top.itemComponentName = "SelectAccountListItemsLayout"
-        m.top.numRows = 1
+        m.top.numRows = 3
         m.top.itemSize = [200 * 9 + 100, 100]
         m.top.rowHeights = [100]
         m.top.rowItemSize = [ [200, 100] ]

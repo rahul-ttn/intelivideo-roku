@@ -9,16 +9,19 @@ sub init()
     m.accountList.ObserveField("rowItemFocused", "onRowItemFocused")
     m.accountList.ObserveField("rowItemSelected", "rowItemSelected")
     
-    m.accountList.content = getHorizontalRowListContent()     
+    m.accountList.content = getHorizontalRowListContent()    
 end sub
 
 function getHorizontalRowListContent() as object
          parentContentNode = CreateObject("roSGNode", "ContentNode")
+         print parentContentNode
          for numRows = 0 to 0
             row = parentContentNode.CreateChild("ContentNode")
+            print row
             row.title = ""
             for index= 0 to m.countriesArray.Count()-1
-                   rowItem = row.CreateChild("CouuntryRowListItemsData")
+                   rowItem = row.CreateChild("SelectAccountListItemsData")
+                   print rowItem
                    rowItem.countryName = m.countriesArray[index]
              end for         
          end for
@@ -26,7 +29,7 @@ function getHorizontalRowListContent() as object
 end function
 
 function onRowItemFocused() as void
-        print "***** Some's wish is ********";m.countryRowList.rowItemFocused
+        print "***** Some's wish is ********";m.accountList.rowItemFocused
         row = m.accountList.rowItemFocused[0]
         col = m.accountList.rowItemFocused[1]
         print "**********Row is *********";row

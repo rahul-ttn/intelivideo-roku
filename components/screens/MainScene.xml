@@ -5,4 +5,15 @@
 <component name="MainScene" extends="Scene" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
 	<!-- importing main handler -->
     <script type="text/brightscript" uri="pkg:/components/screens/MainScene.brs" />
+    
+    <children>
+    
+    <Poster
+    id = "poster"
+    uri = "https://static.pexels.com/photos/34950/pexels-photo.jpg"
+	translation = "[115,5]"
+	width = "0.0"
+	height = "0.0"
+	/>
+    </children>
 </component>

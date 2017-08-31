@@ -5,7 +5,7 @@
   <field id="itemContent" type="node" onChange="itemContentChanged"/> 
 </interface>
 
-<script type="text/brightscript" uri="pkg:/components/CountryRowList/CountryRowListItemsLayout.brs" />
+<script type="text/brightscript" uri="pkg:/components/SelectAccountList/SelectAccountListItemsLayout.brs" />
 
 <children>
            <Label 
@@ -13,8 +13,8 @@
                horizAlign="center" 
                vertAlign = "center"
                translation="[0,0]" 
-               width="300" 
-               height="300" 
+               width="100" 
+               height="100" 
                font="font:SmallSystemFont"/>
    </children>
 
