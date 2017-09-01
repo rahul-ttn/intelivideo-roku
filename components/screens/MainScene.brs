@@ -7,6 +7,7 @@ sub init()
         moveToLoginScreen()
     else
         moveToHomeScreen()
+
     end if
 End sub
 

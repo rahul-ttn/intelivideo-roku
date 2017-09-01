@@ -13,27 +13,56 @@
 		itemSpacings="[200,50]">
 		
 		<Label
-		id = "labelWelcome"
-		text = "WELCOME"
-		>
-	</Label>
+			id = "labelWelcome"
+			text = "WELCOME"
+			horizAlign = "center"
+			vertAlign = "center"
+			font = "font:LargeSystemFont">
+		</Label>
 	
-	<TextEditBox
-		id = "textEditBoxEmail"
-		hintText="Enter email"
-		focusable="true"
-		>
-	</TextEditBox>
 	
-	<Button
-		id = "buttonNext"
-		text = "Next"
-		iconUri=""
-		focusedIconUri=""
-		>
-	</Button>
+		<Rectangle
+			id = "rect"
+			width = "500"
+			height = "60">
+			<Button
+				id="editTextButton"
+				height = "50"
+			  	translation="[0,0]"
+			  	textFont = "font:LargeSystemFont"
+			  	iconUri=""
+				focusedIconUri=""
+				focusBitmapUri=""
+				focusFootprintBitmapUri=""/>
+			<Label
+		  		id = "hintlabel"
+		  		text = "Account Email"
+		  		translation="[5,5]"
+		  		horizAlign = "left"
+				vertAlign = "center"
+				color = "0xB4B4B1ff"/>
+		</Rectangle>
+		
+	
+		<Button
+			id = "buttonNext"
+			text = "Next"
+			iconUri=""
+			focusedIconUri=""
+		    showFocusFootprint="true"/>
 	
 	</LayoutGroup>
+	
+	
+	 <Keyboard
+		id = "keyboard"
+		translation = "[225,525]"
+	    showTextEditBox = "true"
+	    keyboardBitmapUri = ""
+	    visible = "false"
+	    focusedKeyColor = "0xff0000ff">
+	</Keyboard>
+	
 	
 	</children> 
 </component>
