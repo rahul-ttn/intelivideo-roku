@@ -48,8 +48,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
              if key = "back"
-                 m.top.setFocus(false)
-                 m.top.visible = false
+                 
             end if           
     end if
     return result 

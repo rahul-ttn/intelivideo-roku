@@ -34,7 +34,7 @@ End sub
 sub goToSelectScreen()
     hideViews()
     m.selectScreen = m.top.createChild("SelectAccount")
-    print m.selectScreen
+    print m.top.selectScreen
     m.top.setFocus(false)
     m.selectScreen.setFocus(true)
 end sub
@@ -84,6 +84,18 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 m.keyboard.visible = false
                 m.buttonNext.visible = true
                 m.buttonNext.setFocus(true)
+        else if key = "back"
+                 m.selectScreen.setFocus(false)
+                 m.selectScreen.visible = false
+                 m.layoutGroup.visible = true
+                 m.editTextButton.setFocus(true)
+'             if(m.top.selectScreen <> invalid and m.top.selectScreen.visible = true)
+'                m.top.selectScreen.visible = false
+'                m.layoutGroup.visible = true
+'                m.editTextButton.setFocus(true)
+'                return true
+'             end if
+            return true
         end if
     end if
     return result 
