@@ -1,12 +1,13 @@
 sub init()
     m.top.SetFocus(true)
         m.top.itemComponentName = "SelectAccountListItemsLayout"
-        m.top.numRows = 3
+        m.top.numRows = 1
         m.top.itemSize = [200 * 9 + 100, 100]
-        m.top.rowHeights = [100]
-        m.top.rowItemSize = [ [200, 100] ]
-        m.top.itemSpacing = [ 0, 120 ]
-        m.top.rowItemSpacing = [ [20, 0] ]
+       ' m.top.itemSize = [1500, 100]
+        m.top.rowHeights = [400]'no effect
+        m.top.rowItemSize = [ [300, 250] ] 'changed the size of each item in a row
+        m.top.itemSpacing = [ 0, 200 ]
+        m.top.rowItemSpacing = [ [200, 200] ] 'set the spacing of each item in row
         m.top.rowLabelOffset = [ [0, 20] ]
         m.top.rowFocusAnimationStyle = "floatingFocus"
         m.top.vertFocusAnimationStyle = "floatingFocus"

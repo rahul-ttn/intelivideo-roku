@@ -1,6 +1,5 @@
 sub init()
     m.top.setFocus(true)
-    
     m.countriesArray = ["India", "Pakistan", "Sri Lanks","South Africa","Australia","West Indies","New Zealand","England","Zimbawe","Kenya","Nepal","America"]
       
     m.accountList = m.top.findNode("selectAccountList")
@@ -47,17 +46,12 @@ end function
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
-'    if press
-'             if key = "up"
-'                       m.moveFocusButton.setFocus(true)
-'                       m.accountList.setFocus(false) 
-'                       result = true
-'               else if key = "down"
-'                       m.moveFocusButton.setFocus(false)
-'                       m.accountList.setFocus(true)
-'                       result = true
-'            end if           
-'    end if
+    if press
+             if key = "back"
+                 m.top.setFocus(false)
+                 m.top.visible = false
+            end if           
+    end if
     return result 
 end function
 

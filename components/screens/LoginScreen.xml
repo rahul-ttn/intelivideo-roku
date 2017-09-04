@@ -4,6 +4,15 @@
 	
 	<children>
 	
+	 <Video
+	    id = "musicvideos"
+	    width="0.0"
+	  	height="0.0"
+	  	translation="[0,0]"
+	  	enableTrickPlay = "true"
+	  	>
+    </Video>
+    
 	<LayoutGroup
 		id = "layoutGroup"
 		layoutDirection = "vert"

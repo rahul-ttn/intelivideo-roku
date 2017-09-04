@@ -12,9 +12,7 @@
                id="countryTextLabel" 
                horizAlign="center" 
                vertAlign = "center"
-               translation="[0,0]" 
-               width="100" 
-               height="100" 
+               translation="[100,100]"  
                font="font:SmallSystemFont"/>
    </children>
 

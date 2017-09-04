@@ -6,18 +6,19 @@
 	
 	<Label
 	id = "selectAccLabel"
-	translation = "[0,100]"
+	translation = "[0,300]"
 	width = "1920"
 	height = "100"
 	text = "Select Account"
 	color = "0xffffffff"
 	horizAlign = "center"
+	font = "font:LargeSystemFont"
 	>
 	</Label>
 	
 	<SelectAccountList
 	id = "selectAccountList"
-	translation = "[10,800]"></SelectAccountList>
+	translation = "[300,600]"></SelectAccountList>
 	
 	</children>
 </component>
