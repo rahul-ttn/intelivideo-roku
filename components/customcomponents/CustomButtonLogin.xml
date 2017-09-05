@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="CustomButtonLogin" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri = "pkg:/components/customcomponents/CustomButtonLogin.brs"/>
+	<children>
+		<Rectangle
+			id = "rectangle"
+			height = "80"
+			width="250"
+			color="0x00CBB9FF">
+			
+			<Button
+				id = "button"
+				text = ""
+				iconUri = ""
+				focusedIconUri=""
+				focusBitmapUri="pkg:/images/img_transparent"
+				focusFootprintBitmapUri="pkg:/images/img_transparent">
+			</Button>
+			
+			<Label
+				id = "buttonTextLabel"
+				text = "ABC"
+				color = "0xffffffff">
+			</Label>
+		</Rectangle>
+	</children>
+</component>

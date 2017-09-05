@@ -19,14 +19,14 @@
 		horizAlignment = "center"
 		vertAlignment="center"
 		translation="[960,440]"
-		itemSpacings="[200,50]">
+		itemSpacings="[170,50]">
 		
 		<Label
 			id = "labelWelcome"
 			text = "WELCOME"
 			horizAlign = "center"
 			vertAlign = "center"
-			font = "font:LargeSystemFont">
+			>
 		</Label>
 	
 	
@@ -40,13 +40,13 @@
 			  	translation="[0,0]"
 			  	textFont = "font:LargeSystemFont"
 			  	iconUri=""
-				focusedIconUri=""
-				focusBitmapUri=""
+				focusedIconUri="pkg:/images/img_transparent"
+				focusBitmapUri="pkg:/images/img_transparent"
 				focusFootprintBitmapUri=""/>
 			<Label
 		  		id = "hintlabel"
 		  		text = "Account Email"
-		  		translation="[5,5]"
+		  		translation="[7,12]"
 		  		horizAlign = "left"
 				vertAlign = "center"
 				color = "0xB4B4B1ff"/>
@@ -59,6 +59,9 @@
 			iconUri=""
 			focusedIconUri=""
 		    showFocusFootprint="true"/>
+		 <CustomButtonLogin
+		 	id = "loginButton"
+		 	></CustomButtonLogin>
 	
 	</LayoutGroup>
 	

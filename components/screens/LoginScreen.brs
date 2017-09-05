@@ -14,6 +14,7 @@ sub init()
     m.layoutGroup = m.top.findNode("layoutGroup")
     m.rectangle = m.top.findNode("rect")
     m.labelWelcome = m.top.findNode("labelWelcome")
+    m.labelWelcome.font.size = 115
     m.editTextButton = m.top.findNode("editTextButton")
     m.editTextButton.observeField("buttonSelected","showKeyboard")
     m.editTextButton.setFocus(true)
@@ -27,6 +28,14 @@ sub init()
     m.buttonNext = m.top.findNode("buttonNext")
     m.buttonNext.observeField("buttonSelected","goToSelectScreen")
     m.buttonNext.setFocus(false)
+    
+    m.button = m.top.findNode("loginButton")
+    print m.button
+   ' m.button.setText("Next")
+    'm.customButton = m.button.getButtonNode()
+    
+    print m.customButton
+    
     
 End sub
 
