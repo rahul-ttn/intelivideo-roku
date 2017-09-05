@@ -42,21 +42,23 @@ End sub
 'method called to go to Select Account screen
 sub goToSelectScreen()
 
-    
-    baseUrl = getApiBaseUrl()
-    finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
-    m.signUpApi = createObject("roSGNode","FetchMerchantApiHandler")
-    m.signUpApi.setField("uri",finalUrl)
-    m.signUpApi.observeField("content","onFetchMerchant")
-    m.signUpApi.control = "RUN"
+    if checkInternetConnection()
+        baseUrl = getApiBaseUrl()
+        finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
+        m.signUpApi = createObject("roSGNode","FetchMerchantApiHandler")
+        m.signUpApi.setField("uri",finalUrl)
+        m.signUpApi.observeField("content","onFetchMerchant")
+        m.signUpApi.control = "RUN"
+    else
+        printValue("No Network")
+    end if
     
 end sub
 
 function onFetchMerchant()
 
-    print "onFetchMerchant success"
+    printValue("onFetchMerchant success")
     
-
     hideViews()
 
     m.selectScreen = m.top.createChild("SelectAccount")

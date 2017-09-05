@@ -7,3 +7,9 @@ Function printLog(tag as String,value as Object)
     print tag ; "  ===>  "; value
     End If
 End Function
+
+Function printValue(value as Object)
+    If isDebugable()=true Then
+    print tag ; "  ===>  "; value
+    End If
+End Function
