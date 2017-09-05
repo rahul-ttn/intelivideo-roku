@@ -1,8 +1,8 @@
 sub init()
     m.top.setFocus(true)
-    
     m.countriesArray = ["India", "Pakistan", "Sri Lanks","South Africa","Australia","West Indies","New Zealand","England","Zimbawe","Kenya","Nepal","America"]
-      
+    
+    m.selectAccLabel = m.top.findNode("selectAccLabel")
     m.accountList = m.top.findNode("selectAccountList")
     m.accountList.setFocus(true)
     
@@ -32,32 +32,39 @@ function onRowItemFocused() as void
         print "***** Some's wish is ********";m.accountList.rowItemFocused
         row = m.accountList.rowItemFocused[0]
         col = m.accountList.rowItemFocused[1]
-        print "**********Row is *********";row
-        print "**********col is *********";col
+'        print "**********Row is *********";row
+'        print "**********col is *********";col
 end function
 
     
 function rowItemSelected() as void
         row = m.accountList.rowItemFocused[0]
         col = m.accountList.rowItemFocused[1]
-        print "**********Row is *********";row
-        print "**********col is *********";col
+'        print "**********Row is *********";row
+'        print "**********col is *********";col
+        goToPasswordScreen()
 end function
 
+function goToPasswordScreen() as void
+    hideViews()
+    m.passwordScreen = m.top.createChild("PasswordScreen")
+    print m.top.passwordScreen
+    m.top.setFocus(false)
+    m.passwordScreen.setFocus(true)
+end function
+
+function hideViews() as void
+    m.accountList.visible = false
+    m.selectAccLabel.visible = false
+end function
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
-'    if press
-'             if key = "up"
-'                       m.moveFocusButton.setFocus(true)
-'                       m.accountList.setFocus(false) 
-'                       result = true
-'               else if key = "down"
-'                       m.moveFocusButton.setFocus(false)
-'                       m.accountList.setFocus(true)
-'                       result = true
-'            end if           
-'    end if
+    if press
+             if key = "back"
+                
+             end if           
+    end if
     return result 
 end function
 
