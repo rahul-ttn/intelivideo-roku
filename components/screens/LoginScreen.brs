@@ -28,12 +28,26 @@ End sub
 
 'method called to go to Select Account screen
 sub goToSelectScreen()
+    
+    baseUrl = getApiBaseUrl()
+    finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
+    m.signUpApi = createObject("roSGNode","FetchMerchantApiHandler")
+    m.signUpApi.setField("uri",finalUrl)
+    m.signUpApi.observeField("content","onFetchMerchant")
+    m.signUpApi.control = "RUN"
+    
+end sub
+
+function onFetchMerchant()
+
+    print "onFetchMerchant success"
+    
     m.selectScreen = m.top.createChild("SelectAccount")
     print m.selectScreen
     m.top.setFocus(false)
     m.selectScreen.setFocus(true)
-    
-end sub
+
+end function
 
 'method to let user enter and display registered email id
 sub showKeyboard()

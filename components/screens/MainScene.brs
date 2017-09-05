@@ -2,7 +2,7 @@
 
 sub init()
     m.top.SetFocus(true)
-    m.isLoggedIn = false
+    m.isLoggedIn = true
     if(m.isLoggedIn)
         moveToLoginScreen()
     else

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="LoginScreen" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs"/>
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs"/>
+	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs"/>
+	<script type="text/brightscript" uri="pkg:/source/utility/RequestParamsUtility.brs"/>
 	<script type="text/brightscript" uri="pkg:/components/screens/LoginScreen.brs"/>
 	
 	<children>

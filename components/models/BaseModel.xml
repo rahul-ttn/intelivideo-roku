@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="BaseModel" extends="ContentNode" xsi:noNamespaceSchemaLocation="http://rokudev.roku.com/rokudev/schema/RokuSceneGraph.xsd">
+<interface>  
+  <field id="success" type="boolean" />
+  <field id="error" type="String" />
+  <field id="message" type="String" />
+</interface>  
+
+</component>

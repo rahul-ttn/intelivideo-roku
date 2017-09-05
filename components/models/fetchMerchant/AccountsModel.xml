@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="AccountsModel" extends="BaseModel" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+<interface>  
+  <field id="id" type="String" />
+  <field id="name" type="String" />
+  <field id="logo" type="String" />
+  <field id="original" type="String" />
+  <field id="small" type="String" />
+  <field id="thumbnail" type="String" />
+  </interface> 
+</component>
