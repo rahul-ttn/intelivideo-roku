@@ -4,6 +4,7 @@
 	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs"/>
 	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs"/>
 	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs"/>
+	<script type="text/brightscript" uri="pkg:/source/constants/Validation.brs"/>
 	<script type="text/brightscript" uri="pkg:/components/screens/LoginScreen.brs"/>
 	
 	<children>
@@ -17,23 +18,45 @@
 	  	>
     </Video>
     
-	<LayoutGroup
-		id = "layoutGroup"
-		layoutDirection = "vert"
-		horizAlignment = "center"
-		vertAlignment="center"
-		translation="[960,370]"
-		itemSpacings="[170,50]">
-		
-		<Label
-			id = "labelWelcome"
-			text = "WELCOME"
-			horizAlign = "center"
-			vertAlign = "center"
-			>
-		</Label>
-	
-	
+    <Rectangle
+    	id = "parentRectangle"
+    	width="1920"
+    	height = "1080"
+    	translation = "[0,0]"
+    	color = "0x2e86c100">
+    	
+    	
+    	<Rectangle
+    		id = "welcomeRectangle"
+    		width = "1920"
+    		height = "150"
+    		color = "0xf7dc6f00"
+    		translation="[0.0,200]">
+    		<Label
+				id = "oopsLabel"
+				text = "Oops!"
+				width = "1920"
+				horizAlign = "center"
+				vertAlign = "center"
+				visible = "false"></Label>
+			<Label
+				id = "errorLabel"
+				text = "Please enter a valid email and try again."
+				width = "1920"
+				horizAlign = "center"
+				vertAlign = "center"
+				font = "font:MediumBoldSystemFont"
+				translation="[0.0,110]"
+				visible="false"></Label>
+			<Label
+				id = "labelWelcome"
+				text = "WELCOME"
+				width = "1920"
+				horizAlign = "center"
+				vertAlign = "center"
+				visible="true"></Label>
+    	</Rectangle>
+
 		<Rectangle
 			id = "editTextRectangle"
 			width = "500"
@@ -53,30 +76,14 @@
 		  		translation="[7,12]"
 		  		horizAlign = "left"
 				vertAlign = "center"
-				color = "0xB4B4B1ff"/>
+				color = "0x1c2833ff"/>
 		</Rectangle>
-		
-	
-		
-		 <!-- <CustomButtonLogin
-		 	id = "loginButton"
-		 	></CustomButtonLogin> -->
-	
-	</LayoutGroup>
-	
-	<LayoutGroup
-		id = "layoutGroupNextButton"
-		layoutDirection = "vert"
-		horizAlignment = "center"
-		vertAlignment="center"
-		translation="[1050,620]"
-		itemSpacings="[10]">
-		<Rectangle
+    
+    	<Rectangle
 			id = "nextButtonrectangle"
 			width="170"
 			height = "80"
-			translation = "[400,200]"
-			color="0x00CBB9FF">
+			color="0xB4B4B1ff">
 			
 			<Button
 				id="buttonNext"
@@ -97,18 +104,23 @@
 				vertAlign="center"
 				color = "0xffffffff">
 			</Label> 
+			
+			<BusySpinner 
+			      id = "exampleBusySpinner" 
+			      visible = "false" />
 		</Rectangle>
-	</LayoutGroup>
+		
+		<Keyboard
+			id = "keyboard"
+			translation = "[225,570]"
+		    showTextEditBox = "true"
+		    keyboardBitmapUri = ""
+		    visible = "false"
+		    focusedKeyColor = "0xff0000ff">
+		</Keyboard>
+    </Rectangle>
 	
 	
-	 <Keyboard
-		id = "keyboard"
-		translation = "[225,525]"
-	    showTextEditBox = "true"
-	    keyboardBitmapUri = ""
-	    visible = "false"
-	    focusedKeyColor = "0xff0000ff">
-	</Keyboard>
 	
 	
 	</children> 

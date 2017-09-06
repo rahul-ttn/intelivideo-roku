@@ -1,4 +1,4 @@
-Function emailValidation(textToDisplay as String)     
+Function emailValidation(textToDisplay as String) as boolean     
      checkRegex = CreateObject("roRegex", "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)","i")
      
      return checkRegex.IsMatch(textToDisplay)
