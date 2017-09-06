@@ -22,7 +22,7 @@
 		layoutDirection = "vert"
 		horizAlignment = "center"
 		vertAlignment="center"
-		translation="[960,440]"
+		translation="[960,370]"
 		itemSpacings="[170,50]">
 		
 		<Label
@@ -35,7 +35,7 @@
 	
 	
 		<Rectangle
-			id = "rect"
+			id = "editTextRectangle"
 			width = "500"
 			height = "60">
 			<Button
@@ -57,16 +57,47 @@
 		</Rectangle>
 		
 	
-		<Button
-			id = "buttonNext"
-			text = "Next"
-			iconUri=""
-			focusedIconUri=""
-		    showFocusFootprint="true"/>
-		 <CustomButtonLogin
+		
+		 <!-- <CustomButtonLogin
 		 	id = "loginButton"
-		 	></CustomButtonLogin>
+		 	></CustomButtonLogin> -->
 	
+	</LayoutGroup>
+	
+	<LayoutGroup
+		id = "layoutGroupNextButton"
+		layoutDirection = "vert"
+		horizAlignment = "center"
+		vertAlignment="center"
+		translation="[1050,620]"
+		itemSpacings="[10]">
+		<Rectangle
+			id = "nextButtonrectangle"
+			width="170"
+			height = "80"
+			translation = "[400,200]"
+			color="0x00CBB9FF">
+			
+			<Button
+				id="buttonNext"
+				height = "50"
+			  	translation="[0,0]"
+			  	textFont = "font:LargeSystemFont"
+			  	iconUri=""
+				focusedIconUri="pkg:/images/img_transparent"
+				focusBitmapUri="pkg:/images/img_transparent"
+				focusFootprintBitmapUri=""/>
+			
+			 <Label
+				id = "buttonTextLabel"
+				text = "Next"
+				height = "80"
+				width="170"
+				horizAlign = "center"
+				vertAlign="center"
+				color = "0xffffffff">
+			</Label> 
+		</Rectangle>
 	</LayoutGroup>
 	
 	

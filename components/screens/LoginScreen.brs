@@ -29,12 +29,12 @@ sub init()
     m.buttonNext.observeField("buttonSelected","goToSelectScreen")
     m.buttonNext.setFocus(false)
     
-    m.button = m.top.findNode("loginButton")
-    print m.button
-   ' m.button.setText("Next")
-    'm.customButton = m.button.getButtonNode()
-    
-    print m.customButton
+'    m.button = m.top.findNode("loginButton")
+'    print m.button
+'   ' m.button.setText("Next")
+'    'm.customButton = m.button.getButtonNode()
+'    
+'    print m.customButton
     
     
 End sub
