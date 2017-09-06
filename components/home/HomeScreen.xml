@@ -5,9 +5,14 @@
 	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
 	<children>
 
-		<NavigationBar id="NavigationBar" />
+		<Rectangle id="homeBackground" width="1960" height="1080"
+			translation="[0,0]" color="0x383838FF">
 
-		<HomeRowList id="homeRowList" translation="[500,60]" />
+			<NavigationBar id="NavigationBar" />
+
+			<HomeRowList id="homeRowList" translation="[500,60]" />
+
+		</Rectangle>
 
 	</children>
 </component>

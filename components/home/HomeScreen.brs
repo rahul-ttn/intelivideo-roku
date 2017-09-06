@@ -1,10 +1,10 @@
 sub init()
     m.top.SetFocus(true)
-  
+    print "Home init"
     initNavigationBar()
-  
+    print "Home Navigation"
     homeRowList() 
-  
+    print "Home List"
 End sub
 
 sub homeRowList()
@@ -46,6 +46,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     result = false
     if press
              if key = "right"
+           
                        m.countryRowList.setFocus(true)
                   
                        m.countryRowList.translation = [350, 60]

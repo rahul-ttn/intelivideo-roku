@@ -1,0 +1,74 @@
+sub init()
+    m.top.SetFocus(true)
+    
+    initNavigationBar()
+    m.buttonHomeOpen.setFocus(false)
+    m.buttonProfileOpen.setFocus(true)
+   
+   initFields()
+End sub
+
+sub initFields()
+    m.profileLabelList = m.top.FindNode("profileLabelList")
+    m.profileLeftRect = m.top.FindNode("profileLeftRect")
+    m.profileRightRect = m.top.FindNode("profileRightRect")
+    m.profileRightTitle = m.top.FindNode("profileRightTitle")
+    m.profileRightValue = m.top.FindNode("profileRightValue")
+    
+    showProfileList()
+End sub
+
+sub showProfileList()
+    m.profileLabelList.ObserveField("itemFocused", "onListItemSelected")
+    addItemsInList(m.profileLabelList)
+End sub
+
+sub onListItemSelected()
+    if(m.profileLabelList.itemFocused = 0)
+    
+    else if(m.profileLabelList.itemFocused = 1)
+        m.profileRightTitle.text = "TERMS OF USE"
+    else if(m.profileLabelList.itemFocused = 2)
+        m.profileRightTitle.text = "PRIVACY POLICY"
+    else if(m.profileLabelList.itemFocused = 3)
+        m.profileRightTitle.text = "CONTACT US"
+    else if(m.profileLabelList.itemFocused = 4)
+    
+    end if
+End sub
+
+sub addItemsInList(labelList)
+    m.content = createObject("roSGNode","ContentNode")
+'   
+    sectionContent=addListSectionHelper(m.content,"")     
+    addListItemHelper(sectionContent,"My Content")
+    
+    sectionContent=addListSectionHelper(m.content,"")
+    addListItemHelper(sectionContent,"Terms of Use")
+    addListItemHelper(sectionContent,"Privacy Policy")
+    addListItemHelper(sectionContent,"Contact Us") 
+    
+    sectionContent=addListSectionHelper(m.content,"")     
+    addListItemHelper(sectionContent,"Disconnect Account")   
+  
+    labelList.content = m.content
+end sub
+
+
+
+Function onKeyEvent(key as String,press as Boolean) as Boolean
+    result = false
+    if press
+        if key = "right"
+            m.profileLabelList.setFocus(true)    
+            showCloseState()
+            result = true
+        else if key = "left"
+            m.profileLabelList.setFocus(false)
+            initNavigationBar()
+            showOpenState()
+            result = true 
+        end if           
+    end if
+    return result 
+End Function
