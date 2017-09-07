@@ -31,31 +31,31 @@ sub init()
     m.buttonNext.setFocus(false)
     
     m.busyspinner = m.top.findNode("exampleBusySpinner")
-    m.busyspinner.poster.observeField("loadStatus", "showspinner")
+   ' m.busyspinner.poster.observeField("loadStatus", "showspinner")
     m.busyspinner.poster.uri = "pkg:/images/busyspinner_hd.png"
     
-    m.busyspinner.poster.loadStatus = "none"
+    'm.busyspinner.poster.loadStatus = "none"
    
 End sub
 
 'method called to go to Select Account screen
 sub goToSelectScreen()
     email = m.textLabel.text
-    if emailValidation(email)
+    'if emailValidation(email)
         if checkInternetConnection()
             baseUrl = getApiBaseUrl()
             finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
-            m.signUpApi = createObject("roSGNode","FetchMerchantApiHandler")
-            m.signUpApi.setField("uri",finalUrl)
-            m.signUpApi.observeField("content","onFetchMerchant")
-            m.signUpApi.control = "RUN"
+            m.fetchMerchantApi = createObject("roSGNode","FetchMerchantApiHandler")
+            m.fetchMerchantApi.setField("uri",finalUrl)
+            m.fetchMerchantApi.observeField("content","onFetchMerchant")
+            m.fetchMerchantApi.control = "RUN"
             showHideSpinner(true)
         else
             printValue("No Network")
         end if
-    else
-        showHideError(true)
-    end if
+'    else
+'        showHideError(true)
+'    end if
 end sub
 
 function showHideError(showError as boolean) as void
@@ -73,8 +73,8 @@ end function
 function showHideSpinner(flag as boolean) as void
       if flag
             print "???????????????????????????"
-            m.busyspinner.poster.loadStatus = "ready"
-           ' m.busyspinner.visible = true
+            'm.busyspinner.poster.loadStatus = "ready"
+            m.busyspinner.visible = true
             m.nextButtonrectangle.visible = false
       else 
             m.busyspinner.visible = false
@@ -84,10 +84,6 @@ end function
 
 sub showspinner()
       if(m.busyspinner.poster.loadStatus = "ready")
-'        centerx = (1280 - m.busyspinner.poster.bitmapWidth) / 2
-'        centery = (720 - m.busyspinner.poster.bitmapHeight) / 2
-'        m.busyspinner.translation = [ centerx, centery ]
-
         m.busyspinner.visible = true
       end if
     end sub
@@ -96,12 +92,18 @@ sub showspinner()
 function onFetchMerchant()
     printValue("onFetchMerchant success")
     
+    print  m.fetchMerchantApi.content.accountsArray
+    
     hideViews()
+    for each model in m.fetchMerchantApi.content.accountsArray
+        print model;"/////////////////////////////////////////////////////////////////////////"
+    end for  
 
     m.selectScreen = m.top.createChild("SelectAccount")
     print m.top.selectScreen
     m.top.setFocus(false)
     m.selectScreen.setFocus(true)
+    m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
 end function
 
 
@@ -156,6 +158,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                  m.parentRectangle.visible = true
                  handleButtonEditTextColorFocus(true)
                  showHideError(false)
+                 showHideSpinner(false)
 '             if(m.top.selectScreen <> invalid and m.top.selectScreen.visible = true)
 '                m.top.selectScreen.visible = false
 '                m.layoutGroup.visible = true

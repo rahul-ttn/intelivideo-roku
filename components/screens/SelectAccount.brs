@@ -9,7 +9,13 @@ sub init()
     m.accountList.ObserveField("rowItemFocused", "onRowItemFocused")
     m.accountList.ObserveField("rowItemSelected", "rowItemSelected")
     
-    m.accountList.content = getHorizontalRowListContent()    
+        
+end sub
+
+sub showAccountsArray()
+    m.accountsArray = m.top.content
+   
+    m.accountList.content = getHorizontalRowListContent()
 end sub
 
 function getHorizontalRowListContent() as object
@@ -19,10 +25,18 @@ function getHorizontalRowListContent() as object
             row = parentContentNode.CreateChild("ContentNode")
             print row
             row.title = ""
-            for index= 0 to m.countriesArray.Count()-1
+            for index= 0 to m.accountsArray.count()-1
                    rowItem = row.CreateChild("SelectAccountListItemsData")
-                   print rowItem
-                   rowItem.countryName = m.countriesArray[index]
+                   'print rowItem
+                   accountsModel = m.accountsArray[index]
+                   print accountsModel.name;"  ";accountsModel.id ;"  ACCOUNTS MODEL>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+                   rowItem.countryName = accountsModel.name
+                   rowItem.imageUri = accountsModel.thumbnail
+                   if accountsModel.thumbnail = "" 
+                        rowItem.showThumbnail = false
+                   else
+                        rowItem.showThumbnail = true
+                   end if
              end for         
          end for
          return parentContentNode 

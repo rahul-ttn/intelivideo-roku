@@ -8,12 +8,34 @@
 <script type="text/brightscript" uri="pkg:/components/SelectAccountList/SelectAccountListItemsLayout.brs" />
 
 <children>
-           <Label 
-               id="countryTextLabel" 
-               horizAlign="center" 
-               vertAlign = "center"
-               translation="[100,100]"  
-               font="font:SmallSystemFont"/>
-   </children>
+
+	<Rectangle
+		id = "parentRectangle"
+		height = "300"
+		width = "300"
+		color="0xFFFFFFFF">
+		<Poster
+			id = "posterBackground"
+			width="0.0"
+			height="0.0">
+		</Poster>
+		<Label 
+            id="accountNameLabel"  
+            width = "300"
+            translation = "[0.0,150]"
+            horizAlign="center"
+            color = "0x1c2833ff" 
+            ellipsizeOnBoundary="false"  
+            font="font:SmallSystemFont"/>
+	</Rectangle>
+	 <Label 
+            id="countryTextLabel" 
+            horizAlign="center"
+            width = "300" 
+            vertAlign = "bottom"
+            translation="[0,320]"  
+            ellipsizeOnBoundary ="false"
+            font="font:SmallSystemFont"/>
+ </children>
 
 </component>
