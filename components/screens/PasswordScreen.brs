@@ -13,6 +13,7 @@ sub init()
     m.busyspinner.poster.uri = "pkg:/images/busyspinner_hd.png"
     m.pinLabel = m.top.findNode("pinLabel")
     m.forgotPasswordLabel = m.top.findNode("forgotPasswordLabel")
+    m.pinpad = m.top.findNode("pinpad")
     
     m.editTextRectangle = m.top.findNode("editTextRectangle")
     editTextRectangleX = (1920 - m.editTextRectangle.width) / 2
@@ -33,7 +34,7 @@ sub init()
     m.forgotPasswordRectangle.translation = [0,forgotPasswordRectangleY]
     
     m.editTextButton = m.top.findNode("editTextButton")
-    m.editTextButton.observeField("buttonSelected","showKeyboard")
+    m.editTextButton.observeField("buttonSelected","showKeyboardPinPad")
     m.editTextButton.setFocus(true)
     
         
@@ -58,29 +59,56 @@ sub init()
                        "buttonLoginPin":"buttonLogin-buttonForgotPassword-N-N"                   
                        "buttonForgotPassword":"buttonLoginPin-N-N-N"    
                      }
+                     
+    m.pinSelected = false
+    
     
 end sub
 
 sub goToHomeScreen()
+    password = m.textLabel.text
+    if password = ""
+        showHideError(true)
+    end if
 end sub
 
 sub showPinDialog()
     m.currentFocusID = "editTextButton"
     handleVisibility()
-'print "Pin dialog pressed"
-'      pindialog = createObject("roSGNode", "PinDialog")
-'      print pindialog
-'      pindialog.backgroundUri = ""
-'      pindialog.title = "Enter Pin"
-'      pindialog.setFocus(true)
-'      m.top.dialog = pindialog
-'      print m.top.dialog
+    m.editTextButton.setFocus(true)
+    m.textLabel.color = "0xB4B4B1ff"
+    m.pinSelected = not m.pinSelected
+    
+    if m.pinSelected 
+        m.textLabel.text = "PIN"
+        m.pinLabel.text = "Login with Password"
+    else
+        m.textLabel.text = "Password"
+        m.pinLabel.text = "Login with Pin"
+    end if
 end sub
 
 sub goToForgotPasswordScreen()
+    hideViews()
+    m.forgotPasswordScreen = m.top.createChild("ForgotPassword")
+    print m.top.forgotPasswordScreen
+    m.top.setFocus(false)
+    m.forgotPasswordScreen.setFocus(true)
 end sub
 
-sub showKeyboard()
+sub hideViews()
+    m.parentRectangle.visible = false
+end sub
+
+sub showKeyboardPinPad()
+    if m.pinSelected
+        m.pinpad.visible = true
+        m.pinpad.setFocus(true)
+    else 
+        m.keyboard.visible = true
+        m.keyboard.setFocus(true)
+    end if
+      
 end sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
@@ -88,14 +116,41 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     
     if press
         if key="up" OR key="down" OR key="left" OR key="right" Then
-            handleFocus(key)
-            handleVisibility()
-'        else if key = "play"
-'            m.userpin = m.top.dialog.pin
-'            m.top.dialog.close = true
+            if m.keyboard.visible = false AND m.pinpad.visible = false
+                handleFocus(key)
+                handleVisibility()
+            end if
+        else if key = "back"
+            if m.keyboard.visible
+                m.keyboard.visible = false
+                m.password = m.keyboard.text
+'                m.passwordLength = m.keyboard.text.length
+'                print m.passwordLength
+                m.textLabel.text = m.password
+            else if m.pinpad.visible
+                m.pinpad.visible = false
+                m.pin = m.pinpad.pin
+                m.textLabel.text = m.pin
+            end if
+             m.currentFocusID = "editTextButton"
+             handleVisibility()
+             m.editTextButton.setFocus(true) 
+            return true
         end if
     end if
     return result 
+end function
+
+function showHideError(showError as boolean) as void
+    if showError = true
+        m.errorLabel.visible = true
+        m.oopsLabel.visible = true
+        m.labelWelcome.visible = false
+    else
+        m.errorLabel.visible = false
+        m.oopsLabel.visible = false
+        m.labelWelcome.visible = true
+    end if
 end function
 
 function handleVisibility() as void
