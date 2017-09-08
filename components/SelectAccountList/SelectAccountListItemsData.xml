@@ -2,5 +2,7 @@
 <component name="SelectAccountListItemsData" extends="ContentNode" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
 <interface>
 <field type="string" id="countryName"/>
+<field type="string" id="imageUri"/>
+<field type="bool" id="showThumbnail"/>
 </interface>
 </component>

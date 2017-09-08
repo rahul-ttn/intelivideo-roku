@@ -19,16 +19,8 @@ end function
 function changeFocus(focusNodeId,keyEvent)
     if(focusNodeId <> invalid and focusNodeId <> "N" )
         focusEle = m.top.findNode(focusNodeId)
-            ' Handle the visibility of the element
-            if(focusEle.visible) then
-                'Move the focus if it's visible
-                focusEle.SetFocus(true)
-                setFocusId(focusEle)
-                else
-                ' set the focus to next element                
-                handleCurrentFocus(keyEvent,focusEle.text)
-                
-            end if        
+        focusEle.SetFocus(true)
+        setFocusId(focusEle)     
      end if
 end function
 
