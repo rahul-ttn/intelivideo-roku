@@ -7,7 +7,9 @@
 	<script type="text/brightscript" uri="pkg:/source/constants/Validation.brs"/>
 	<script type="text/brightscript" uri="pkg:/components/requestHandlers/FetchMerchantApiHandler.brs" />
 	<script type="text/brightscript" uri="pkg:/components/screens/LoginScreen.brs"/>
-	
+	<interface>
+	<field type="Boolean" id="buttonFocus" alwaysNotify="true" onChange="loginScreenAppeared"/>
+	</interface>
 	<children>
 	
 	 <Video
@@ -15,7 +17,6 @@
 	    width="0.0"
 	  	height="0.0"
 	  	translation="[0,0]"
-	  	enableTrickPlay = "true"
 	  	>
     </Video>
     
@@ -111,14 +112,23 @@
 			      visible = "false" />
 		</Rectangle>
 		
-		<Keyboard
-			id = "keyboard"
-			translation = "[225,570]"
-		    showTextEditBox = "true"
-		    keyboardBitmapUri = ""
-		    visible = "false"
-		    focusedKeyColor = "0xff0000ff">
-		</Keyboard>
+		 <Rectangle   			
+		 	id="keyboardTheme"   			
+		 	color="#252222"   			
+		 	width="1400"  			
+		 	height="450"   			
+		 	translation="[225,450]" 
+		 	visible = "false">
+			 	<Keyboard
+					id = "keyboard"
+					translation = "[0,0]"
+				    showTextEditBox = "true"
+				    keyboardBitmapUri = "pkg:/images/KeyboardTemplatebgfhd"
+				    visible = "false"
+				    focusedKeyColor = "0x000000ff">
+			</Keyboard>
+		 </Rectangle>
+		
     </Rectangle>
 	
 	

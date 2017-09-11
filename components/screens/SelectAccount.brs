@@ -2,6 +2,7 @@ sub init()
     m.top.setFocus(true)
     
     m.selectAccLabel = m.top.findNode("selectAccLabel")
+    m.selectAccLabel.font.size = 115
     m.accountList = m.top.findNode("selectAccountList")
     m.accountList.setFocus(true)
     
@@ -76,7 +77,17 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
              if key = "back"
-                
+                if m.passwordScreen <> invalid AND m.passwordScreen.visible
+                    m.passwordScreen.setFocus(false)
+                    m.passwordScreen.visible = false
+                    m.accountList.visible = true
+                    m.selectAccLabel.visible = true
+                    m.accountList.setFocus(true)
+                    return true
+'                else
+'                    return false
+                end if
+                return false
              end if           
     end if
     return result 
