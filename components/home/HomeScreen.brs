@@ -80,6 +80,9 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 m.buttonProfileOpen.setFocus(true)
                 result = true 
             end if
+         else if key = "back"
+            m.top.visible = false
+            result = false 
         end if           
     end if
     return result 

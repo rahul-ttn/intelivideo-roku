@@ -21,8 +21,23 @@ sub initFields()
 End sub
 
 sub showProfileList()
-    m.profileLabelList.ObserveField("itemFocused", "onListItemSelected")
+    m.profileLabelList.ObserveField("itemFocused", "onListItemFocused")
+    m.profileLabelList.ObserveField("itemSelected", "onListItemSelected")
     addItemsInList(m.profileLabelList)
+End sub
+
+sub onListItemFocused()
+    if(m.profileLabelList.itemFocused = 0)
+    
+    else if(m.profileLabelList.itemFocused = 1)
+        m.profileRightTitle.text = "TERMS OF USE"
+    else if(m.profileLabelList.itemFocused = 2)
+        m.profileRightTitle.text = "PRIVACY POLICY"
+    else if(m.profileLabelList.itemFocused = 3)
+        m.profileRightTitle.text = "CONTACT US"
+    else if(m.profileLabelList.itemFocused = 4)
+     
+    end if
 End sub
 
 sub onListItemSelected()
@@ -35,9 +50,16 @@ sub onListItemSelected()
     else if(m.profileLabelList.itemFocused = 3)
         m.profileRightTitle.text = "CONTACT US"
     else if(m.profileLabelList.itemFocused = 4)
-    
+        setValueInRegistryForKey("isLogin", "false")
+        callLoginScreen()
     end if
 End sub
+
+sub callLoginScreen()
+    m.loginScreen = m.top.createChild("LoginScreen")
+    m.top.setFocus(false)
+    m.loginScreen.setFocus(true)
+end sub
 
 sub addItemsInList(labelList)
     m.content = createObject("roSGNode","ContentNode")

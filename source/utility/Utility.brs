@@ -60,14 +60,14 @@ End Function
 
 Function getValueInRegistryForKey(key as String) As String
     registryData = createObject("roSGNode","RegistryData")
-    
-    registryData.setField("permanentTokenValue",permanentToken)
-    
+    registryData.setField(key,key)
+    return registryData[key]
 End Function
 
-Function setValueInRegistryForKey(value as String,key as String)
+Function setValueInRegistryForKey(key as String, value as String)
     registryData = createObject("roSGNode","RegistryData")
-    registryData.setField("permanentToken",permanentToken)
+    print "setValueInRegistryForKey" ; registryData
+    registryData.setField(key,value)
 End Function
 
 Function SimpleFormUrlAssociativeArray( jsonArray As Object ) As String

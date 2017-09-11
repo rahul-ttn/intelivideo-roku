@@ -91,7 +91,7 @@ sub showspinner()
 
 function onFetchMerchant()  
     hideViews()
-
+    
     m.selectScreen = m.top.createChild("SelectAccount")
     m.top.setFocus(false)
     m.selectScreen.setFocus(true)

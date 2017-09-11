@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="RegistryData" extends="Task"
+	xsi:noNamespaceSchemaLocation="http://rokudev.roku.com/rokudev/schema/RokuSceneGraph.xsd">
+
+	<script type="text/brightscript" uri="pkg:/components/RegistryData/RegistryData.brs" />
+	<interface>
+
+		<field id="selectedAccount" type="string" alwaysNotify="true"
+			onChange="setSelectedAccount" />
+		<field id="selectedAccountValue" type="string" alwaysNotify="true"
+			onChange="getSelectedAccount" />
+			
+		<field id="authToken" type="string" alwaysNotify="true"
+			onChange="setAuthToken" />
+		<field id="authTokenValue" type="string" alwaysNotify="true"
+			onChange="getAuthToken" />
+			
+		<field id="isLogin" type="string" alwaysNotify="true"
+			onChange="setLoginStatus" />
+		<field id="isLoginValue" type="string" alwaysNotify="true"
+			onChange="getLoginStatus" />
+
+	</interface>
+</component>

@@ -2,6 +2,7 @@
 <component name="ProfileScreen" extends="Group"
 	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
 	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs"/>
 	<script type="text/brightscript" uri="pkg:/source/helper/ListHelper.brs" />
 	<script type="text/brightscript" uri="pkg:/components/profile/ProfileScreen.brs" />
 	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
@@ -24,7 +25,7 @@
 			</Rectangle>
 
 			<Rectangle id="profileRightRect" width="1960" height="1080"
-				translation="[1100,0]" color="0x555757FF">
+				translation="[1100,0]" color="0x383838FF">
 
 				<Label id="profileRightTitle" translation="[100,90]" />
 

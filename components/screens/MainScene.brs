@@ -2,8 +2,9 @@
 
 sub init()
     m.top.SetFocus(true)
-    m.isLoggedIn = true
-    if(m.isLoggedIn)
+    m.isLoggedIn = getValueInRegistryForKey("isLoginValue")
+    print "m.isLoggedIn " ; m.isLoggedIn
+    if(m.isLoggedIn = "false")
         moveToLoginScreen()
     else
         moveToHomeScreen()
