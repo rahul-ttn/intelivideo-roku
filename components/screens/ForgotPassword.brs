@@ -6,6 +6,7 @@ sub init()
     m.labelWelcome.font.size = 115
     m.errorLabel = m.top.findNode("errorLabel")
     m.textLabel = m.top.findNode("hintlabel")
+   
     m.keyboard = m.top.findNode("keyboard")
     m.busyspinner = m.top.findNode("exampleBusySpinner")
    ' m.busyspinner.poster.observeField("loadStatus", "showspinner")

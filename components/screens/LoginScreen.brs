@@ -167,7 +167,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                     m.nextButtonrectangle.visible = true
                     handleButtonEditTextColorFocus(true)
                     result = true
-                else if m.selectScreen.visible
+                else if m.selectScreen <> invalid AND m.selectScreen.visible
                     m.selectScreen.setFocus(false)
                     m.selectScreen.visible = false
                     m.parentRectangle.visible = true

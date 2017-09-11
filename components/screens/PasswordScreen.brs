@@ -7,6 +7,7 @@ sub init()
     m.labelWelcome.font.size = 115
     m.errorLabel = m.top.findNode("errorLabel")
     m.textLabel = m.top.findNode("hintlabel")
+    m.textLabel.font.size = 30
     m.keyboard = m.top.findNode("keyboard")
     m.keyboard.textEditBox.secureMode = true
     m.busyspinner = m.top.findNode("exampleBusySpinner")
@@ -108,6 +109,7 @@ sub showPinDialog()
     handleVisibility()
     m.editTextButton.setFocus(true)
     m.textLabel.color = "0xB4B4B1ff"
+    m.textLabel.font.size = 30
     m.pinSelected = not m.pinSelected
     
     if m.pinSelected 
@@ -173,6 +175,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                     astrick = astrick + "*"
                 end for
                 m.textLabel.text = astrick
+                m.textLabel.font.size = 60
 '            else if m.pinpad.visible
 '                m.pinpad.visible = false
 '                m.pinpadTheme.visible = false
