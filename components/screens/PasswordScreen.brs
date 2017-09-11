@@ -88,6 +88,7 @@ sub goToHomeScreen()
         baseUrl = getAuthTokenApiUrl()
         parmas = createAuthTokenParams("password",m.emailId,"password",m.account.id,"")
         m.authApi = createObject("roSGNode","AuthTokenApiHandler")
+        
         m.authApi.setField("uri",baseUrl)
         m.authApi.setField("params",parmas)
         m.authApi.observeField("content","onAuthToken")
@@ -100,8 +101,34 @@ end sub
 'Call on Authentication API response
 sub onAuthToken()
     printValue("Auth Token Success")
+    if(getValueInRegistryForKey("isLoginValue") = "true")
+        callUserApi()
+    else
+       
+    end if
     
+end sub
 
+sub callUserApi()
+    if checkInternetConnection()
+        print "caling user API"
+        baseUrl = getApiBaseUrl() + "user?access_token=" + getValueInRegistryForKey("authTokenValue")
+        print "baseUrl " ; baseUrl
+        m.userApi = createObject("roSGNode","UserApiHandler")
+       
+        m.userApi.setField("uri",baseUrl)
+        m.userApi.observeField("content","onUserApiResponse")
+        m.userApi.control = "RUN"
+    else
+        printValue("No Network")
+    end if
+end sub
+
+sub onUserApiResponse()
+    printValue("onUserApiResponse Success")
+    m.homeScreen = m.top.createChild("HomeScreen")
+    m.top.setFocus(false)
+    m.homeScreen.setFocus(true)
 end sub
 
 sub showPinDialog()

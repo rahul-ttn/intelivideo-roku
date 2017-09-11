@@ -16,8 +16,12 @@ sub parseApiResponse(response As Object)
     if(m.responseCode = 200)
         authTokenModel.access_token = response.access_token
         authTokenModel.refresh_token = response.refresh_token
+        
+        setValueInRegistryForKey("isLogin", "true")
+        setValueInRegistryForKey("authToken", response.access_token)
     else if(response.error <> invalid)
         authTokenModel.error = response.error
+        setValueInRegistryForKey("isLogin", "false")
     end if
     
     m.top.content = authTokenModel
