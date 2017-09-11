@@ -5,10 +5,11 @@ sub init()
     m.isLoggedIn = getValueInRegistryForKey("isLoginValue")
     print "m.isLoggedIn " ; m.isLoggedIn
     if(m.isLoggedIn = "true")
-        moveToLoginScreen()
-    else
-        moveToHomeScreen()
-    end if
+       moveToHomeScreen()
+   else
+       moveToLoginScreen()
+   end if
+
 End sub
 
 sub moveToHomeScreen()

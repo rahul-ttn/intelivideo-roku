@@ -83,7 +83,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
          else if key = "back"
             m.top.visible = false
             'ExitUserInterface()
-            result = true 
+            result = false 
         end if           
     end if
     return result 

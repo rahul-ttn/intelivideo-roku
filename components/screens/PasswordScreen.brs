@@ -76,26 +76,41 @@ sub init()
 end sub
 
 sub updateSelectedAccount()
+    m.editTextButton.setFocus(true)
     m.emailId = m.top.emailId
     m.account = m.top.account
 end sub
 
 sub goToHomeScreen()
-    password = m.textLabel.text
-    if password = ""
+    pwd = m.password
+    if pwd = ""
         showHideError(true)
     else if checkInternetConnection()
         baseUrl = getAuthTokenApiUrl()
-        parmas = createAuthTokenParams("password",m.emailId,"password",m.account.id,"")
+        if m.pinSelected
+            parmas = createAuthTokenParams("password",m.emailId,"",m.account.id,pwd)
+        else
+            parmas = createAuthTokenParams("password",m.emailId,pwd,m.account.id,"")
+        end if
         m.authApi = createObject("roSGNode","AuthTokenApiHandler")
         
         m.authApi.setField("uri",baseUrl)
         m.authApi.setField("params",parmas)
         m.authApi.observeField("content","onAuthToken")
         m.authApi.control = "RUN"
+        showProgressDialog()
     else
         printValue("No Network")
     end if
+end sub
+
+sub showProgressDialog()
+     dialog = createObject("roSGNode", "ProgressDialog")
+     dialog.backgroundUri = ""
+     dialog.title = "Alert Dialog"
+     dialog.optionsDialog = true
+     dialog.message = "Loading..."
+     m.top.getScene().dialog = dialog
 end sub
 
 'Call on Authentication API response
@@ -125,6 +140,7 @@ sub callUserApi()
 end sub
 
 sub onUserApiResponse()
+    hideViews()
     printValue("onUserApiResponse Success")
     m.homeScreen = m.top.createChild("HomeScreen")
     m.top.setFocus(false)
@@ -159,6 +175,7 @@ end sub
 
 sub hideViews()
     m.parentRectangle.visible = false
+    m.top.getScene().dialog.close = true
 end sub
 
 sub showKeyboardPinPad()
