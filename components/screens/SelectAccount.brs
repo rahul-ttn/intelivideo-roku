@@ -3,6 +3,7 @@ sub init()
     m.countriesArray = ["India", "Pakistan", "Sri Lanks","South Africa","Australia","West Indies","New Zealand","England","Zimbawe","Kenya","Nepal","America"]
     
     m.selectAccLabel = m.top.findNode("selectAccLabel")
+    m.selectAccLabel.font.size = 115
     m.accountList = m.top.findNode("selectAccountList")
     m.accountList.setFocus(true)
     

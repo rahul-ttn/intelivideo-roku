@@ -11,7 +11,7 @@
 	
 	<Label
 	id = "selectAccLabel"
-	translation = "[0,300]"
+	translation = "[0,200]"
 	width = "1920"
 	height = "100"
 	text = "Select Account"
@@ -23,7 +23,7 @@
 	
 	<SelectAccountList
 	id = "selectAccountList"
-	translation = "[300,600]"></SelectAccountList>
+	translation = "[200,500]"></SelectAccountList>
 	
 	</children>
 </component>
