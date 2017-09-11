@@ -82,8 +82,14 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             end if
          else if key = "back"
             m.top.visible = false
-            result = false 
+            'ExitUserInterface()
+            result = true 
         end if           
     end if
     return result 
 End Function 
+
+Sub ExitUserInterface()
+    print "closing app"
+    'End
+End Sub
