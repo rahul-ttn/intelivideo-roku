@@ -38,7 +38,7 @@ sub init()
     m.focusIDArray = {"passwordEditTextButton":"N-buttonResetPassword-N-N"                      
                        "buttonResetPassword":"passwordEditTextButton-N-N-N"
                      }
-                    
+     m.showDialog = false            
     
 end sub
 
@@ -58,11 +58,6 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 handleVisibility()
                 return true
             end if                
-        else if key = "*"
-             m.top.dialog.close = true
-             m.currentFocusID ="passwordEditTextButton"
-             handleVisibility()
-             m.passwordEditTextButton.setFocus(true)
         else if key = "back"
             if m.keyboard.visible
                 m.keyboard.visible = false
@@ -71,8 +66,12 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 m.currentFocusID ="passwordEditTextButton"
                 handleVisibility()
                 m.passwordEditTextButton.setFocus(true)
+                return true
+            else if  m.showDialog
+                'm.top.dialog.close = true
+                return false
             end if
-            return true
+            return false
         end if
      end if     
     return result 
@@ -96,16 +95,18 @@ sub showKeyboard()
 end sub
 
 sub showAlertDialog()
-    if m.textLabel.text = "" or emailValidation(m.textLabel.text)
+    if m.textLabel.text = "" or not emailValidation(m.textLabel.text)
+        print "EMAIL validation Forgot PAssword screen";emailValidation(m.textLabel.text)
         showHideError(true)
     else
          dialog = createObject("roSGNode", "Dialog")
          dialog.backgroundUri = ""
          dialog.title = "Password Reset"
-         dialog.optionsDialog = true
-         dialog.message = "An email has been sent to reset your password.Press * To Dismiss"
+         dialog.optionsDialog = false
+         dialog.message = "An email has been sent to reset your password."
          'm.dialogButton.visible = true
          m.top.getScene().dialog = dialog
+         m.showDialog = true
     end if
 end sub
 

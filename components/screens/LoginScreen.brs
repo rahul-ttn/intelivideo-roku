@@ -74,6 +74,10 @@ function showHideError(showError as boolean) as void
     end if
 end function
 
+sub loginScreenAppeared()
+    m.editTextButton.setFocus(true)
+end sub
+
 function showHideSpinner(flag as boolean) as void
       if flag
             m.busyspinner.visible = true
@@ -131,7 +135,7 @@ end sub
 function setVideo() as void
   videoContent = createObject("RoSGNode", "ContentNode")
   videoContent.url = "pkg:/videos/login_video.mp4"
-  videoContent.title = "Test Video"
+  videoContent.title = ""
   videoContent.streamformat = "mp4"
   
  
@@ -139,6 +143,8 @@ function setVideo() as void
   m.video.content = videoContent
   m.video.control = "play"
   m.video.loop = true
+  m.video.retrievingBar.visible = false
+   m.video.retrievingTextColor = "0xffffff00"
 end function
 
 Function onKeyEvent(key as String,press as Boolean) as Boolean

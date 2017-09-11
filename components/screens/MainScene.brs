@@ -23,6 +23,7 @@ sub moveToLoginScreen()
     loginScreen.visible = true
     m.top.setFocus(false)
     loginScreen.setFocus(true)
+    loginScreen.buttonFocus = true
 End sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean

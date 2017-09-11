@@ -8,13 +8,22 @@ sub init()
     m.errorLabel = m.top.findNode("errorLabel")
     m.textLabel = m.top.findNode("hintlabel")
     m.keyboard = m.top.findNode("keyboard")
+    m.keyboard.textEditBox.secureMode = true
     m.busyspinner = m.top.findNode("exampleBusySpinner")
    ' m.busyspinner.poster.observeField("loadStatus", "showspinner")
     m.busyspinner.poster.uri = "pkg:/images/busyspinner_hd.png"
     m.pinLabel = m.top.findNode("pinLabel")
     m.forgotPasswordLabel = m.top.findNode("forgotPasswordLabel")
-    m.pinpad = m.top.findNode("pinpad")
+    'm.pinpad = m.top.findNode("pinpad")
+    m.keyboardTheme = m.top.findNode("keyboardTheme")
+    keyboardX = (1920 - m.keyboardTheme.width) / 2
+    m.keyboardTheme.translation = [keyboardX,450]
     
+'    m.pinpadTheme = m.top.findNode("pinpadTheme")
+'    pinpadX = (1920 - m.pinpadTheme.width) / 2
+'    pinpadY = ((1080 - m.pinpadTheme.height) / 2 ) 
+'    m.pinpadTheme.translation = [pinpadX,pinpadY]
+'    
     m.editTextRectangle = m.top.findNode("editTextRectangle")
     editTextRectangleX = (1920 - m.editTextRectangle.width) / 2
     editTextRectangleY = ((1080 - m.editTextRectangle.height) / 2 ) - 30
@@ -124,13 +133,15 @@ sub hideViews()
 end sub
 
 sub showKeyboardPinPad()
-    if m.pinSelected
-        m.pinpad.visible = true
-        m.pinpad.setFocus(true)
-    else 
+'    if m.pinSelected
+'        m.pinpad.visible = true
+'        m.pinpadTheme.visible = true
+'        m.pinpad.setFocus(true)
+'    else 
         m.keyboard.visible = true
+        m.keyboardTheme.visible = true
         m.keyboard.setFocus(true)
-    end if
+   ' end if
       
 end sub
 
@@ -140,31 +151,51 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     if press
     print "onKeyEvent Password Screen : "; key
         if key="up" OR key="down" OR key="left" OR key="right" Then
-            if m.keyboard.visible = false AND m.pinpad.visible = false
+            if m.keyboard.visible = false 'AND m.pinpad.visible = false
                 handleFocus(key)
                 handleVisibility()
+                return true
             end if
         else if key = "back"
             if m.keyboard.visible
                 m.keyboard.visible = false
+                m.keyboardTheme.visible = false
                 m.password = m.keyboard.text
 '                m.passwordLength = m.keyboard.text.length
 '                print m.passwordLength
                 m.textLabel.text = m.password
                 m.currentFocusID = "editTextButton"
                 handleVisibility()
-                m.editTextButton.setFocus(true) 
-            else if m.pinpad.visible
-                m.pinpad.visible = false
-                m.pin = m.pinpad.pin
-                m.textLabel.text = m.pin
+                m.editTextButton.setFocus(true)
+                count = Len(m.password) 
+                astrick = ""
+                for i = 0 To count-1 step +1
+                    astrick = astrick + "*"
+                end for
+                m.textLabel.text = astrick
+'            else if m.pinpad.visible
+'                m.pinpad.visible = false
+'                m.pinpadTheme.visible = false
+'                m.pin = m.pinpad.pin
+'                m.textLabel.text = m.pin
+'                m.currentFocusID = "editTextButton"
+'                handleVisibility()
+'                m.editTextButton.setFocus(true)
+                return true
+            else if  m.forgotPasswordScreen <> invalid AND m.forgotPasswordScreen.visible
+                print "Forgot password screen back" 
+                m.forgotPasswordScreen.setFocus(false)
+                m.forgotPasswordScreen.visible = false
+                m.parentRectangle.visible = true
                 m.currentFocusID = "editTextButton"
                 handleVisibility()
                 m.editTextButton.setFocus(true) 
+                return true
             else 
+                print "Forgot password screen back else block"
                 return false
             end if
-            return true
+            
         end if
     end if
     return result 

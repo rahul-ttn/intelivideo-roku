@@ -7,7 +7,9 @@
 	<script type="text/brightscript" uri="pkg:/source/constants/Validation.brs"/>
 	<script type="text/brightscript" uri="pkg:/components/requestHandlers/FetchMerchantApiHandler.brs" />
 	<script type="text/brightscript" uri="pkg:/components/screens/LoginScreen.brs"/>
-	
+	<interface>
+	<field type="Boolean" id="buttonFocus" alwaysNotify="true" onChange="loginScreenAppeared"/>
+	</interface>
 	<children>
 	
 	 <Video
