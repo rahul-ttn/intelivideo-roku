@@ -23,7 +23,7 @@ sub init()
     m.nextButtonrectangle.translation = [nextButtonrectangleX,nextButtonrectangleY]
     
     m.passwordEditTextButton = m.top.findNode("passwordEditTextButton")
-    m.passwordEditTextButton.observeField("buttonSelected","showKeyboardPinPad")
+    m.passwordEditTextButton.observeField("buttonSelected","showKeyboard")
     m.passwordEditTextButton.setFocus(true)
     
         
@@ -53,12 +53,24 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
      
     print "onKeyEvent Forgot Screen : "; key
         if key="up" OR key="down" OR key="left" OR key="right" Then
+            if m.keyboard.visible = false
                 handleFocus(key)
                 handleVisibility()
                 return true
+            end if                
         else if key = "*"
              m.top.dialog.close = true
              m.passwordEditTextButton.setFocus(true)
+        else if key = "back"
+            if m.keyboard.visible
+                m.keyboard.visible = false
+                m.emailEntered = m.keyboard.text
+                m.textLabel.text = m.emailEntered
+                m.currentFocusID ="passwordEditTextButton"
+                handleVisibility()
+                m.passwordEditTextButton.setFocus(true)
+            end if
+            return true
         end if
      end if     
     return result 
@@ -75,12 +87,38 @@ function handleVisibility() as void
     end if
 end function
 
-sub showAlertDialog()
-    dialog = createObject("roSGNode", "Dialog")
-     dialog.backgroundUri = ""
-     dialog.title = "Password Reset"
-     dialog.optionsDialog = true
-     dialog.message = "An email has been sent to reset your password.Press * To Dismiss"
-     'm.dialogButton.visible = true
-     m.top.getScene().dialog = dialog
+sub showKeyboard()
+     m.keyboard.visible = true
+     m.keyboard.setFocus(true)
+     m.keyboard.text = m.email
 end sub
+
+sub showAlertDialog()
+    if m.textLabel.text = "" or emailValidation(m.textLabel.text)
+        showHideError(true)
+    else
+         dialog = createObject("roSGNode", "Dialog")
+         dialog.backgroundUri = ""
+         dialog.title = "Password Reset"
+         dialog.optionsDialog = true
+         dialog.message = "An email has been sent to reset your password.Press * To Dismiss"
+         'm.dialogButton.visible = true
+         m.top.getScene().dialog = dialog
+    end if
+end sub
+
+
+function showHideError(showError as boolean) as void
+    if showError = true
+        m.errorLabel.visible = true
+        m.oopsLabel.visible = true
+        m.labelWelcome.visible = false
+    else
+        m.errorLabel.visible = false
+        m.oopsLabel.visible = false
+        m.labelWelcome.visible = true
+    end if
+end function
+
+
+
