@@ -59,6 +59,7 @@ sub callLoginScreen()
     m.loginScreen = m.top.createChild("LoginScreen")
     m.top.setFocus(false)
     m.loginScreen.setFocus(true)
+    m.loginScreen.buttonFocus = true
 end sub
 
 sub addItemsInList(labelList)
