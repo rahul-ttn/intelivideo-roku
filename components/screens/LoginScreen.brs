@@ -89,19 +89,15 @@ sub showspinner()
     end sub
 
 
-function onFetchMerchant()
-    printValue("onFetchMerchant success")
-    
-    print  m.fetchMerchantApi.content.accountsArray
-    
+function onFetchMerchant()  
     hideViews()
+
     m.selectScreen = m.top.createChild("SelectAccount")
-    print m.top.selectScreen
     m.top.setFocus(false)
     m.selectScreen.setFocus(true)
+    'm.selectScreen.emailID = m.email
     m.selectScreen.emailID = "zoe@barbershop.io"
     m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
-    'm.selectScreen.emailID = m.email
 end function
 
 

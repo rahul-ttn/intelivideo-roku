@@ -6,6 +6,8 @@ End sub
 
 sub initializeOpenState()
     m.navRectangleOpen = m.top.FindNode("navRectangleOpen")
+    print "color" ; nevigationBarBackground()
+    m.navRectangleOpen.color = nevigationBarBackground()
     m.buttonGroupOpen = m.top.FindNode("navButtonGroupOpen")
     
     m.buttonHomeOpen = m.top.FindNode("buttonHomeOpen")
@@ -19,28 +21,48 @@ sub initializeOpenState()
     
     m.buttonProfileOpen = m.top.FindNode("buttonProfileOpen")
     m.buttonProfileOpen.observeField("buttonSelected", "showProfileScreen")
+    
+    m.rectSwitchAccountLarge = m.top.FindNode("rectSwitchAccountLarge")
+    m.rectSwitchAccountBorder = m.top.FindNode("rectSwitchAccountBorder")
+    m.rectSwitchAccountPoster = m.top.FindNode("rectSwitchAccountPoster")
+    m.labelSwitchAccountLarge = m.top.FindNode("labelSwitchAccountLarge")
+    m.switchAccountPoster = m.top.FindNode("switchAccountPoster")
+    
+    m.buttonSwitchAccount = m.top.FindNode("buttonSwitchAccount")
+    m.buttonSwitchAccount.observeField("buttonSelected", "showSwitchAccount")
+    
+    m.labelSwitchAccount = m.top.FindNode("labelSwitchAccount")
+    m.labelSwitchAccount.font.size = 25
 End sub
 
 sub initializeCloseState()
     m.navRectangleClose = m.top.FindNode("navRectangleClose")
+    m.navRectangleClose.color = "0x565656FF"
     m.navButtonGroupClose = m.top.FindNode("navButtonGroupClose")
     
     m.buttonHomeClose = m.top.FindNode("buttonHomeClose")
-    m.buttonHomeClose.observeField("buttonSelected", "showHomeScreen")
+    'm.buttonHomeClose.observeField("buttonSelected", "showHomeScreen")
     
     m.buttonFavoriteClose = m.top.FindNode("buttonFavoriteClose")
-    m.buttonFavoriteClose.observeField("buttonSelected", "showFavoriteScreen")
+    'm.buttonFavoriteClose.observeField("buttonSelected", "showFavoriteScreen")
     
     m.buttonSearchClose = m.top.FindNode("buttonSearchClose")
-    m.buttonSearchClose.observeField("buttonSelected", "showSearchScreen")
+    'm.buttonSearchClose.observeField("buttonSelected", "showSearchScreen")
     
     m.buttonProfileClose = m.top.FindNode("buttonProfileClose")
-    m.buttonProfileClose.observeField("buttonSelected", "showProfileScreen")
+    'm.buttonProfileClose.observeField("buttonSelected", "showProfileScreen")
+    
+    m.rectSwitchAccountSmall = m.top.FindNode("rectSwitchAccountSmall")
 End sub
+
 
 sub showOpenState()
     m.navRectangleClose.visible = false
     m.navRectangleOpen.visible = true
+    
+    m.rectSwitchAccountLarge.visible = true
+    m.rectSwitchAccountSmall.visible = false
+    
     m.buttonGroupOpen.setFocus(true)
     m.navButtonGroupClose.setFocus(false)
 End sub
@@ -48,6 +70,10 @@ End sub
 sub showCloseState()
     m.navRectangleOpen.visible = false
     m.navRectangleClose.visible = true
+    
+    m.rectSwitchAccountLarge.visible = false
+    m.rectSwitchAccountSmall.visible = true
+    
     m.navButtonGroupClose.setFocus(false)
     m.buttonGroupOpen.setFocus(false)
 End sub
@@ -70,4 +96,8 @@ sub showProfileScreen()
     print "Profile Screen"
     profileScreen = m.top.createChild("ProfileScreen")
     profileScreen.setFocus(true)
+End sub
+
+sub showSwitchAccount()
+    print "Switch Account"
 End sub

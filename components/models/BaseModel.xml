@@ -3,7 +3,7 @@
 <interface>  
   <field id="success" type="boolean" />
   <field id="error" type="String" />
-  <field id="message" type="String" />
+  <field id="error_description" type="String" />
 </interface>  
 
 </component>

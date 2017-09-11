@@ -1,6 +1,5 @@
 sub init()
     m.top.setFocus(true)
-    m.countriesArray = ["India", "Pakistan", "Sri Lanks","South Africa","Australia","West Indies","New Zealand","England","Zimbawe","Kenya","Nepal","America"]
     
     m.selectAccLabel = m.top.findNode("selectAccLabel")
     m.selectAccLabel.font.size = 115
@@ -13,6 +12,7 @@ sub init()
         
 end sub
 
+'getting array from Login Screen
 sub showAccountsArray()
     m.emailId = m.top.emailID
     m.accountsArray = m.top.content
@@ -28,9 +28,7 @@ function getHorizontalRowListContent() as object
             row.title = ""
             for index= 0 to m.accountsArray.count()-1
                    rowItem = row.CreateChild("SelectAccountListItemsData")
-                   'print rowItem
                    accountsModel = m.accountsArray[index]
-                   'print accountsModel.name;"  ";accountsModel.id ;"  ACCOUNTS MODEL>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
                    rowItem.countryName = accountsModel.name
                    rowItem.imageUri = accountsModel.thumbnail
                    if accountsModel.thumbnail = "" 

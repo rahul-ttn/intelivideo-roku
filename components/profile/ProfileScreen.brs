@@ -4,17 +4,19 @@ sub init()
     initNavigationBar()
     m.buttonHomeOpen.setFocus(false)
     m.buttonProfileOpen.setFocus(true)
+    'm.navButtonGroupClose.buttonSelected = 3
    
    initFields()
 End sub
 
 sub initFields()
+    m.profileBackground = m.top.FindNode("profileBackground")
+    m.profileBackground.color = homeBackground()
     m.profileLabelList = m.top.FindNode("profileLabelList")
     m.profileLeftRect = m.top.FindNode("profileLeftRect")
     m.profileRightRect = m.top.FindNode("profileRightRect")
     m.profileRightTitle = m.top.FindNode("profileRightTitle")
     m.profileRightValue = m.top.FindNode("profileRightValue")
-    
     showProfileList()
 End sub
 
@@ -60,14 +62,28 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     result = false
     if press
         if key = "right"
-            m.profileLabelList.setFocus(true)    
+            m.profileLabelList.setFocus(true)  
             showCloseState()
+            m.buttonProfileClose.uri = "pkg:/images/$$RES$$/Profile Focused.png" 
             result = true
         else if key = "left"
             m.profileLabelList.setFocus(false)
             initNavigationBar()
             showOpenState()
             result = true 
+        else if key = "down"
+            if m.buttonProfileOpen.hasFocus()
+                m.rectSwitchAccountBorder.visible = true
+                m.buttonSwitchAccount.setFocus(true)
+                result = true 
+            end if
+        else if key = "up"
+            if m.buttonSwitchAccount.hasFocus()
+                m.rectSwitchAccountBorder.visible = false
+                m.buttonSwitchAccount.setFocus(false)
+                m.buttonProfileOpen.setFocus(true)
+                result = true 
+            end if
         end if           
     end if
     return result 

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="ProfileScreen" extends="Group"
 	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
-
+	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
 	<script type="text/brightscript" uri="pkg:/source/helper/ListHelper.brs" />
 	<script type="text/brightscript" uri="pkg:/components/profile/ProfileScreen.brs" />
 	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
 	<children>
 
 		<Rectangle id="profileBackground" width="1960" height="1080"
-			translation="[0,0]" color="0x383838FF">
+			translation="[0,0]">
 
 			<NavigationBar id="NavigationBar" />
 
@@ -18,7 +18,7 @@
 				<Label text="Profile Settings" font="font:LargeSystemFont"
 					translation="[100,90]" />
 
-				<LabelList id="profileLabelList" translation="[100,200]"
+				<LabelList id="profileLabelList" translation="[100,200]" 
 					sectionDividerHeight="100" />
 
 			</Rectangle>
@@ -31,8 +31,8 @@
 				<Label id="profileRightValue" translation="[100,200]" />
 
 			</Rectangle>
-
-
+			
+			
 		</Rectangle>
 
 
