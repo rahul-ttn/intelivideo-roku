@@ -22,16 +22,65 @@ sub init()
     nextButtonrectangleY = editTextRectangleY + 100
     m.nextButtonrectangle.translation = [nextButtonrectangleX,nextButtonrectangleY]
     
-    m.editTextButton = m.top.findNode("editTextButton")
-    m.editTextButton.observeField("buttonSelected","showKeyboardPinPad")
-    m.editTextButton.setFocus(true)
+    m.passwordEditTextButton = m.top.findNode("passwordEditTextButton")
+    m.passwordEditTextButton.observeField("buttonSelected","showKeyboardPinPad")
+    m.passwordEditTextButton.setFocus(true)
     
         
     m.buttonLogin = m.top.findNode("buttonResetPassword")
     m.buttonLogin.observeField("buttonSelected","showAlertDialog")
     m.buttonLogin.setFocus(false)
     
+     'initializing the currentFocus id 
+    m.currentFocusID ="passwordEditTextButton"
+    
+    'up-down-left-right  
+    m.focusIDArray = {"passwordEditTextButton":"N-buttonResetPassword-N-N"                      
+                       "buttonResetPassword":"passwordEditTextButton-N-N-N"
+                     }
+                    
+    
 end sub
 
+sub showEmailId()
+    m.email = m.top.emailId
+    m.textLabel.text = m.email
+end sub
+
+function onKeyEvent(key as String, press as Boolean) as Boolean
+    result = false
+     if press
+     
+    print "onKeyEvent Forgot Screen : "; key
+        if key="up" OR key="down" OR key="left" OR key="right" Then
+                handleFocus(key)
+                handleVisibility()
+                return true
+        else if key = "*"
+             m.top.dialog.close = true
+             m.passwordEditTextButton.setFocus(true)
+        end if
+     end if     
+    return result 
+End function
+
+
+function handleVisibility() as void
+    if m.currentFocusID = "passwordEditTextButton"
+        m.textLabel.color = "0x1c2833ff"                'black text color
+        m.nextButtonrectangle.color = "0xB4B4B1ff"      'greycolor
+    else if m.currentFocusID = "buttonResetPassword"
+        m.textLabel.color = "0xB4B4B1ff"                'grey text color
+        m.nextButtonrectangle.color = "0x00CBB9FF"      'bluecolor
+    end if
+end function
+
 sub showAlertDialog()
+    dialog = createObject("roSGNode", "Dialog")
+     dialog.backgroundUri = ""
+     dialog.title = "Password Reset"
+     dialog.optionsDialog = true
+     dialog.message = "An email has been sent to reset your password.Press * To Dismiss"
+     'm.dialogButton.visible = true
+     m.top.getScene().dialog = dialog
 end sub

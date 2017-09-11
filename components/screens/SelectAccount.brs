@@ -13,9 +13,9 @@ sub init()
 end sub
 
 sub showAccountsArray()
+    m.emailId = m.top.emailID
     m.accountsArray = m.top.content
-   
-    m.accountList.content = getHorizontalRowListContent()
+    m.accountList.content = getHorizontalRowListContent()   
 end sub
 
 function getHorizontalRowListContent() as object
@@ -29,7 +29,7 @@ function getHorizontalRowListContent() as object
                    rowItem = row.CreateChild("SelectAccountListItemsData")
                    'print rowItem
                    accountsModel = m.accountsArray[index]
-                   print accountsModel.name;"  ";accountsModel.id ;"  ACCOUNTS MODEL>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+                   'print accountsModel.name;"  ";accountsModel.id ;"  ACCOUNTS MODEL>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
                    rowItem.countryName = accountsModel.name
                    rowItem.imageUri = accountsModel.thumbnail
                    if accountsModel.thumbnail = "" 
@@ -56,15 +56,17 @@ function rowItemSelected() as void
         col = m.accountList.rowItemFocused[1]
 '        print "**********Row is *********";row
 '        print "**********col is *********";col
-        goToPasswordScreen()
+        goToPasswordScreen(m.accountsArray[col])
 end function
 
-function goToPasswordScreen() as void
+function goToPasswordScreen(account as object) as void
     hideViews()
     m.passwordScreen = m.top.createChild("PasswordScreen")
     print m.top.passwordScreen
     m.top.setFocus(false)
     m.passwordScreen.setFocus(true)
+    m.passwordScreen.emailId = m.emailId
+    m.passwordScreen.account = account
 end function
 
 function hideViews() as void

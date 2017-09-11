@@ -94,6 +94,13 @@ sub goToForgotPasswordScreen()
     print m.top.forgotPasswordScreen
     m.top.setFocus(false)
     m.forgotPasswordScreen.setFocus(true)
+    m.forgotPasswordScreen.emailId = m.emailId
+end sub
+
+sub updateSelectedAccount()
+    m.emailId = m.top.emailId
+    'print "PasswordScreen00000000000000000000000000000";m.emailId
+    m.account = m.top.account
 end sub
 
 sub hideViews()
@@ -115,6 +122,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     
     if press
+    print "onKeyEvent Password Screen : "; key
         if key="up" OR key="down" OR key="left" OR key="right" Then
             if m.keyboard.visible = false AND m.pinpad.visible = false
                 handleFocus(key)

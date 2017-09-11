@@ -5,6 +5,7 @@
 	
 	<interface>
 		<field id = "content" type = "nodearray" alwaysNotify="true" onChange = "showAccountsArray"/>
+		<field id= "emailID" type="string"/>
 	</interface> 
 	<children>
 	

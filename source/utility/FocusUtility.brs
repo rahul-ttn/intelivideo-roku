@@ -4,7 +4,9 @@ end function
 
 function handleCurrentFocus(keyEvent,currentFocusId)
       focusIDs = getFocusMapIds(currentFocusId)      
-      ids = focusIDs.Split("-")      
+      print "focusIDs => ";focusIDs
+      ids = focusIDs.Split("-") 
+      print ids     
       if(keyEvent = "up") then
          changeFocus(ids[0],keyEvent)
       else if(keyEvent = "down") then
@@ -17,7 +19,9 @@ function handleCurrentFocus(keyEvent,currentFocusId)
 end function
 
 function changeFocus(focusNodeId,keyEvent)
+    print focusNodeId
     if(focusNodeId <> invalid and focusNodeId <> "N" )
+        print focusNodeId
         focusEle = m.top.findNode(focusNodeId)
         focusEle.SetFocus(true)
         setFocusId(focusEle)     
@@ -26,7 +30,9 @@ end function
 
 
 function setFocusId(focusNode)
+    print focusNode
     m.currentFocusID = focusNode.id
+    print m.currentFocusID
 end function
 
 function getFocusMapIds(focusId)

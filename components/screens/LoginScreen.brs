@@ -40,8 +40,8 @@ End sub
 
 'method called to go to Select Account screen
 sub goToSelectScreen()
-    email = m.textLabel.text
-    'if emailValidation(email)
+    m.email = m.textLabel.text
+    'if emailValidation(m.email)
         if checkInternetConnection()
             baseUrl = getApiBaseUrl()
             finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
@@ -72,7 +72,7 @@ end function
 
 function showHideSpinner(flag as boolean) as void
       if flag
-            print "???????????????????????????"
+            'print "???????????????????????????"
             'm.busyspinner.poster.loadStatus = "ready"
             m.busyspinner.visible = true
             m.nextButtonrectangle.visible = false
@@ -95,15 +95,13 @@ function onFetchMerchant()
     print  m.fetchMerchantApi.content.accountsArray
     
     hideViews()
-    for each model in m.fetchMerchantApi.content.accountsArray
-        print model;"/////////////////////////////////////////////////////////////////////////"
-    end for  
-
     m.selectScreen = m.top.createChild("SelectAccount")
     print m.top.selectScreen
     m.top.setFocus(false)
     m.selectScreen.setFocus(true)
+    m.selectScreen.emailID = "zoe@barbershop.io"
     m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
+    'm.selectScreen.emailID = m.email
 end function
 
 
