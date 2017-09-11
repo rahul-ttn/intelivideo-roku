@@ -1,6 +1,5 @@
 sub init()
     m.top.setFocus(true)
-    m.countriesArray = ["India", "Pakistan", "Sri Lanks","South Africa","Australia","West Indies","New Zealand","England","Zimbawe","Kenya","Nepal","America"]
     
     m.selectAccLabel = m.top.findNode("selectAccLabel")
     m.accountList = m.top.findNode("selectAccountList")
@@ -12,10 +11,16 @@ sub init()
         
 end sub
 
+'getting array from Login Screen
 sub showAccountsArray()
     m.accountsArray = m.top.content
    
     m.accountList.content = getHorizontalRowListContent()
+end sub
+
+'getting email from Login Screen
+sub getUserEmail()
+    m.userEmail = m.top.email
 end sub
 
 function getHorizontalRowListContent() as object
@@ -27,9 +32,7 @@ function getHorizontalRowListContent() as object
             row.title = ""
             for index= 0 to m.accountsArray.count()-1
                    rowItem = row.CreateChild("SelectAccountListItemsData")
-                   'print rowItem
                    accountsModel = m.accountsArray[index]
-                   print accountsModel.name;"  ";accountsModel.id ;"  ACCOUNTS MODEL>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
                    rowItem.countryName = accountsModel.name
                    rowItem.imageUri = accountsModel.thumbnail
                    if accountsModel.thumbnail = "" 

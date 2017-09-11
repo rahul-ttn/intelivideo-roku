@@ -4,6 +4,10 @@ Function getApiBaseUrl() as String
     return "https://api.intelivideo.com/api/apps/v3/"
 End Function
 
+Function getAuthTokenApiUrl() as String
+    return "https://api.intelivideo.com/oauth/token"
+End Function
+
 Function getPageMarginWidth()
 return 96
 End Function

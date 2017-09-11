@@ -89,21 +89,14 @@ sub showspinner()
     end sub
 
 
-function onFetchMerchant()
-    printValue("onFetchMerchant success")
-    
-    print  m.fetchMerchantApi.content.accountsArray
-    
+function onFetchMerchant()  
     hideViews()
-    for each model in m.fetchMerchantApi.content.accountsArray
-        print model;"/////////////////////////////////////////////////////////////////////////"
-    end for  
-
+    
     m.selectScreen = m.top.createChild("SelectAccount")
-    print m.top.selectScreen
     m.top.setFocus(false)
     m.selectScreen.setFocus(true)
     m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
+    m.selectScreen.email = m.textLabel.text
 end function
 
 

@@ -62,6 +62,22 @@ sub init()
 end sub
 
 sub goToHomeScreen()
+    if checkInternetConnection()
+        baseUrl = getAuthTokenApiUrl()
+        parmas = createAuthTokenParams("password","robin@barbershop.io","password1","1468","")
+        m.authApi = createObject("roSGNode","AuthTokenApiHandler")
+        m.authApi.setField("uri",baseUrl)
+        m.authApi.setField("params",parmas)
+        m.authApi.observeField("content","onAuthToken")
+        m.authApi.control = "RUN"
+    else
+        printValue("No Network")
+    end if
+end sub
+
+'Call on Authentication API response
+sub onAuthToken()
+    printValue("Auth Token Success")
 end sub
 
 sub showPinDialog()
