@@ -3,9 +3,6 @@
 	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
 	<interface>
 		<field id="access_token" type="String" />
-		<field id="token_type" type="String" />
-		<field id="expires_in" type="String" />
 		<field id="refresh_token" type="String" />
-		<field id="created_at" type="String" />
 	</interface>
 </component>

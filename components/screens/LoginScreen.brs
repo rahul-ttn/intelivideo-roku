@@ -96,7 +96,7 @@ function onFetchMerchant()
     m.top.setFocus(false)
     m.selectScreen.setFocus(true)
     'm.selectScreen.emailID = m.email
-    m.selectScreen.emailID = "email=zoe@barbershop.io"
+    m.selectScreen.emailID = "zoe@barbershop.io"
     m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
 end function
 

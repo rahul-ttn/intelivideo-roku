@@ -65,13 +65,18 @@ sub init()
     
 end sub
 
+sub updateSelectedAccount()
+    m.emailId = m.top.emailId
+    m.account = m.top.account
+end sub
+
 sub goToHomeScreen()
     password = m.textLabel.text
     if password = ""
         showHideError(true)
     else if checkInternetConnection()
         baseUrl = getAuthTokenApiUrl()
-        parmas = createAuthTokenParams("password","robin@barbershop.io","password1","1468","")
+        parmas = createAuthTokenParams("password",m.emailId,"password",m.account.id,"")
         m.authApi = createObject("roSGNode","AuthTokenApiHandler")
         m.authApi.setField("uri",baseUrl)
         m.authApi.setField("params",parmas)
@@ -112,12 +117,6 @@ sub goToForgotPasswordScreen()
     m.top.setFocus(false)
     m.forgotPasswordScreen.setFocus(true)
     m.forgotPasswordScreen.emailId = m.emailId
-end sub
-
-sub updateSelectedAccount()
-    m.emailId = m.top.emailId
-    'print "PasswordScreen00000000000000000000000000000";m.emailId
-    m.account = m.top.account
 end sub
 
 sub hideViews()
