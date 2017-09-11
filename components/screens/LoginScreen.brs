@@ -7,6 +7,9 @@ sub init()
     m.labelWelcome = m.top.findNode("labelWelcome")
     m.labelWelcome.font.size = 115
     m.errorLabel = m.top.findNode("errorLabel")
+    m.keyboardTheme = m.top.findNode("keyboardTheme")
+    keyboardX = (1920 - m.keyboardTheme.width) / 2
+    m.keyboardTheme.translation = [keyboardX,450]
     
     m.editTextRectangle = m.top.findNode("editTextRectangle")
     editTextRectangleX = (1920 - m.editTextRectangle.width) / 2
@@ -49,7 +52,8 @@ sub goToSelectScreen()
             m.fetchMerchantApi.setField("uri",finalUrl)
             m.fetchMerchantApi.observeField("content","onFetchMerchant")
             m.fetchMerchantApi.control = "RUN"
-            showHideSpinner(true)
+            'showHideSpinner(true)
+            showProgressDialog()
         else
             printValue("No Network")
         end if
@@ -72,8 +76,6 @@ end function
 
 function showHideSpinner(flag as boolean) as void
       if flag
-            'print "???????????????????????????"
-            'm.busyspinner.poster.loadStatus = "ready"
             m.busyspinner.visible = true
             m.nextButtonrectangle.visible = false
       else 
@@ -86,8 +88,16 @@ sub showspinner()
       if(m.busyspinner.poster.loadStatus = "ready")
         m.busyspinner.visible = true
       end if
-    end sub
+end sub
 
+sub showProgressDialog()
+     dialog = createObject("roSGNode", "ProgressDialog")
+     dialog.backgroundUri = ""
+     dialog.title = "Alert Dialog"
+     dialog.optionsDialog = true
+     dialog.message = "Loading..."
+     m.top.getScene().dialog = dialog
+end sub
 
 function onFetchMerchant()  
     hideViews()
@@ -104,15 +114,17 @@ end function
 
 sub hideViews()
     m.parentRectangle.visible = false
+    m.top.getScene().dialog.close = true
 end sub
 
 
 'method to let user enter and display registered email id
 sub showKeyboard()
     m.keyboard.visible = true
+    m.keyboardTheme.visible = true
     m.keyboard.setFocus(true)
     m.editTextButton.setFocus(false)
-    m.nextButtonrectangle.visible = false
+    m.nextButtonrectangle.visible = true
     
 end sub
 
@@ -140,26 +152,34 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             if m.buttonNext.hasFocus()
                 handleButtonEditTextColorFocus(true)
             end if
-        else if key = "play"  'change event on back press
-                emailId = m.keyboard.text
-                m.textLabel.text = emailId
-                m.keyboard.visible = false
-                m.nextButtonrectangle.visible = true
-                handleButtonEditTextColorFocus(false)
         else if key = "back"
-                 m.selectScreen.setFocus(false)
-                 m.selectScreen.visible = false
-                 m.parentRectangle.visible = true
-                 handleButtonEditTextColorFocus(true)
-                 showHideError(false)
-                 showHideSpinner(false)
+                if m.keyboard.visible
+                    emailId = m.keyboard.text
+                    m.textLabel.text = emailId
+                    m.keyboard.visible = false
+                    m.keyboardTheme.visible = false
+                    m.nextButtonrectangle.visible = true
+                    handleButtonEditTextColorFocus(true)
+                    result = true
+                else if m.selectScreen.visible
+                    m.selectScreen.setFocus(false)
+                    m.selectScreen.visible = false
+                    m.parentRectangle.visible = true
+                    handleButtonEditTextColorFocus(true)
+                    m.textLabel.text = "Account Email"
+                    showHideError(false)
+                    result = true
+                else 
+                    result = false
+                end if
+                 
+                 'showHideSpinner(false)
 '             if(m.top.selectScreen <> invalid and m.top.selectScreen.visible = true)
 '                m.top.selectScreen.visible = false
 '                m.layoutGroup.visible = true
 '                m.editTextButton.setFocus(true)
 '                return true
 '             end if
-            return true
         end if
     end if
     return result 

@@ -151,14 +151,19 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
 '                m.passwordLength = m.keyboard.text.length
 '                print m.passwordLength
                 m.textLabel.text = m.password
+                m.currentFocusID = "editTextButton"
+                handleVisibility()
+                m.editTextButton.setFocus(true) 
             else if m.pinpad.visible
                 m.pinpad.visible = false
                 m.pin = m.pinpad.pin
                 m.textLabel.text = m.pin
+                m.currentFocusID = "editTextButton"
+                handleVisibility()
+                m.editTextButton.setFocus(true) 
+            else 
+                return false
             end if
-             m.currentFocusID = "editTextButton"
-             handleVisibility()
-             m.editTextButton.setFocus(true) 
             return true
         end if
     end if

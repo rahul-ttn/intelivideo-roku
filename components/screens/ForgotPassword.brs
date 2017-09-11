@@ -60,6 +60,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             end if                
         else if key = "*"
              m.top.dialog.close = true
+             m.currentFocusID ="passwordEditTextButton"
+             handleVisibility()
              m.passwordEditTextButton.setFocus(true)
         else if key = "back"
             if m.keyboard.visible

@@ -77,7 +77,17 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
              if key = "back"
-                
+                if m.passwordScreen <> invalid AND m.passwordScreen.visible
+                    m.passwordScreen.setFocus(false)
+                    m.passwordScreen.visible = false
+                    m.accountList.visible = true
+                    m.selectAccLabel.visible = true
+                    m.accountList.setFocus(true)
+                    return true
+'                else
+'                    return false
+                end if
+                return false
              end if           
     end if
     return result 
