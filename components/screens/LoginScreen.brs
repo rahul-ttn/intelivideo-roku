@@ -47,7 +47,8 @@ sub goToSelectScreen()
     if emailValidation(m.email)
         if checkInternetConnection()
             baseUrl = getApiBaseUrl()
-            finalUrl = baseUrl + "accounts" + "?email="+m.email
+            'finalUrl = baseUrl + "accounts" + "?email="+m.email
+            finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
             m.fetchMerchantApi = createObject("roSGNode","FetchMerchantApiHandler")
             m.fetchMerchantApi.setField("uri",finalUrl)
             m.fetchMerchantApi.observeField("content","onFetchMerchant")
@@ -109,8 +110,8 @@ function onFetchMerchant()
     m.selectScreen = m.top.createChild("SelectAccount")
     m.top.setFocus(false)
     m.selectScreen.setFocus(true)
-    m.selectScreen.emailID = m.email
-    'm.selectScreen.emailID = "zoe@barbershop.io"
+    'm.selectScreen.emailID = m.email
+    m.selectScreen.emailID = "zoe@barbershop.io"
     m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
 end function
 
