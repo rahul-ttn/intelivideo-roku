@@ -119,17 +119,22 @@ function onFetchMerchant()
         m.top.getScene().dialog.close = true
         handleButtonEditTextColorFocus(true)
         showHideError(true,03)
+    else if m.fetchMerchantApi.content.accountsArray.count() = 1
+        hideViews()
+        m.passwordScreen = m.top.createChild("PasswordScreen")
+        m.top.setFocus(false)
+        m.passwordScreen.setFocus(true)
+        m.passwordScreen.emailId = m.email
+        m.passwordScreen.account = m.fetchMerchantApi.content.accountsArray[0]
     else
         hideViews()
         m.selectScreen = m.top.createChild("SelectAccount")
         m.top.setFocus(false)
-        'm.selectScreen.setFocus(true)
+        m.selectScreen.setFocus(true)
         m.selectScreen.emailID = m.email
-        m.selectScreen.emailID = "zoe@barbershop.io"
+        'm.selectScreen.emailID = "zoe@barbershop.io"
         m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
     end if
-    
-    
 end function
 
 
@@ -188,6 +193,14 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 else if m.selectScreen <> invalid AND m.selectScreen.visible
                     m.selectScreen.setFocus(false)
                     m.selectScreen.visible = false
+                    m.parentRectangle.visible = true
+                    handleButtonEditTextColorFocus(true)
+                    m.textLabel.text = "Account Email"
+                    showHideError(false,00)
+                    result = true
+                else if m.passwordScreen <> invalid AND m.passwordScreen.visible
+                    m.passwordScreen.setFocus(false)
+                    m.passwordScreen.visible = false
                     m.parentRectangle.visible = true
                     handleButtonEditTextColorFocus(true)
                     m.textLabel.text = "Account Email"
