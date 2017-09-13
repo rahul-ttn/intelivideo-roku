@@ -32,12 +32,6 @@ sub init()
     m.buttonNext = m.top.findNode("buttonNext")
     m.buttonNext.observeField("buttonSelected","goToSelectScreen")
     m.buttonNext.setFocus(false)
-    
-    m.busyspinner = m.top.findNode("exampleBusySpinner")
-   ' m.busyspinner.poster.observeField("loadStatus", "showspinner")
-    m.busyspinner.poster.uri = "pkg:/images/busyspinner_hd.png"
-    
-    'm.busyspinner.poster.loadStatus = "none"
    
 End sub
 
@@ -53,13 +47,14 @@ sub goToSelectScreen()
             m.fetchMerchantApi.setField("uri",finalUrl)
             m.fetchMerchantApi.observeField("content","onFetchMerchant")
             m.fetchMerchantApi.control = "RUN"
-            'showHideSpinner(true)
             showProgressDialog()
         else
             printValue("No Network")
         end if
     else
         showHideError(true,01)
+        handleButtonEditTextColorFocus(true)
+        m.textLabel.text = "Account Email"
     end if
 end sub
 
@@ -119,6 +114,7 @@ function onFetchMerchant()
         m.top.getScene().dialog.close = true
         handleButtonEditTextColorFocus(true)
         showHideError(true,03)
+        m.textLabel.text = "Account Email"
     else if m.fetchMerchantApi.content.accountsArray.count() = 1
         hideViews()
         m.passwordScreen = m.top.createChild("PasswordScreen")
@@ -152,7 +148,9 @@ sub showKeyboard()
     m.keyboard.setFocus(true)
     m.editTextButton.setFocus(false)
     m.nextButtonrectangle.visible = true
-    
+    if m.textLabel.text = "Account Email" 
+        m.keyboard.text = ""
+    end if
 end sub
 
 function setVideo() as void
@@ -209,14 +207,6 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 else 
                     result = false
                 end if
-                 
-                 'showHideSpinner(false)
-'             if(m.top.selectScreen <> invalid and m.top.selectScreen.visible = true)
-'                m.top.selectScreen.visible = false
-'                m.layoutGroup.visible = true
-'                m.editTextButton.setFocus(true)
-'                return true
-'             end if
         end if
     end if
     return result 

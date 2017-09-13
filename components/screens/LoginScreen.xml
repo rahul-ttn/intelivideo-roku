@@ -106,10 +106,6 @@
 				vertAlign="center"
 				color = "0xffffffff">
 			</Label> 
-			
-			<BusySpinner 
-			      id = "exampleBusySpinner" 
-			      visible = "false" />
 		</Rectangle>
 		
 		 <Rectangle   			
