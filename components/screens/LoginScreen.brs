@@ -48,6 +48,7 @@ sub goToSelectScreen()
         if checkInternetConnection()
             baseUrl = getApiBaseUrl()
             finalUrl = baseUrl + "accounts" + "?email="+m.email
+            'finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
             m.fetchMerchantApi = createObject("roSGNode","FetchMerchantApiHandler")
             m.fetchMerchantApi.setField("uri",finalUrl)
             m.fetchMerchantApi.observeField("content","onFetchMerchant")
@@ -58,15 +59,22 @@ sub goToSelectScreen()
             printValue("No Network")
         end if
     else
-        showHideError(true)
+        showHideError(true,01)
     end if
 end sub
 
-function showHideError(showError as boolean) as void
+function showHideError(showError as boolean,errorCode as integer) as void
     if showError = true
         m.errorLabel.visible = true
         m.oopsLabel.visible = true
         m.labelWelcome.visible = false
+        if errorCode = 03
+           m.errorLabel.text = "No accounts found."
+        else if  errorCode = 02
+           m.errorLabel.text = "No Internet Connection not found."
+        else if errorCode = 01
+           m.errorLabel.text = "Please enter a valid email and try again." 
+        end if
     else
         m.errorLabel.visible = false
         m.oopsLabel.visible = false
@@ -104,14 +112,29 @@ sub showProgressDialog()
 end sub
 
 function onFetchMerchant()  
-    hideViews()
     
-    m.selectScreen = m.top.createChild("SelectAccount")
-    m.top.setFocus(false)
-    m.selectScreen.setFocus(true)
-    m.selectScreen.emailID = m.email
-    'm.selectScreen.emailID = "zoe@barbershop.io"
-    m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
+    print "accountsArray size =>"; m.fetchMerchantApi.content.accountsArray.count()
+    if m.fetchMerchantApi.content.accountsArray.count() = 0
+        print "No Accounts Found"
+        m.top.getScene().dialog.close = true
+        handleButtonEditTextColorFocus(true)
+        showHideError(true,03)
+    else if m.fetchMerchantApi.content.accountsArray.count() = 1
+        hideViews()
+        m.passwordScreen = m.top.createChild("PasswordScreen")
+        m.top.setFocus(false)
+        m.passwordScreen.setFocus(true)
+        m.passwordScreen.emailId = m.email
+        m.passwordScreen.account = m.fetchMerchantApi.content.accountsArray[0]
+    else
+        hideViews()
+        m.selectScreen = m.top.createChild("SelectAccount")
+        m.top.setFocus(false)
+        m.selectScreen.setFocus(true)
+        m.selectScreen.emailID = m.email
+        'm.selectScreen.emailID = "zoe@barbershop.io"
+        m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
+    end if
 end function
 
 
@@ -173,7 +196,15 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                     m.parentRectangle.visible = true
                     handleButtonEditTextColorFocus(true)
                     m.textLabel.text = "Account Email"
-                    showHideError(false)
+                    showHideError(false,00)
+                    result = true
+                else if m.passwordScreen <> invalid AND m.passwordScreen.visible
+                    m.passwordScreen.setFocus(false)
+                    m.passwordScreen.visible = false
+                    m.parentRectangle.visible = true
+                    handleButtonEditTextColorFocus(true)
+                    m.textLabel.text = "Account Email"
+                    showHideError(false,00)
                     result = true
                 else 
                     result = false

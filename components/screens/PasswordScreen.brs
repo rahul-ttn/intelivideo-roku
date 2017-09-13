@@ -119,7 +119,11 @@ sub onAuthToken()
     if(getValueInRegistryForKey("isLoginValue") = "true")
         callUserApi()
     else
-       
+       showHideError(true)
+       m.top.getScene().dialog.close = true
+       m.currentFocusID = "editTextButton"
+       handleVisibility()
+       m.editTextButton.setFocus(true)
     end if
     
 end sub
@@ -151,7 +155,7 @@ sub showPinDialog()
     m.currentFocusID = "editTextButton"
     handleVisibility()
     m.editTextButton.setFocus(true)
-    m.textLabel.color = "0xB4B4B1ff"
+    m.textLabel.color = "0x1c2833ff"
     m.textLabel.font.size = 30
     m.pinSelected = not m.pinSelected
     
@@ -219,7 +223,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                     astrick = astrick + "*"
                 end for
                 m.textLabel.text = astrick
-                m.textLabel.font.size = 60
+                m.textLabel.font.size = 55
 '            else if m.pinpad.visible
 '                m.pinpad.visible = false
 '                m.pinpadTheme.visible = false

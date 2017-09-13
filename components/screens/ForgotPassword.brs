@@ -117,6 +117,7 @@ function showHideError(showError as boolean) as void
         m.errorLabel.visible = true
         m.oopsLabel.visible = true
         m.labelWelcome.visible = false
+       
     else
         m.errorLabel.visible = false
         m.oopsLabel.visible = false
