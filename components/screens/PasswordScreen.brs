@@ -164,12 +164,12 @@ sub showPinDialog()
         m.pinLabel.text = "Login with Password"
     else
         m.textLabel.text = "Password"
-        m.pinLabel.text = "Login with Pin"
+        m.pinLabel.text = "Login with PIN"
     end if
 end sub
 
 sub goToForgotPasswordScreen()
-    hideViews()
+    m.parentRectangle.visible = false
     m.forgotPasswordScreen = m.top.createChild("ForgotPassword")
     print m.top.forgotPasswordScreen
     m.top.setFocus(false)
