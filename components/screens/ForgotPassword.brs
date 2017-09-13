@@ -101,7 +101,7 @@ end sub
 sub showAlertDialog()
     if m.textLabel.text = "" or not emailValidation(m.textLabel.text)
         print "EMAIL validation Forgot PAssword screen";emailValidation(m.textLabel.text)
-        showHideError(true)
+        showHideError(true,01)
     else
          dialog = createObject("roSGNode", "Dialog")
          dialog.backgroundUri = ""
@@ -115,12 +115,16 @@ sub showAlertDialog()
 end sub
 
 
-function showHideError(showError as boolean) as void
+function showHideError(showError as boolean,errorCode as integer) as void
     if showError = true
         m.errorLabel.visible = true
         m.oopsLabel.visible = true
         m.labelWelcome.visible = false
-       
+        if  errorCode = 02
+           m.errorLabel.text = "No Internet Connection"
+        else if errorCode = 01
+           m.errorLabel.text = "Please enter a valid email" 
+        end if
     else
         m.errorLabel.visible = false
         m.oopsLabel.visible = false

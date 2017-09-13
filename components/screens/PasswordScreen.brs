@@ -84,7 +84,7 @@ end sub
 sub goToHomeScreen()
     pwd = m.password
     if pwd = ""
-        showHideError(true)
+        showHideError(true,01)
     else if checkInternetConnection()
         baseUrl = getAuthTokenApiUrl()
         if m.pinSelected
@@ -101,6 +101,16 @@ sub goToHomeScreen()
         showProgressDialog()
     else
         printValue("No Network")
+        showHideError(true,02)
+        m.currentFocusID = "editTextButton"
+        handleVisibility()
+        m.editTextButton.setFocus(true)
+        m.textLabel.font.size = 30
+        if m.pinSelected
+            m.textLabel.text = "PIN"
+        else
+            m.textLabel.text = "Password"
+        end if
     end if
 end sub
 
@@ -119,7 +129,7 @@ sub onAuthToken()
     if(getValueInRegistryForKey("isLoginValue") = "true")
         callUserApi()
     else
-       showHideError(true)
+       showHideError(true,01)
        m.top.getScene().dialog.close = true
        m.currentFocusID = "editTextButton"
        handleVisibility()
@@ -252,11 +262,16 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     return result 
 end function
 
-function showHideError(showError as boolean) as void
+function showHideError(showError as boolean,errorCode as integer) as void
     if showError = true
         m.errorLabel.visible = true
         m.oopsLabel.visible = true
         m.labelWelcome.visible = false
+        if  errorCode = 02
+           m.errorLabel.text = "No Internet Connection"
+        else if errorCode = 01
+           m.errorLabel.text = "There was an error logging into your account. Please check your password and try again." 
+        end if
     else
         m.errorLabel.visible = false
         m.oopsLabel.visible = false

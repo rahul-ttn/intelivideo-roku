@@ -41,8 +41,8 @@ sub goToSelectScreen()
     if emailValidation(m.email)
         if checkInternetConnection()
             baseUrl = getApiBaseUrl()
-            finalUrl = baseUrl + "accounts" + "?email="+m.email
-            'finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
+            'finalUrl = baseUrl + "accounts" + "?email="+m.email
+            finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
             m.fetchMerchantApi = createObject("roSGNode","FetchMerchantApiHandler")
             m.fetchMerchantApi.setField("uri",finalUrl)
             m.fetchMerchantApi.observeField("content","onFetchMerchant")
@@ -50,6 +50,9 @@ sub goToSelectScreen()
             showProgressDialog()
         else
             printValue("No Network")
+            showHideError(true,02)
+            handleButtonEditTextColorFocus(true)
+            m.textLabel.text = "Account Email"
         end if
     else
         showHideError(true,01)
@@ -64,11 +67,11 @@ function showHideError(showError as boolean,errorCode as integer) as void
         m.oopsLabel.visible = true
         m.labelWelcome.visible = false
         if errorCode = 03
-           m.errorLabel.text = "No accounts found."
+           m.errorLabel.text = "There was an error fetching your accounts, please try again"
         else if  errorCode = 02
-           m.errorLabel.text = "No Internet Connection not found."
+           m.errorLabel.text = "No Internet Connection"
         else if errorCode = 01
-           m.errorLabel.text = "Please enter a valid email and try again." 
+           m.errorLabel.text = "Please enter a valid email" 
         end if
     else
         m.errorLabel.visible = false
@@ -127,8 +130,8 @@ function onFetchMerchant()
         m.selectScreen = m.top.createChild("SelectAccount")
         m.top.setFocus(false)
         m.selectScreen.setFocus(true)
-        m.selectScreen.emailID = m.email
-        'm.selectScreen.emailID = "zoe@barbershop.io"
+       ' m.selectScreen.emailID = m.email
+        m.selectScreen.emailID = "zoe@barbershop.io"
         m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
     end if
 end function

@@ -1,6 +1,6 @@
 Function getPortConnectionTime() as integer
 'time in seconds
-    return 60*1000 
+    return 10*1000 
 End Function
 
 Function callGetApi(url as String) as object
