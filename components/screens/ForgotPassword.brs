@@ -1,17 +1,17 @@
 sub init()
     m.parentRectangle = m.top.findNode("parentRectangle")
     m.oopsLabel = m.top.findNode("oopsLabel")
-    m.oopsLabel.font.size = 115
+    m.oopsLabel.font.size = 90
     m.labelWelcome = m.top.findNode("labelWelcome")
-    m.labelWelcome.font.size = 115
+    m.labelWelcome.font.size = 90
     m.errorLabel = m.top.findNode("errorLabel")
     m.textLabel = m.top.findNode("hintlabel")
    
     m.keyboard = m.top.findNode("keyboard")
-    m.busyspinner = m.top.findNode("exampleBusySpinner")
-   ' m.busyspinner.poster.observeField("loadStatus", "showspinner")
-    m.busyspinner.poster.uri = "pkg:/images/busyspinner_hd.png"
-   
+    m.keyboardTheme = m.top.findNode("keyboardTheme")
+    keyboardX = (1920 - m.keyboardTheme.width) / 2
+    m.keyboardTheme.translation = [keyboardX,450]
+    
    
     m.editTextRectangle = m.top.findNode("editTextRectangle")
     editTextRectangleX = (1920 - m.editTextRectangle.width) / 2
@@ -46,6 +46,7 @@ end sub
 sub showEmailId()
     m.email = m.top.emailId
     m.textLabel.text = m.email
+    m.passwordEditTextButton.setFocus(true)
 end sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
@@ -62,6 +63,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         else if key = "back"
             if m.keyboard.visible
                 m.keyboard.visible = false
+                m.keyboardTheme.visible = false
                 m.emailEntered = m.keyboard.text
                 m.textLabel.text = m.emailEntered
                 m.currentFocusID ="passwordEditTextButton"
@@ -91,6 +93,7 @@ end function
 
 sub showKeyboard()
      m.keyboard.visible = true
+     m.keyboardTheme.visible = true
      m.keyboard.setFocus(true)
      m.keyboard.text = m.email
 end sub

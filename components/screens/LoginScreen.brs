@@ -3,9 +3,9 @@ sub init()
     setVideo()
     m.parentRectangle = m.top.findNode("parentRectangle")
     m.oopsLabel = m.top.findNode("oopsLabel")
-    m.oopsLabel.font.size = 115
+    m.oopsLabel.font.size = 90
     m.labelWelcome = m.top.findNode("labelWelcome")
-    m.labelWelcome.font.size = 115
+    m.labelWelcome.font.size = 90
     m.errorLabel = m.top.findNode("errorLabel")
     m.keyboardTheme = m.top.findNode("keyboardTheme")
     keyboardX = (1920 - m.keyboardTheme.width) / 2
