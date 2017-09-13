@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component name="UserApiModel" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+<component name="UserApiModel" extends="BaseModel" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
 <interface>
-		<field id="base_theme" type="String" />
-		<field id="primary_color" type="String" />
+		<field id="appConfigModel" type="node" />
+		<field id="userModel" type="node" />
 	</interface>
 </component>

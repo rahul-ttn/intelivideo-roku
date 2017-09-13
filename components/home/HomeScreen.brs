@@ -1,10 +1,30 @@
 sub init()
     m.top.SetFocus(true)
     print "Home init"
-    initNavigationBar()
-    print "Home Navigation"
-    initFields()
+    callUserApi()
 End sub
+
+sub callUserApi()
+    if checkInternetConnection()
+        print "caling user API"
+        baseUrl = getApiBaseUrl() + "user?access_token=" + getValueInRegistryForKey("authTokenValue")
+        print "baseUrl " ; baseUrl
+        m.userApi = createObject("roSGNode","UserApiHandler")
+        m.userApi.setField("uri",baseUrl)
+        m.userApi.observeField("content","onUserApiResponse")
+        m.userApi.control = "RUN"
+    else
+        printValue("No Network")
+    end if
+end sub
+
+sub onUserApiResponse()
+    printValue("onUserApiResponse Success")
+    initNavigationBar("true")
+    initFields()
+    m.appConfig =  m.userApi.content.appConfigModel
+    m.userData =  m.userApi.content.userModel
+end sub
 
 sub initFields()
     homeBackground = m.top.FindNode("homeBackground")
@@ -13,6 +33,12 @@ sub initFields()
     m.countryRowList = m.top.FindNode("homeRowList")
     
     homeRowList() 
+End sub
+
+sub manageNavBar()
+    if getValueInRegistryForKey("isCategoryValue") <> "true"
+        m.buttonCategoryOpen.visible = false
+    end if
 End sub
 
 sub homeRowList()

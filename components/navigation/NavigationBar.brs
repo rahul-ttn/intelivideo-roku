@@ -1,17 +1,23 @@
-sub initNavigationBar()
-    initializeOpenState()
-    initializeCloseState()
+sub initNavigationBar(isCategory as string)
+    initializeOpenState(isCategory)
+    initializeCloseState(isCategory)
     showOpenState()
 End sub
 
-sub initializeOpenState()
+sub initializeOpenState(isCategory as string)
     m.navRectangleOpen = m.top.FindNode("navRectangleOpen")
-    print "color" ; nevigationBarBackground()
+
     m.navRectangleOpen.color = nevigationBarBackground()
     m.buttonGroupOpen = m.top.FindNode("navButtonGroupOpen")
     
     m.buttonHomeOpen = m.top.FindNode("buttonHomeOpen")
     m.buttonHomeOpen.observeField("buttonSelected", "showHomeScreen")
+    
+    m.buttonCategoryOpen = m.top.FindNode("buttonCategoryOpen")
+    m.buttonCategoryOpen.observeField("buttonSelected", "showCategoryScreen")
+    'if isCategory <> "true"
+        'm.buttonCategoryOpen.visible = false
+    'end if
     
     m.buttonFavoriteOpen = m.top.FindNode("buttonFavoriteOpen")
     m.buttonFavoriteOpen.observeField("buttonSelected", "showFavoriteScreen")
@@ -35,13 +41,16 @@ sub initializeOpenState()
     m.labelSwitchAccount.font.size = 25
 End sub
 
-sub initializeCloseState()
+sub initializeCloseState(isCategory as string)
     m.navRectangleClose = m.top.FindNode("navRectangleClose")
     m.navRectangleClose.color = "0x565656FF"
     m.navButtonGroupClose = m.top.FindNode("navButtonGroupClose")
     
     m.buttonHomeClose = m.top.FindNode("buttonHomeClose")
     'm.buttonHomeClose.observeField("buttonSelected", "showHomeScreen")
+    
+    m.buttonCategoryClose = m.top.FindNode("buttonCategoryClose")
+    'm.buttonCategoryClose.visible = false
     
     m.buttonFavoriteClose = m.top.FindNode("buttonFavoriteClose")
     'm.buttonFavoriteClose.observeField("buttonSelected", "showFavoriteScreen")
@@ -82,6 +91,10 @@ sub showHomeScreen()
     print "Home Screen"
     homeScreen = m.top.createChild("HomeScreen")
     homeScreen.setFocus(true)
+End sub
+
+sub showCategoryScreen()
+    print "showCategoryScreen " 
 End sub
 
 sub showFavoriteScreen()

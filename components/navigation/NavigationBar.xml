@@ -15,7 +15,7 @@
 				<Poster id="buttonHomeClose" uri="pkg:/images/$$RES$$/Home.png"
 					width="0.0" height="0.0" />
 
-				<Poster id="buttonCategoryClose" uri="pkg:/images/$$RES$$/Categories.png"
+				<Poster id="buttonCategoryClose" uri="pkg:/images/$$RES$$/Categories.png" 
 					width="0.0" height="0.0" />
 
 				<Poster id="buttonFavoriteClose" uri="pkg:/images/$$RES$$/Favorites.png"
@@ -47,7 +47,7 @@
 			translation="[0,0]">
 
 			<ButtonGroup id="navButtonGroupOpen" translation="[40,50]"
-				itemSpacings="[10,10]">
+				itemSpacings="[10,10]" >
 
 				<Button id="buttonHomeOpen" focusBitmapUri="pkg:/images/background.png"
 					focusedTextColor="0x262626ff" text="Home"

@@ -1,7 +1,7 @@
 sub init()
     m.sec=CreateObject("roRegistrySection","Authentication")
 end sub
-
+'---------------------------------------------------------------------------
 Sub setSelectedAccount()    
     m.sec.Write("selectedAccount",m.top.selectedAccount)
     m.sec.Flush() 'commit it
@@ -14,7 +14,7 @@ Sub getSelectedAccount()
         m.top.selectedAccountValue = Invalid
     End If
 end sub
-
+'---------------------------------------------------------------------------
 Sub setAuthToken()    
     m.sec.Write("authToken",m.top.authToken)
     m.sec.Flush() 'commit it
@@ -27,7 +27,7 @@ Sub getAuthToken()
         m.top.authTokenValue = Invalid
     End If
 end sub
-
+'---------------------------------------------------------------------------
 Sub setLoginStatus()    
     m.sec.Write("isLogin",m.top.isLogin)
     m.sec.Flush() 'commit it
@@ -40,3 +40,4 @@ Sub getLoginStatus()
         m.top.isLoginValue = Invalid
     End If
 end sub
+'---------------------------------------------------------------------------

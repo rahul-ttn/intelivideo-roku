@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="UserModel" extends="ContentNode"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<interface>
+		<field id="id" type="String" />
+		<field id="first_name" type="String" />
+		<field id="last_name" type="String" />
+		<field id="email" type="String" />
+		<field id="company" type="String" />
+		<field id="account_id" type="String" />
+		<field id="disabled" type="boolean" />
+		<field id="disable_streaming" type="boolean" />
+		<field id="disable_downloads" type="boolean" />
+	</interface>
+</component>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="AppConfigModel" extends="ContentNode"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<interface>
+		<field id="base_theme" type="String" />
+		<field id="primary_color" type="String" />
+		<field id="secondary_color" type="String" />
+		<field id="display_categories" type="boolean" />
+		<field id="privacy_policy" type="String" />
+		<field id="terms_of_service" type="String" />
+	</interface>
+</component>

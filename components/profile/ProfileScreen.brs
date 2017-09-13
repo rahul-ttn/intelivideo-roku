@@ -1,7 +1,7 @@
 sub init()
     m.top.SetFocus(true)
     
-    initNavigationBar()
+    initNavigationBar("true")
     m.buttonHomeOpen.setFocus(false)
     m.buttonProfileOpen.setFocus(true)
     'm.navButtonGroupClose.buttonSelected = 3

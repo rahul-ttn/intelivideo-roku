@@ -117,7 +117,10 @@ end sub
 sub onAuthToken()
     printValue("Auth Token Success")
     if(getValueInRegistryForKey("isLoginValue") = "true")
-        callUserApi()
+        hideViews()
+        m.homeScreen = m.top.createChild("HomeScreen")
+        m.top.setFocus(false)
+        m.homeScreen.setFocus(true)
     else
        showHideError(true)
        m.top.getScene().dialog.close = true
@@ -126,29 +129,6 @@ sub onAuthToken()
        m.editTextButton.setFocus(true)
     end if
     
-end sub
-
-sub callUserApi()
-    if checkInternetConnection()
-        print "caling user API"
-        baseUrl = getApiBaseUrl() + "user?access_token=" + getValueInRegistryForKey("authTokenValue")
-        print "baseUrl " ; baseUrl
-        m.userApi = createObject("roSGNode","UserApiHandler")
-       
-        m.userApi.setField("uri",baseUrl)
-        m.userApi.observeField("content","onUserApiResponse")
-        m.userApi.control = "RUN"
-    else
-        printValue("No Network")
-    end if
-end sub
-
-sub onUserApiResponse()
-    hideViews()
-    printValue("onUserApiResponse Success")
-    m.homeScreen = m.top.createChild("HomeScreen")
-    m.top.setFocus(false)
-    m.homeScreen.setFocus(true)
 end sub
 
 sub showPinDialog()
