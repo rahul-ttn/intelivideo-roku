@@ -16,6 +16,15 @@ Function getPageMarginHeight()
 return 53
 End Function
 
+Function setHomeBack(isHome as boolean)
+    m.isHomeBack = isHome
+End Function
+
+Function isHomeBack() as boolean
+    print "m.isHomeBack " ;m.isHomeBack
+    return m.isHomeBack
+End Function
+
 Function getPageWidth()
 return 1920-2*getPageMarginWidth()
 End Function

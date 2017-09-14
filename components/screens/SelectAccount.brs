@@ -78,16 +78,21 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     if press
              if key = "back"
                 if m.passwordScreen <> invalid AND m.passwordScreen.visible
+                    print "Slect Account true part of back key"
                     m.passwordScreen.setFocus(false)
                     m.passwordScreen.visible = false
                     m.accountList.visible = true
                     m.selectAccLabel.visible = true
                     m.accountList.setFocus(true)
                     return true
-'                else
-'                    return false
+                else if getValueInRegistryForKey("isHomeValue") = "true"
+                    m.top.visible = false
+                    return false
+                else 
+                    print "Slect Account else part of back key"
+                    return false
                 end if
-                return false
+                'return false
              end if           
     end if
     return result 

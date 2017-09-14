@@ -3,6 +3,7 @@ sub init()
     initFields()
     hideFields()
     callUserApi()
+    setValueInRegistryForKey("isHome","true")
 End sub
 
 sub callUserApi()
@@ -120,7 +121,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 result = true 
             end if
          else if key = "back"
-            m.top.visible = false
+             m.top.visible = false
             'ExitUserInterface()
             result = false 
         end if           

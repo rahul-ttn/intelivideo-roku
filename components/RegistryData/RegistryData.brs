@@ -66,3 +66,17 @@ Sub getSelectedAccountName()
         m.top.selectedAccountNameValue = Invalid
     End If
 end sub
+'---------------------------------------------------------------------------
+Sub setIsHome()    
+    m.sec.Write("isHome",m.top.isHome)
+    m.sec.Flush() 'commit it
+end sub
+
+Sub getIsHome()   
+    If m.sec.Exists("isHome") Then
+        m.top.isHomeValue =  m.sec.read("isHome")
+    else        
+        m.top.isHomeValue = Invalid
+    End If
+end sub
+

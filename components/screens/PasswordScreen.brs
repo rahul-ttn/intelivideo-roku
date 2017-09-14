@@ -73,6 +73,7 @@ sub init()
     m.pinSelected = false
     
     m.password = ""
+ 
 end sub
 
 sub updateSelectedAccount()
@@ -133,6 +134,7 @@ sub onAuthToken()
     printValue("Auth Token Success")
     if(getValueInRegistryForKey("isLoginValue") = "true")
         hideViews()
+        m.top.getScene().dialog.close = true
         m.homeScreen = m.top.createChild("HomeScreen")
         m.top.setFocus(false)
         m.homeScreen.setFocus(true)
@@ -237,10 +239,14 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 handleVisibility()
                 m.editTextButton.setFocus(true) 
                 return true
-            else 
-                print "Forgot password screen back else block"
+            else if getValueInRegistryForKey("isHomeValue") = "true"
+                
+                m.top.visible = false
                 return false
-            end if
+            else
+                 print "Forgot password screen back else block";getValueInRegistryForKey("isHomeValue")
+                return false
+            end if 
             
         end if
     end if

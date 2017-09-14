@@ -40,6 +40,7 @@ sub goToSelectScreen()
     m.email = m.textLabel.text
     'if emailValidation(m.email)
         if checkInternetConnection()
+        
             baseUrl = getApiBaseUrl()
             'finalUrl = baseUrl + "accounts" + "?email="+m.email
             finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
@@ -207,6 +208,10 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                     m.textLabel.text = "Account Email"
                     showHideError(false,00)
                     result = true
+                else if getValueInRegistryForKey("isHomeValue") = "true"
+                    m.top.visible = false
+                    setValueInRegistryForKey("isHome","true")
+                    return false
                 else 
                     result = false
                 end if

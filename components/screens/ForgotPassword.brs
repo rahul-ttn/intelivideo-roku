@@ -73,6 +73,9 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             else if  m.showDialog
                 'm.top.dialog.close = true
                 return false
+            else if getValueInRegistryForKey("isHomeValue") = "true"
+                m.top.visible = false
+                return false
             end if
             return false
         end if

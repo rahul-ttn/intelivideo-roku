@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="SelectAccount" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
-	
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs"/>
 	<script type="text/brightscript" uri = "pkg:/components/screens/SelectAccount.brs"/>
 	
 	<interface>
