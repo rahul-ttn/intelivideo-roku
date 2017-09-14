@@ -68,7 +68,7 @@ function showHideError(showError as boolean,errorCode as integer) as void
         m.labelWelcome.visible = false
         if errorCode = 03
            m.errorLabel.text = "There was an error fetching your accounts, please try again"
-        else if  errorCode = 02
+        else if errorCode = 02
            m.errorLabel.text = "No Internet Connection"
         else if errorCode = 01
            m.errorLabel.text = "Please enter a valid email" 

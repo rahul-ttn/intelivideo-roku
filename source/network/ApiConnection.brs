@@ -47,12 +47,14 @@ Function callApi(url as String,headers as Object,isPostApi as boolean,params as 
     
     if isPostApi = true
         requestType = request.AsyncPostFromString(params)
-        print "request is";requestType
+        print "true part request is";requestType
     else
         requestType = request.AsyncGetToString()
+         print "else part request is";requestType
     end if    
         timer=createobject("roTimeSpan")
         timer.Mark()
+        print timer
         If (requestType)
             while (true)
                 msg = wait(getPortConnectionTime(), port)
@@ -63,6 +65,7 @@ Function callApi(url as String,headers as Object,isPostApi as boolean,params as 
                     return msg  
                 Else 
                     request.AsyncCancel()
+                    print msg
                     return invalid
                 End If
             End while
