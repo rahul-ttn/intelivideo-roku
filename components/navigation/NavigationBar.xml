@@ -48,7 +48,6 @@
 
 			<ButtonGroup id="navButtonGroupOpen" translation="[40,50]"
 				itemSpacings="[10,10]" >
-
 				<Button id="buttonHomeOpen" focusBitmapUri="pkg:/images/background.png"
 					focusedTextColor="0x262626ff" text="Home"
 					focusFootprintBitmapUri="pkg:/images/img_transparent.png"
@@ -79,14 +78,39 @@
 					focusFootprintBitmapUri="pkg:/images/img_transparent.png"
 					showFocusFootprint="false" focusable="true"
 					iconUri="pkg:/images/$$RES$$/Profile.png" focusedIconUri="pkg:/images/$$RES$$/Profile Focused.png" />
+			</ButtonGroup>
+			
+			<ButtonGroup id="navButtonGroupOpenWC" translation="[40,50]"
+				itemSpacings="[10,10]" visible="false">
+				<Button id="buttonHomeOpenWC" focusBitmapUri="pkg:/images/background.png"
+					focusedTextColor="0x262626ff" text="Home"
+					focusFootprintBitmapUri="pkg:/images/img_transparent.png"
+					showFocusFootprint="false" focusable="true" iconUri="pkg:/images/$$RES$$/Home.png"
+					focusedIconUri="pkg:/images/$$RES$$/Home Focused.png" />
 
+				<Button id="buttonFavoriteOpenWC" focusBitmapUri="pkg:/images/background.png"
+					focusedTextColor="0x262626ff" text="Favorites"
+					focusFootprintBitmapUri="pkg:/images/img_transparent.png"
+					showFocusFootprint="false" focusable="true"
+					iconUri="pkg:/images/$$RES$$/Favorites.png" focusedIconUri="pkg:/images/$$RES$$/Favorites Focused.png" />
+
+				<Button id="buttonSearchOpenWC" focusBitmapUri="pkg:/images/background.png"
+					focusedTextColor="0x262626ff" text="Search"
+					focusFootprintBitmapUri="pkg:/images/img_transparent.png"
+					showFocusFootprint="false" focusable="true"
+					iconUri="pkg:/images/$$RES$$/Search.png" focusedIconUri="pkg:/images/$$RES$$/Search Focused.png" />
+
+				<Button id="buttonProfileOpenWC" focusBitmapUri="pkg:/images/background.png"
+					focusedTextColor="0x262626ff" text="Profile"
+					focusFootprintBitmapUri="pkg:/images/img_transparent.png"
+					showFocusFootprint="false" focusable="true"
+					iconUri="pkg:/images/$$RES$$/Profile.png" focusedIconUri="pkg:/images/$$RES$$/Profile Focused.png" />
 			</ButtonGroup>
 		</Rectangle>
 
 		<Rectangle id="rectSwitchAccountSmall" color="0x000000FF"
 			visible="false" width="50" height="50" translation="[76,900]">
-			<Label id="labelAccount" text="C" translation="[10,8]"
-				textFont="font:SmallSystemFont" />
+			<Label id="labelAccount" translation="[11,9]" color="0xFFFFFFFF"/>
 		</Rectangle>
 
 		<Rectangle id="rectSwitchAccountLarge" width="0.0" height="0.0"
@@ -95,13 +119,13 @@
 			<Rectangle id="rectSwitchAccountBorder" color="0xFFFFFFFF"
 				width="100" height="100" visible="false" translation="[40,0]"/>
 
-			<Rectangle id="rectSwitchAccountPoster" color="0x232323FF"
+			<Rectangle id="rectSwitchAccountPoster" color="0xFFFFFFFF"
 				width="90" height="90" translation="[45,5]">
-
-				<Label id="labelSwitchAccountLarge" text="C" translation="[50,50]" />
 				
-				<Poster id="switchAccountPoster" uri="pkg:/images/$$RES$$/Profile Focused.png"
+				<Poster id="switchAccountPoster"
 					width="90" height="90" />
+					
+				<Label id="labelSwitchAccountLarge" visible="false" translation="[24,17]" color="0xFFFFFFFF"/>
 
 				<Button id="buttonSwitchAccount" focusBitmapUri="pkg:/images/img_transparent.png"
 					text="" focusFootprintBitmapUri="pkg:/images/img_transparent.png"

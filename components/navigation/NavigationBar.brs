@@ -1,10 +1,12 @@
-sub initNavigationBar(isCategory as string)
-    initializeOpenState(isCategory)
-    initializeCloseState(isCategory)
+sub initNavigationBar()
+    initializeOpenState()
+    initializeCloseState()
+    switchAccountOpen()
+    switchAccountClose()
     showOpenState()
 End sub
 
-sub initializeOpenState(isCategory as string)
+sub initializeOpenState()
     m.navRectangleOpen = m.top.FindNode("navRectangleOpen")
 
     m.navRectangleOpen.color = nevigationBarBackground()
@@ -15,10 +17,7 @@ sub initializeOpenState(isCategory as string)
     
     m.buttonCategoryOpen = m.top.FindNode("buttonCategoryOpen")
     m.buttonCategoryOpen.observeField("buttonSelected", "showCategoryScreen")
-    'if isCategory <> "true"
-        'm.buttonCategoryOpen.visible = false
-    'end if
-    
+
     m.buttonFavoriteOpen = m.top.FindNode("buttonFavoriteOpen")
     m.buttonFavoriteOpen.observeField("buttonSelected", "showFavoriteScreen")
     
@@ -28,11 +27,61 @@ sub initializeOpenState(isCategory as string)
     m.buttonProfileOpen = m.top.FindNode("buttonProfileOpen")
     m.buttonProfileOpen.observeField("buttonSelected", "showProfileScreen")
     
+End sub
+
+sub initializeCloseState()
+    m.navRectangleClose = m.top.FindNode("navRectangleClose")
+    m.navRectangleClose.color = nevigationBarBackground()
+    m.navButtonGroupClose = m.top.FindNode("navButtonGroupClose")
+    
+    m.buttonHomeClose = m.top.FindNode("buttonHomeClose")
+    m.buttonCategoryClose = m.top.FindNode("buttonCategoryClose")
+    m.buttonFavoriteClose = m.top.FindNode("buttonFavoriteClose")
+    m.buttonSearchClose = m.top.FindNode("buttonSearchClose")
+    m.buttonProfileClose = m.top.FindNode("buttonProfileClose")
+End sub
+
+sub initializeOpenStateWC()
+    m.navRectangleOpen = m.top.FindNode("navRectangleOpen")
+
+    m.navRectangleOpen.color = nevigationBarBackground()
+    m.buttonGroupOpen = m.top.FindNode("navButtonGroupOpen")
+    
+    m.buttonHomeOpen = m.top.FindNode("buttonHomeOpen")
+    m.buttonHomeOpen.observeField("buttonSelected", "showHomeScreen")
+    
+    m.buttonCategoryOpen = m.top.FindNode("buttonCategoryOpen")
+    m.buttonCategoryOpen.observeField("buttonSelected", "showCategoryScreen")
+
+    m.buttonFavoriteOpen = m.top.FindNode("buttonFavoriteOpen")
+    m.buttonFavoriteOpen.observeField("buttonSelected", "showFavoriteScreen")
+    
+    m.buttonSearchOpen = m.top.FindNode("buttonSearchOpen")
+    m.buttonSearchOpen.observeField("buttonSelected", "showSearchScreen")
+    
+    m.buttonProfileOpen = m.top.FindNode("buttonProfileOpen")
+    m.buttonProfileOpen.observeField("buttonSelected", "showProfileScreen")
+    
+End sub
+
+sub switchAccountOpen()
     m.rectSwitchAccountLarge = m.top.FindNode("rectSwitchAccountLarge")
     m.rectSwitchAccountBorder = m.top.FindNode("rectSwitchAccountBorder")
     m.rectSwitchAccountPoster = m.top.FindNode("rectSwitchAccountPoster")
+    
     m.labelSwitchAccountLarge = m.top.FindNode("labelSwitchAccountLarge")
+    
     m.switchAccountPoster = m.top.FindNode("switchAccountPoster")
+    if(getValueInRegistryForKey("selectedAccountThumbValue") <> "")
+        m.rectSwitchAccountPoster.color = "0xFFFFFFFF"
+        m.labelSwitchAccountLarge.visible = false
+        m.switchAccountPoster.uri = getValueInRegistryForKey("selectedAccountThumbValue")
+    else
+        m.rectSwitchAccountPoster.color = m.appConfig.primary_color
+        m.labelSwitchAccountLarge.visible = true
+        m.labelSwitchAccountLarge.text = UCase(Left(getValueInRegistryForKey("selectedAccountNameValue"), 1))
+        m.labelSwitchAccountLarge.font.size = 60
+    end if
     
     m.buttonSwitchAccount = m.top.FindNode("buttonSwitchAccount")
     m.buttonSwitchAccount.observeField("buttonSelected", "showSwitchAccount")
@@ -41,29 +90,15 @@ sub initializeOpenState(isCategory as string)
     m.labelSwitchAccount.font.size = 25
 End sub
 
-sub initializeCloseState(isCategory as string)
-    m.navRectangleClose = m.top.FindNode("navRectangleClose")
-    m.navRectangleClose.color = "0x565656FF"
-    m.navButtonGroupClose = m.top.FindNode("navButtonGroupClose")
-    
-    m.buttonHomeClose = m.top.FindNode("buttonHomeClose")
-    'm.buttonHomeClose.observeField("buttonSelected", "showHomeScreen")
-    
-    m.buttonCategoryClose = m.top.FindNode("buttonCategoryClose")
-    'm.buttonCategoryClose.visible = false
-    
-    m.buttonFavoriteClose = m.top.FindNode("buttonFavoriteClose")
-    'm.buttonFavoriteClose.observeField("buttonSelected", "showFavoriteScreen")
-    
-    m.buttonSearchClose = m.top.FindNode("buttonSearchClose")
-    'm.buttonSearchClose.observeField("buttonSelected", "showSearchScreen")
-    
-    m.buttonProfileClose = m.top.FindNode("buttonProfileClose")
-    'm.buttonProfileClose.observeField("buttonSelected", "showProfileScreen")
-    
+sub switchAccountClose()
     m.rectSwitchAccountSmall = m.top.FindNode("rectSwitchAccountSmall")
+    
+    primaryColor = m.appConfig.primary_color
+    m.rectSwitchAccountSmall.color = m.appConfig.primary_color
+    
+    m.labelAccount = m.top.FindNode("labelAccount")
+    m.labelAccount.text = UCase(Left(getValueInRegistryForKey("selectedAccountNameValue"), 1))
 End sub
-
 
 sub showOpenState()
     m.navRectangleClose.visible = false
@@ -109,6 +144,8 @@ sub showProfileScreen()
     print "Profile Screen"
     profileScreen = m.top.createChild("ProfileScreen")
     profileScreen.setFocus(true)
+    profileScreen.appConfig = m.appConfig
+    profileScreen.userData = m.userData
 End sub
 
 sub showSwitchAccount()

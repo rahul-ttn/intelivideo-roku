@@ -1,11 +1,13 @@
 sub init()
     m.top.SetFocus(true)
-    print "Home init"
+    initFields()
+    hideFields()
     callUserApi()
 End sub
 
 sub callUserApi()
     if checkInternetConnection()
+        showProgressDialog()
         print "caling user API"
         baseUrl = getApiBaseUrl() + "user?access_token=" + getValueInRegistryForKey("authTokenValue")
         print "baseUrl " ; baseUrl
@@ -20,19 +22,31 @@ end sub
 
 sub onUserApiResponse()
     printValue("onUserApiResponse Success")
-    initNavigationBar("true")
-    initFields()
+    hideProgressDialog()
+    showFields()
+    
     m.appConfig =  m.userApi.content.appConfigModel
     m.userData =  m.userApi.content.userModel
+    
+    initNavigationBar()
+    homeRowList() 
 end sub
 
-sub initFields()
+sub initFields() 
     homeBackground = m.top.FindNode("homeBackground")
-    homeBackground.color = homeBackground()
-    
-    m.countryRowList = m.top.FindNode("homeRowList")
-    
-    homeRowList() 
+    homeBackground.color = homeBackground() 
+    m.countryRowList = m.top.FindNode("homeRowList")  
+    m.navBar = m.top.FindNode("NavigationBar") 
+End sub
+
+sub hideFields()
+    m.countryRowList.visible = false
+    m.navBar.visible = false
+End sub
+
+sub showFields()
+    m.countryRowList.visible = true
+    m.navBar.visible = true
 End sub
 
 sub manageNavBar()
@@ -42,7 +56,6 @@ sub manageNavBar()
 End sub
 
 sub homeRowList()
-
     m.countriesArray = ["India", "Pakistan", "Sri Lanks","South Africa","Australia","West Indies","New Zealand","England","Zimbawe","Kenya","Nepal","America"]
      
     m.countryRowList.SetFocus(false)

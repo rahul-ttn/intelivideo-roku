@@ -41,3 +41,28 @@ Sub getLoginStatus()
     End If
 end sub
 '---------------------------------------------------------------------------
+Sub setSelectedAccountThumb()    
+    m.sec.Write("selectedAccountThumb",m.top.selectedAccountThumb)
+    m.sec.Flush() 'commit it
+end sub
+
+Sub getSelectedAccountThumb()   
+    If m.sec.Exists("selectedAccountThumb") Then
+        m.top.selectedAccountThumbValue =  m.sec.read("selectedAccountThumb")
+    else        
+        m.top.selectedAccountThumbValue = Invalid
+    End If
+end sub
+'---------------------------------------------------------------------------
+Sub setSelectedAccountName()    
+    m.sec.Write("selectedAccountName",m.top.selectedAccountName)
+    m.sec.Flush() 'commit it
+end sub
+
+Sub getSelectedAccountName()   
+    If m.sec.Exists("selectedAccountName") Then
+        m.top.selectedAccountNameValue =  m.sec.read("selectedAccountName")
+    else        
+        m.top.selectedAccountNameValue = Invalid
+    End If
+end sub

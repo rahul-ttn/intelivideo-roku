@@ -1,11 +1,19 @@
 sub init()
     m.top.SetFocus(true)
+End sub
+
+sub onAppData()
+    m.appConfig =  m.top.appConfig
+    m.userData =  m.top.userData
+
+    m.tnc = m.appConfig.terms_of_service
+    m.privayPolicy = m.appConfig.privacy_policy
     
-    initNavigationBar("true")
+    initNavigationBar()
     m.buttonHomeOpen.setFocus(false)
     m.buttonProfileOpen.setFocus(true)
+    
     'm.navButtonGroupClose.buttonSelected = 3
-   
    initFields()
 End sub
 
@@ -28,15 +36,20 @@ End sub
 
 sub onListItemFocused()
     if(m.profileLabelList.itemFocused = 0)
-    
+        m.profileRightTitle.text = "MY CONTENT"
+        m.profileRightValue.text = ""
     else if(m.profileLabelList.itemFocused = 1)
         m.profileRightTitle.text = "TERMS OF USE"
+        m.profileRightValue.text = m.tnc
     else if(m.profileLabelList.itemFocused = 2)
         m.profileRightTitle.text = "PRIVACY POLICY"
+        m.profileRightValue.text = m.privayPolicy
     else if(m.profileLabelList.itemFocused = 3)
         m.profileRightTitle.text = "CONTACT US"
+        m.profileRightValue.text = "To contact support please email: support@intelivideo.com"
     else if(m.profileLabelList.itemFocused = 4)
-     
+        m.profileRightTitle.text = ""
+        m.profileRightValue.text = ""
     end if
 End sub
 
@@ -88,10 +101,14 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             m.profileLabelList.setFocus(true)  
             showCloseState()
             m.buttonProfileClose.uri = "pkg:/images/$$RES$$/Profile Focused.png" 
+            m.profileLeftRect.translation = [180, 0]
+            m.profileRightRect.translation = [880, 0]
             result = true
         else if key = "left"
             m.profileLabelList.setFocus(false)
             initNavigationBar()
+            m.profileLeftRect.translation = [400, 0]
+            m.profileRightRect.translation = [1100, 0]
             showOpenState()
             result = true 
         else if key = "down"

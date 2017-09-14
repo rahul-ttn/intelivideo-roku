@@ -9,10 +9,6 @@
 	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs"/>
 	<script type="text/brightscript" uri="pkg:/components/home/HomeScreen.brs" />
 	
-	<interface>
-		<field id = "content" type = "node" alwaysNotify="true" onChange = "onUserData"/>
-	</interface> 
-	
 	<children>
 
 		<Rectangle id="homeBackground" width="1960" height="1080"

@@ -79,6 +79,11 @@ sub updateSelectedAccount()
     m.editTextButton.setFocus(true)
     m.emailId = m.top.emailId
     m.account = m.top.account
+    setValueInRegistryForKey("selectedAccountName", m.account.name)
+    if(m.account.thumbnail <> invalid)
+        setValueInRegistryForKey("selectedAccountThumb", m.account.thumbnail)
+    end if
+    print "m.account >>> " ; m.account
 end sub
 
 sub goToHomeScreen()

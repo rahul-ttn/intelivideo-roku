@@ -22,6 +22,19 @@ Function parseErrorModel(errorJson As Object,model as Object) as Object
     
 End Function
 
+sub showProgressDialog()
+     dialog = createObject("roSGNode", "ProgressDialog")
+     dialog.backgroundUri = ""
+     dialog.title = "Alert Dialog"
+     dialog.optionsDialog = true
+     dialog.message = "Loading..."
+     m.top.getScene().dialog = dialog
+end sub
+
+sub hideProgressDialog()
+    m.top.getScene().dialog.close = true
+end sub
+
 Function SimpleJSONAssociativeArray( jsonArray As Object ) As String
     jsonString = "{"
     

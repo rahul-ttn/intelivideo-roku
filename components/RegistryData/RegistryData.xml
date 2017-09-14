@@ -19,6 +19,16 @@
 			onChange="setLoginStatus" />
 		<field id="isLoginValue" type="string" alwaysNotify="true"
 			onChange="getLoginStatus" />
+			
+		<field id="selectedAccountThumb" type="string" alwaysNotify="true"
+			onChange="setSelectedAccountThumb" />
+		<field id="selectedAccountThumbValue" type="string" alwaysNotify="true"
+			onChange="getSelectedAccountThumb" />
+			
+		<field id="selectedAccountName" type="string" alwaysNotify="true"
+			onChange="setSelectedAccountName" />
+		<field id="selectedAccountNameValue" type="string" alwaysNotify="true"
+			onChange="getSelectedAccountName" />
 
 	</interface>
 </component>
