@@ -29,7 +29,7 @@ sub init()
     
         
     m.buttonLogin = m.top.findNode("buttonResetPassword")
-    m.buttonLogin.observeField("buttonSelected","showAlertDialog")
+    m.buttonLogin.observeField("buttonSelected","callForgotPasswordApi")
     m.buttonLogin.setFocus(false)
     
      'initializing the currentFocus id 
@@ -43,10 +43,51 @@ sub init()
     
 end sub
 
+sub callForgotPasswordApi()
+    if m.textLabel.text = "" or not emailValidation(m.textLabel.text)
+        print "EMAIL validation Forgot PAssword screen";emailValidation(m.textLabel.text)
+        showHideError(true,01)
+        m.currentFocusID = "passwordEditTextButton"
+        handleVisibility()
+        m.passwordEditTextButton.setFocus(true)
+    else
+        if checkInternetConnection()
+            baseUrl = getApiBaseUrl() + "password?c"
+            print "m.account.id >> "; m.account.id
+            parmas = createForgetPasswordParams(m.textLabel.text,m.account.id)
+            m.forgotApi = createObject("roSGNode","ForgotPasswordApiHandler")
+            m.forgotApi.setField("uri",baseUrl)
+            m.forgotApi.setField("params",parmas)
+            m.forgotApi.observeField("content","forgotPasswordApiResponse")
+            m.forgotApi.control = "RUN"
+            showProgressDialog()
+        else
+            showHideError(true,02)
+            m.currentFocusID = "passwordEditTextButton"
+            handleVisibility()
+            m.passwordEditTextButton.setFocus(true)
+        end if
+    end if
+end sub
+
+sub forgotPasswordApiResponse()
+   baseModel = m.authApi.content
+   hideProgressDialog()
+   if(baseModel.success)
+        showNetworkErrorDialog("Password Reset", "An email has been sent to reset your password.")
+   else
+        showHideError(true,02)
+        m.currentFocusID = "passwordEditTextButton"
+        handleVisibility()
+        m.passwordEditTextButton.setFocus(true)
+   end if
+end sub
+
 sub showEmailId()
     m.email = m.top.emailId
     m.textLabel.text = m.email
     m.passwordEditTextButton.setFocus(true)
+    m.account = m.top.account
 end sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean

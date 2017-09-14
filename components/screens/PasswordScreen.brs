@@ -184,6 +184,7 @@ sub goToForgotPasswordScreen()
     m.top.setFocus(false)
     m.forgotPasswordScreen.setFocus(true)
     m.forgotPasswordScreen.emailId = m.emailId
+    m.forgotPasswordScreen.account = m.account
 end sub
 
 sub hideViews()

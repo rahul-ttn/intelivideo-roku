@@ -6,6 +6,14 @@ Function createAuthTokenParams(grant_type as String, email as String, password a
     return params
 end Function
 
+Function createForgetPasswordParams(email as String, merchant_id as String) as Object
+    headerParam = CreateObject("roAssociativeArray")
+    headerValueParam = CreateObject("roAssociativeArray")
+    headerValueParam = {"email":email, "merchant_id":merchant_id}
+    params = SimpleJSONAssociativeArray(headerValueParam)
+    return params
+end Function
+
 
 
 
