@@ -3,9 +3,9 @@ sub init()
     setVideo()
     m.parentRectangle = m.top.findNode("parentRectangle")
     m.oopsLabel = m.top.findNode("oopsLabel")
-    m.oopsLabel.font.size = 115
+    m.oopsLabel.font.size = 90
     m.labelWelcome = m.top.findNode("labelWelcome")
-    m.labelWelcome.font.size = 115
+    m.labelWelcome.font.size = 90
     m.errorLabel = m.top.findNode("errorLabel")
     m.keyboardTheme = m.top.findNode("keyboardTheme")
     keyboardX = (1920 - m.keyboardTheme.width) / 2
@@ -32,12 +32,6 @@ sub init()
     m.buttonNext = m.top.findNode("buttonNext")
     m.buttonNext.observeField("buttonSelected","goToSelectScreen")
     m.buttonNext.setFocus(false)
-    
-    m.busyspinner = m.top.findNode("exampleBusySpinner")
-   ' m.busyspinner.poster.observeField("loadStatus", "showspinner")
-    m.busyspinner.poster.uri = "pkg:/images/busyspinner_hd.png"
-    
-    'm.busyspinner.poster.loadStatus = "none"
    
 End sub
 
@@ -53,13 +47,17 @@ sub goToSelectScreen()
             m.fetchMerchantApi.setField("uri",finalUrl)
             m.fetchMerchantApi.observeField("content","onFetchMerchant")
             m.fetchMerchantApi.control = "RUN"
-            'showHideSpinner(true)
             showProgressDialog()
         else
             printValue("No Network")
+            showHideError(true,02)
+            handleButtonEditTextColorFocus(true)
+            m.textLabel.text = "Account Email"
         end if
     'else
-        'showHideError(true,01)
+       ' showHideError(true,01)
+        'handleButtonEditTextColorFocus(true)
+        'm.textLabel.text = "Account Email"
     'end if
 end sub
 
@@ -69,11 +67,11 @@ function showHideError(showError as boolean,errorCode as integer) as void
         m.oopsLabel.visible = true
         m.labelWelcome.visible = false
         if errorCode = 03
-           m.errorLabel.text = "No accounts found."
-        else if  errorCode = 02
-           m.errorLabel.text = "No Internet Connection not found."
+           m.errorLabel.text = "There was an error fetching your accounts, please try again"
+        else if errorCode = 02
+           m.errorLabel.text = "No Internet Connection"
         else if errorCode = 01
-           m.errorLabel.text = "Please enter a valid email and try again." 
+           m.errorLabel.text = "Please enter a valid email" 
         end if
     else
         m.errorLabel.visible = false
@@ -119,6 +117,7 @@ function onFetchMerchant()
         m.top.getScene().dialog.close = true
         handleButtonEditTextColorFocus(true)
         showHideError(true,03)
+        m.textLabel.text = "Account Email"
     else if m.fetchMerchantApi.content.accountsArray.count() = 1
         hideViews()
         m.passwordScreen = m.top.createChild("PasswordScreen")
@@ -152,7 +151,9 @@ sub showKeyboard()
     m.keyboard.setFocus(true)
     m.editTextButton.setFocus(false)
     m.nextButtonrectangle.visible = true
-    
+    if m.textLabel.text = "Account Email" 
+        m.keyboard.text = ""
+    end if
 end sub
 
 function setVideo() as void
@@ -209,14 +210,6 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 else 
                     result = false
                 end if
-                 
-                 'showHideSpinner(false)
-'             if(m.top.selectScreen <> invalid and m.top.selectScreen.visible = true)
-'                m.top.selectScreen.visible = false
-'                m.layoutGroup.visible = true
-'                m.editTextButton.setFocus(true)
-'                return true
-'             end if
         end if
     end if
     return result 

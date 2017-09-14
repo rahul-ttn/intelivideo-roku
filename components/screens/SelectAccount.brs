@@ -2,7 +2,7 @@ sub init()
     m.top.setFocus(true)
     
     m.selectAccLabel = m.top.findNode("selectAccLabel")
-    m.selectAccLabel.font.size = 115
+    m.selectAccLabel.font.size = 90
     m.accountList = m.top.findNode("selectAccountList")
     m.accountList.setFocus(true)
     
