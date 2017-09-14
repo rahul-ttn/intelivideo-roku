@@ -1,6 +1,6 @@
 Function getPortConnectionTime() as integer
 'time in seconds
-    return 10*1000 
+    return 20*1000 
 End Function
 
 Function callGetApi(url as String) as object
@@ -56,24 +56,27 @@ Function callApi(url as String,headers as Object,isPostApi as boolean,params as 
         timer.Mark()
         print timer
         If (requestType)
+            print "requestType>>>>> "
             while (true)
+                print "while true "
                 msg = wait(getPortConnectionTime(), port)
                 print "response is " ; msg
                 If (type(msg) = "roUrlEvent") then
                     code = msg.GetResponseCode()
-                    print code
+                    print "success code >> ";code
                     return msg  
                 Else 
                     request.AsyncCancel()
-                    print msg
+                    print "error message >> "; msg
                     return invalid
                 End If
             End while
         End If
      Else 
+     print "checkrokuconnection false >>>>> "
      return invalid
      End If
-     
+     print "NHBJCBSBOBCO >>>>> "
      return invalid
     
 End Function

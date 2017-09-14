@@ -4,17 +4,22 @@ end sub
 
 sub callUserApiHandler()
      response = callGetApi(m.top.uri)
-     m.responseCode = response.GetResponseCode()
-     responseString = response.GetString()
-     json = ParseJSON(response)
-     parseApiResponse(json)
+     if(response <> invalid)
+        m.responseCode = response.GetResponseCode()
+        responseString = response.GetString()
+        json = ParseJSON(response)
+        parseApiResponse(json)
+     else
+        userApiModel = CreateObject("roSGNode", "AuthTokenModel")
+        userApiModel.success = false
+        m.top.content = userApiModel
+     end if
 end sub
 
 sub parseApiResponse(response As Object)
-    baseModel = CreateObject("roSGNode", "BaseModel")
     userApiModel = CreateObject("roSGNode", "UserApiModel")
     if(m.responseCode = 200)
-        
+        userApiModel.success = true
         appConfigModel = CreateObject("roSGNode", "AppConfigModel")
         appConfigModel.base_theme = response.app_config.base_theme
         appConfigModel.primary_color = response.app_config.primary_color
@@ -34,6 +39,7 @@ sub parseApiResponse(response As Object)
         userApiModel.userModel = userModel
        
     else if(response.error <> invalid)
+        userApiModel.success = false
         userApiModel.error = response.error
     end if
     m.top.content = userApiModel

@@ -122,15 +122,15 @@ end sub
 sub showProgressDialog()
      dialog = createObject("roSGNode", "ProgressDialog")
      dialog.backgroundUri = ""
-     dialog.title = "Alert Dialog"
+     dialog.title = "Loading..."
      dialog.optionsDialog = true
-     dialog.message = "Loading..."
      m.top.getScene().dialog = dialog
 end sub
 
 'Call on Authentication API response
 sub onAuthToken()
-    printValue("Auth Token Success")
+   authTokenModel = m.authApi.content
+   if(authTokenModel.success)
     if(getValueInRegistryForKey("isLoginValue") = "true")
         hideViews()
         m.homeScreen = m.top.createChild("HomeScreen")
@@ -142,6 +142,20 @@ sub onAuthToken()
        m.currentFocusID = "editTextButton"
        handleVisibility()
        m.editTextButton.setFocus(true)
+    end if
+    else
+    m.top.getScene().dialog.close = true
+    printValue("No Network")
+        showHideError(true,02)
+        m.currentFocusID = "editTextButton"
+        handleVisibility()
+        m.editTextButton.setFocus(true)
+        m.textLabel.font.size = 30
+        if m.pinSelected
+            m.textLabel.text = "PIN"
+        else
+            m.textLabel.text = "Password"
+        end if
     end if
     
 end sub

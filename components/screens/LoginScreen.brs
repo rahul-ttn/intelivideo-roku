@@ -103,36 +103,42 @@ end sub
 sub showProgressDialog()
      dialog = createObject("roSGNode", "ProgressDialog")
      dialog.backgroundUri = ""
-     dialog.title = "Alert Dialog"
+     dialog.title = "Loading..."
      dialog.optionsDialog = true
-     dialog.message = "Loading..."
      m.top.getScene().dialog = dialog
 end sub
 
 function onFetchMerchant()  
-    
-    print "accountsArray size =>"; m.fetchMerchantApi.content.accountsArray.count()
-    if m.fetchMerchantApi.content.accountsArray.count() = 0
-        print "No Accounts Found"
-        m.top.getScene().dialog.close = true
-        handleButtonEditTextColorFocus(true)
-        showHideError(true,03)
-        m.textLabel.text = "Account Email"
-    else if m.fetchMerchantApi.content.accountsArray.count() = 1
-        hideViews()
-        m.passwordScreen = m.top.createChild("PasswordScreen")
-        m.top.setFocus(false)
-        m.passwordScreen.setFocus(true)
-        m.passwordScreen.emailId = m.email
-        m.passwordScreen.account = m.fetchMerchantApi.content.accountsArray[0]
+    merchantModel = m.fetchMerchantApi.content
+    if(merchantModel.success)
+        if m.fetchMerchantApi.content.accountsArray.count() = 0
+            print "No Accounts Found"
+            m.top.getScene().dialog.close = true
+            handleButtonEditTextColorFocus(true)
+            showHideError(true,03)
+            m.textLabel.text = "Account Email"
+        else if m.fetchMerchantApi.content.accountsArray.count() = 1
+            hideViews()
+            m.passwordScreen = m.top.createChild("PasswordScreen")
+            m.top.setFocus(false)
+            m.passwordScreen.setFocus(true)
+            m.passwordScreen.emailId = m.email
+            m.passwordScreen.account = m.fetchMerchantApi.content.accountsArray[0]
+        else
+            hideViews()
+            m.selectScreen = m.top.createChild("SelectAccount")
+            m.top.setFocus(false)
+            m.selectScreen.setFocus(true)
+            'm.selectScreen.emailID = m.email
+            m.selectScreen.emailID = "zoe@barbershop.io"
+            m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
+        end if
     else
-        hideViews()
-        m.selectScreen = m.top.createChild("SelectAccount")
-        m.top.setFocus(false)
-        m.selectScreen.setFocus(true)
-        'm.selectScreen.emailID = m.email
-        m.selectScreen.emailID = "zoe@barbershop.io"
-        m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
+        m.top.getScene().dialog.close = true
+        printValue("No Network")
+            showHideError(true,02)
+            handleButtonEditTextColorFocus(true)
+            m.textLabel.text = "Account Email"
     end if
 end function
 

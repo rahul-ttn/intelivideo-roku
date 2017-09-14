@@ -16,20 +16,25 @@ sub callUserApi()
         m.userApi.observeField("content","onUserApiResponse")
         m.userApi.control = "RUN"
     else
-        printValue("No Network")
+        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
 sub onUserApiResponse()
-    printValue("onUserApiResponse Success")
-    hideProgressDialog()
-    showFields()
+    userApiModel = m.userApi.content
+    if(userApiModel.success)
+        hideProgressDialog()
+        showFields()
     
-    m.appConfig =  m.userApi.content.appConfigModel
-    m.userData =  m.userApi.content.userModel
+        m.appConfig =  m.userApi.content.appConfigModel
+        m.userData =  m.userApi.content.userModel
     
-    initNavigationBar()
-    homeRowList() 
+        initNavigationBar()
+        homeRowList() 
+    else
+        hideProgressDialog()
+        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+    end if
 end sub
 
 sub initFields() 

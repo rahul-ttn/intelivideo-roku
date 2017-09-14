@@ -25,9 +25,8 @@ End Function
 sub showProgressDialog()
      dialog = createObject("roSGNode", "ProgressDialog")
      dialog.backgroundUri = ""
-     dialog.title = "Alert Dialog"
+     dialog.title = "Loading..."
      dialog.optionsDialog = true
-     dialog.message = "Loading..."
      m.top.getScene().dialog = dialog
 end sub
 
@@ -139,6 +138,19 @@ function GetParentScene() as Object
     end while
     return m.parentScene
 end function
+
+Function showNetworkErrorDialog(title ,message)
+  dialog = createObject("roSGNode", "Dialog") 
+  dialog.backgroundUri = "" 
+  dialog.title = title
+  dialog.optionsDialog = true 
+  dialog.iconUri = ""
+  dialog.message = message
+  dialog.width = 1200
+  dialog.buttons = ["OK"]
+  dialog.observeField("buttonSelected", "hideProgressDialog") 'The field is set when the dialog close field is set,
+  m.top.getScene().dialog = dialog
+end Function
 
 
 
