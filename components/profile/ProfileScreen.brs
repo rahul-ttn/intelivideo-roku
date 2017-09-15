@@ -97,6 +97,7 @@ end sub
 Function onKeyEvent(key as String,press as Boolean) as Boolean
     result = false
     if press
+    print "on key event Profile Screen  key >";key
         if key = "right"
             m.profileLabelList.setFocus(true)  
             showCloseState()
@@ -104,30 +105,34 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             m.profileLeftRect.translation = [180, 0]
             m.profileRightRect.translation = [880, 0]
             result = true
-        else if key = "left" AND m.profileLabelList.hasFocus()
-            m.profileLabelList.setFocus(false)
-            initNavigationBar()
-            m.profileLeftRect.translation = [400, 0]
-            m.profileRightRect.translation = [1100, 0]
-            showOpenState()
-            m.rectSwitchAccountBorder.visible = false
+        else if key = "left"
+            if  m.profileLabelList.hasFocus()
+                m.profileLabelList.setFocus(false)
+                initNavigationBar()
+                m.profileLeftRect.translation = [400, 0]
+                m.profileRightRect.translation = [1100, 0]
+                showOpenState()
+                m.rectSwitchAccountBorder.visible = false
+            end if
             result = true 
         else if key = "down"
             if m.buttonProfileOpen.hasFocus()
                 m.rectSwitchAccountBorder.visible = true
                 m.buttonSwitchAccount.setFocus(true)
-                result = true 
+                
             end if
+            result = true 
         else if key = "up"
             if m.buttonSwitchAccount.hasFocus()
                 m.rectSwitchAccountBorder.visible = false
                 m.buttonSwitchAccount.setFocus(false)
                 m.buttonProfileOpen.setFocus(true)
-                result = true 
+                 
             end if
-        else 
-            print "key = else"
             result = true
+'        else 
+'            print "key = else"
+'            result = true
         end if           
     end if
     return result 

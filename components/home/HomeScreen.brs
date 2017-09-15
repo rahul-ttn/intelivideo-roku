@@ -114,46 +114,49 @@ end function
 Function onKeyEvent(key as String,press as Boolean) as Boolean
     result = false
     if press
+    print "onkeyevent Home Screen  key >";key
         if key = "right" 
             print "key = right"
             m.countryRowList.setFocus(true)
             m.countryRowList.translation = [350, 60]
             showCloseState()
             result = true
-        else if key = "left" AND m.countryRowList.hasFocus()
+        else if key = "left" 
             print "key = left"
             row = m.countryRowList.rowItemFocused[0]
             col = m.countryRowList.rowItemFocused[1]
-            if col = 0
+            if col = 0 AND m.countryRowList.hasFocus()
                 m.countryRowList.setFocus(false)
                 m.countryRowList.translation = [500, 60]
                 initNavigationBar()
                 showOpenState()
-                m.rectSwitchAccountBorder.visible = false
-                result = true
+                m.rectSwitchAccountBorder.visible = false  
             end if
+            result = true
          else if key = "down" 
             print "key = down"
             if m.buttonProfileOpen.hasFocus()
                 m.rectSwitchAccountBorder.visible = true
                 m.buttonSwitchAccount.setFocus(true)
-                result = true 
+                
             end if
+            result = true 
          else if key = "up" 
             print "key = up"
             if m.buttonSwitchAccount.hasFocus()
                 m.rectSwitchAccountBorder.visible = false
                 m.buttonSwitchAccount.setFocus(false)
                 m.buttonProfileOpen.setFocus(true)
-                result = true 
+                
             end if
+            result = true 
          else if key = "back"
              m.top.visible = false
             'ExitUserInterface()
             result = false
-         else 
-            print "key = else"
-            result = true
+'         else 
+'            print "key = else"
+'            result = true
         end if           
     end if
     return result 
