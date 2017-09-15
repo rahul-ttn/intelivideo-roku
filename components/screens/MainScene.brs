@@ -9,8 +9,6 @@ sub init()
     else
        moveToLoginScreen()
    end if
-moveToHomeScreen()
-
 End sub
 
 sub moveToHomeScreen()
