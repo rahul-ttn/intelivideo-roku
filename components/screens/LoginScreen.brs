@@ -38,12 +38,12 @@ End sub
 'method called to go to Select Account screen
 sub goToSelectScreen()
     m.email = m.textLabel.text
-    if emailValidation(m.email)
+    'if emailValidation(m.email)
         if checkInternetConnection()
         
             baseUrl = getApiBaseUrl()
-            finalUrl = baseUrl + "accounts" + "?email="+m.email
-            'finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
+            'finalUrl = baseUrl + "accounts" + "?email="+m.email
+            finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
             m.fetchMerchantApi = createObject("roSGNode","FetchMerchantApiHandler")
             m.fetchMerchantApi.setField("uri",finalUrl)
             m.fetchMerchantApi.observeField("content","onFetchMerchant")
@@ -55,11 +55,11 @@ sub goToSelectScreen()
             handleButtonEditTextColorFocus(true)
             m.textLabel.text = "Account Email"
         end if
-    else
-        showHideError(true,01)
-        handleButtonEditTextColorFocus(true)
-        m.textLabel.text = "Account Email"
-    end if
+'    else
+'        showHideError(true,01)
+'        handleButtonEditTextColorFocus(true)
+'        m.textLabel.text = "Account Email"
+'    end if
 end sub
 
 function showHideError(showError as boolean,errorCode as integer) as void
@@ -130,8 +130,8 @@ function onFetchMerchant()
             m.selectScreen = m.top.createChild("SelectAccount")
             m.top.setFocus(false)
             m.selectScreen.setFocus(true)
-            m.selectScreen.emailID = m.email
-            'm.selectScreen.emailID = "zoe@barbershop.io"
+            'm.selectScreen.emailID = m.email
+            m.selectScreen.emailID = "zoe@barbershop.io"
             m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
         end if
     else
