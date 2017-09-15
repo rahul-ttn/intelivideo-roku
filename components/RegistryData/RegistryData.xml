@@ -30,5 +30,10 @@
 		<field id="selectedAccountNameValue" type="string" alwaysNotify="true"
 			onChange="getSelectedAccountName" />
 
+		<field id="isHome" type="string" alwaysNotify="true"
+			onChange="setIsHome" />
+		<field id="isHomeValue" type="string" alwaysNotify="true"
+			onChange="getIsHome" />
+
 	</interface>
 </component>

@@ -71,7 +71,7 @@ sub callForgotPasswordApi()
 end sub
 
 sub forgotPasswordApiResponse()
-   baseModel = m.authApi.content
+   baseModel = m.forgotApi.content
    hideProgressDialog()
    if(baseModel.success)
         showNetworkErrorDialog("Password Reset", "An email has been sent to reset your password.")
@@ -87,7 +87,12 @@ sub showEmailId()
     m.email = m.top.emailId
     m.textLabel.text = m.email
     m.passwordEditTextButton.setFocus(true)
+    
+end sub
+
+sub updateAccount()
     m.account = m.top.account
+    print "m.account >>> " ; m.account
 end sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
@@ -113,6 +118,9 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 return true
             else if  m.showDialog
                 'm.top.dialog.close = true
+                return false
+            else if getValueInRegistryForKey("isHomeValue") = "true"
+                m.top.visible = false
                 return false
             end if
             return false
