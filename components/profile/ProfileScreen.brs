@@ -104,12 +104,13 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             m.profileLeftRect.translation = [180, 0]
             m.profileRightRect.translation = [880, 0]
             result = true
-        else if key = "left"
+        else if key = "left" AND m.profileLabelList.hasFocus()
             m.profileLabelList.setFocus(false)
             initNavigationBar()
             m.profileLeftRect.translation = [400, 0]
             m.profileRightRect.translation = [1100, 0]
             showOpenState()
+            m.rectSwitchAccountBorder.visible = false
             result = true 
         else if key = "down"
             if m.buttonProfileOpen.hasFocus()
@@ -124,6 +125,9 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 m.buttonProfileOpen.setFocus(true)
                 result = true 
             end if
+        else 
+            print "key = else"
+            result = true
         end if           
     end if
     return result 

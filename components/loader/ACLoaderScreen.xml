@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="ACLoaderScreen" extends="Group" xsi:noNamespaceSchemaLocation="http://rokudev.roku.com/rokudev/schema/RokuSceneGraph.xsd">
+<script type="text/brightscript" uri="pkg:/components/loader/ACLoaderScreen.brs" />
+<children>
+    
+<Rectangle
+  	       id="backgroundRectangle"
+  	       color="0x000000E6"
+  	       width="1920"
+ 	       height="1080"
+  	       translation="[0,0]" />
+    
+   <Label 
+			id="lbl"
+			horizAlign="center"
+			text="Please Wait......"
+			color="#ffffff"
+			translation="[900, 602]"
+			font="font:MediumSystemFont">
+             <Font role="font" uri="pkg:/Resources/Font/OpenSans-Regular.ttf" size="20"/>
+    </Label>
+			
+			<BusySpinner
+				id="spinner"
+				translation="[904, 446]"
+				control="start"
+				clockwise="true"
+				spinInterval="2" />
+</children>			
+</component>

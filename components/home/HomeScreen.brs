@@ -1,5 +1,6 @@
 sub init()
     m.top.SetFocus(true)
+    m.isProgressDialog = false
     initFields()
     hideFields()
     callUserApi()
@@ -36,6 +37,22 @@ sub onUserApiResponse()
         hideProgressDialog()
         showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
     end if
+end sub
+
+sub showLoader()
+        m.loaderScreen = m.top.createChild("ACLoaderScreen")
+        m.loaderScreen.visible = true
+        m.top.setFocus(false)
+        m.loaderScreen.setFocus(true)
+end sub
+
+sub hideLoader()
+        m.loaderScreen.visible = false
+        m.top.setFocus(true)
+        m.loaderScreen.setFocus(false)
+        if(m.buttonHomeOpen <> invalid AND m.buttonHomeOpen <> "")
+            m.buttonHomeOpen.SetFocus(true)
+        end if
 end sub
 
 sub initFields() 
@@ -97,12 +114,14 @@ end function
 Function onKeyEvent(key as String,press as Boolean) as Boolean
     result = false
     if press
-        if key = "right"
+        if key = "right" 
+            print "key = right"
             m.countryRowList.setFocus(true)
             m.countryRowList.translation = [350, 60]
             showCloseState()
             result = true
-        else if key = "left"
+        else if key = "left" AND m.countryRowList.hasFocus()
+            print "key = left"
             row = m.countryRowList.rowItemFocused[0]
             col = m.countryRowList.rowItemFocused[1]
             if col = 0
@@ -110,15 +129,18 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 m.countryRowList.translation = [500, 60]
                 initNavigationBar()
                 showOpenState()
+                m.rectSwitchAccountBorder.visible = false
                 result = true
             end if
-         else if key = "down"
+         else if key = "down" 
+            print "key = down"
             if m.buttonProfileOpen.hasFocus()
                 m.rectSwitchAccountBorder.visible = true
                 m.buttonSwitchAccount.setFocus(true)
                 result = true 
             end if
-         else if key = "up"
+         else if key = "up" 
+            print "key = up"
             if m.buttonSwitchAccount.hasFocus()
                 m.rectSwitchAccountBorder.visible = false
                 m.buttonSwitchAccount.setFocus(false)
@@ -128,7 +150,10 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
          else if key = "back"
              m.top.visible = false
             'ExitUserInterface()
-            result = false 
+            result = false
+         else 
+            print "key = else"
+            result = true
         end if           
     end if
     return result 

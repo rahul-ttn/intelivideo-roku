@@ -8,23 +8,27 @@ End sub
 
 sub initializeOpenState()
     m.navRectangleOpen = m.top.FindNode("navRectangleOpen")
-
     m.navRectangleOpen.color = nevigationBarBackground()
     m.buttonGroupOpen = m.top.FindNode("navButtonGroupOpen")
     
     m.buttonHomeOpen = m.top.FindNode("buttonHomeOpen")
+    m.buttonHomeOpen.unobserveField("buttonSelected")
     m.buttonHomeOpen.observeField("buttonSelected", "showHomeScreen")
     
     m.buttonCategoryOpen = m.top.FindNode("buttonCategoryOpen")
+    m.buttonCategoryOpen.unobserveField("buttonSelected")
     m.buttonCategoryOpen.observeField("buttonSelected", "showCategoryScreen")
 
     m.buttonFavoriteOpen = m.top.FindNode("buttonFavoriteOpen")
+    m.buttonFavoriteOpen.unobserveField("buttonSelected")
     m.buttonFavoriteOpen.observeField("buttonSelected", "showFavoriteScreen")
     
     m.buttonSearchOpen = m.top.FindNode("buttonSearchOpen")
+    m.buttonSearchOpen.unobserveField("buttonSelected")
     m.buttonSearchOpen.observeField("buttonSelected", "showSearchScreen")
     
     m.buttonProfileOpen = m.top.FindNode("buttonProfileOpen")
+    m.buttonProfileOpen.unobserveField("buttonSelected")
     m.buttonProfileOpen.observeField("buttonSelected", "showProfileScreen")
     
 End sub
@@ -84,6 +88,7 @@ sub switchAccountOpen()
     end if
     
     m.buttonSwitchAccount = m.top.FindNode("buttonSwitchAccount")
+    m.buttonSwitchAccount.unobserveField("buttonSelected")
     m.buttonSwitchAccount.observeField("buttonSelected", "showSwitchAccount")
     
     m.labelSwitchAccount = m.top.FindNode("labelSwitchAccount")
@@ -149,5 +154,6 @@ sub showProfileScreen()
 End sub
 
 sub showSwitchAccount()
+
     print "Switch Account"
 End sub

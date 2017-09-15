@@ -132,22 +132,22 @@ end sub
 sub onAuthToken()
    authTokenModel = m.authApi.content
    if(authTokenModel.success)
-    if(getValueInRegistryForKey("isLoginValue") = "true")
-        hideViews()
+        if(getValueInRegistryForKey("isLoginValue") = "true")
+            hideViews()
+            m.top.getScene().dialog.close = true
+            m.homeScreen = m.top.createChild("HomeScreen")
+            m.top.setFocus(false)
+            m.homeScreen.setFocus(true)
+        else
+           showHideError(true,01)
+           m.top.getScene().dialog.close = true
+           m.currentFocusID = "editTextButton"
+           handleVisibility()
+           m.editTextButton.setFocus(true)
+        end if
+  else
+        
         m.top.getScene().dialog.close = true
-        m.homeScreen = m.top.createChild("HomeScreen")
-        m.top.setFocus(false)
-        m.homeScreen.setFocus(true)
-    else
-       showHideError(true,01)
-       m.top.getScene().dialog.close = true
-       m.currentFocusID = "editTextButton"
-       handleVisibility()
-       m.editTextButton.setFocus(true)
-    end if
-    else
-    m.top.getScene().dialog.close = true
-    printValue("No Network")
         showHideError(true,02)
         m.currentFocusID = "editTextButton"
         handleVisibility()
