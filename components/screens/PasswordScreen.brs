@@ -261,6 +261,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 m.top.visible = false
                 return false
             else
+                 print "m.forgotPasswordScreen.visible : ";m.forgotPasswordScreen.visible
                  print "Forgot password screen back else block";getValueInRegistryForKey("isHomeValue")
                 return false
             end if 

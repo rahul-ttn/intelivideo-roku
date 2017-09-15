@@ -1,4 +1,5 @@
 sub init()
+    m.top.setFocus(true)
     m.parentRectangle = m.top.findNode("parentRectangle")
     m.oopsLabel = m.top.findNode("oopsLabel")
     m.oopsLabel.font.size = 90
@@ -129,8 +130,10 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             else if getValueInRegistryForKey("isHomeValue") = "true"
                 m.top.visible = false
                 return false
+            else 
+                 print "Forgot Password screen back called"
+                 return false
             end if
-            return false
         end if
      end if     
     return result 

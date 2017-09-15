@@ -93,6 +93,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                     return false
                 end if
                 'return false
+              else if key = "right" or key = "left" or key = "up" or key = "down"
+                    return true
              end if           
     end if
     return result 

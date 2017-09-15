@@ -187,10 +187,12 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             if m.editTextButton.hasFocus()
                 handleButtonEditTextColorFocus(false)
             end if
+            return true
         else if key = "up"
             if m.buttonNext.hasFocus()
                 handleButtonEditTextColorFocus(true)
             end if
+            return true
         else if key = "back"
                 setValueInRegistryForKey("isHome","false")
                 if m.keyboard.visible
