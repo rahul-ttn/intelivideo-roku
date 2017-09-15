@@ -9,12 +9,7 @@
     
     <children>
     
-    <Poster
-    id = "poster"
-    uri = "https://static.pexels.com/photos/34950/pexels-photo.jpg"
-	translation = "[115,5]"
-	width = "0.0"
-	height = "0.0"
-	/>
+    <Rectangle id="homeBackground" width="1960" height="1080" color="0x000000FF"
+			translation="[0,0]"/>
     </children>
 </component>

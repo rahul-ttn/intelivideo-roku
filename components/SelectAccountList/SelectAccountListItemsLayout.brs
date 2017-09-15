@@ -12,8 +12,12 @@ function itemContentChanged() as void
     m.countryTextLabel.text = itemData.countryName
   
     if itemData.showThumbnail
+        m.accountNameLabel.visible = false
+        m.posterBackground.visible = true
         m.posterBackground.uri = itemData.imageUri
     else
+        m.posterBackground.visible = false
+        m.accountNameLabel.visible = true
         m.accountNameLabel.text = itemData.countryName
     end if
   end function

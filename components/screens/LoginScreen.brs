@@ -38,7 +38,7 @@ End sub
 'method called to go to Select Account screen
 sub goToSelectScreen()
     m.email = m.textLabel.text
-    'if emailValidation(m.email)
+    if emailValidation(m.email)
         if checkInternetConnection()
         
             baseUrl = getApiBaseUrl()
@@ -55,11 +55,11 @@ sub goToSelectScreen()
             handleButtonEditTextColorFocus(true)
             m.textLabel.text = "Account Email"
         end if
-'    else
-'        showHideError(true,01)
-'        handleButtonEditTextColorFocus(true)
-'        m.textLabel.text = "Account Email"
-'    end if
+    else
+        showHideError(true,01)
+        handleButtonEditTextColorFocus(true)
+        m.textLabel.text = "Account Email"
+    end if
 end sub
 
 function showHideError(showError as boolean,errorCode as integer) as void

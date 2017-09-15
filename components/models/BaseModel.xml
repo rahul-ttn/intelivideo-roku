@@ -4,6 +4,7 @@
   <field id="success" type="boolean" />
   <field id="error" type="String" />
   <field id="message" type="String" />
+  <field id="code" type="integer" />
 </interface>  
 
 </component>
