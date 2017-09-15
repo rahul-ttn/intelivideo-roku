@@ -147,6 +147,12 @@ sub onAuthToken()
            m.currentFocusID = "editTextButton"
            handleVisibility()
            m.editTextButton.setFocus(true)
+           m.textLabel.font.size = 30
+            if m.pinSelected
+                m.textLabel.text = "PIN"
+            else
+                m.textLabel.text = "Password"
+            end if
         end if
     else
         m.top.getScene().dialog.close = true

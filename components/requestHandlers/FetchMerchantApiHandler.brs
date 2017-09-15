@@ -4,6 +4,7 @@ end sub
 
 sub callFetchMerchantApi()
      response = callGetApi(m.top.uri)
+     print "response.GetResponseCode() >> " ; response.GetResponseCode()
      if(response <> invalid)
         m.responseCode = response.GetResponseCode()
         responseString = response.GetString()
