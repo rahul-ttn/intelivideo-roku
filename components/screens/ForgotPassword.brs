@@ -44,7 +44,7 @@ sub init()
 end sub
 
 sub callForgotPasswordApi()
-    if m.textLabel.text = "" or not emailValidation(m.textLabel.text)
+    if m.textLabel.text = "Account Email" or not emailValidation(m.textLabel.text)
         print "EMAIL validation Forgot PAssword screen";emailValidation(m.textLabel.text)
         showHideError(true,01)
         m.currentFocusID = "passwordEditTextButton"
@@ -105,13 +105,20 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 handleFocus(key)
                 handleVisibility()
                 return true
+            else if m.keyboard.visible
+                return true
             end if                
         else if key = "back"
             if m.keyboard.visible
                 m.keyboard.visible = false
                 m.keyboardTheme.visible = false
                 m.emailEntered = m.keyboard.text
-                m.textLabel.text = m.emailEntered
+                if m.emailEntered = ""
+                    m.textLabel.text = "Account Email"
+                else
+                    m.textLabel.text = m.emailEntered
+                end if
+                
                 m.currentFocusID ="passwordEditTextButton"
                 handleVisibility()
                 m.passwordEditTextButton.setFocus(true)
@@ -144,7 +151,11 @@ sub showKeyboard()
      m.keyboard.visible = true
      m.keyboardTheme.visible = true
      m.keyboard.setFocus(true)
-     m.keyboard.text = m.email
+     if m.textLabel.text = "Account Email"
+        m.keyboard.text = ""
+     else
+        m.keyboard.text = m.textLabel.text
+     end if
 end sub
 
 sub showAlertDialog()

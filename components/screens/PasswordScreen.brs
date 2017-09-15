@@ -91,6 +91,9 @@ sub goToHomeScreen()
     pwd = m.password
     if pwd = ""
         showHideError(true,01)
+        m.currentFocusID = "editTextButton"
+        handleVisibility()
+        m.editTextButton.setFocus(true)
     else if checkInternetConnection()
         baseUrl = getAuthTokenApiUrl()
         if m.pinSelected
@@ -145,19 +148,19 @@ sub onAuthToken()
            handleVisibility()
            m.editTextButton.setFocus(true)
         end if
-  else
-        
+    else
         m.top.getScene().dialog.close = true
-        showHideError(true,02)
-        m.currentFocusID = "editTextButton"
-        handleVisibility()
-        m.editTextButton.setFocus(true)
-        m.textLabel.font.size = 30
-        if m.pinSelected
-            m.textLabel.text = "PIN"
-        else
-            m.textLabel.text = "Password"
-        end if
+        printValue("No Network")
+            showHideError(true,02)
+            m.currentFocusID = "editTextButton"
+            handleVisibility()
+            m.editTextButton.setFocus(true)
+            m.textLabel.font.size = 30
+            if m.pinSelected
+                m.textLabel.text = "PIN"
+            else
+                m.textLabel.text = "Password"
+            end if
     end if
     
 end sub
@@ -166,6 +169,7 @@ sub showPinDialog()
     m.currentFocusID = "editTextButton"
     handleVisibility()
     m.editTextButton.setFocus(true)
+    showHideError(false,00)
     m.textLabel.color = "0x1c2833ff"
     m.textLabel.font.size = 30
     m.pinSelected = not m.pinSelected
@@ -204,6 +208,11 @@ sub showKeyboardPinPad()
         m.keyboardTheme.visible = true
         m.keyboard.setFocus(true)
    ' end if
+   if m.textLabel.text = "Password" or m.textLabel.text = "PIN"
+       m.keyboard.text = ""
+   else
+       m.keyboard.text = m.textLabel.text
+   end if
       
 end sub
 
@@ -217,25 +226,13 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 handleFocus(key)
                 handleVisibility()
                 return true
+            else
+                return true
             end if
         else if key = "back"
             if m.keyboard.visible
-                m.keyboard.visible = false
-                m.keyboardTheme.visible = false
-                m.password = m.keyboard.text
-'                m.passwordLength = m.keyboard.text.length
-'                print m.passwordLength
-                m.textLabel.text = m.password
-                m.currentFocusID = "editTextButton"
-                handleVisibility()
-                m.editTextButton.setFocus(true)
-                count = Len(m.password) 
-                astrick = ""
-                for i = 0 To count-1 step +1
-                    astrick = astrick + "*"
-                end for
-                m.textLabel.text = astrick
-                m.textLabel.font.size = 55
+                closeKeyboard()
+                
 '            else if m.pinpad.visible
 '                m.pinpad.visible = false
 '                m.pinpadTheme.visible = false
@@ -250,9 +247,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 m.forgotPasswordScreen.setFocus(false)
                 m.forgotPasswordScreen.visible = false
                 m.parentRectangle.visible = true
-                m.currentFocusID = "editTextButton"
-                handleVisibility()
-                m.editTextButton.setFocus(true) 
+                m.pinSelected = true
+                showPinDialog()
                 return true
             else if getValueInRegistryForKey("isHomeValue") = "true"
                 
@@ -267,6 +263,34 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     end if
     return result 
 end function
+
+sub closeKeyboard()
+    m.keyboard.visible = false
+    m.keyboardTheme.visible = false
+    m.password = m.keyboard.text
+    if m.password = ""
+        m.textLabel.font.size = 30
+            if m.pinSelected
+                m.textLabel.text = "PIN"
+            else
+                m.textLabel.text = "Password"
+            end if
+    else
+        m.textLabel.text = m.password
+        count = Len(m.password) 
+        astrick = ""
+        for i = 0 To count-1 step +1
+        astrick = astrick + "*"
+        end for
+        m.textLabel.text = astrick
+        m.textLabel.font.size = 55
+    end if
+    
+    m.currentFocusID = "editTextButton"
+    handleVisibility()
+    m.editTextButton.setFocus(true)
+    
+end sub
 
 function showHideError(showError as boolean,errorCode as integer) as void
     if showError = true
