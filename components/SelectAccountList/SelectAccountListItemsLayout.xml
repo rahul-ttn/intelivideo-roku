@@ -17,7 +17,8 @@
 		<Poster
 			id = "posterBackground"
 			width="0.0"
-			height="0.0">
+			height="0.0"
+			loadDisplayMode = "scaleToFill">
 		</Poster>
 		<Label 
             id="accountNameLabel"  

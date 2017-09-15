@@ -160,6 +160,8 @@ sub showKeyboard()
     m.nextButtonrectangle.visible = true
     if m.textLabel.text = "Account Email" 
         m.keyboard.text = ""
+    else
+        m.keyboard.text = m.textLabel.text
     end if
 end sub
 
@@ -193,7 +195,11 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 setValueInRegistryForKey("isHome","false")
                 if m.keyboard.visible
                     emailId = m.keyboard.text
-                    m.textLabel.text = emailId
+                    if emailId = ""
+                        m.textLabel.text = "Account Email"
+                    else
+                        m.textLabel.text = emailId
+                    end if 
                     m.keyboard.visible = false
                     m.keyboardTheme.visible = false
                     m.nextButtonrectangle.visible = true

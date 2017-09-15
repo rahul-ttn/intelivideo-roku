@@ -226,6 +226,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 handleFocus(key)
                 handleVisibility()
                 return true
+            else
+                return true
             end if
         else if key = "back"
             if m.keyboard.visible
@@ -245,9 +247,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 m.forgotPasswordScreen.setFocus(false)
                 m.forgotPasswordScreen.visible = false
                 m.parentRectangle.visible = true
-                m.currentFocusID = "editTextButton"
-                handleVisibility()
-                m.editTextButton.setFocus(true) 
+                m.pinSelected = true
+                showPinDialog()
                 return true
             else if getValueInRegistryForKey("isHomeValue") = "true"
                 
