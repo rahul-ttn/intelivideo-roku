@@ -19,6 +19,11 @@ sub showAccountsArray()
     m.accountList.content = getHorizontalRowListContent()   
 end sub
 
+'launch screen as per the Login Flow or Switch Account
+sub fromSwitchorLogin()
+    m.from = m.top.from
+end sub
+
 function getHorizontalRowListContent() as object
          parentContentNode = CreateObject("roSGNode", "ContentNode")
          print parentContentNode
