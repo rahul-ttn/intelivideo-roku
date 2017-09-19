@@ -137,6 +137,20 @@ sub onAuthToken()
    if(authTokenModel.success)
         if(getValueInRegistryForKey("isLoginValue") = "true")
             hideViews()
+            
+            'store account list in RoRegistry
+            accountJson = createAccountDetailsJson(m.account.name, m.account.id, m.account.thumbnail, getValueInRegistryForKey("authTokenValue"), getValueInRegistryForKey("refreshTokenValue"))
+            accountList = getValueInRegistryForKey("accountsValue")
+            if accountList = ""
+                print "saving accounts data >>>> "
+                setValueInRegistryForKey("accounts", accountJson)
+            else
+                accountsArray =  accountList.Split(",")
+                accountsArray.Push(accountJson)
+                print "accountsArray >>> ";accountsArray
+            end if
+            
+            'move to Home Screen
             m.top.getScene().dialog.close = true
             m.homeScreen = m.top.createChild("HomeScreen")
             m.top.setFocus(false)

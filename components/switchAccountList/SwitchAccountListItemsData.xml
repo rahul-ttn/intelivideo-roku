@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="SwitchAccountListItemsData" extends="ContentNode" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+<interface>
+<field type="string" id="countryName"/>
+<field type="string" id="imageUri"/>
+<field type="bool" id="showThumbnail"/>
+<field type="bool" id="showAddAccount"/>
+</interface>
+</component>

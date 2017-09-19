@@ -28,6 +28,19 @@ Sub getAuthToken()
     End If
 end sub
 '---------------------------------------------------------------------------
+Sub setRefreshToken()    
+    m.sec.Write("refreshToken",m.top.refreshToken)
+    m.sec.Flush() 'commit it
+end sub
+
+Sub getRefreshToken()   
+    If m.sec.Exists("refreshToken") Then
+        m.top.refreshTokenValue =  m.sec.read("refreshToken")
+    else        
+        m.top.refreshTokenValue = Invalid
+    End If
+end sub
+'---------------------------------------------------------------------------
 Sub setLoginStatus()    
     m.sec.Write("isLogin",m.top.isLogin)
     m.sec.Flush() 'commit it
@@ -64,6 +77,19 @@ Sub getSelectedAccountName()
         m.top.selectedAccountNameValue =  m.sec.read("selectedAccountName")
     else        
         m.top.selectedAccountNameValue = Invalid
+    End If
+end sub
+'---------------------------------------------------------------------------
+Sub setAccounts()    
+    m.sec.Write("accounts",m.top.accounts)
+    m.sec.Flush() 'commit it
+end sub
+
+Sub getAccounts()   
+    If m.sec.Exists("accounts") Then
+        m.top.accountsValue =  m.sec.read("accounts")
+    else        
+        m.top.accountsValue = Invalid
     End If
 end sub
 '---------------------------------------------------------------------------

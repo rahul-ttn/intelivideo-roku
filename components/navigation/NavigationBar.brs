@@ -154,6 +154,8 @@ sub showProfileScreen()
 End sub
 
 sub showSwitchAccount()
-
     print "Switch Account"
+    
+    switchAccount = m.top.createChild("SwitchAccount")
+    switchAccount.setFocus(true)
 End sub
