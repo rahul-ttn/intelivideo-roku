@@ -57,8 +57,19 @@ function rowItemSelected() as void
         col = m.accountList.rowItemFocused[1]
 '        print "**********Row is *********";row
 '        print "**********col is *********";col
-        goToPasswordScreen(m.accountsArray[col])
+        if row = 0 AND col = 0
+            goToLoginScreen()
+        else
+            'goToPasswordScreen(m.accountsArray[col])
+        end if
+        
 end function
+
+sub goToLoginScreen()
+    m.loginScreen = m.top.createChild("LoginScreen")
+    m.top.setFocus(false)
+    m.loginScreen.setFocus(true)
+end sub
 
 function setVideo() as void
   videoContent = createObject("RoSGNode", "ContentNode")
@@ -79,6 +90,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
          if key = "back"
+            m.top.visible = false
            return false
          end if           
     end if
