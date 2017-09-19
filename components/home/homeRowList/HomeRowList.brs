@@ -3,11 +3,11 @@ sub init()
         m.top.SetFocus(true)
         m.top.itemComponentName = "HomeRowListItemLayout"
         m.top.numRows = 3
-        m.top.itemSize = [200 * 9 + 100, 100]
-        m.top.rowHeights = [100]
-        m.top.rowItemSize = [ [200, 100] ]
-        m.top.itemSpacing = [ 0, 120 ]
-        m.top.rowItemSpacing = [ [20, 0] ]
+        m.top.itemSize = [200 * 9 + 100, 600]'550  600
+        m.top.rowHeights = [600]
+        m.top.rowItemSize = [ [550, 500] ]
+        m.top.itemSpacing = [ 0, 100 ]
+        m.top.rowItemSpacing = [ [150, 0] ]
         m.top.rowLabelOffset = [ [0, 20] ]
         m.top.rowFocusAnimationStyle = "floatingFocus"
         m.top.vertFocusAnimationStyle = "floatingFocus"
