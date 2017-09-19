@@ -14,7 +14,12 @@ Function createForgetPasswordParams(email as String, merchant_id as String) as O
     return params
 end Function
 
-
-
+Function createAccountDetailsJson(name as String, id as String, thumbnail as String, access_token as String, refresh_token as String) as Object
+    headerParam = CreateObject("roAssociativeArray")
+    headerValueParam = CreateObject("roAssociativeArray")
+    headerValueParam = {"name":name, "id":id, "thumbnail":thumbnail, "access_token":access_token, "refresh_token":refresh_token}
+    params = SimpleJSONAssociativeArray(headerValueParam)
+    return params
+end Function
 
 
