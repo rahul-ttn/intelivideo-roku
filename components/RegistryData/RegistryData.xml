@@ -15,6 +15,11 @@
 		<field id="authTokenValue" type="string" alwaysNotify="true"
 			onChange="getAuthToken" />
 			
+		<field id="refreshToken" type="string" alwaysNotify="true"
+			onChange="setRefreshToken" />
+		<field id="refreshTokenValue" type="string" alwaysNotify="true"
+			onChange="getRefreshToken" />
+			
 		<field id="isLogin" type="string" alwaysNotify="true"
 			onChange="setLoginStatus" />
 		<field id="isLoginValue" type="string" alwaysNotify="true"
@@ -29,6 +34,11 @@
 			onChange="setSelectedAccountName" />
 		<field id="selectedAccountNameValue" type="string" alwaysNotify="true"
 			onChange="getSelectedAccountName" />
+			
+		<field id="accounts" type="string" alwaysNotify="true"
+			onChange="setAccounts" />
+		<field id="accountsValue" type="string" alwaysNotify="true"
+			onChange="getAccounts" />
 
 		<field id="isHome" type="string" alwaysNotify="true"
 			onChange="setIsHome" />
