@@ -6,7 +6,6 @@
 	<interface>
 		<field id = "content" type = "nodearray" alwaysNotify="true" onChange = "showAccountsArray"/>
 		<field id= "emailID" type="string"/>
-		<field id = "from" type = "string" alwaysNotify = "true" onChange = "fromSwitchorLogin"></field>
 	</interface> 
 	<children>
 	

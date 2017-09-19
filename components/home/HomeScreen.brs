@@ -151,12 +151,13 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             end if
             result = true 
          else if key = "back"
-             m.top.visible = false
-            'ExitUserInterface()
-            result = false
-'         else 
-'            print "key = else"
-'            result = true
+            if m.switchAccount <> invalid 
+                m.switchAccount = invalid
+                result = true
+            else
+                m.top.visible = false
+                result = false
+            end if
         end if           
     end if
     return result 

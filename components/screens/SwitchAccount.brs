@@ -79,6 +79,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
          if key = "back"
+            m.top.visible = false
            return false
          end if           
     end if

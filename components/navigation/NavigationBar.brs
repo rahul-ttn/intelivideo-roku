@@ -156,6 +156,6 @@ End sub
 sub showSwitchAccount()
     print "Switch Account"
     
-    switchAccount = m.top.createChild("SwitchAccount")
-    switchAccount.setFocus(true)
+    m.switchAccount = m.top.createChild("SwitchAccount")
+    m.switchAccount.setFocus(true)
 End sub
