@@ -5,6 +5,7 @@ sub init()
     hideFields()
     callUserApi()
     setValueInRegistryForKey("isHome","true")
+    m.switchAccount = invalid
 End sub
 
 sub callUserApi()
