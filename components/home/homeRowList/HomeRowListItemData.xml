@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="HomeRowListItemData" extends="ContentNode" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
 <interface>  
-  <field id="countryName" type="string" />
+  <field id="id" type="integer" />
+  <field id="title" type="string" />
+  <field id="imageUri" type="string" />
+  <field id="count" type="integer" />
 </interface>
 </component>

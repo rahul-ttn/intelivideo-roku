@@ -10,7 +10,7 @@ sub init()
         m.top.rowItemSpacing = [ [150, 0] ]
         m.top.rowLabelOffset = [ [0, 20] ]
         m.top.rowFocusAnimationStyle = "floatingFocus"
-        m.top.vertFocusAnimationStyle = "floatingFocus"
+        m.top.vertFocusAnimationStyle = "fixedFocus"
         m.top.showRowLabel = [true]
         m.top.rowLabelColor="0xa0b033ff"
         m.top.visible = true

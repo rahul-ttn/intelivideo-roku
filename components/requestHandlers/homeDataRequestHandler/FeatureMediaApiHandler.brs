@@ -22,7 +22,25 @@ sub parseApiResponse(response As Object)
     if(m.responseCode = 200)
         featureMediaModel.code = 200
         medias = response.media
-        print "media >> " ; medias  
+        mediaArray = CreateObject("roArray", medias.count(), false)
+        for each mediaItem in medias
+            mediaModel = CreateObject("roSGNode", "MediaDataModel")
+            mediaModel.resource_id = mediaItem.resource_id
+            mediaModel.title = mediaItem.title
+            mediaModel.duration = mediaItem.duration
+            mediaModel.small = mediaItem.cover_art.small
+            
+            mediaArray.Push(mediaModel)
+        end for
+        
+        if m.top.dataType = "feature"
+            featureMediaModel.featuredMediaArray = mediaArray
+        else if m.top.dataType = "popular"
+            featureMediaModel.popularMediaArray = mediaArray
+        else if m.top.dataType = "recentAdded"
+            featureMediaModel.recentlyAddedMediaArray = mediaArray
+        end if 
+        print "mediaArray >>> ";mediaArray
     else if(response.error <> invalid)
         featureMediaModel.error = response.error
     end if

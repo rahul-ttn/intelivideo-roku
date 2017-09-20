@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="MediaDataModel" extends="ContentNode"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<interface>
+		<field id="resource_id" type="integer" />
+		<field id="title" type="String" />
+		<field id="duration" type="integer" />
+		<field id="small" type="String" />
+	</interface>
+</component>
