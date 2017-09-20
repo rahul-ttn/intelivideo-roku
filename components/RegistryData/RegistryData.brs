@@ -92,6 +92,11 @@ Sub getAccounts()
         m.top.accountsValue = Invalid
     End If
 end sub
+
+Function deleteAccounts()
+    m.sec.Delete("accounts")
+    print "accouts deleted >> "   
+End Function
 '---------------------------------------------------------------------------
 Sub setIsHome()    
     m.sec.Write("isHome",m.top.isHome)

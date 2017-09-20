@@ -34,6 +34,8 @@ sub onUserApiResponse()
     
         initNavigationBar()
         homeRowList() 
+        
+        'callHomeDataApis()
     else
         hideProgressDialog()
         showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
@@ -41,16 +43,21 @@ sub onUserApiResponse()
 end sub
 
 sub callHomeDataApis()
+    callFeatureProductsApi()
     callFeatureMediaApi()
-    callFeatureApi()
 end sub
 
-sub callFeatureApi()
+sub updateCounter()
+    m.counter = m.counter + 1
+    print "m.counter >> ";m.counter
+end sub
+
+sub callFeatureProductsApi()
     if checkInternetConnection()
         baseUrl = getApiBaseUrl() + "lists/featured?content_type=product&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
         m.featureProductApi = createObject("roSGNode","FeatureProductApiHandler")
         m.featureProductApi.setField("uri",baseUrl)
-        m.featureProductApi.observeField("content","onHomeApisResponse")
+        m.featureProductApi.observeField("content","onFeaturedProducts")
         m.featureProductApi.control = "RUN"
     else
         showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
@@ -62,16 +69,15 @@ sub callFeatureMediaApi()
         baseUrl = getApiBaseUrl() + "lists/featured?content_type=media&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
         m.featureMediaApi = createObject("roSGNode","FeatureMediaApiHandler")
         m.featureMediaApi.setField("uri",baseUrl)
-        m.featureMediaApi.observeField("content","onHomeApisResponse")
+        m.featureMediaApi.observeField("content","onFeaturedMedia")
         m.featureMediaApi.control = "RUN"
     else
         showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
-sub onHomeApisResponse()
-    m.counter = m.counter + 1
-    print "m.counter >> ";m.counter
+sub onFeaturedProducts()
+    updateCounter()
 '    featureProductApiModel = m.featureProductApi.content
 '    if(featureProductApiModel.success)
 '        print "featureProductApiModel.success"
@@ -79,7 +85,12 @@ sub onHomeApisResponse()
 '        print "featureProductApiModel.fail"
 '        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
 '    end if
-'    print "featureProductApiModel response >> "
+    print "featureProductApiModel response >> "
+end sub
+
+sub onFeaturedMedia()
+    updateCounter()
+    print "onFeaturedMedia response >> "
 end sub
 
 sub showLoader()

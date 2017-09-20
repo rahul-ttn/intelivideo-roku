@@ -39,6 +39,8 @@
 			onChange="setAccounts" />
 		<field id="accountsValue" type="string" alwaysNotify="true"
 			onChange="getAccounts" />
+		<field id="accountsDelete" type="string" alwaysNotify="true"
+			onChange="deleteAccounts" />
 
 		<field id="isHome" type="string" alwaysNotify="true"
 			onChange="setIsHome" />

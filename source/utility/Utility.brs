@@ -78,9 +78,13 @@ End Function
 
 Function setValueInRegistryForKey(key as String, value as String)
     registryData = createObject("roSGNode","RegistryData")
-    print "setValueInRegistryForKey" ; registryData
     registryData.setField(key,value)
 End Function
+
+Function deleteValue(key as String)
+    registryData = createObject("roSGNode","RegistryData")
+    registryData.setField(key,key)
+end Function
 
 Function SimpleFormUrlAssociativeArray( jsonArray As Object ) As String
     jsonString = ""

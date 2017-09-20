@@ -64,6 +64,7 @@ sub onListItemSelected()
         m.profileRightTitle.text = "CONTACT US"
     else if(m.profileLabelList.itemFocused = 4)
         setValueInRegistryForKey("isLogin", "false")
+        deleteValue("accountsDelete")
         callLoginScreen()
     end if
 End sub
