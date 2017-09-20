@@ -1,6 +1,8 @@
 sub init()
     m.top.SetFocus(true)
     m.isProgressDialog = false
+    m.counter = 0
+    
     initFields()
     hideFields()
     callUserApi()
@@ -11,9 +13,7 @@ End sub
 sub callUserApi()
     if checkInternetConnection()
         showProgressDialog()
-        print "caling user API"
         baseUrl = getApiBaseUrl() + "user?access_token=" + getValueInRegistryForKey("authTokenValue")
-        print "baseUrl " ; baseUrl
         m.userApi = createObject("roSGNode","UserApiHandler")
         m.userApi.setField("uri",baseUrl)
         m.userApi.observeField("content","onUserApiResponse")
@@ -34,10 +34,63 @@ sub onUserApiResponse()
     
         initNavigationBar()
         homeRowList() 
+        
+        'callHomeDataApis()
     else
         hideProgressDialog()
         showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
     end if
+end sub
+
+sub callHomeDataApis()
+    callFeatureProductsApi()
+    callFeatureMediaApi()
+end sub
+
+sub updateCounter()
+    m.counter = m.counter + 1
+    print "m.counter >> ";m.counter
+end sub
+
+sub callFeatureProductsApi()
+    if checkInternetConnection()
+        baseUrl = getApiBaseUrl() + "lists/featured?content_type=product&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+        m.featureProductApi = createObject("roSGNode","FeatureProductApiHandler")
+        m.featureProductApi.setField("uri",baseUrl)
+        m.featureProductApi.observeField("content","onFeaturedProducts")
+        m.featureProductApi.control = "RUN"
+    else
+        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+    end if
+end sub
+
+sub callFeatureMediaApi()
+    if checkInternetConnection()
+        baseUrl = getApiBaseUrl() + "lists/featured?content_type=media&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+        m.featureMediaApi = createObject("roSGNode","FeatureMediaApiHandler")
+        m.featureMediaApi.setField("uri",baseUrl)
+        m.featureMediaApi.observeField("content","onFeaturedMedia")
+        m.featureMediaApi.control = "RUN"
+    else
+        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+    end if
+end sub
+
+sub onFeaturedProducts()
+    updateCounter()
+'    featureProductApiModel = m.featureProductApi.content
+'    if(featureProductApiModel.success)
+'        print "featureProductApiModel.success"
+'    else
+'        print "featureProductApiModel.fail"
+'        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+'    end if
+    print "featureProductApiModel response >> "
+end sub
+
+sub onFeaturedMedia()
+    updateCounter()
+    print "onFeaturedMedia response >> "
 end sub
 
 sub showLoader()

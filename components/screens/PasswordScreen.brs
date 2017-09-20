@@ -142,12 +142,12 @@ sub onAuthToken()
             accountJson = createAccountDetailsJson(m.account.name, m.account.id, m.account.thumbnail, getValueInRegistryForKey("authTokenValue"), getValueInRegistryForKey("refreshTokenValue"))
             accountList = getValueInRegistryForKey("accountsValue")
             if accountList = ""
-                print "saving accounts data >>>> "
                 setValueInRegistryForKey("accounts", accountJson)
             else
-                accountsArray =  accountList.Split(",")
+                accountsArray =  accountList.Split("||")
                 accountsArray.Push(accountJson)
-                print "accountsArray >>> ";accountsArray
+                accountString = accountsArray.Join("||")
+                setValueInRegistryForKey("accounts", accountString)
             end if
             
             'move to Home Screen
