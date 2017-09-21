@@ -42,8 +42,8 @@ sub goToSelectScreen()
         if checkInternetConnection()
         
             baseUrl = getApiBaseUrl()
-            finalUrl = baseUrl + "accounts" + "?email="+m.email
-            'finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
+            'finalUrl = baseUrl + "accounts" + "?email="+m.email
+            finalUrl = baseUrl + "accounts" + "?email=zoe@barbershop.io"
             m.fetchMerchantApi = createObject("roSGNode","FetchMerchantApiHandler")
             m.fetchMerchantApi.setField("uri",finalUrl)
             m.fetchMerchantApi.observeField("content","onFetchMerchant")
@@ -128,10 +128,11 @@ function onFetchMerchant()
         else
             hideViews()
             m.selectScreen = m.top.createChild("SelectAccount")
+            print "CHILD COUNT after select screen create child ";m.top.getChildCount()
             m.top.setFocus(false)
             m.selectScreen.setFocus(true)
-            m.selectScreen.emailID = m.email
-            'm.selectScreen.emailID = "zoe@barbershop.io"
+            'm.selectScreen.emailID = m.email
+            m.selectScreen.emailID = "zoe@barbershop.io"
             m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
         end if
     else
@@ -208,8 +209,11 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                     handleButtonEditTextColorFocus(true)
                     result = true
                 else if m.selectScreen <> invalid AND m.selectScreen.visible
+                    'print "CHILD COUNT on coming back ";m.top.getChildCount()
                     m.selectScreen.setFocus(false)
                     m.selectScreen.visible = false
+'                    print "CHILD COUNT on coming back after visible false ";m.top.getChildCount()
+'                    m.top.removeChild(m.selectScreen)                  
                     m.parentRectangle.visible = true
                     handleButtonEditTextColorFocus(true)
                     m.textLabel.text = "Account Email"

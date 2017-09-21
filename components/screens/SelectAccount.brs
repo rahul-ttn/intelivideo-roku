@@ -1,6 +1,6 @@
 sub init()
     m.top.setFocus(true)
-    
+    print "Select Account called for the first time"
     m.selectAccLabel = m.top.findNode("selectAccLabel")
     m.selectAccLabel.font.size = 90
     m.accountList = m.top.findNode("selectAccountList")
