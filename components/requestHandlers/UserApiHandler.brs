@@ -37,6 +37,40 @@ sub parseApiResponse(response As Object)
         userModel.company = response.user.company
         userModel.account_id = response.user.account_id
         userApiModel.userModel = userModel
+        
+        productsItems = response.products.items
+        productArray = CreateObject("roArray", productsItems.count(), false)
+        for each productItem in productsItems
+            productModel = CreateObject("roSGNode", "ProductDataModel")
+            productModel.product_id = productItem.product_id
+            productModel.title = productItem.title
+            productModel.media_count = productItem.media_count
+            if productItem.images.horizontal_cover_art <> invalid
+                productModel.small = productItem.images.horizontal_cover_art.small
+            else if productItem.images.banner_image <> invalid
+                productModel.small = productItem.images.banner_image.small
+            end if
+            
+            productArray.Push(productModel)
+        end for
+        userApiModel.productsArray = productArray
+        
+        subsItems = response.subscriptions.items
+        subsArray = CreateObject("roArray", subsItems.count(), false)
+        for each subsItem in subsItems
+            subsModel = CreateObject("roSGNode", "ProductDataModel")
+            subsModel.product_id = subsArray.product_id
+            subsModel.title = subsArray.title
+            subsModel.media_count = subsArray.media_count
+            if subsArray.images.horizontal_cover_art <> invalid
+                subsModel.small = subsArray.images.horizontal_cover_art.small
+            else if subsArray.images.banner_image <> invalid
+                subsModel.small = subsArray.images.banner_image.small
+            end if
+            
+            subsArray.Push(subsModel)
+        end for
+        userApiModel.subscriptionsArray = subsArray
        
     else if(response.error <> invalid)
         userApiModel.success = false

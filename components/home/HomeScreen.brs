@@ -1,6 +1,7 @@
 sub init()
     m.top.SetFocus(true)
     m.isProgressDialog = false
+    m.isSVOD = false
     m.counter = 0
     m.counterMaxValue = 6
     
@@ -28,20 +29,31 @@ sub onUserApiResponse()
     userApiModel = m.userApi.content
     if(userApiModel.success)
         showFields()
-    
         m.appConfig =  m.userApi.content.appConfigModel
         m.userData =  m.userApi.content.userModel
-    
+        m.productsAarray = m.userApi.content.productsArray
+        m.subsAarray = m.userApi.content.subscriptionsArray
         initNavigationBar()
+        if m.subsAarray.count() > 0
+            m.isSVOD = true
+            callHomeSVODApis()
+        else if m.productsAarray > 0
+            m.isSVOD = false
+            showTVODData()
+        else
         
-        callHomeDataApis()
+        end if
     else
         hideProgressDialog()
         showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
-sub callHomeDataApis()
+sub showTVODData()
+    hideProgressDialog()
+end sub
+
+sub callHomeSVODApis()
     if checkInternetConnection()
         callFeatureProductsApi()
         callFeatureMediaApi()

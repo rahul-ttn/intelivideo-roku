@@ -3,5 +3,7 @@
 <interface>
 		<field id="appConfigModel" type="node" />
 		<field id="userModel" type="node" />
+		<field id="productsArray" type="nodearray" />
+		<field id="subscriptionsArray" type="nodearray" />
 	</interface>
 </component>
