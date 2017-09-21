@@ -60,10 +60,27 @@ function rowItemSelected() as void
         if row = 0 AND col = 0
             goToLoginScreen()
         else
+            'onKeyEvent("back",true)
             'goToPasswordScreen(m.accountsArray[col])
+            goToHomeScreen(col-1)
         end if
         
 end function
+
+sub goToHomeScreen(index as Integer)
+    accountsModel = m.accountsArray[index]
+    accountsModel = ParseJSON(accountsModel)
+    setValueInRegistryForKey("selectedAccountName", accountsModel.name)
+    if(accountsModel.thumbnail <> invalid)
+        setValueInRegistryForKey("selectedAccountThumb", accountsModel.thumbnail)
+    end if
+    setValueInRegistryForKey("authToken", accountsModel.access_token)
+    setValueInRegistryForKey("refreshToken", accountsModel.refresh_token)
+    homeScreen = m.top.createChild("HomeScreen")
+    m.top.setFocus(false)
+    homeScreen.setFocus(true)
+    
+end sub
 
 sub goToLoginScreen()
     m.loginScreen = m.top.createChild("LoginScreen")
@@ -92,6 +109,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
          if key = "back"
             m.top.visible = false
            return false
+         else if key = "left" or key = "right"
+            return true
          end if           
     end if
     return result 

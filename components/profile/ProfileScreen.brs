@@ -63,9 +63,34 @@ sub onListItemSelected()
     else if(m.profileLabelList.itemFocused = 3)
         m.profileRightTitle.text = "CONTACT US"
     else if(m.profileLabelList.itemFocused = 4)
-        setValueInRegistryForKey("isLogin", "false")
-        deleteValue("accountsDelete")
-        callLoginScreen()
+         accountList = getValueInRegistryForKey("accountsValue")
+         accountsArray =  accountList.Split("||")
+         if accountsArray.count() = 1
+            setValueInRegistryForKey("isLogin", "false")
+            deleteValue("accountsDelete")
+            callLoginScreen()
+         else
+            for index= 0 to accountsArray.count()-1
+                   accountsModel = accountsArray[index]
+                   accountsModel = ParseJSON(accountsModel)
+                   if accountsModel.access_token = getValueInRegistryForKey("authTokenValue") 
+                        accountsArray.Delete(index)
+                   end if
+             end for
+                accountsModel = accountsArray[0]
+                accountsModel = ParseJSON(accountsModel)
+                setValueInRegistryForKey("selectedAccountName", accountsModel.name)
+                if(accountsModel.thumbnail <> invalid)
+                    setValueInRegistryForKey("selectedAccountThumb", accountsModel.thumbnail)
+                end if
+                setValueInRegistryForKey("authToken", accountsModel.access_token)
+                setValueInRegistryForKey("refreshToken", accountsModel.refresh_token)
+                homeScreen = m.top.createChild("HomeScreen")
+                m.top.setFocus(false)
+                homeScreen.setFocus(true) 
+                accountString = accountsArray.Join("||")
+                setValueInRegistryForKey("accounts", accountString)   
+         end if     
     end if
 End sub
 
