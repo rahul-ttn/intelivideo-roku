@@ -143,10 +143,10 @@ End function
 function handleVisibility() as void
     if m.currentFocusID = "passwordEditTextButton"
         m.textLabel.color = "0x1c2833ff"                'black text color
-        m.nextButtonrectangle.color = "0xB4B4B1ff"      'greycolor
+        m.nextButtonrectangle.color = "0x00CCB9ff"      'unfocusedcolor
     else if m.currentFocusID = "buttonResetPassword"
         m.textLabel.color = "0xB4B4B1ff"                'grey text color
-        m.nextButtonrectangle.color = "0x00CBB9FF"      'bluecolor
+        m.nextButtonrectangle.color = "0x00A293FF"      'focusedbluecolor
     end if
 end function
 

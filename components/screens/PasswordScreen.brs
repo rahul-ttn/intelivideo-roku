@@ -331,22 +331,22 @@ end function
 function handleVisibility() as void
     if m.currentFocusID = "editTextButton"
         m.textLabel.color = "0x1c2833ff"                'black text color
-        m.nextButtonrectangle.color = "0xB4B4B1ff"      'greycolor
+        m.nextButtonrectangle.color = "0x00CCB9ff"      'unfocused color
         m.pinLabel.color = "0xffffffff"
         m.forgotPasswordLabel.color = "0xffffffff"
     else if m.currentFocusID = "buttonLogin"
         m.textLabel.color = "0xB4B4B1ff"                'grey text color
-        m.nextButtonrectangle.color = "0x00CBB9FF"      'bluecolor
+        m.nextButtonrectangle.color = "0x00A293FF"      'focused color
         m.pinLabel.color = "0xffffffff"
         m.forgotPasswordLabel.color = "0xffffffff"
     else if m.currentFocusID = "buttonLoginPin"
         m.textLabel.color = "0xB4B4B1ff"                'grey text color
-        m.nextButtonrectangle.color = "0xB4B4B1ff"      'greycolor
+        m.nextButtonrectangle.color = "0x00CCB9ff"      'unfocused color
         m.pinLabel.color = "0x00CBB9FF"                 'blue color
         m.forgotPasswordLabel.color = "0xffffffff"
     else if m.currentFocusID = "buttonForgotPassword"
         m.textLabel.color = "0xB4B4B1ff"                'grey text color
-        m.nextButtonrectangle.color = "0xB4B4B1ff"      'greycolor
+        m.nextButtonrectangle.color = "0x00CCB9ff"      'unfocused color
         m.pinLabel.color = "0xffffffff"                 'blue color
         m.forgotPasswordLabel.color = "0x00CBB9FF"
     end if

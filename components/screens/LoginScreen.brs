@@ -241,12 +241,12 @@ End Function
 
 function handleButtonEditTextColorFocus(isEditTextFocused as boolean) as void
     if isEditTextFocused = false
-        m.nextButtonrectangle.color = "0x00CBB9FF" 'blue color
+        m.nextButtonrectangle.color = "0x00A293FF" 'blue color
         m.textLabel.color = "0xB4B4B1ff" 'grey color
         m.editTextButton.setFocus(false)
         m.buttonNext.setFocus(true)
     else
-        m.nextButtonrectangle.color = "0xB4B4B1ff" 'grey color
+        m.nextButtonrectangle.color = "0x00CCB9ff" 'grey color
         m.textLabel.color = "0x1c2833ff"  'black color
         m.buttonNext.setFocus(false)
         m.editTextButton.setFocus(true)
