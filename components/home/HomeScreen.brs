@@ -163,7 +163,7 @@ function getGridRowListContent() as object
          if m.featureMediaApiModel.featuredMediaArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
             row.title = "Featured Media"
-            for index= 0 to m.mediaApiModel.featureMediaApiModel.Count()-1
+            for index= 0 to m.featureMediaApiModel.featuredMediaArray.Count()-1
                 rowItem = row.CreateChild("HomeRowListItemData")
                 dataObjet = m.featureMediaApiModel.featuredMediaArray[index]
                 rowItem.id = dataObjet.resource_id
