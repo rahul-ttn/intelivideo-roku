@@ -10,16 +10,18 @@
 
 	<children>
 		<Rectangle id="rectangle" width="548" height="500">
-			<Poster id="posterVod" height="308" width="548"
-				uri="pkg:/images/bg_login_hd.png">
+			<Rectangle id="posterRect" height="308" width="548" color="0x565656FF">
+				<Poster id="posterVod" height="308" width="548" translation="[0,0]"
+					uri="pkg:/images/bg_login_hd.png">
 
-				<Rectangle id="rectNew" height="40" width="100"
-					translation="[440,20]" color="0x000000ff" visible="false">
-					<Label id="labelNew" height="40" width="100" translation="[5,3]"
-						text="NEW" wrap="true" color="0xffffffff" >
-					</Label>
-				</Rectangle>
-			</Poster>
+					<Rectangle id="rectNew" height="40" width="100"
+						translation="[440,20]" color="0x565656FF" visible="false">
+						<Label id="labelNew" height="40" width="100" translation="[5,3]"
+							text="NEW" wrap="true" color="0xffffffff">
+						</Label>
+					</Rectangle>
+				</Poster>
+			</Rectangle>
 			<Label id="labelDescription" width="520" translation="[20,330]"
 				wrap="true" color="0x000000ff" font="font:SmallSystemFont" maxLines="2"
 				ellipsizeOnBoundary="true">
@@ -28,7 +30,7 @@
 				translation="[480,440]" visible="false">
 			</Poster>
 			<Rectangle id="rectItemCount" height="40" width="170"
-				translation="[20,440]" color="0x000000ff">
+				translation="[20,440]" color="0x565656FF">
 				<Label id="labelItemCount" height="40" width="170"
 					translation="[5,3]" text="12 Items" wrap="true" color="0xffffffff">
 				</Label>

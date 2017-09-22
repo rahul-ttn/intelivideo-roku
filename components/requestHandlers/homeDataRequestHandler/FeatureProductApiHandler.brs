@@ -28,6 +28,8 @@ sub parseApiResponse(response As Object)
             productModel.product_id = productItem.product_id
             productModel.title = productItem.title
             productModel.media_count = productItem.media_count
+            productModel.created_at = productItem.created_at
+            
             if productItem.images.horizontal_cover_art <> invalid
                 productModel.small = productItem.images.horizontal_cover_art.small
             else if productItem.images.banner_image <> invalid

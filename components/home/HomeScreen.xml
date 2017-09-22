@@ -3,13 +3,13 @@
 	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
 	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
-	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs"/>
-	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs"/>
-	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs"/>
+	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
 	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
-	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs"/>
+	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
 	<script type="text/brightscript" uri="pkg:/components/home/HomeScreen.brs" />
-	
+
 	<children>
 
 		<Rectangle id="homeBackground" width="1960" height="1080"
@@ -17,7 +17,7 @@
 
 			<NavigationBar id="NavigationBar" />
 
-			<HomeRowList id="homeRowList" translation="[500,60]" />
+			<HomeRowList id="homeRowList" translation="[480,60]" />
 
 		</Rectangle>
 

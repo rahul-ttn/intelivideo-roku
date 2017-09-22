@@ -5,5 +5,8 @@
   <field id="title" type="string" />
   <field id="imageUri" type="string" />
   <field id="count" type="integer" />
+  <field id="isNew" type="boolean" />
+  <field id="isMedia" type="boolean" />
+  <field id="coverBgColor" type="string" />
 </interface>
 </component>

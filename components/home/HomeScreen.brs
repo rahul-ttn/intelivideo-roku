@@ -37,7 +37,7 @@ sub onUserApiResponse()
         if m.subsAarray.count() > 0
             m.isSVOD = true
             callHomeSVODApis()
-        else if m.productsAarray > 0
+        else if m.productsAarray.count() > 0
             m.isSVOD = false
             showTVODData()
         else
@@ -51,6 +51,7 @@ end sub
 
 sub showTVODData()
     hideProgressDialog()
+    homeRowList() 
 end sub
 
 sub callHomeSVODApis()
@@ -158,7 +159,8 @@ end sub
 
 function getGridRowListContent() as object
          parentContentNode = CreateObject("roSGNode", "ContentNode")
-         if m.featureProductsApiModel.featuredProductsArray.count() <> 0
+         if m.isSVOD
+            if m.featureProductsApiModel.featuredProductsArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
             row.title = "Featured Products"
             for index= 0 to m.featureProductsApiModel.featuredProductsArray.Count()-1
@@ -169,6 +171,13 @@ function getGridRowListContent() as object
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
                 rowItem.count = dataObjet.media_count
+                rowItem.coverBgColor = m.appConfig.primary_color
+                rowItem.isMedia = false
+                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                    rowItem.isNew = true
+                else
+                    rowItem.isNew = false
+                end if
             end for
          end if
          
@@ -182,6 +191,13 @@ function getGridRowListContent() as object
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
                 rowItem.count = dataObjet.duration
+                rowItem.coverBgColor = m.appConfig.primary_color
+                rowItem.isMedia = true
+                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                    rowItem.isNew = true
+                else
+                    rowItem.isNew = false
+                end if
             end for
          end if
          
@@ -195,6 +211,13 @@ function getGridRowListContent() as object
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
                 rowItem.count = dataObjet.media_count
+                rowItem.coverBgColor = m.appConfig.primary_color
+                rowItem.isMedia = false
+                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                    rowItem.isNew = true
+                else
+                    rowItem.isNew = false
+                end if
             end for
          end if
          
@@ -208,6 +231,13 @@ function getGridRowListContent() as object
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
                 rowItem.count = dataObjet.duration
+                rowItem.coverBgColor = m.appConfig.primary_color
+                rowItem.isMedia = true
+                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                    rowItem.isNew = true
+                else
+                    rowItem.isNew = false
+                end if
             end for
          end if
          
@@ -221,6 +251,13 @@ function getGridRowListContent() as object
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
                 rowItem.count = dataObjet.media_count
+                rowItem.coverBgColor = m.appConfig.primary_color
+                rowItem.isMedia = false
+                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                    rowItem.isNew = true
+                else
+                    rowItem.isNew = false
+                end if
             end for
          end if
          
@@ -234,8 +271,59 @@ function getGridRowListContent() as object
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
                 rowItem.count = dataObjet.duration
+                rowItem.coverBgColor = m.appConfig.primary_color
+                rowItem.isMedia = true
+                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                    rowItem.isNew = true
+                else
+                    rowItem.isNew = false
+                end if
             end for
          end if
+         else
+            if m.productsAarray.count() < 9
+                m.homeRowList.itemComponentName = "Home2xListItemLayout"
+                m.homeRowList.itemSize = [200 * 9 + 100, 600]
+                m.homeRowList.rowHeights = [600]
+                m.homeRowList.rowItemSize = [ [675, 572] ]
+                numberOfRows = (m.productsAarray.count() + 1) \ 2 
+                n = 1
+            else
+                m.homeRowList.itemComponentName = "Home3xListItemLayout"
+                m.homeRowList.itemSize = [200 * 9 + 100, 470]
+                m.homeRowList.rowHeights = [470]
+                m.homeRowList.rowItemSize = [ [448, 445] ]
+                numberOfRows = (m.productsAarray.count() + 2) \ 3 
+                n = 2
+            end if
+            
+            ind = 0
+            print "numRows 000 " ; numberOfRows
+            for numRows = 0 to numberOfRows-1
+                row = parentContentNode.CreateChild("ContentNode")
+                for index = 0 to n
+                      print "ind 000 " ; ind
+                      if ind < m.productsAarray.count()
+                      print "ind 111 " ; ind
+                      rowItem = row.CreateChild("HomeRowListItemData")  
+                      dataObjet = m.productsAarray[ind]
+                      rowItem.id = dataObjet.product_id
+                      rowItem.title = dataObjet.title
+                      rowItem.imageUri = dataObjet.small
+                      rowItem.count = dataObjet.media_count
+                      rowItem.coverBgColor = m.appConfig.primary_color
+                      rowItem.isMedia = false
+                      if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                          rowItem.isNew = true
+                      else
+                          rowItem.isNew = false
+                end if
+                      ind = ind + 1
+                      end if
+                end for   
+            end for 
+         end if
+         
          return parentContentNode 
 end function
 
@@ -279,12 +367,11 @@ sub manageNavBar()
 End sub
 
 sub homeRowList()
+    m.homeRowList.visible = true
     m.homeRowList.SetFocus(false)
     m.homeRowList.ObserveField("rowItemSelected", "onRowItemSelected")
     m.homeRowList.content = getGridRowListContent()
 End sub
-
-
 
 function onRowItemSelected() as void
         print "***** Some's wish is ********";m.homeRowList.rowItemFocused
@@ -301,7 +388,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
         if key = "right" 
             print "key = right"
             m.homeRowList.setFocus(true)
-            m.homeRowList.translation = [350, 60]
+            m.homeRowList.translation = [260, 60]
             showCloseState()
             result = true
         else if key = "left" 
@@ -310,7 +397,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             col = m.homeRowList.rowItemFocused[1]
             if col = 0 AND m.homeRowList.hasFocus()
                 m.homeRowList.setFocus(false)
-                m.homeRowList.translation = [500, 60]
+                m.homeRowList.translation = [480, 60]
                 initNavigationBar()
                 showOpenState()
                 m.rectSwitchAccountBorder.visible = false  

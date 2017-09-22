@@ -45,6 +45,7 @@ sub parseApiResponse(response As Object)
             productModel.product_id = productItem.product_id
             productModel.title = productItem.title
             productModel.media_count = productItem.media_count
+            productModel.created_at = productItem.created_at
             if productItem.images.horizontal_cover_art <> invalid
                 productModel.small = productItem.images.horizontal_cover_art.small
             else if productItem.images.banner_image <> invalid
@@ -59,13 +60,14 @@ sub parseApiResponse(response As Object)
         subsArray = CreateObject("roArray", subsItems.count(), false)
         for each subsItem in subsItems
             subsModel = CreateObject("roSGNode", "ProductDataModel")
-            subsModel.product_id = subsArray.product_id
-            subsModel.title = subsArray.title
-            subsModel.media_count = subsArray.media_count
-            if subsArray.images.horizontal_cover_art <> invalid
-                subsModel.small = subsArray.images.horizontal_cover_art.small
-            else if subsArray.images.banner_image <> invalid
-                subsModel.small = subsArray.images.banner_image.small
+            subsModel.product_id = subsItem.product_id
+            subsModel.title = subsItem.title
+            subsModel.media_count = subsItem.media_count
+            subsModel.created_at = subsItem.created_at
+            if subsItem.images.horizontal_cover_art <> invalid
+                subsModel.small = subsItem.images.horizontal_cover_art.small
+            else if subsItem.images.banner_image <> invalid
+                subsModel.small = subsItem.images.banner_image.small
             end if
             
             subsArray.Push(subsModel)

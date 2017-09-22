@@ -156,5 +156,23 @@ Function showNetworkErrorDialog(title ,message)
   m.top.getScene().dialog = dialog
 end Function
 
+function getPostedVideoDayDifference(postedEpochTime as Integer) as Integer
+    if postedEpochTime = 0
+        return 100
+    end if 
+    todaysDate = CreateObject("roDateTime")
+    todaysDateEpochTime = todaysDate.asSeconds()
+    
+    timeDifferenceDate = todaysDateEpochTime - postedEpochTime
+   
+    actualDate = CreateObject("roDateTime")
+    actualDate.fromSeconds(timeDifferenceDate)
+    
+    day =  actualDate.getDayOfMonth()
+    
+    return day - 1
+    
+end function
+
 
 

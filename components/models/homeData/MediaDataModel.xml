@@ -6,5 +6,6 @@
 		<field id="title" type="String" />
 		<field id="duration" type="integer" />
 		<field id="small" type="String" />
+		<field id="created_at" type="integer"/>
 	</interface>
 </component>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="Home2xListItemLayout" extends="Group"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<interface>
+		<field id="itemContent" type="node" onChange="itemContentChanged" />
+	</interface>
+	<script type="text/brightscript"
+		uri="pkg:/components/home/homeRowList/HomeRowListItemLayout.brs" />
+
+	<children>
+		<Rectangle id="rectangle" width="675" height="572">
+			<Rectangle id="posterRect" height="380" width="675" color="0x565656FF">
+				<Poster id="posterVod" height="380" width="675"
+					uri="pkg:/images/bg_login_hd.png">
+
+					<Rectangle id="rectNew" height="40" width="100"
+						translation="[565,20]" color="0x565656FF" visible="false">
+						<Label id="labelNew" height="40" width="100" translation="[5,3]"
+							text="NEW" wrap="true" color="0xffffffff">
+						</Label>
+					</Rectangle>
+				</Poster>
+			</Rectangle>
+			<Label id="labelDescription" width="645" translation="[20,402]"
+				wrap="true" color="0x000000ff" font="font:SmallSystemFont" maxLines="2"
+				ellipsizeOnBoundary="true">
+			</Label>
+			<Poster id="posterFav" uri="pkg:/images/img_fav_tag_alt.png"
+				translation="[605,512]" visible="false">
+			</Poster>
+			<Rectangle id="rectItemCount" height="40" width="170"
+				translation="[20,512]" color="0x565656FF">
+				<Label id="labelItemCount" height="40" width="170"
+					translation="[5,3]" text="12 Items" wrap="true" color="0xffffffff">
+				</Label>
+			</Rectangle>
+		</Rectangle>
+	</children>
+</component>
