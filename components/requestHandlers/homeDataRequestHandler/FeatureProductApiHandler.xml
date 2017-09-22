@@ -10,6 +10,7 @@
 		<field id="content" type="node" />
 		<field id="header" type="assocarray" />
 		<field id="params" type="string" />
+		<field id="dataType" type="string" />
 	</interface>
 
 </component>

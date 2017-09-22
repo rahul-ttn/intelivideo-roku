@@ -7,6 +7,7 @@ sub init()
 '       print "Scene Child with index ";i;m.top.getScene().getChild(i)
 '    end for
 '    print "############current screen child count";m.top.getChildCount()
+    m.counterMaxValue = 6
     initFields()
     hideFields()
     callUserApi()
@@ -30,16 +31,14 @@ end sub
 sub onUserApiResponse()
     userApiModel = m.userApi.content
     if(userApiModel.success)
-        hideProgressDialog()
         showFields()
     
         m.appConfig =  m.userApi.content.appConfigModel
         m.userData =  m.userApi.content.userModel
     
         initNavigationBar()
-        homeRowList() 
         
-        'callHomeDataApis()
+        callHomeDataApis()
     else
         hideProgressDialog()
         showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
@@ -47,8 +46,16 @@ sub onUserApiResponse()
 end sub
 
 sub callHomeDataApis()
-    callFeatureProductsApi()
-    callFeatureMediaApi()
+    if checkInternetConnection()
+        callFeatureProductsApi()
+        callFeatureMediaApi()
+        callPopularProductsApi()
+        callPopularMediaApi()
+        callRecentlyAddedProductsApi()
+        callRecentlyAddedMediaApi()
+    else
+        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+    end if
 end sub
 
 sub updateCounter()
@@ -57,45 +64,172 @@ sub updateCounter()
 end sub
 
 sub callFeatureProductsApi()
-    if checkInternetConnection()
-        baseUrl = getApiBaseUrl() + "lists/featured?content_type=product&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
-        m.featureProductApi = createObject("roSGNode","FeatureProductApiHandler")
-        m.featureProductApi.setField("uri",baseUrl)
-        m.featureProductApi.observeField("content","onFeaturedProducts")
-        m.featureProductApi.control = "RUN"
-    else
-        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
-    end if
+    baseUrl = getApiBaseUrl() + "lists/featured?content_type=product&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.featureProductApi = createObject("roSGNode","FeatureProductApiHandler")
+    m.featureProductApi.setField("uri",baseUrl)
+    m.featureProductApi.setField("dataType","feature")
+    m.featureProductApi.observeField("content","onProductsResponse")
+    m.featureProductApi.control = "RUN"
 end sub
 
 sub callFeatureMediaApi()
-    if checkInternetConnection()
-        baseUrl = getApiBaseUrl() + "lists/featured?content_type=media&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
-        m.featureMediaApi = createObject("roSGNode","FeatureMediaApiHandler")
-        m.featureMediaApi.setField("uri",baseUrl)
-        m.featureMediaApi.observeField("content","onFeaturedMedia")
-        m.featureMediaApi.control = "RUN"
-    else
-        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+    baseUrl = getApiBaseUrl() + "lists/featured?content_type=media&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.featureMediaApi = createObject("roSGNode","FeatureMediaApiHandler")
+    m.featureMediaApi.setField("uri",baseUrl)
+    m.featureMediaApi.setField("dataType","feature")
+    m.featureMediaApi.observeField("content","onMediaResponse")
+    m.featureMediaApi.control = "RUN"
+end sub
+
+sub callPopularProductsApi()
+    baseUrl = getApiBaseUrl() + "lists/popular?content_type=product&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.popularProductApi = createObject("roSGNode","FeatureProductApiHandler")
+    m.popularProductApi.setField("uri",baseUrl)
+    m.popularProductApi.setField("dataType","popular")
+    m.popularProductApi.observeField("content","onProductsResponse")
+    m.popularProductApi.control = "RUN"
+end sub
+
+sub callPopularMediaApi()
+    baseUrl = getApiBaseUrl() + "lists/popular?content_type=media&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.popularMediaApi = createObject("roSGNode","FeatureMediaApiHandler")
+    m.popularMediaApi.setField("uri",baseUrl)
+    m.popularMediaApi.setField("dataType","popular")
+    m.popularMediaApi.observeField("content","onMediaResponse")
+    m.popularMediaApi.control = "RUN"
+end sub
+
+sub callRecentlyAddedProductsApi()
+    baseUrl = getApiBaseUrl() + "lists/recent?content_type=product&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.recentAddedProductApi = createObject("roSGNode","FeatureProductApiHandler")
+    m.recentAddedProductApi.setField("uri",baseUrl)
+    m.recentAddedProductApi.setField("dataType","recentAdded")
+    m.recentAddedProductApi.observeField("content","onProductsResponse")
+    m.recentAddedProductApi.control = "RUN"
+end sub
+
+sub callRecentlyAddedMediaApi()
+    baseUrl = getApiBaseUrl() + "lists/recent?content_type=media&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.recentAddedMediaApi = createObject("roSGNode","FeatureMediaApiHandler")
+    m.recentAddedMediaApi.setField("uri",baseUrl)
+    m.recentAddedMediaApi.setField("dataType","recentAdded")
+    m.recentAddedMediaApi.observeField("content","onMediaResponse")
+    m.recentAddedMediaApi.control = "RUN"
+end sub
+
+sub onProductsResponse()
+    updateCounter()
+    getData()
+end sub
+
+sub onMediaResponse()
+    updateCounter()
+    getData()
+end sub
+
+sub getData()
+    if m.counter = m.counterMaxValue
+        hideProgressDialog()
+        m.featureProductsApiModel = m.featureProductApi.content
+        m.featureMediaApiModel = m.featureMediaApi.content
+        
+        m.popularProductApiModel = m.popularProductApi.content
+        m.popularMediaApiModel = m.popularMediaApi.content
+        
+        m.recentAddedProductApiModel = m.recentAddedProductApi.content
+        m.recentAddedMediaApiModel = m.recentAddedMediaApi.content
+        
+        if(m.featureProductsApiModel.success AND m.featureMediaApiModel.success AND m.popularProductApiModel.success AND m.popularMediaApiModel.success AND m.recentAddedProductApiModel.success AND m.recentAddedMediaApiModel.success)
+            homeRowList() 
+        else
+            print "featureProductApiModel.fail"
+            showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+        end if
     end if
 end sub
 
-sub onFeaturedProducts()
-    updateCounter()
-'    featureProductApiModel = m.featureProductApi.content
-'    if(featureProductApiModel.success)
-'        print "featureProductApiModel.success"
-'    else
-'        print "featureProductApiModel.fail"
-'        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
-'    end if
-    print "featureProductApiModel response >> "
-end sub
-
-sub onFeaturedMedia()
-    updateCounter()
-    print "onFeaturedMedia response >> "
-end sub
+function getGridRowListContent() as object
+         parentContentNode = CreateObject("roSGNode", "ContentNode")
+         if m.featureProductsApiModel.featuredProductsArray.count() <> 0
+            row = parentContentNode.CreateChild("ContentNode")
+            row.title = "Featured Products"
+            for index= 0 to m.featureProductsApiModel.featuredProductsArray.Count()-1
+                rowItem = row.CreateChild("HomeRowListItemData")
+                dataObjet = m.featureProductsApiModel.featuredProductsArray[index]
+                print "dataObjet >>> ";dataObjet
+                rowItem.id = dataObjet.product_id
+                rowItem.title = dataObjet.title
+                rowItem.imageUri = dataObjet.small
+                rowItem.count = dataObjet.media_count
+            end for
+         end if
+         
+         if m.featureMediaApiModel.featuredMediaArray.count() <> 0
+            row = parentContentNode.CreateChild("ContentNode")
+            row.title = "Featured Media"
+            for index= 0 to m.featureMediaApiModel.featuredMediaArray.Count()-1
+                rowItem = row.CreateChild("HomeRowListItemData")
+                dataObjet = m.featureMediaApiModel.featuredMediaArray[index]
+                rowItem.id = dataObjet.resource_id
+                rowItem.title = dataObjet.title
+                rowItem.imageUri = dataObjet.small
+                rowItem.count = dataObjet.duration
+            end for
+         end if
+         
+         if m.popularProductApiModel.popularProductsArray.count() <> 0
+            row = parentContentNode.CreateChild("ContentNode")
+            row.title = "Popular Products"
+            for index= 0 to m.popularProductApiModel.popularProductsArray.Count()-1
+                rowItem = row.CreateChild("HomeRowListItemData")
+                dataObjet = m.popularProductApiModel.popularProductsArray[index]
+                rowItem.id = dataObjet.product_id
+                rowItem.title = dataObjet.title
+                rowItem.imageUri = dataObjet.small
+                rowItem.count = dataObjet.media_count
+            end for
+         end if
+         
+         if m.popularMediaApiModel.popularMediaArray.count() <> 0
+            row = parentContentNode.CreateChild("ContentNode")
+            row.title = "Popular Media"
+            for index= 0 to m.popularMediaApiModel.popularMediaArray.Count()-1
+                rowItem = row.CreateChild("HomeRowListItemData")
+                dataObjet = m.popularMediaApiModel.popularMediaArray[index]
+                rowItem.id = dataObjet.resource_id
+                rowItem.title = dataObjet.title
+                rowItem.imageUri = dataObjet.small
+                rowItem.count = dataObjet.duration
+            end for
+         end if
+         
+         if m.recentAddedProductApiModel.recentlyAddedProductsArray.count() <> 0
+            row = parentContentNode.CreateChild("ContentNode")
+            row.title = "Recently Added Products"
+            for index= 0 to m.recentAddedProductApiModel.recentlyAddedProductsArray.Count()-1
+                rowItem = row.CreateChild("HomeRowListItemData")
+                dataObjet = m.recentAddedProductApiModel.recentlyAddedProductsArray[index]
+                rowItem.id = dataObjet.product_id
+                rowItem.title = dataObjet.title
+                rowItem.imageUri = dataObjet.small
+                rowItem.count = dataObjet.media_count
+            end for
+         end if
+         
+         if m.recentAddedMediaApiModel.recentlyAddedMediaArray.count() <> 0
+            row = parentContentNode.CreateChild("ContentNode")
+            row.title = "Recently Added Media"
+            for index= 0 to m.recentAddedMediaApiModel.recentlyAddedMediaArray.Count()-1
+                rowItem = row.CreateChild("HomeRowListItemData")
+                dataObjet = m.recentAddedMediaApiModel.recentlyAddedMediaArray[index]
+                rowItem.id = dataObjet.resource_id
+                rowItem.title = dataObjet.title
+                rowItem.imageUri = dataObjet.small
+                rowItem.count = dataObjet.duration
+            end for
+         end if
+         return parentContentNode 
+end function
 
 sub showLoader()
         m.loaderScreen = m.top.createChild("ACLoaderScreen")
@@ -116,17 +250,17 @@ end sub
 sub initFields() 
     homeBackground = m.top.FindNode("homeBackground")
     homeBackground.color = homeBackground() 
-    m.countryRowList = m.top.FindNode("homeRowList")  
+    m.homeRowList = m.top.FindNode("homeRowList")  
     m.navBar = m.top.FindNode("NavigationBar") 
 End sub
 
 sub hideFields()
-    m.countryRowList.visible = false
+    m.homeRowList.visible = false
     m.navBar.visible = false
 End sub
 
 sub showFields()
-    m.countryRowList.visible = true
+    m.homeRowList.visible = true
     m.navBar.visible = true
 End sub
 
@@ -137,34 +271,17 @@ sub manageNavBar()
 End sub
 
 sub homeRowList()
-    m.countriesArray = ["India", "Pakistan", "Sri Lanks","South Africa","Australia","West Indies","New Zealand","England","Zimbawe","Kenya","Nepal","America"]
-     
-    m.countryRowList.SetFocus(false)
-    m.countryRowList.ObserveField("rowItemSelected", "onRowItemSelected")
-    m.countryRowList.content = getGridRowListContent()
-    
+    m.homeRowList.SetFocus(false)
+    m.homeRowList.ObserveField("rowItemSelected", "onRowItemSelected")
+    m.homeRowList.content = getGridRowListContent()
 End sub
 
-function getGridRowListContent() as object
-         parentContentNode = CreateObject("roSGNode", "ContentNode")
-         for numRows = 0 to 2
-            row = parentContentNode.CreateChild("ContentNode")
-            titleText = "This is Row " + numRows.toStr()
-            row.title = titleText
-            
-                   for index= 0 to m.countriesArray.Count()-1
-                          rowItem = row.CreateChild("HomeRowListItemData")
-                          rowItem.countryName = m.countriesArray[index]       
-                   end for
-                   
-         end for
-         return parentContentNode 
-end function
+
 
 function onRowItemSelected() as void
-        print "***** Some's wish is ********";m.countryRowList.rowItemFocused
-        row = m.countryRowList.rowItemFocused[0]
-        col = m.countryRowList.rowItemFocused[1]
+        print "***** Some's wish is ********";m.homeRowList.rowItemFocused
+        row = m.homeRowList.rowItemFocused[0]
+        col = m.homeRowList.rowItemFocused[1]
         print "**********Row is *********";row
         print "**********col is *********";col
 end function
@@ -175,17 +292,17 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     print "onkeyevent Home Screen  key >";key
         if key = "right" 
             print "key = right"
-            m.countryRowList.setFocus(true)
-            m.countryRowList.translation = [350, 60]
+            m.homeRowList.setFocus(true)
+            m.homeRowList.translation = [350, 60]
             showCloseState()
             result = true
         else if key = "left" 
             print "key = left"
-            row = m.countryRowList.rowItemFocused[0]
-            col = m.countryRowList.rowItemFocused[1]
-            if col = 0 AND m.countryRowList.hasFocus()
-                m.countryRowList.setFocus(false)
-                m.countryRowList.translation = [500, 60]
+            row = m.homeRowList.rowItemFocused[0]
+            col = m.homeRowList.rowItemFocused[1]
+            if col = 0 AND m.homeRowList.hasFocus()
+                m.homeRowList.setFocus(false)
+                m.homeRowList.translation = [500, 60]
                 initNavigationBar()
                 showOpenState()
                 m.rectSwitchAccountBorder.visible = false  

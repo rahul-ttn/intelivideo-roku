@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="ProductDataModel" extends="ContentNode"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<interface>
+		<field id="product_id" type="integer" />
+		<field id="title" type="String" />
+		<field id="media_count" type="integer" />
+		<field id="small" type="String" />
+	</interface>
+</component>

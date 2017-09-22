@@ -22,8 +22,29 @@ sub parseApiResponse(response As Object)
     if(m.responseCode = 200)
         featureProductModel.code = 200
         products = response.products
-        print "products >> " ; products
+        productArray = CreateObject("roArray", products.count(), false)
+        for each productItem in products
+            productModel = CreateObject("roSGNode", "ProductDataModel")
+            productModel.product_id = productItem.product_id
+            productModel.title = productItem.title
+            productModel.media_count = productItem.media_count
+            if productItem.images.horizontal_cover_art <> invalid
+                productModel.small = productItem.images.horizontal_cover_art.small
+            else if productItem.images.banner_image <> invalid
+                productModel.small = productItem.images.banner_image.small
+            end if
+            
+            productArray.Push(productModel)
+        end for
         
+        if m.top.dataType = "feature"
+            featureProductModel.featuredProductsArray = productArray
+        else if m.top.dataType = "popular"
+            featureProductModel.popularProductsArray = productArray
+        else if m.top.dataType = "recentAdded"
+            featureProductModel.recentlyAddedProductsArray = productArray
+        end if 
+        print "productArray >>> ";productArray
     else if(response.error <> invalid)
         featureProductModel.error = response.error
     end if
