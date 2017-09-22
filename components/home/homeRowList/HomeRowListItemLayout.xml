@@ -29,10 +29,16 @@
 			<Poster id="posterFav" uri="pkg:/images/img_fav_tag_alt.png"
 				translation="[480,440]" visible="false">
 			</Poster>
-			<Rectangle id="rectItemCount" height="40" width="170"
-				translation="[20,440]" color="0x565656FF">
-				<Label id="labelItemCount" height="40" width="170"
-					translation="[5,3]" text="12 Items" wrap="true" color="0xffffffff">
+			<Rectangle id="rectTimer" height="50" width="170"
+				translation="[20,440]" color="0x56565600" visible="false">
+				<Poster id="posterTimer" uri="pkg:/images/$$RES$$/img_media_time_pill.png"
+					translation="[7,7]">
+				</Poster>
+			</Rectangle>
+			<Rectangle id="rectItemCount" height="50" width=""
+				translation="[20,440]" color="0x565656FF" visible="false">
+				<Label id="labelItemCount" height="40" 
+					translation="[5,7]" text="12 Items" wrap="false" color="0xffffffff">
 				</Label>
 			</Rectangle>
 		</Rectangle>

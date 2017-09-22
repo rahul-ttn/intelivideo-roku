@@ -8,6 +8,8 @@ sub init()
       m.labelItemCount = m.top.findNode("labelItemCount") 
       m.rectNew = m.top.findNode("rectNew") 
       m.rectItemCount = m.top.findNode("rectItemCount") 
+      m.rectTimer = m.top.findNode("rectTimer")
+      m.posterTimer = m.top.findNode("posterTimer")
 End sub
 
 
@@ -27,8 +29,14 @@ function itemContentChanged() as void
     
     if itemData.isMedia
         'show timer
+        m.rectTimer.visible = true
+        m.rectItemCount.visible = false
     else
         'show media count
+        m.rectTimer.visible = false
+        m.rectItemCount.visible = true
+        itemCountLabelWidth = Len(m.labelItemCount.text) * 18
+        m.rectItemCount.width = itemCountLabelWidth 
     end if
     
   end function
