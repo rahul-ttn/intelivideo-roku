@@ -9,7 +9,6 @@ sub init()
     
     m.accountList = m.top.findNode("switchAccountList")
     m.accountList.setFocus(true)
-    m.accountList.ObserveField("rowItemFocused", "onRowItemFocused")
     m.accountList.ObserveField("rowItemSelected", "rowItemSelected")
     m.accountList.content = getHorizontalRowListContent() 
        
@@ -43,14 +42,6 @@ function getHorizontalRowListContent() as object
          return parentContentNode 
 end function
 
-function onRowItemFocused() as void
-        print "***** Some's wish is ********";m.accountList.rowItemFocused
-        row = m.accountList.rowItemFocused[0]
-        col = m.accountList.rowItemFocused[1]
-'        print "**********Row is *********";row
-'        print "**********col is *********";col
-end function
-
     
 function rowItemSelected() as void
         row = m.accountList.rowItemFocused[0]
@@ -58,6 +49,7 @@ function rowItemSelected() as void
 '        print "**********Row is *********";row
 '        print "**********col is *********";col
         if row = 0 AND col = 0
+            print "goToLoginScreen >>> "
             goToLoginScreen()
         else
             'onKeyEvent("back",true)
@@ -83,15 +75,17 @@ sub goToHomeScreen(index as Integer)
 end sub
 
 sub goToLoginScreen()
+    m.video.control = "stop"
     m.loginScreen = m.top.createChild("LoginScreen")
     m.top.setFocus(false)
     m.loginScreen.setFocus(true)
+    m.loginScreen.buttonFocus = true
 end sub
 
 function setVideo() as void
   videoContent = createObject("RoSGNode", "ContentNode")
   videoContent.url = "pkg:/videos/login_video.mp4"
-  videoContent.title = ""
+  videoContent.title = "Loading..."
   videoContent.streamformat = "mp4"
   
  
@@ -99,14 +93,18 @@ function setVideo() as void
   m.video.content = videoContent
   m.video.control = "play"
   m.video.loop = true
+  m.video.bufferingBar.visible = false
+  m.video.bufferingTextColor = "0xffffff00"
   m.video.retrievingBar.visible = false
-   m.video.retrievingTextColor = "0xffffff00"
+  m.video.retrievingTextColor = "0xffffff00"
 end function
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
+    print "onkeyevent Switch Account Screen  key >";key
          if key = "back"
+            m.video.control = "stop"
             m.top.visible = false
            return false
          else if key = "left" or key = "right"
