@@ -2,7 +2,11 @@ sub init()
     m.top.SetFocus(true)
     m.isProgressDialog = false
     m.counter = 0
-    
+'    print "############scene child count";m.top.getScene().getChildCount()
+'    for i =1 To m.top.getScene().getChildCount() Step +1
+'       print "Scene Child with index ";i;m.top.getScene().getChild(i)
+'    end for
+'    print "############current screen child count";m.top.getChildCount()
     initFields()
     hideFields()
     callUserApi()
@@ -206,7 +210,8 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             result = true 
          else if key = "back"
             if m.switchAccount <> invalid 
-                print "switch Account : " ; m.switchAccount
+                m.switchAccount.setFocus(false)
+                m.buttonSwitchAccount.setFocus(true)
                 m.switchAccount = invalid
                 result = true
             else

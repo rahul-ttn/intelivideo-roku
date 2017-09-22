@@ -78,6 +78,7 @@ end sub
 
 sub updateSelectedAccount()
     m.editTextButton.setFocus(true)
+    m.video = m.top.videoNode
     m.emailId = m.top.emailId
     m.account = m.top.account
     setValueInRegistryForKey("selectedAccountName", m.account.name)
@@ -138,6 +139,7 @@ sub onAuthToken()
         if(getValueInRegistryForKey("isLoginValue") = "true")
             hideViews()
             
+            
             'store account list in RoRegistry
             accountJson = createAccountDetailsJson(m.account.name, m.account.id, m.account.thumbnail, getValueInRegistryForKey("authTokenValue"), getValueInRegistryForKey("refreshTokenValue"))
             accountList = getValueInRegistryForKey("accountsValue")
@@ -149,7 +151,7 @@ sub onAuthToken()
                 accountString = accountsArray.Join("||")
                 setValueInRegistryForKey("accounts", accountString)
             end if
-            
+            m.video.control = "stop"
             'move to Home Screen
             m.top.getScene().dialog.close = true
             m.homeScreen = m.top.createChild("HomeScreen")
@@ -196,10 +198,10 @@ sub showPinDialog()
     
     if m.pinSelected 
         m.textLabel.text = "PIN"
-        m.pinLabel.text = "Login with Password"
+        m.pinLabel.text = "Log In with Password"
     else
         m.textLabel.text = "Password"
-        m.pinLabel.text = "Login with PIN"
+        m.pinLabel.text = "Log In with PIN"
     end if
 end sub
 

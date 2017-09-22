@@ -1,6 +1,7 @@
 sub init()
     m.top.SetFocus(true)
     setVideo()
+    m.top.buttonFocus = false
     m.parentRectangle = m.top.findNode("parentRectangle")
     m.oopsLabel = m.top.findNode("oopsLabel")
     m.oopsLabel.font.size = 90
@@ -123,8 +124,9 @@ function onFetchMerchant()
             m.passwordScreen = m.top.createChild("PasswordScreen")
             m.top.setFocus(false)
             m.passwordScreen.setFocus(true)
+            m.passwordScreen.videoNode = m.video
             m.passwordScreen.emailId = m.email
-            m.passwordScreen.account = m.fetchMerchantApi.content.accountsArray[0]
+            m.passwordScreen.account = m.fetchMerchantApi.content.accountsArray[0] 
         else
             hideViews()
             m.selectScreen = m.top.createChild("SelectAccount")
@@ -132,6 +134,7 @@ function onFetchMerchant()
             m.top.setFocus(false)
             m.selectScreen.setFocus(true)
             'm.selectScreen.emailID = m.email
+            m.selectScreen.videoNode = m.video
             m.selectScreen.emailID = "zoe@barbershop.io"
             m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
         end if
@@ -172,13 +175,14 @@ function setVideo() as void
   videoContent.title = ""
   videoContent.streamformat = "mp4"
   
- 
   m.video = m.top.findNode("musicvideos")
   m.video.content = videoContent
   m.video.control = "play"
   m.video.loop = true
+  m.video.bufferingBar.visible = false
+  m.video.bufferingTextColor = "0xffffff00"
   m.video.retrievingBar.visible = false
-   m.video.retrievingTextColor = "0xffffff00"
+  m.video.retrievingTextColor = "0xffffff00"
 end function
 
 Function onKeyEvent(key as String,press as Boolean) as Boolean

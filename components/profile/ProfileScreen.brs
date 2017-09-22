@@ -95,6 +95,10 @@ sub onListItemSelected()
 End sub
 
 sub callLoginScreen()
+'    for i = 0 To m.top.getScene().getChildCount() Step +1
+'        child = m.top.getScene().getChild(i)
+'        m.top.getScene().removeChild(child)
+'    end for
     m.loginScreen = m.top.createChild("LoginScreen")
     m.top.setFocus(false)
     m.loginScreen.setFocus(true)
@@ -158,6 +162,8 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             result = true
         else if key = "back"
             if m.switchAccount <> invalid 
+                m.switchAccount.setFocus(false)
+                m.buttonSwitchAccount.setFocus(true)
                 m.switchAccount = invalid
                 result = true
             else

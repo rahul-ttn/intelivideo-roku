@@ -14,6 +14,7 @@ end sub
 
 'getting array from Login Screen
 sub showAccountsArray()
+    m.video = m.top.videoNode
     m.emailId = m.top.emailID
     m.accountsArray = m.top.content
     m.accountList.content = getHorizontalRowListContent()   
@@ -64,6 +65,7 @@ function goToPasswordScreen(account as object) as void
     print m.top.passwordScreen
     m.top.setFocus(false)
     m.passwordScreen.setFocus(true)
+    m.passwordScreen.videoNode = m.video
     m.passwordScreen.emailId = m.emailId
     m.passwordScreen.account = account
 end function
