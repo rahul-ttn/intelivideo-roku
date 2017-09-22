@@ -7,11 +7,6 @@
 	<script type="text/brightscript" uri="pkg:/components/profile/ProfileScreen.brs" />
 	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
 	
-	<interface>
-		<field id = "appConfig" type = "node" />
-		<field id = "userData" type = "node" alwaysNotify="true" onChange = "onAppData"/>
-	</interface> 
-	
 	<children>
 
 		<Rectangle id="profileBackground" width="1960" height="1080"
@@ -37,6 +32,8 @@
 
 				<Label id="profileRightValue" translation="[100,200]"
 					width="615" wrap="true" />
+					
+				<HomeRowList id="myContentRowList" translation="[100,60]" visible="false"/>
 
 			</Rectangle>
 

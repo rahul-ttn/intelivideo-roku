@@ -3,6 +3,7 @@
 sub init()
     m.top.SetFocus(true)
     m.isLoggedIn = getValueInRegistryForKey("isLoginValue")
+    
     print "m.isLoggedIn " ; m.isLoggedIn
     if(m.isLoggedIn = "true")
        moveToHomeScreen()
@@ -25,6 +26,14 @@ sub moveToLoginScreen()
     loginScreen.setFocus(true)
     loginScreen.buttonFocus = true
 End sub
+
+'function setMyContent(data as object)
+'    m.Global.myContent = data
+'end function
+'
+'function getMyContent() as object
+'    return m.Global.myContent
+'end function
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false

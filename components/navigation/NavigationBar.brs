@@ -149,8 +149,6 @@ sub showProfileScreen()
     print "Profile Screen"
     profileScreen = m.top.createChild("ProfileScreen")
     profileScreen.setFocus(true)
-    profileScreen.appConfig = m.appConfig
-    profileScreen.userData = m.userData
 End sub
 
 sub showSwitchAccount()

@@ -7,6 +7,11 @@
 	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs"/>
     <script type="text/brightscript" uri="pkg:/components/screens/MainScene.brs" />
     
+    <interface>
+    	<field type="nodearray" id="myContent"/>
+    	<field type="node" id="appConfigContent"/>
+    </interface>
+    
     <children>
     
     <Rectangle id="homeBackground" width="1960" height="1080" color="0x000000FF"

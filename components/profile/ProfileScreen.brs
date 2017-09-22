@@ -1,10 +1,6 @@
 sub init()
     m.top.SetFocus(true)
-End sub
-
-sub onAppData()
-    m.appConfig =  m.top.appConfig
-    m.userData =  m.top.userData
+    m.appConfig =  m.top.getScene().appConfigContent 
 
     m.tnc = m.appConfig.terms_of_service
     m.privayPolicy = m.appConfig.privacy_policy
@@ -13,7 +9,6 @@ sub onAppData()
     m.buttonHomeOpen.setFocus(false)
     m.buttonProfileOpen.setFocus(true)
     
-    'm.navButtonGroupClose.buttonSelected = 3
    initFields()
 End sub
 
@@ -25,6 +20,7 @@ sub initFields()
     m.profileRightRect = m.top.FindNode("profileRightRect")
     m.profileRightTitle = m.top.FindNode("profileRightTitle")
     m.profileRightValue = m.top.FindNode("profileRightValue")
+    m.myContentRowList = m.top.FindNode("myContentRowList")
     showProfileList()
 End sub
 
@@ -34,35 +30,80 @@ sub showProfileList()
     addItemsInList(m.profileLabelList)
 End sub
 
+sub homeRowList()
+    m.myContentRowList.visible = true
+    m.myContentRowList.SetFocus(false)
+    m.myContentRowList.ObserveField("rowItemSelected", "onRowItemSelected")
+    m.myContentRowList.content = getGridRowListContent()
+End sub
+
+function getGridRowListContent() as object
+         parentContentNode = CreateObject("roSGNode", "ContentNode")
+         
+         myContentArray = m.top.getScene().myContent
+         for numRows = 0 to myContentArray.Count()-1
+            row = parentContentNode.CreateChild("ContentNode")
+             for index = 0 to 0
+                  rowItem = row.CreateChild("HomeRowListItemData")
+                  dataObjet = myContentArray[numRows]
+                  rowItem.id = dataObjet.product_id
+                      rowItem.title = dataObjet.title
+                      rowItem.imageUri = dataObjet.small
+                      rowItem.count = dataObjet.media_count
+                      rowItem.coverBgColor = m.appConfig.primary_color
+                      rowItem.isMedia = false
+                      if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                          rowItem.isNew = true
+                      else
+                          rowItem.isNew = false
+                      end if
+             end for     
+          end for  
+         return parentContentNode 
+end function
+
 sub onListItemFocused()
-    if(m.profileLabelList.itemFocused = 0)
-        m.profileRightTitle.text = "MY CONTENT"
-        m.profileRightValue.text = ""
-    else if(m.profileLabelList.itemFocused = 1)
+    n = 0
+    if m.top.getScene().myContent = invalid
+        n = 1
+    end if
+    
+    if(m.profileLabelList.itemFocused = 0-n)
+        homeRowList()
+    else if(m.profileLabelList.itemFocused = 1-n)
+        m.myContentRowList.visible = false
         m.profileRightTitle.text = "TERMS OF USE"
         m.profileRightValue.text = m.tnc
-    else if(m.profileLabelList.itemFocused = 2)
+    else if(m.profileLabelList.itemFocused = 2-n)
+        m.myContentRowList.visible = false
         m.profileRightTitle.text = "PRIVACY POLICY"
         m.profileRightValue.text = m.privayPolicy
-    else if(m.profileLabelList.itemFocused = 3)
+    else if(m.profileLabelList.itemFocused = 3-n)
+        m.myContentRowList.visible = false
         m.profileRightTitle.text = "CONTACT US"
         m.profileRightValue.text = "To contact support please email: support@intelivideo.com"
-    else if(m.profileLabelList.itemFocused = 4)
+    else if(m.profileLabelList.itemFocused = 4-n)
+        m.myContentRowList.visible = false
         m.profileRightTitle.text = ""
         m.profileRightValue.text = ""
     end if
 End sub
 
 sub onListItemSelected()
-    if(m.profileLabelList.itemFocused = 0)
+    n = 0
+    if m.top.getScene().myContent = invalid
+        n = 1
+    end if
     
-    else if(m.profileLabelList.itemFocused = 1)
+    if(m.profileLabelList.itemFocused = 0-n)
+    
+    else if(m.profileLabelList.itemFocused = 1-n)
         m.profileRightTitle.text = "TERMS OF USE"
-    else if(m.profileLabelList.itemFocused = 2)
+    else if(m.profileLabelList.itemFocused = 2-n)
         m.profileRightTitle.text = "PRIVACY POLICY"
-    else if(m.profileLabelList.itemFocused = 3)
+    else if(m.profileLabelList.itemFocused = 3-n)
         m.profileRightTitle.text = "CONTACT US"
-    else if(m.profileLabelList.itemFocused = 4)
+    else if(m.profileLabelList.itemFocused = 4-n)
          accountList = getValueInRegistryForKey("accountsValue")
          accountsArray =  accountList.Split("||")
          if accountsArray.count() = 1
@@ -107,9 +148,11 @@ end sub
 
 sub addItemsInList(labelList)
     m.content = createObject("roSGNode","ContentNode")
-'   
-    sectionContent=addListSectionHelper(m.content,"")     
-    addListItemHelper(sectionContent,"My Content")
+' 
+    if m.top.getScene().myContent <> invalid
+        sectionContent=addListSectionHelper(m.content,"")
+        addListItemHelper(sectionContent,"My Content")
+    end if     
     
     sectionContent=addListSectionHelper(m.content,"")
     addListItemHelper(sectionContent,"Terms of Use")
@@ -129,11 +172,16 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     if press
     print "on key event Profile Screen  key >";key
         if key = "right"
-            m.profileLabelList.setFocus(true)  
-            showCloseState()
-            m.buttonProfileClose.uri = "pkg:/images/$$RES$$/Profile Focused.png" 
-            m.profileLeftRect.translation = [180, 0]
-            m.profileRightRect.translation = [880, 0]
+            if m.profileLabelList.hasFocus() AND m.myContentRowList.visible
+                m.profileLabelList.setFocus(false)
+                m.myContentRowList.setFocus(true)
+            else
+                m.profileLabelList.setFocus(true)  
+                showCloseState()
+                m.buttonProfileClose.uri = "pkg:/images/$$RES$$/Profile Focused.png" 
+                m.profileLeftRect.translation = [180, 0]
+                m.profileRightRect.translation = [880, 0]
+            end if
             result = true
         else if key = "left"
             if  m.profileLabelList.hasFocus()
@@ -143,6 +191,9 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 m.profileRightRect.translation = [1100, 0]
                 showOpenState()
                 m.rectSwitchAccountBorder.visible = false
+            else if m.myContentRowList.hasFocus()
+                m.profileLabelList.setFocus(true)
+                m.myContentRowList.setFocus(false)
             end if
             result = true 
         else if key = "down"

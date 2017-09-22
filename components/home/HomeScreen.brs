@@ -37,6 +37,15 @@ sub onUserApiResponse()
         m.userData =  m.userApi.content.userModel
         m.productsAarray = m.userApi.content.productsArray
         m.subsAarray = m.userApi.content.subscriptionsArray
+        
+        if m.subsAarray.count() > 0
+            m.top.getScene().myContent = m.productsAarray
+        else
+            m.top.getScene().myContent = invalid
+        end if
+        
+        m.top.getScene().appConfigContent = m.appConfig
+        
         initNavigationBar()
         if m.subsAarray.count() > 0
             m.isSVOD = true
@@ -170,7 +179,6 @@ function getGridRowListContent() as object
             for index= 0 to m.featureProductsApiModel.featuredProductsArray.Count()-1
                 rowItem = row.CreateChild("HomeRowListItemData")
                 dataObjet = m.featureProductsApiModel.featuredProductsArray[index]
-                print "dataObjet >>> ";dataObjet
                 rowItem.id = dataObjet.product_id
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
@@ -284,6 +292,27 @@ function getGridRowListContent() as object
                 end if
             end for
          end if
+         
+         if m.productsAarray.count() <> 0
+            row = parentContentNode.CreateChild("ContentNode")
+            row.title = "My Content"
+            for index= 0 to m.productsAarray.count()-1
+                rowItem = row.CreateChild("HomeRowListItemData")
+                dataObjet = m.productsAarray[index]
+                rowItem.id = dataObjet.product_id
+                rowItem.title = dataObjet.title
+                rowItem.imageUri = dataObjet.small
+                rowItem.count = dataObjet.media_count
+                rowItem.coverBgColor = m.appConfig.primary_color
+                rowItem.isMedia = false
+                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                    rowItem.isNew = true
+                else
+                    rowItem.isNew = false
+                end if
+            end for
+         end if
+         
          else
             if m.productsAarray.count() < 9
                 m.homeRowList.itemComponentName = "Home2xListItemLayout"
@@ -302,13 +331,10 @@ function getGridRowListContent() as object
             end if
             
             ind = 0
-            print "numRows 000 " ; numberOfRows
             for numRows = 0 to numberOfRows-1
                 row = parentContentNode.CreateChild("ContentNode")
                 for index = 0 to n
-                      print "ind 000 " ; ind
                       if ind < m.productsAarray.count()
-                      print "ind 111 " ; ind
                       rowItem = row.CreateChild("HomeRowListItemData")  
                       dataObjet = m.productsAarray[ind]
                       rowItem.id = dataObjet.product_id
