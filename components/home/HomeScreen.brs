@@ -462,8 +462,3 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     end if
     return result 
 End Function 
-
-Sub ExitUserInterface()
-    print "closing app"
-    'End
-End Sub
