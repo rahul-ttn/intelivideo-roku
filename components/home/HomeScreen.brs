@@ -199,8 +199,8 @@ function getGridRowListContent() as object
                 rowItem.id = dataObjet.resource_id
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
-                rowItem.count = dataObjet.duration
                 rowItem.coverBgColor = m.appConfig.primary_color
+                rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.isMedia = true
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
@@ -239,7 +239,7 @@ function getGridRowListContent() as object
                 rowItem.id = dataObjet.resource_id
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
-                rowItem.count = dataObjet.duration
+                rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = true
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
@@ -279,7 +279,7 @@ function getGridRowListContent() as object
                 rowItem.id = dataObjet.resource_id
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
-                rowItem.count = dataObjet.duration
+                rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = true
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)

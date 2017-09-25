@@ -10,6 +10,7 @@ sub init()
       m.rectItemCount = m.top.findNode("rectItemCount") 
       m.rectTimer = m.top.findNode("rectTimer")
       m.posterTimer = m.top.findNode("posterTimer")
+      m.labelMediaTime = m.top.findNode("labelMediaTime")
 End sub
 
 
@@ -17,7 +18,6 @@ function itemContentChanged() as void
     itemData = m.top.itemContent
     m.posterVod.uri = itemData.imageUri
     m.labelDescription.text = itemData.title
-    m.labelItemCount.text = StrI(itemData.count) + " Items"
     m.posterRect.color = itemData.coverBgColor
     m.rectNew.color = itemData.coverBgColor
     m.rectItemCount.color = itemData.coverBgColor
@@ -31,10 +31,12 @@ function itemContentChanged() as void
         'show timer
         m.rectTimer.visible = true
         m.rectItemCount.visible = false
+        m.labelMediaTime.text = itemData.mediaTime
     else
         'show media count
         m.rectTimer.visible = false
         m.rectItemCount.visible = true
+        m.labelItemCount.text = StrI(itemData.count) + " Items"
         itemCountLabelWidth = Len(m.labelItemCount.text) * 18
         m.rectItemCount.width = itemCountLabelWidth 
     end if
