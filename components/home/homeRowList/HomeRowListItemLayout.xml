@@ -36,7 +36,7 @@
 				</Poster>
 			</Rectangle>
 			<Rectangle id="rectItemCount" height="50" width=""
-				translation="[20,440]" color="0x565656FF" visible="false">
+				translation="[20,430]" color="0x565656FF" visible="false">
 				<Label id="labelItemCount" height="40" 
 					translation="[5,7]" text="12 Items" wrap="false" color="0xffffffff">
 				</Label>
