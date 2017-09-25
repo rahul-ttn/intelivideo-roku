@@ -416,6 +416,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             print "key = right"
             m.homeRowList.setFocus(true)
             m.homeRowList.translation = [260, 60]
+            m.buttonHomeClose.uri = "pkg:/images/$$RES$$/Home Focused.png" 
             showCloseState()
             result = true
         else if key = "left" 

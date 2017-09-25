@@ -10,9 +10,9 @@
 			translation="[0,0]" visible="false">
 
 			<LayoutGroup id="navButtonGroupClose" translation="[76,73]"
-				itemSpacings="[58,58]">
+				itemSpacings="[58,58]"/>
 
-				<Poster id="buttonHomeClose" uri="pkg:/images/$$RES$$/Home.png"
+			<Poster id="buttonHomeClose" uri="pkg:/images/$$RES$$/Home.png"
 					width="0.0" height="0.0" />
 
 				<Poster id="buttonCategoryClose" uri="pkg:/images/$$RES$$/Categories.png" 
@@ -26,29 +26,15 @@
 
 				<Poster id="buttonProfileClose" uri="pkg:/images/$$RES$$/Profile.png"
 					width="0.0" height="0.0" />
-
-				<!-- <Button id="buttonHomeClose" focusBitmapUri="pkg:/images/img_transparent.png" 
-					text="" focusFootprintBitmapUri="pkg:/images/img_transparent.png" showFocusFootprint="false" 
-					focusable="true" iconUri="pkg:/images/$$RES$$/home.png" focusedIconUri="pkg:/images/$$RES$$/home_selected.png" 
-					/> <Button id="buttonFavoriteClose" focusBitmapUri="pkg:/images/img_transparent.png" 
-					focusFootprintBitmapUri="pkg:/images/img_transparent.png" showFocusFootprint="false" 
-					focusable="true" iconUri="pkg:/images/$$RES$$/home.png" focusedIconUri="pkg:/images/$$RES$$/home_selected.png" 
-					/> <Button id="buttonSearchClose" focusBitmapUri="pkg:/images/img_transparent.png" 
-					focusFootprintBitmapUri="pkg:/images/img_transparent.png" showFocusFootprint="false" 
-					focusable="true" iconUri="pkg:/images/$$RES$$/home.png" focusedIconUri="pkg:/images/$$RES$$/home_selected.png" 
-					/> <Button id="buttonProfileClose" focusBitmapUri="pkg:/images/img_transparent.png" 
-					focusFootprintBitmapUri="pkg:/images/img_transparent.png" showFocusFootprint="false" 
-					focusable="true" iconUri="pkg:/images/$$RES$$/home.png" focusedIconUri="pkg:/images/$$RES$$/home_selected.png" 
-					/> -->
-			</LayoutGroup>
 		</Rectangle>
 
 		<Rectangle id="navRectangleOpen" width="400" height="1080"
 			translation="[0,0]">
 
 			<ButtonGroup id="navButtonGroupOpen" translation="[40,50]"
-				itemSpacings="[10,10]" >
-				<Button id="buttonHomeOpen" focusBitmapUri="pkg:/images/background.png"
+				itemSpacings="[10,10]" />
+				
+			<Button id="buttonHomeOpen" focusBitmapUri="pkg:/images/background.png"
 					focusedTextColor="0x262626ff" text="Home"
 					focusFootprintBitmapUri="pkg:/images/img_transparent.png"
 					showFocusFootprint="false" focusable="true" iconUri="pkg:/images/$$RES$$/Home.png"
@@ -78,9 +64,8 @@
 					focusFootprintBitmapUri="pkg:/images/img_transparent.png"
 					showFocusFootprint="false" focusable="true"
 					iconUri="pkg:/images/$$RES$$/Profile.png" focusedIconUri="pkg:/images/$$RES$$/Profile Focused.png" />
-			</ButtonGroup>
 			
-			<ButtonGroup id="navButtonGroupOpenWC" translation="[40,50]"
+			<!-- <ButtonGroup id="navButtonGroupOpenWC" translation="[40,50]"
 				itemSpacings="[10,10]" visible="false">
 				<Button id="buttonHomeOpenWC" focusBitmapUri="pkg:/images/background.png"
 					focusedTextColor="0x262626ff" text="Home"
@@ -105,7 +90,7 @@
 					focusFootprintBitmapUri="pkg:/images/img_transparent.png"
 					showFocusFootprint="false" focusable="true"
 					iconUri="pkg:/images/$$RES$$/Profile.png" focusedIconUri="pkg:/images/$$RES$$/Profile Focused.png" />
-			</ButtonGroup>
+			</ButtonGroup> -->
 		</Rectangle>
 
 		<Rectangle id="rectSwitchAccountSmall" color="0x000000FF"
