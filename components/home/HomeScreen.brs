@@ -40,12 +40,9 @@ sub onUserApiResponse()
         
         if m.subsAarray.count() > 0
             m.top.getScene().myContent = m.productsAarray
-        else
-            m.top.getScene().myContent = invalid
         end if
         
-        m.top.getScene().appConfigContent = m.appConfig
-        
+        m.top.getScene().appConfigContent = m.appConfig 
         initNavigationBar()
         if m.subsAarray.count() > 0
             m.isSVOD = true

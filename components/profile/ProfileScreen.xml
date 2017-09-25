@@ -33,7 +33,7 @@
 				<Label id="profileRightValue" translation="[100,200]"
 					width="615" wrap="true" />
 					
-				<HomeRowList id="myContentRowList" translation="[100,60]" visible="false"/>
+				<HomeRowList id="myContentRowList" translation="[200,60]" visible="false"/>
 
 			</Rectangle>
 

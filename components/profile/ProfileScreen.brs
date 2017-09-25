@@ -40,6 +40,12 @@ End sub
 function getGridRowListContent() as object
          parentContentNode = CreateObject("roSGNode", "ContentNode")
          
+         m.myContentRowList.itemSize = [200 * 9 + 100, 550]'550  600
+         m.myContentRowList.rowHeights = [550]
+         m.myContentRowList.rowItemSize = [ [550, 500] ]
+         m.myContentRowList.itemSpacing = [ 0, 80 ]
+         m.myContentRowList.rowItemSpacing = [ [80, 0] ]
+         
          myContentArray = m.top.getScene().myContent
          for numRows = 0 to myContentArray.Count()-1
             row = parentContentNode.CreateChild("ContentNode")
@@ -64,11 +70,13 @@ end function
 
 sub onListItemFocused()
     n = 0
-    if m.top.getScene().myContent = invalid
+    if m.top.getScene().myContent.count() = 0
         n = 1
     end if
     
     if(m.profileLabelList.itemFocused = 0-n)
+        m.profileRightTitle.text = ""
+        m.profileRightValue.text = ""
         homeRowList()
     else if(m.profileLabelList.itemFocused = 1-n)
         m.myContentRowList.visible = false
@@ -91,12 +99,12 @@ End sub
 
 sub onListItemSelected()
     n = 0
-    if m.top.getScene().myContent = invalid
+    if m.top.getScene().myContent.count() = 0
         n = 1
     end if
     
     if(m.profileLabelList.itemFocused = 0-n)
-    
+        
     else if(m.profileLabelList.itemFocused = 1-n)
         m.profileRightTitle.text = "TERMS OF USE"
     else if(m.profileLabelList.itemFocused = 2-n)
@@ -148,8 +156,9 @@ end sub
 
 sub addItemsInList(labelList)
     m.content = createObject("roSGNode","ContentNode")
-' 
-    if m.top.getScene().myContent <> invalid
+    print "m.top.getScene().myContent >>> ";m.top.getScene().myContent
+    if m.top.getScene().myContent <> invalid AND m.top.getScene().myContent.count() > 0
+        print "My Content Label List >>> ";m.top.getScene().myContent.count()
         sectionContent=addListSectionHelper(m.content,"")
         addListItemHelper(sectionContent,"My Content")
     end if     
