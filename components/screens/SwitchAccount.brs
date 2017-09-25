@@ -51,9 +51,12 @@ function rowItemSelected() as void
         if row = 0 AND col = 0
             print "goToLoginScreen >>> "
             goToLoginScreen()
+            m.top.accountSelected = false
         else
             'onKeyEvent("back",true)
             'goToPasswordScreen(m.accountsArray[col])
+            'm.parentNode.visible = false
+            m.top.accountSelected = true
             goToHomeScreen(col-1)
         end if
         

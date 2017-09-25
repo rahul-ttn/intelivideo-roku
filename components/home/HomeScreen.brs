@@ -449,10 +449,15 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             result = true 
          else if key = "back"
             if m.switchAccount <> invalid 
-                m.switchAccount.setFocus(false)
-                m.buttonSwitchAccount.setFocus(true)
-                m.switchAccount = invalid
-                result = true
+                if m.switchAccount.accountSelected
+                    m.top.visible = false
+                    result = false
+                else
+                    m.switchAccount.setFocus(false)
+                    m.buttonSwitchAccount.setFocus(true)
+                    m.switchAccount = invalid
+                    result = true
+                end if
             else
                 print "switch Account invalid else block"
                 m.top.visible = false
