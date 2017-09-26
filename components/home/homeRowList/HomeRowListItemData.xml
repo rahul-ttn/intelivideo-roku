@@ -9,5 +9,6 @@
   <field id="isMedia" type="boolean" />
   <field id="coverBgColor" type="string" />
   <field id="mediaTime" type="string" />
+  <field id="isViewAll" type="boolean"/>
 </interface>
 </component>

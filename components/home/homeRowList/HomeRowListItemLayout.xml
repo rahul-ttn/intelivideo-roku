@@ -9,7 +9,22 @@
 		uri="pkg:/components/home/homeRowList/HomeRowListItemLayout.brs" />
 
 	<children>
-		<Rectangle id="rectangle" width="548" height="500">
+	<Rectangle id="parentRect" width="548" height="500">
+		<Label
+			id = "labelViewAll"
+			width="548"
+			horizAlign = "center"
+			text = "View All"
+			color = "0x000000ff"
+			font = "font:LargeBoldSystemFont"
+			visible = "false">
+		</Label>
+		<Poster
+			id = "posterArrow"
+			uri = "pkg:/images/img_fav_tag_alt.png"
+			visible = "false">
+		</Poster>
+		<Rectangle id="rectangle" width="548" height="500" visible = "false">
 			<Rectangle id="posterRect" height="308" width="548" color="0x565656FF">
 				<Poster id="posterVod" height="308" width="548" translation="[0,0]"
 					uri="pkg:/images/bg_login_hd.png">
@@ -45,5 +60,7 @@
 				</Label>
 			</Rectangle>
 		</Rectangle>
+	</Rectangle>
+		
 	</children>
 </component>

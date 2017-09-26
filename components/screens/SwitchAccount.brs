@@ -88,7 +88,7 @@ end sub
 function setVideo() as void
   videoContent = createObject("RoSGNode", "ContentNode")
   videoContent.url = "pkg:/videos/login_video.mp4"
-  videoContent.title = "Loading..."
+  videoContent.title = ""
   videoContent.streamformat = "mp4"
   
  
