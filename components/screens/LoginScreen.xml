@@ -114,13 +114,13 @@
 		 <Rectangle   			
 		 	id="keyboardTheme"   			
 		 	color="#252222"   			
-		 	width="1400"  			
-		 	height="450"   			
+		 	width="1420"  			
+		 	height="470"   			
 		 	translation="[225,450]" 
 		 	visible = "false">
 			 	<Keyboard
 					id = "keyboard"
-					translation = "[0,0]"
+					translation = "[0,20]"
 				    showTextEditBox = "true"
 				    keyboardBitmapUri = "pkg:/images/KeyboardTemplatebgfhd"
 				    visible = "false"
