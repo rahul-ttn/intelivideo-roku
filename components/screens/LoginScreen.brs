@@ -234,7 +234,9 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 else if getValueInRegistryForKey("isHomeValue") = "true"
                     m.top.visible = false
                     return false
+                    m.video.control = "stop"
                 else 
+                    m.video.control = "stop"
                     result = false
                 end if
         end if

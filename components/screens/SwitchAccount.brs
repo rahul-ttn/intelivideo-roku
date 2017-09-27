@@ -66,6 +66,7 @@ function rowItemSelected() as void
 end function
 
 sub goToHomeScreen(index as Integer)
+    m.video.control = "stop"
     accountsModel = m.accountsArray[index]
     accountsModel = ParseJSON(accountsModel)
     setValueInRegistryForKey("selectedAccountName", accountsModel.name)
