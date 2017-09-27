@@ -380,9 +380,13 @@ function getGridRowListContent() as object
                           else
                               rowItem.isNew = false
                           end if
-                          ind = ind + 1
-                          end if
-                end for   
+                      ind = ind + 1
+                      end if
+                end for 
+'                if m.productsAarray.count() >= 7
+'                    rowItem = row.CreateChild("HomeRowListItemData")
+'                    rowItem.isViewAll = true
+'                end if  
             end for 
          end if
          
