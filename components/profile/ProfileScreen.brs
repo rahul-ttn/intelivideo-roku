@@ -121,9 +121,13 @@ sub onListItemSelected()
          else
             for index= 0 to accountsArray.count()-1
                    accountsModel = accountsArray[index]
-                   accountsModel = ParseJSON(accountsModel)
-                   if accountsModel.access_token = getValueInRegistryForKey("authTokenValue") 
-                        accountsArray.Delete(index)
+                   if accountsModel <> invalid
+                       accountsModel = ParseJSON(accountsModel)
+                       if accountsModel.access_token = getValueInRegistryForKey("authTokenValue") 
+                            accountsArray.Delete(index)
+                       end if
+                   else
+                       accountsArray.Delete(index) 
                    end if
              end for
                 accountsModel = accountsArray[0]

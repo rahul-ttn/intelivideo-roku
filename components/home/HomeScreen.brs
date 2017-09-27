@@ -182,6 +182,7 @@ function getGridRowListContent() as object
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
+                rowItem.isItem = true
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -201,7 +202,13 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
-                rowItem.isMedia = true
+                rowItem.isItem = false
+                if dataObjet.type = "Video" OR dataObjet.type = "Audio"
+                    rowItem.isMedia = true
+                else
+                    rowItem.isMedia = false
+                end if
+                
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -222,6 +229,7 @@ function getGridRowListContent() as object
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
+                rowItem.isItem = true
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -241,7 +249,12 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.coverBgColor = m.appConfig.primary_color
-                rowItem.isMedia = true
+                rowItem.isItem = false
+                if dataObjet.type = "Video" OR dataObjet.type = "Audio"
+                    rowItem.isMedia = true
+                else
+                    rowItem.isMedia = false
+                end if
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -262,6 +275,7 @@ function getGridRowListContent() as object
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
+                rowItem.isItem = true
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -281,7 +295,12 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.coverBgColor = m.appConfig.primary_color
-                rowItem.isMedia = true
+                rowItem.isItem = false
+                if dataObjet.type = "Video" OR dataObjet.type = "Audio"
+                    rowItem.isMedia = true
+                else
+                    rowItem.isMedia = false
+                end if
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -302,6 +321,7 @@ function getGridRowListContent() as object
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
+                rowItem.isItem = true
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -340,6 +360,7 @@ function getGridRowListContent() as object
                       rowItem.count = dataObjet.media_count
                       rowItem.coverBgColor = m.appConfig.primary_color
                       rowItem.isMedia = false
+                      rowItem.isItem = true
                       if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                           rowItem.isNew = true
                       else
