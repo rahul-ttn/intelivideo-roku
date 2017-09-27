@@ -66,6 +66,7 @@ function rowItemSelected() as void
 end function
 
 sub goToHomeScreen(index as Integer)
+    m.video.control = "stop"
     accountsModel = m.accountsArray[index]
     accountsModel = ParseJSON(accountsModel)
     setValueInRegistryForKey("selectedAccountName", accountsModel.name)
@@ -91,7 +92,7 @@ end sub
 function setVideo() as void
   videoContent = createObject("RoSGNode", "ContentNode")
   videoContent.url = "pkg:/videos/login_video.mp4"
-  videoContent.title = "Loading..."
+  videoContent.title = ""
   videoContent.streamformat = "mp4"
   
  

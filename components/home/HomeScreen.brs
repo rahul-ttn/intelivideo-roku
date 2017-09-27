@@ -468,6 +468,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             end if
             result = true 
          else if key = "back"
+            setValueInRegistryForKey("isHome","true")
             if m.switchAccount <> invalid 
                 if m.switchAccount.accountSelected
                     m.top.visible = false
