@@ -56,9 +56,7 @@ Function callApi(url as String,headers as Object,isPostApi as boolean,params as 
         timer.Mark()
         print timer
         If (requestType)
-            print "requestType>>>>> "
             while (true)
-                print "while true "
                 msg = wait(getPortConnectionTime(), port)
                 print "response is " ; msg
                 If (type(msg) = "roUrlEvent") then
