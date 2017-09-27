@@ -257,7 +257,6 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 showPinDialog()
                 return true
             else if getValueInRegistryForKey("isHomeValue") = "true"
-                
                 m.top.visible = false
                 return false
             else
