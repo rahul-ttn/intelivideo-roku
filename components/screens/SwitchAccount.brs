@@ -49,9 +49,12 @@ function rowItemSelected() as void
 '        print "**********Row is *********";row
 '        print "**********col is *********";col
         if row = 0 AND col = 0
-            print "goToLoginScreen >>> "
-            goToLoginScreen()
-            m.top.accountSelected = false
+            if m.accountsArray.count() = 10
+                showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+            else
+                goToLoginScreen()
+                m.top.accountSelected = false
+            end if
         else
             'onKeyEvent("back",true)
             'goToPasswordScreen(m.accountsArray[col])

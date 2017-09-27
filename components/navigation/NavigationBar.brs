@@ -31,7 +31,21 @@ sub initializeOpenState()
     m.buttonProfileOpen.unobserveField("buttonSelected")
     m.buttonProfileOpen.observeField("buttonSelected", "showProfileScreen")
     
+    appendButtons()
+    
 End sub
+
+sub appendButtons()
+    m.buttonGroupOpen.appendChild(m.buttonHomeOpen)
+    if(m.top.getScene().appConfigContent.display_categories)
+        m.buttonGroupOpen.appendChild(m.buttonCategoryOpen)
+    else
+        m.buttonCategoryOpen.visible = false
+    end if
+    m.buttonGroupOpen.appendChild(m.buttonFavoriteOpen)
+    m.buttonGroupOpen.appendChild(m.buttonSearchOpen)
+    m.buttonGroupOpen.appendChild(m.buttonProfileOpen)
+end sub
 
 sub initializeCloseState()
     m.navRectangleClose = m.top.FindNode("navRectangleClose")
@@ -43,7 +57,20 @@ sub initializeCloseState()
     m.buttonFavoriteClose = m.top.FindNode("buttonFavoriteClose")
     m.buttonSearchClose = m.top.FindNode("buttonSearchClose")
     m.buttonProfileClose = m.top.FindNode("buttonProfileClose")
+    appendPosters()
 End sub
+
+sub appendPosters()
+    m.navButtonGroupClose.appendChild(m.buttonHomeClose)
+    if(m.top.getScene().appConfigContent.display_categories)
+        m.navButtonGroupClose.appendChild(m.buttonCategoryClose)
+    else
+        m.buttonCategoryClose.visible = false
+    end if
+    m.navButtonGroupClose.appendChild(m.buttonFavoriteClose)
+    m.navButtonGroupClose.appendChild(m.buttonSearchClose)
+    m.navButtonGroupClose.appendChild(m.buttonProfileClose)
+end sub
 
 sub initializeOpenStateWC()
     m.navRectangleOpen = m.top.FindNode("navRectangleOpen")
@@ -81,7 +108,7 @@ sub switchAccountOpen()
         m.labelSwitchAccountLarge.visible = false
         m.switchAccountPoster.uri = getValueInRegistryForKey("selectedAccountThumbValue")
     else
-        m.rectSwitchAccountPoster.color = m.appConfig.primary_color
+        m.rectSwitchAccountPoster.color = m.top.getScene().appConfigContent.primary_color
         m.labelSwitchAccountLarge.visible = true
         m.labelSwitchAccountLarge.text = UCase(Left(getValueInRegistryForKey("selectedAccountNameValue"), 1))
         m.labelSwitchAccountLarge.font.size = 60
@@ -98,8 +125,8 @@ End sub
 sub switchAccountClose()
     m.rectSwitchAccountSmall = m.top.FindNode("rectSwitchAccountSmall")
     
-    primaryColor = m.appConfig.primary_color
-    m.rectSwitchAccountSmall.color = m.appConfig.primary_color
+    primaryColor = m.top.getScene().appConfigContent.primary_color
+    m.rectSwitchAccountSmall.color = m.top.getScene().appConfigContent.primary_color
     
     m.labelAccount = m.top.FindNode("labelAccount")
     m.labelAccount.text = UCase(Left(getValueInRegistryForKey("selectedAccountNameValue"), 1))

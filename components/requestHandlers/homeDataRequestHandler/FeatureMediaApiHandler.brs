@@ -26,6 +26,7 @@ sub parseApiResponse(response As Object)
         for each mediaItem in medias
             mediaModel = CreateObject("roSGNode", "MediaDataModel")
             mediaModel.resource_id = mediaItem.resource_id
+            mediaModel.type = mediaItem.type
             mediaModel.title = mediaItem.title
             mediaModel.duration = mediaItem.duration
             mediaModel.small = mediaItem.cover_art.small

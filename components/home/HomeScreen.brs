@@ -182,6 +182,7 @@ function getGridRowListContent() as object
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
+                rowItem.isItem = true
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -199,9 +200,15 @@ function getGridRowListContent() as object
                 rowItem.id = dataObjet.resource_id
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
-                rowItem.count = dataObjet.duration
                 rowItem.coverBgColor = m.appConfig.primary_color
-                rowItem.isMedia = true
+                rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
+                rowItem.isItem = false
+                if dataObjet.type = "Video" OR dataObjet.type = "Audio"
+                    rowItem.isMedia = true
+                else
+                    rowItem.isMedia = false
+                end if
+                
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -222,6 +229,7 @@ function getGridRowListContent() as object
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
+                rowItem.isItem = true
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -239,9 +247,14 @@ function getGridRowListContent() as object
                 rowItem.id = dataObjet.resource_id
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
-                rowItem.count = dataObjet.duration
+                rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.coverBgColor = m.appConfig.primary_color
-                rowItem.isMedia = true
+                rowItem.isItem = false
+                if dataObjet.type = "Video" OR dataObjet.type = "Audio"
+                    rowItem.isMedia = true
+                else
+                    rowItem.isMedia = false
+                end if
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -262,6 +275,7 @@ function getGridRowListContent() as object
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
+                rowItem.isItem = true
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -279,9 +293,14 @@ function getGridRowListContent() as object
                 rowItem.id = dataObjet.resource_id
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
-                rowItem.count = dataObjet.duration
+                rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.coverBgColor = m.appConfig.primary_color
-                rowItem.isMedia = true
+                rowItem.isItem = false
+                if dataObjet.type = "Video" OR dataObjet.type = "Audio"
+                    rowItem.isMedia = true
+                else
+                    rowItem.isMedia = false
+                end if
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -302,6 +321,7 @@ function getGridRowListContent() as object
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
+                rowItem.isItem = true
                 if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                     rowItem.isNew = true
                 else
@@ -340,6 +360,7 @@ function getGridRowListContent() as object
                       rowItem.count = dataObjet.media_count
                       rowItem.coverBgColor = m.appConfig.primary_color
                       rowItem.isMedia = false
+                      rowItem.isItem = true
                       if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                           rowItem.isNew = true
                       else
@@ -416,6 +437,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             print "key = right"
             m.homeRowList.setFocus(true)
             m.homeRowList.translation = [260, 60]
+            m.buttonHomeClose.uri = "pkg:/images/$$RES$$/Home Focused.png" 
             showCloseState()
             result = true
         else if key = "left" 
@@ -467,8 +489,3 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     end if
     return result 
 End Function 
-
-Sub ExitUserInterface()
-    print "closing app"
-    'End
-End Sub
