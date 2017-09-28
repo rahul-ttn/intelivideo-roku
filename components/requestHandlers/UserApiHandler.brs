@@ -46,12 +46,13 @@ sub parseApiResponse(response As Object)
             productModel.title = productItem.title
             productModel.media_count = productItem.media_count
             productModel.created_at = productItem.created_at
-            if productItem.images.horizontal_cover_art <> invalid
-                productModel.small = productItem.images.horizontal_cover_art.small
-            else if productItem.images.banner_image <> invalid
-                productModel.small = productItem.images.banner_image.small
+            if productItem.images <>invalid
+                if productItem.images.horizontal_cover_art <> invalid
+                    productModel.small = productItem.images.horizontal_cover_art.small
+                else if productItem.images.banner_image <> invalid
+                    productModel.small = productItem.images.banner_image.small
+                end if
             end if
-            
             productArray.Push(productModel)
         end for
         userApiModel.productsArray = productArray
@@ -64,10 +65,12 @@ sub parseApiResponse(response As Object)
             subsModel.title = subsItem.title
             subsModel.media_count = subsItem.media_count
             subsModel.created_at = subsItem.created_at
-            if subsItem.images.horizontal_cover_art <> invalid
-                subsModel.small = subsItem.images.horizontal_cover_art.small
-            else if subsItem.images.banner_image <> invalid
-                subsModel.small = subsItem.images.banner_image.small
+            if subsItem.images <>invalid
+                if subsItem.images.horizontal_cover_art <> invalid
+                    subsModel.small = subsItem.images.horizontal_cover_art.small
+                else if subsItem.images.banner_image <> invalid
+                    subsModel.small = subsItem.images.banner_image.small
+                end if
             end if
             
             subsArray.Push(subsModel)

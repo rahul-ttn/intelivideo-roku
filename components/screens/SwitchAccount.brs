@@ -50,7 +50,7 @@ function rowItemSelected() as void
 '        print "**********col is *********";col
         if row = 0 AND col = 0
             if m.accountsArray.count() = 10
-                showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+                showNetworkErrorDialog(maxAddAccountAlertTitle(), maxAddAccountAlertMessage())
             else
                 goToLoginScreen()
                 m.top.accountSelected = false

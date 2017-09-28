@@ -7,9 +7,9 @@ function networkErrorMessage() as string
 end function
 
 function maxAddAccountAlertTitle() as string
-    return "Network Error"
+    return "Add Account"
 end function
 
 function maxAddAccountAlertMessage() as string
-    return "Network Error. Cannot refresh data. Try again later."
+    return "Maximum account limit has been reached please disconnect any one or more accounts to add new account"
 end function

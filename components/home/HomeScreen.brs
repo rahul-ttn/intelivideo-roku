@@ -3,11 +3,6 @@ sub init()
     m.isProgressDialog = false
     m.isSVOD = false
     m.counter = 0
-'    print "############scene child count";m.top.getScene().getChildCount()
-'    for i =1 To m.top.getScene().getChildCount() Step +1
-'       print "Scene Child with index ";i;m.top.getScene().getChild(i)
-'    end for
-'    print "############current screen child count";m.top.getChildCount()
     m.counterMaxValue = 6
     initFields()
     hideFields()
@@ -18,6 +13,7 @@ End sub
 
 sub callUserApi()
     if checkInternetConnection()
+        m.Error_text.visible = false
         showProgressDialog()
         baseUrl = getApiBaseUrl() + "user?access_token=" + getValueInRegistryForKey("authTokenValue")
         m.userApi = createObject("roSGNode","UserApiHandler")
@@ -25,7 +21,7 @@ sub callUserApi()
         m.userApi.observeField("content","onUserApiResponse")
         m.userApi.control = "RUN"
     else
-        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
@@ -55,7 +51,7 @@ sub onUserApiResponse()
         end if
     else
         hideProgressDialog()
-        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
@@ -73,7 +69,7 @@ sub callHomeSVODApis()
         callRecentlyAddedProductsApi()
         callRecentlyAddedMediaApi()
     else
-        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
@@ -148,6 +144,7 @@ end sub
 
 sub getData()
     if m.counter = m.counterMaxValue
+        m.Error_text.visible = false
         hideProgressDialog()
         m.featureProductsApiModel = m.featureProductApi.content
         m.featureMediaApiModel = m.featureMediaApi.content
@@ -162,7 +159,7 @@ sub getData()
             homeRowList() 
         else
             print "featureProductApiModel.fail"
-            showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
         end if
     end if
 end sub
@@ -394,6 +391,7 @@ end sub
 sub initFields() 
     homeBackground = m.top.FindNode("homeBackground")
     homeBackground.color = homeBackground() 
+    m.Error_text  = m.top.FindNode("Error_text")
     m.homeRowList = m.top.FindNode("homeRowList")  
     m.navBar = m.top.FindNode("NavigationBar") 
 End sub
@@ -489,4 +487,34 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
         end if           
     end if
     return result 
-End Function 
+End Function
+
+Function showRetryDialog(title ,message)
+  m.Error_text.visible = true
+  m.Error_text.text = networkErrorMessage()
+  
+  dialog = createObject("roSGNode", "Dialog") 
+  dialog.backgroundUri = "" 
+  dialog.title = title
+  dialog.optionsDialog = true 
+  dialog.iconUri = ""
+  dialog.message = message
+  dialog.width = 1200
+  dialog.buttons = ["Retry"]
+  dialog.optionsDialog = true
+  dialog.observeField("buttonSelected", "startTimer") 'The field is set when the dialog close field is set,
+  m.top.getScene().dialog = dialog
+end Function
+
+sub onRetry()
+     print "onRetry >> "
+    callUserApi()
+end sub
+
+sub startTimer()
+     print "startTimer >> "
+    m.top.getScene().dialog.close = true
+    m.testtimer = m.top.findNode("timer")
+    m.testtimer.control = "start"
+    m.testtimer.ObserveField("fire","onRetry")
+end sub
