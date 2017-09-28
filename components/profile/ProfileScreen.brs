@@ -1,5 +1,6 @@
 sub init()
     m.top.SetFocus(true)
+    m.screenName = "Profile"
     m.appConfig =  m.top.getScene().appConfigContent 
 
     m.tnc = m.appConfig.terms_of_service

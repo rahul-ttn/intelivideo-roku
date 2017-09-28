@@ -156,8 +156,10 @@ End sub
 
 sub showHomeScreen()
     print "Home Screen"
-    homeScreen = m.top.createChild("HomeScreen")
-    homeScreen.setFocus(true)
+    if m.screenName <> "Home"
+        homeScreen = m.top.createChild("HomeScreen")
+        homeScreen.setFocus(true)
+    end if
 End sub
 
 sub showCategoryScreen()
@@ -174,8 +176,10 @@ End sub
 
 sub showProfileScreen()
     print "Profile Screen"
-    profileScreen = m.top.createChild("ProfileScreen")
-    profileScreen.setFocus(true)
+    if m.screenName <> "Profile"
+        profileScreen = m.top.createChild("ProfileScreen")
+        profileScreen.setFocus(true)
+    end if
 End sub
 
 sub showSwitchAccount()

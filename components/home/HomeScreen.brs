@@ -1,6 +1,6 @@
 sub init()
     m.top.SetFocus(true)
-    m.isProgressDialog = false
+    m.screenName = "Home"
     m.isSVOD = false
     m.counter = 0
     m.counterMaxValue = 6
@@ -27,28 +27,26 @@ end sub
 
 sub onUserApiResponse()
     userApiModel = m.userApi.content
-    if(userApiModel.success)
+    if userApiModel.success
         showFields()
         m.appConfig =  m.userApi.content.appConfigModel
         m.userData =  m.userApi.content.userModel
         m.productsAarray = m.userApi.content.productsArray
         m.subsAarray = m.userApi.content.subscriptionsArray
         
-        if m.subsAarray.count() > 0
-            m.top.getScene().myContent = m.productsAarray
-        end if
-        
         m.top.getScene().appConfigContent = m.appConfig 
         initNavigationBar()
         if m.subsAarray.count() > 0
+            m.top.getScene().myContent = m.productsAarray
             m.isSVOD = true
             callHomeSVODApis()
         else if m.productsAarray.count() > 0
+            m.top.getScene().myContent = []
             m.isSVOD = false
             showTVODData()
         else
         
-        end if
+    end if
     else
         hideProgressDialog()
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
@@ -494,6 +492,7 @@ Function showRetryDialog(title ,message)
   m.Error_text.visible = true
   m.Error_text.text = networkErrorMessage()
   
+  
   dialog = createObject("roSGNode", "Dialog") 
   dialog.backgroundUri = "" 
   dialog.title = title
@@ -508,12 +507,10 @@ Function showRetryDialog(title ,message)
 end Function
 
 sub onRetry()
-     print "onRetry >> "
     callUserApi()
 end sub
 
 sub startTimer()
-     print "startTimer >> "
     m.top.getScene().dialog.close = true
     m.testtimer = m.top.findNode("timer")
     m.testtimer.control = "start"
