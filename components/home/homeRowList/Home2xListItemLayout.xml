@@ -10,8 +10,7 @@
 	<children>
 		<Rectangle id="rectangle" width="675" height="572">
 			<Rectangle id="posterRect" height="380" width="675" color="0x565656FF">
-				<Poster id="posterVod" height="380" width="675"
-					uri="pkg:/images/bg_login_hd.png">
+				<Poster id="posterVod" height="380" width="675">
 
 					<Rectangle id="rectNew" height="40" width="100"
 						translation="[565,20]" color="0x565656FF" visible="false">

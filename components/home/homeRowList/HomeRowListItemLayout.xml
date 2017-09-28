@@ -11,8 +11,7 @@
 	<children>
 		<Rectangle id="rectangle" width="548" height="500">
 			<Rectangle id="posterRect" height="308" width="548" color="0x565656FF">
-				<Poster id="posterVod" height="308" width="548" translation="[0,0]"
-					uri="pkg:/images/bg_login_hd.png">
+				<Poster id="posterVod" height="308" width="548" translation="[0,0]">
 
 					<Rectangle id="rectNew" height="40" width="100"
 						translation="[440,20]" color="0x565656FF" visible="false">

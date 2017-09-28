@@ -337,8 +337,9 @@ function getGridRowListContent() as object
                 n = 1
             else
                 m.homeRowList.itemComponentName = "Home3xListItemLayout"
-                m.homeRowList.itemSize = [200 * 9 + 100, 470]
-                m.homeRowList.rowHeights = [470]
+                m.homeRowList.itemSize = [200 * 9 + 100, 445]
+                m.homeRowList.rowHeights = [445]
+                m.homeRowList.rowItemSpacing = [ [100, 0] ]
                 m.homeRowList.rowItemSize = [ [448, 445] ]
                 numberOfRows = (m.productsAarray.count() + 2) \ 3 
                 n = 2

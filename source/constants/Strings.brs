@@ -11,5 +11,5 @@ function maxAddAccountAlertTitle() as string
 end function
 
 function maxAddAccountAlertMessage() as string
-    return "Maximum account limit has been reached please disconnect any one or more accounts to add new account"
+    return "Maximum account limit has been reached. Please disconnect any one or more accounts to add new account."
 end function

@@ -51,7 +51,6 @@ sub parseApiResponse(response As Object)
             else if productItem.images.banner_image <> invalid
                 productModel.small = productItem.images.banner_image.small
             end if
-            
             productArray.Push(productModel)
         end for
         userApiModel.productsArray = productArray
