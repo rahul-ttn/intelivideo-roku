@@ -20,7 +20,7 @@
 					</Rectangle>
 				</Poster>
 			</Rectangle>
-			<Label id="labelDescription" width="520" translation="[20,275]"
+			<Label id="labelDescription" width="428" translation="[20,275]"
 				wrap="true" color="0x000000ff" font="font:SmallSystemFont" maxLines="2"
 				ellipsizeOnBoundary="true">
 			</Label>
