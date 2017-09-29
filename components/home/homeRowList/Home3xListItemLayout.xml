@@ -10,7 +10,7 @@
 	<children>
 		<Rectangle id="rectangle" width="448" height="445">
 			<Rectangle id="posterRect" height="253" width="448" color="0x565656FF">
-				<Poster id="posterVod" height="253" width="448" translation = "[0.0,0.0]" loadDisplayMode="scaleToFit">
+				<Poster id="posterVod" height="253" width="448" translation = "[0.0,0.0]" loadDisplayMode="scaleToFill">
 
 					<Rectangle id="rectNew" height="40" width="100"
 						translation="[340,20]" color="0x565656FF" visible="false">
