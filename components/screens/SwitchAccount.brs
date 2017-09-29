@@ -70,7 +70,7 @@ sub goToHomeScreen(index as Integer)
     accountsModel = m.accountsArray[index]
     accountsModel = ParseJSON(accountsModel)
     setValueInRegistryForKey("selectedAccountName", accountsModel.name)
-    if(accountsModel.thumbnail <> invalid)
+    if accountsModel.thumbnail <> invalid
         setValueInRegistryForKey("selectedAccountThumb", accountsModel.thumbnail)
     end if
     setValueInRegistryForKey("authToken", accountsModel.access_token)
@@ -91,9 +91,9 @@ end sub
 
 function setVideo() as void
   videoContent = createObject("RoSGNode", "ContentNode")
-  videoContent.url = "pkg:/videos/login_video.mp4"
+  videoContent.url = "pkg:/videos/login_video.mov"
   videoContent.title = ""
-  videoContent.streamformat = "mp4"
+  videoContent.streamformat = "mov"
   
  
   m.video = m.top.findNode("musicvideos")

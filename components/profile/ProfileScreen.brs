@@ -59,7 +59,7 @@ function getGridRowListContent() as object
                       rowItem.count = dataObjet.media_count
                       rowItem.coverBgColor = m.appConfig.primary_color
                       rowItem.isMedia = false
-                      if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                      if getPostedVideoDayDifference(dataObjet.created_at) < 11
                           rowItem.isNew = true
                       else
                           rowItem.isNew = false
@@ -75,23 +75,23 @@ sub onListItemFocused()
         n = 1
     end if
     
-    if(m.profileLabelList.itemFocused = 0-n)
+    if m.profileLabelList.itemFocused = 0-n
         m.profileRightTitle.text = ""
         m.profileRightValue.text = ""
         homeRowList()
-    else if(m.profileLabelList.itemFocused = 1-n)
+    else if m.profileLabelList.itemFocused = 1-n
         m.myContentRowList.visible = false
         m.profileRightTitle.text = "TERMS OF USE"
         m.profileRightValue.text = m.tnc
-    else if(m.profileLabelList.itemFocused = 2-n)
+    else if m.profileLabelList.itemFocused = 2-n
         m.myContentRowList.visible = false
         m.profileRightTitle.text = "PRIVACY POLICY"
         m.profileRightValue.text = m.privayPolicy
-    else if(m.profileLabelList.itemFocused = 3-n)
+    else if m.profileLabelList.itemFocused = 3-n
         m.myContentRowList.visible = false
         m.profileRightTitle.text = "CONTACT US"
         m.profileRightValue.text = "To contact support please email: support@intelivideo.com"
-    else if(m.profileLabelList.itemFocused = 4-n)
+    else if m.profileLabelList.itemFocused = 4-n
         m.myContentRowList.visible = false
         m.profileRightTitle.text = ""
         m.profileRightValue.text = ""
@@ -104,15 +104,15 @@ sub onListItemSelected()
         n = 1
     end if
     
-    if(m.profileLabelList.itemFocused = 0-n)
+    if m.profileLabelList.itemFocused = 0-n
         
-    else if(m.profileLabelList.itemFocused = 1-n)
+    else if m.profileLabelList.itemFocused = 1-n
         m.profileRightTitle.text = "TERMS OF USE"
-    else if(m.profileLabelList.itemFocused = 2-n)
+    else if m.profileLabelList.itemFocused = 2-n
         m.profileRightTitle.text = "PRIVACY POLICY"
-    else if(m.profileLabelList.itemFocused = 3-n)
+    else if m.profileLabelList.itemFocused = 3-n
         m.profileRightTitle.text = "CONTACT US"
-    else if(m.profileLabelList.itemFocused = 4-n)
+    else if m.profileLabelList.itemFocused = 4-n
          accountList = getValueInRegistryForKey("accountsValue")
          accountsArray =  accountList.Split("||")
          if accountsArray.count() = 1
@@ -134,7 +134,7 @@ sub onListItemSelected()
                 accountsModel = accountsArray[0]
                 accountsModel = ParseJSON(accountsModel)
                 setValueInRegistryForKey("selectedAccountName", accountsModel.name)
-                if(accountsModel.thumbnail <> invalid)
+                if accountsModel.thumbnail <> invalid
                     setValueInRegistryForKey("selectedAccountThumb", accountsModel.thumbnail)
                 end if
                 setValueInRegistryForKey("authToken", accountsModel.access_token)

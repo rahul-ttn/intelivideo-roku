@@ -75,7 +75,7 @@ sub updateSelectedAccount()
     m.emailId = m.top.emailId
     m.account = m.top.account
     setValueInRegistryForKey("selectedAccountName", m.account.name)
-    if(m.account.thumbnail <> invalid)
+    if m.account.thumbnail <> invalid
         setValueInRegistryForKey("selectedAccountThumb", m.account.thumbnail)
     end if
     print "m.account >>> " ; m.account
@@ -128,8 +128,8 @@ end sub
 'Call on Authentication API response
 sub onAuthToken()
    authTokenModel = m.authApi.content
-   if(authTokenModel.success)
-        if(getValueInRegistryForKey("isLoginValue") = "true")
+   if authTokenModel.success
+        if getValueInRegistryForKey("isLoginValue") = "true"
             hideViews()
             
             

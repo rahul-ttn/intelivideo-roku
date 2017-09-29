@@ -4,7 +4,7 @@ end sub
 
 sub callApiHandler()
      response = callGetApi(m.top.uri)
-     if(response <> invalid)
+     if response <> invalid
         m.responseCode = response.GetResponseCode()
         responseString = response.GetString()
         json = ParseJSON(response)
@@ -18,7 +18,7 @@ end sub
 
 sub parseApiResponse(response As Object)
     featureMediaModel = CreateObject("roSGNode", "FeatureMediaModel")
-    if(m.responseCode = 200)
+    if m.responseCode = 200
         featureMediaModel.code = 200
         featureMediaModel.success = true
         medias = response.media
@@ -43,9 +43,9 @@ sub parseApiResponse(response As Object)
             featureMediaModel.recentlyAddedMediaArray = mediaArray
         end if 
         print "mediaArray >>> ";mediaArray
-    else if(response.error <> invalid)
+    else 
         featureMediaModel.success = false
-        featureMediaModel.error = response.error
+        featureMediaModel.error = apiErrorMessage()
     end if
     
     m.top.content = featureMediaModel

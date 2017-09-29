@@ -153,7 +153,7 @@ sub getData()
         m.recentAddedProductApiModel = m.recentAddedProductApi.content
         m.recentAddedMediaApiModel = m.recentAddedMediaApi.content
         
-        if(m.featureProductsApiModel.success AND m.featureMediaApiModel.success AND m.popularProductApiModel.success AND m.popularMediaApiModel.success AND m.recentAddedProductApiModel.success AND m.recentAddedMediaApiModel.success)
+        if m.featureProductsApiModel.success AND m.featureMediaApiModel.success AND m.popularProductApiModel.success AND m.popularMediaApiModel.success AND m.recentAddedProductApiModel.success AND m.recentAddedMediaApiModel.success
             homeRowList() 
         else
             print "featureProductApiModel.fail"
@@ -178,7 +178,7 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
                 rowItem.isItem = true
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -204,7 +204,7 @@ function getGridRowListContent() as object
                     rowItem.isMedia = false
                 end if
                 
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -225,7 +225,7 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
                 rowItem.isItem = true
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -250,7 +250,7 @@ function getGridRowListContent() as object
                 else
                     rowItem.isMedia = false
                 end if
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -271,7 +271,7 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
                 rowItem.isItem = true
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -296,7 +296,7 @@ function getGridRowListContent() as object
                 else
                     rowItem.isMedia = false
                 end if
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -317,7 +317,7 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
                 rowItem.isItem = true
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -357,7 +357,7 @@ function getGridRowListContent() as object
                       rowItem.coverBgColor = m.appConfig.primary_color
                       rowItem.isMedia = false
                       rowItem.isItem = true
-                      if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                      if getPostedVideoDayDifference(dataObjet.created_at) < 11
                           rowItem.isNew = true
                       else
                           rowItem.isNew = false
@@ -370,22 +370,6 @@ function getGridRowListContent() as object
          
          return parentContentNode 
 end function
-
-sub showLoader()
-        m.loaderScreen = m.top.createChild("ACLoaderScreen")
-        m.loaderScreen.visible = true
-        m.top.setFocus(false)
-        m.loaderScreen.setFocus(true)
-end sub
-
-sub hideLoader()
-        m.loaderScreen.visible = false
-        m.top.setFocus(true)
-        m.loaderScreen.setFocus(false)
-        if(m.buttonHomeOpen <> invalid AND m.buttonHomeOpen <> "")
-            m.buttonHomeOpen.SetFocus(true)
-        end if
-end sub
 
 sub initFields() 
     homeBackground = m.top.FindNode("homeBackground")

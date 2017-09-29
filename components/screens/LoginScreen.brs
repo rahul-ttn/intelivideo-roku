@@ -97,7 +97,7 @@ function showHideSpinner(flag as boolean) as void
 end function
 
 sub showspinner()
-      if(m.busyspinner.poster.loadStatus = "ready")
+      if m.busyspinner.poster.loadStatus = "ready"
         m.busyspinner.visible = true
       end if
 end sub
@@ -112,7 +112,7 @@ end sub
 
 function onFetchMerchant()  
     merchantModel = m.fetchMerchantApi.content
-    if(merchantModel.success)
+    if merchantModel.success
         if m.fetchMerchantApi.content.accountsArray.count() = 0
             print "No Accounts Found"
             m.top.getScene().dialog.close = true
@@ -171,9 +171,9 @@ end sub
 
 function setVideo() as void
   videoContent = createObject("RoSGNode", "ContentNode")
-  videoContent.url = "pkg:/videos/login_video.mp4"
+  videoContent.url = "pkg:/videos/login_video.mov"
   videoContent.title = ""
-  videoContent.streamformat = "mp4"
+  videoContent.streamformat = "mov"
   
   m.video = m.top.findNode("musicvideos")
   m.video.content = videoContent
@@ -187,7 +187,7 @@ end function
 
 Function onKeyEvent(key as String,press as Boolean) as Boolean
     result = false
-    if(press)
+    if press
         if key = "down"
             if m.editTextButton.hasFocus()
                 handleButtonEditTextColorFocus(false)

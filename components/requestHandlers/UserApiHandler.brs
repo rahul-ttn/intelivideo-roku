@@ -4,7 +4,7 @@ end sub
 
 sub callUserApiHandler()
      response = callGetApi(m.top.uri)
-     if(response <> invalid)
+     if response <> invalid
         m.responseCode = response.GetResponseCode()
         responseString = response.GetString()
         json = ParseJSON(response)
@@ -18,7 +18,7 @@ end sub
 
 sub parseApiResponse(response As Object)
     userApiModel = CreateObject("roSGNode", "UserApiModel")
-    if(m.responseCode = 200)
+    if m.responseCode = 200
         userApiModel.success = true
         appConfigModel = CreateObject("roSGNode", "AppConfigModel")
         appConfigModel.base_theme = response.app_config.base_theme
@@ -77,9 +77,9 @@ sub parseApiResponse(response As Object)
         end for
         userApiModel.subscriptionsArray = subsArray
        
-    else if(response.error <> invalid)
+    else 
         userApiModel.success = false
-        userApiModel.error = response.error
+        userApiModel.error = apiErrorMessage()
     end if
     m.top.content = userApiModel
     

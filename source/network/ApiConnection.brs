@@ -43,7 +43,7 @@ Function callApi(url as String,headers as Object,isPostApi as boolean,params as 
     request.InitClientCertificates()   
     print url
     checkRokuConnection = CreateObject("roDeviceInfo")
-    If(checkrokuconnection.GetLinkStatus()) Then
+    If checkrokuconnection.GetLinkStatus() Then
     
     if isPostApi = true
         requestType = request.AsyncPostFromString(params)
