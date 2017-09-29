@@ -9,7 +9,6 @@
 
 	<children>
 		<Rectangle id="rectangle" width="675" height="572">
-
 			<Rectangle id="posterRect" height="380" width="675" translation="[0,0]" color="0x565656FF">
 				<Poster id="posterVod" height="380" width="675" translation="[0,-1]">
 

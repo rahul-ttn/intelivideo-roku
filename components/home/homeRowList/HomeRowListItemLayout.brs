@@ -16,7 +16,7 @@ End sub
 
 function itemContentChanged() as void
     itemData = m.top.itemContent
-    m.posterVod.uri = itemData.imageUri
+    'm.posterVod.uri = itemData.imageUri
     m.labelDescription.text = itemData.title
     m.posterRect.color = itemData.coverBgColor
     m.rectNew.color = itemData.coverBgColor
