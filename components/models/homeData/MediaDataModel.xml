@@ -3,6 +3,7 @@
 	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
 	<interface>
 		<field id="resource_id" type="integer" />
+		<field id="type" type="String" />
 		<field id="title" type="String" />
 		<field id="duration" type="integer" />
 		<field id="small" type="String" />

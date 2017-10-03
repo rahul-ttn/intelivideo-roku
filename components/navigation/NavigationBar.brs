@@ -37,7 +37,7 @@ End sub
 
 sub appendButtons()
     m.buttonGroupOpen.appendChild(m.buttonHomeOpen)
-    if(m.top.getScene().appConfigContent.display_categories)
+    if m.top.getScene().appConfigContent.display_categories
         m.buttonGroupOpen.appendChild(m.buttonCategoryOpen)
     else
         m.buttonCategoryOpen.visible = false
@@ -62,7 +62,7 @@ End sub
 
 sub appendPosters()
     m.navButtonGroupClose.appendChild(m.buttonHomeClose)
-    if(m.top.getScene().appConfigContent.display_categories)
+    if m.top.getScene().appConfigContent.display_categories
         m.navButtonGroupClose.appendChild(m.buttonCategoryClose)
     else
         m.buttonCategoryClose.visible = false
@@ -103,7 +103,7 @@ sub switchAccountOpen()
     m.labelSwitchAccountLarge = m.top.FindNode("labelSwitchAccountLarge")
     
     m.switchAccountPoster = m.top.FindNode("switchAccountPoster")
-    if(getValueInRegistryForKey("selectedAccountThumbValue") <> "")
+    if getValueInRegistryForKey("selectedAccountThumbValue") <> ""
         m.rectSwitchAccountPoster.color = "0xFFFFFFFF"
         m.labelSwitchAccountLarge.visible = false
         m.switchAccountPoster.uri = getValueInRegistryForKey("selectedAccountThumbValue")
@@ -156,8 +156,10 @@ End sub
 
 sub showHomeScreen()
     print "Home Screen"
-    homeScreen = m.top.createChild("HomeScreen")
-    homeScreen.setFocus(true)
+    if m.screenName <> "Home"
+        homeScreen = m.top.createChild("HomeScreen")
+        homeScreen.setFocus(true)
+    end if
 End sub
 
 sub showCategoryScreen()
@@ -174,8 +176,10 @@ End sub
 
 sub showProfileScreen()
     print "Profile Screen"
-    profileScreen = m.top.createChild("ProfileScreen")
-    profileScreen.setFocus(true)
+    if m.screenName <> "Profile"
+        profileScreen = m.top.createChild("ProfileScreen")
+        profileScreen.setFocus(true)
+    end if
 End sub
 
 sub showSwitchAccount()

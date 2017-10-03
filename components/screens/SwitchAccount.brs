@@ -49,9 +49,12 @@ function rowItemSelected() as void
 '        print "**********Row is *********";row
 '        print "**********col is *********";col
         if row = 0 AND col = 0
-            print "goToLoginScreen >>> "
-            goToLoginScreen()
-            m.top.accountSelected = false
+            if m.accountsArray.count() = 10
+                showNetworkErrorDialog(maxAddAccountAlertTitle(), maxAddAccountAlertMessage())
+            else
+                goToLoginScreen()
+                m.top.accountSelected = false
+            end if
         else
             'onKeyEvent("back",true)
             'goToPasswordScreen(m.accountsArray[col])
@@ -63,10 +66,11 @@ function rowItemSelected() as void
 end function
 
 sub goToHomeScreen(index as Integer)
+    m.video.control = "stop"
     accountsModel = m.accountsArray[index]
     accountsModel = ParseJSON(accountsModel)
     setValueInRegistryForKey("selectedAccountName", accountsModel.name)
-    if(accountsModel.thumbnail <> invalid)
+    if accountsModel.thumbnail <> invalid
         setValueInRegistryForKey("selectedAccountThumb", accountsModel.thumbnail)
     end if
     setValueInRegistryForKey("authToken", accountsModel.access_token)
@@ -87,9 +91,15 @@ end sub
 
 function setVideo() as void
   videoContent = createObject("RoSGNode", "ContentNode")
+<<<<<<< HEAD
   videoContent.url = "pkg:/videos/login_video.mp4"
   videoContent.title = ""
   videoContent.streamformat = "mp4"
+=======
+  videoContent.url = "pkg:/videos/login_video.mov"
+  videoContent.title = ""
+  videoContent.streamformat = "mov"
+>>>>>>> development
   
  
   m.video = m.top.findNode("musicvideos")

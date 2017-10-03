@@ -1,13 +1,8 @@
 sub init()
     m.top.SetFocus(true)
-    m.isProgressDialog = false
+    m.screenName = "Home"
     m.isSVOD = false
     m.counter = 0
-'    print "############scene child count";m.top.getScene().getChildCount()
-'    for i =1 To m.top.getScene().getChildCount() Step +1
-'       print "Scene Child with index ";i;m.top.getScene().getChild(i)
-'    end for
-'    print "############current screen child count";m.top.getChildCount()
     m.counterMaxValue = 6
     initFields()
     hideFields()
@@ -18,6 +13,7 @@ End sub
 
 sub callUserApi()
     if checkInternetConnection()
+        m.Error_text.visible = false
         showProgressDialog()
         baseUrl = getApiBaseUrl() + "user?access_token=" + getValueInRegistryForKey("authTokenValue")
         m.userApi = createObject("roSGNode","UserApiHandler")
@@ -25,37 +21,35 @@ sub callUserApi()
         m.userApi.observeField("content","onUserApiResponse")
         m.userApi.control = "RUN"
     else
-        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
 sub onUserApiResponse()
     userApiModel = m.userApi.content
-    if(userApiModel.success)
+    if userApiModel.success
         showFields()
         m.appConfig =  m.userApi.content.appConfigModel
         m.userData =  m.userApi.content.userModel
         m.productsAarray = m.userApi.content.productsArray
         m.subsAarray = m.userApi.content.subscriptionsArray
         
-        if m.subsAarray.count() > 0
-            m.top.getScene().myContent = m.productsAarray
-        end if
-        
         m.top.getScene().appConfigContent = m.appConfig 
         initNavigationBar()
         if m.subsAarray.count() > 0
+            m.top.getScene().myContent = m.productsAarray
             m.isSVOD = true
             callHomeSVODApis()
         else if m.productsAarray.count() > 0
+            m.top.getScene().myContent = []
             m.isSVOD = false
             showTVODData()
         else
         
-        end if
+    end if
     else
         hideProgressDialog()
-        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
@@ -73,7 +67,7 @@ sub callHomeSVODApis()
         callRecentlyAddedProductsApi()
         callRecentlyAddedMediaApi()
     else
-        showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
@@ -148,6 +142,7 @@ end sub
 
 sub getData()
     if m.counter = m.counterMaxValue
+        m.Error_text.visible = false
         hideProgressDialog()
         m.featureProductsApiModel = m.featureProductApi.content
         m.featureMediaApiModel = m.featureMediaApi.content
@@ -158,11 +153,11 @@ sub getData()
         m.recentAddedProductApiModel = m.recentAddedProductApi.content
         m.recentAddedMediaApiModel = m.recentAddedMediaApi.content
         
-        if(m.featureProductsApiModel.success AND m.featureMediaApiModel.success AND m.popularProductApiModel.success AND m.popularMediaApiModel.success AND m.recentAddedProductApiModel.success AND m.recentAddedMediaApiModel.success)
+        if m.featureProductsApiModel.success AND m.featureMediaApiModel.success AND m.popularProductApiModel.success AND m.popularMediaApiModel.success AND m.recentAddedProductApiModel.success AND m.recentAddedMediaApiModel.success
             homeRowList() 
         else
             print "featureProductApiModel.fail"
-            showNetworkErrorDialog(networkErrorTitle(), networkErrorMessage())
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
         end if
     end if
 end sub
@@ -206,9 +201,14 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
-                rowItem.isMedia = true
+                rowItem.isItem = false
                 rowItem.isViewAll = false
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                if dataObjet.type = "Video" OR dataObjet.type = "Audio"
+                    rowItem.isMedia = true
+                else
+                    rowItem.isMedia = false
+                end if
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -232,8 +232,9 @@ function getGridRowListContent() as object
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
+                rowItem.isItem = true
                 rowItem.isViewAll = false
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -256,9 +257,14 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.coverBgColor = m.appConfig.primary_color
-                rowItem.isMedia = true
                 rowItem.isViewAll = false
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                rowItem.isItem = false
+                if dataObjet.type = "Video" OR dataObjet.type = "Audio"
+                    rowItem.isMedia = true
+                else
+                    rowItem.isMedia = false
+                end if
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -283,7 +289,8 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
                 rowItem.isViewAll = false
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                rowItem.isItem = true
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -306,9 +313,14 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.coverBgColor = m.appConfig.primary_color
-                rowItem.isMedia = true
                 rowItem.isViewAll = false
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                rowItem.isItem = false
+                if dataObjet.type = "Video" OR dataObjet.type = "Audio"
+                    rowItem.isMedia = true
+                else
+                    rowItem.isMedia = false
+                end if
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -333,7 +345,8 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
                 rowItem.isViewAll = false
-                if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                rowItem.isItem = true
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
@@ -355,8 +368,9 @@ function getGridRowListContent() as object
                 n = 1
             else
                 m.homeRowList.itemComponentName = "Home3xListItemLayout"
-                m.homeRowList.itemSize = [200 * 9 + 100, 470]
-                m.homeRowList.rowHeights = [470]
+                m.homeRowList.itemSize = [200 * 9 + 100, 445]
+                m.homeRowList.rowHeights = [445]
+                m.homeRowList.rowItemSpacing = [ [100, 0] ]
                 m.homeRowList.rowItemSize = [ [448, 445] ]
                 numberOfRows = (m.productsAarray.count() + 2) \ 3 
                 n = 2
@@ -375,7 +389,8 @@ function getGridRowListContent() as object
                           rowItem.count = dataObjet.media_count
                           rowItem.coverBgColor = m.appConfig.primary_color
                           rowItem.isMedia = false
-                          if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                          rowItem.isItem = true
+                          if getPostedVideoDayDifference(dataObjet.created_at) < 11
                               rowItem.isNew = true
                           else
                               rowItem.isNew = false
@@ -393,25 +408,10 @@ function getGridRowListContent() as object
          return parentContentNode 
 end function
 
-sub showLoader()
-        m.loaderScreen = m.top.createChild("ACLoaderScreen")
-        m.loaderScreen.visible = true
-        m.top.setFocus(false)
-        m.loaderScreen.setFocus(true)
-end sub
-
-sub hideLoader()
-        m.loaderScreen.visible = false
-        m.top.setFocus(true)
-        m.loaderScreen.setFocus(false)
-        if(m.buttonHomeOpen <> invalid AND m.buttonHomeOpen <> "")
-            m.buttonHomeOpen.SetFocus(true)
-        end if
-end sub
-
 sub initFields() 
     homeBackground = m.top.FindNode("homeBackground")
     homeBackground.color = homeBackground() 
+    m.Error_text  = m.top.FindNode("Error_text")
     m.homeRowList = m.top.FindNode("homeRowList")  
     m.navBar = m.top.FindNode("NavigationBar") 
 End sub
@@ -488,6 +488,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             end if
             result = true 
          else if key = "back"
+            setValueInRegistryForKey("isHome","true")
             if m.switchAccount <> invalid 
                 if m.switchAccount.accountSelected
                     m.top.visible = false
@@ -506,4 +507,33 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
         end if           
     end if
     return result 
-End Function 
+End Function
+
+Function showRetryDialog(title ,message)
+  m.Error_text.visible = true
+  m.Error_text.text = networkErrorMessage()
+  
+  
+  dialog = createObject("roSGNode", "Dialog") 
+  dialog.backgroundUri = "" 
+  dialog.title = title
+  dialog.optionsDialog = true 
+  dialog.iconUri = ""
+  dialog.message = message
+  dialog.width = 1200
+  dialog.buttons = ["Retry"]
+  dialog.optionsDialog = true
+  dialog.observeField("buttonSelected", "startTimer") 'The field is set when the dialog close field is set,
+  m.top.getScene().dialog = dialog
+end Function
+
+sub onRetry()
+    callUserApi()
+end sub
+
+sub startTimer()
+    m.top.getScene().dialog.close = true
+    m.testtimer = m.top.findNode("timer")
+    m.testtimer.control = "start"
+    m.testtimer.ObserveField("fire","onRetry")
+end sub

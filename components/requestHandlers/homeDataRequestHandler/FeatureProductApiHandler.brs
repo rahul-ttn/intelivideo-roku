@@ -4,7 +4,7 @@ end sub
 
 sub callApiHandler()
      response = callGetApi(m.top.uri)
-     if(response <> invalid)
+     if response <> invalid
         m.responseCode = response.GetResponseCode()
         responseString = response.GetString()
         json = ParseJSON(response)
@@ -18,9 +18,9 @@ end sub
 
 sub parseApiResponse(response As Object)
     featureProductModel = CreateObject("roSGNode", "FeatureProductModel")
-    featureProductModel.success = true
-    if(m.responseCode = 200)
+    if m.responseCode = 200
         featureProductModel.code = 200
+        featureProductModel.success = true
         products = response.products
         productArray = CreateObject("roArray", products.count(), false)
         for each productItem in products
@@ -47,8 +47,9 @@ sub parseApiResponse(response As Object)
             featureProductModel.recentlyAddedProductsArray = productArray
         end if 
         print "productArray >>> ";productArray
-    else if(response.error <> invalid)
-        featureProductModel.error = response.error
+    else 
+        featureProductModel.error = apiErrorMessage()
+        featureProductModel.success = false
     end if
     
     m.top.content = featureProductModel

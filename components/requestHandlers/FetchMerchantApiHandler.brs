@@ -5,7 +5,7 @@ end sub
 sub callFetchMerchantApi()
      response = callGetApi(m.top.uri)
      print "response.GetResponseCode() >> " ; response.GetResponseCode()
-     if(response <> invalid)
+     if response <> invalid
         m.responseCode = response.GetResponseCode()
         responseString = response.GetString()
         json = ParseJSON(response)
@@ -19,7 +19,7 @@ end sub
 
 sub parseFetchMerchantApiResponse(response As Object)
     merchantModel = CreateObject("roSGNode", "MerchantModel")
-    if(m.responseCode = 200)
+    if m.responseCode = 200
         merchantModel.success = true
         responseArray = response["accounts"]
         accountsArray = CreateObject("roArray", responseArray.count(), false)
@@ -27,7 +27,7 @@ sub parseFetchMerchantApiResponse(response As Object)
             accountsModel = CreateObject("roSGNode", "AccountsModel")
             accountsModel.id = accounts.id
             accountsModel.name = accounts.name
-            if(accounts.logo <> invalid)
+            if accounts.logo <> invalid
                 accountsModel.original = accounts.logo.original
                 accountsModel.small = accounts.logo.small
                 accountsModel.thumbnail = accounts.logo.thumbnail
@@ -35,7 +35,7 @@ sub parseFetchMerchantApiResponse(response As Object)
             accountsArray.Push(accountsModel)
         end for
         merchantModel.accountsArray = accountsArray
-    else if(response.error <> invalid)
+    else if response.error <> invalid
         merchantModel.success = false
         merchantModel.error = response.error
     end if

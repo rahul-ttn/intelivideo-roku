@@ -8,6 +8,7 @@
 		uri="pkg:/components/home/homeRowList/HomeRowListItemLayout.brs" />
 
 	<children>
+<<<<<<< HEAD
 	<Rectangle id="parentRect" width="675" height="572">
 		<Label
 			id = "labelViewAll"
@@ -24,9 +25,9 @@
 			visible = "false">
 		</Poster>
 		<Rectangle id="rectangle" width="675" height="572" visible = "false">
-			<Rectangle id="posterRect" height="380" width="675" color="0x565656FF">
-				<Poster id="posterVod" height="380" width="675"
-					uri="pkg:/images/bg_login_hd.png">
+
+			<Rectangle id="posterRect" height="380" width="675" translation="[0,0]" color="0x565656FF">
+				<Poster id="posterVod" height="380" width="675" translation="[0,-1]">
 
 					<Rectangle id="rectNew" height="40" width="100"
 						translation="[565,20]" color="0x565656FF" visible="false">

@@ -7,6 +7,7 @@
   <field id="count" type="integer" />
   <field id="isNew" type="boolean" />
   <field id="isMedia" type="boolean" />
+  <field id="isItem" type="boolean" />
   <field id="coverBgColor" type="string" />
   <field id="mediaTime" type="string" />
   <field id="isViewAll" type="boolean"/>

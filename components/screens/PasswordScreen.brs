@@ -11,20 +11,13 @@ sub init()
     m.keyboard = m.top.findNode("keyboard")
     m.keyboard.textEditBox.secureMode = true
     m.busyspinner = m.top.findNode("exampleBusySpinner")
-   ' m.busyspinner.poster.observeField("loadStatus", "showspinner")
     m.busyspinner.poster.uri = "pkg:/images/busyspinner_hd.png"
     m.pinLabel = m.top.findNode("pinLabel")
     m.forgotPasswordLabel = m.top.findNode("forgotPasswordLabel")
-    'm.pinpad = m.top.findNode("pinpad")
     m.keyboardTheme = m.top.findNode("keyboardTheme")
     keyboardX = (1920 - m.keyboardTheme.width) / 2
     m.keyboardTheme.translation = [keyboardX,450]
-    
-'    m.pinpadTheme = m.top.findNode("pinpadTheme")
-'    pinpadX = (1920 - m.pinpadTheme.width) / 2
-'    pinpadY = ((1080 - m.pinpadTheme.height) / 2 ) 
-'    m.pinpadTheme.translation = [pinpadX,pinpadY]
-'    
+       
     m.editTextRectangle = m.top.findNode("editTextRectangle")
     editTextRectangleX = (1920 - m.editTextRectangle.width) / 2
     editTextRectangleY = ((1080 - m.editTextRectangle.height) / 2 ) - 30
@@ -82,7 +75,7 @@ sub updateSelectedAccount()
     m.emailId = m.top.emailId
     m.account = m.top.account
     setValueInRegistryForKey("selectedAccountName", m.account.name)
-    if(m.account.thumbnail <> invalid)
+    if m.account.thumbnail <> invalid
         setValueInRegistryForKey("selectedAccountThumb", m.account.thumbnail)
     end if
     print "m.account >>> " ; m.account
@@ -135,8 +128,8 @@ end sub
 'Call on Authentication API response
 sub onAuthToken()
    authTokenModel = m.authApi.content
-   if(authTokenModel.success)
-        if(getValueInRegistryForKey("isLoginValue") = "true")
+   if authTokenModel.success
+        if getValueInRegistryForKey("isLoginValue") = "true"
             hideViews()
             
             
@@ -244,7 +237,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     if press
     print "onKeyEvent Password Screen : "; key
         if key="up" OR key="down" OR key="left" OR key="right" Then
-            if m.keyboard.visible = false 'AND m.pinpad.visible = false
+            if m.keyboard.visible = false
                 handleFocus(key)
                 handleVisibility()
                 return true
@@ -254,15 +247,6 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         else if key = "back"
             if m.keyboard.visible
                 closeKeyboard()
-                
-'            else if m.pinpad.visible
-'                m.pinpad.visible = false
-'                m.pinpadTheme.visible = false
-'                m.pin = m.pinpad.pin
-'                m.textLabel.text = m.pin
-'                m.currentFocusID = "editTextButton"
-'                handleVisibility()
-'                m.editTextButton.setFocus(true)
                 return true
             else if  m.forgotPasswordScreen <> invalid AND m.forgotPasswordScreen.visible
                 print "Forgot password screen back" 
@@ -273,7 +257,6 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 showPinDialog()
                 return true
             else if getValueInRegistryForKey("isHomeValue") = "true"
-                
                 m.top.visible = false
                 return false
             else
@@ -321,7 +304,11 @@ function showHideError(showError as boolean,errorCode as integer) as void
         if  errorCode = 02
            m.errorLabel.text = "No Internet Connection"
         else if errorCode = 01
-           m.errorLabel.text = "There was an error logging into your account. Please check your password and try again." 
+            if m.pinSelected
+                m.errorLabel.text = "There was an error logging into your account. Please check your PIN and try again."
+            else
+                m.errorLabel.text = "There was an error logging into your account. Please check your password and try again." 
+            end if
         end if
     else
         m.errorLabel.visible = false

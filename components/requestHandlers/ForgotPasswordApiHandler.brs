@@ -4,7 +4,7 @@ end sub
 
 sub callApiHandler()
      response = callPostApi(m.top.uri, m.top.header, m.top.params)
-     if(response <> invalid)
+     if response <> invalid
         m.responseCode = response.GetResponseCode()
         responseString = response.GetString()
         json = ParseJSON(response)
@@ -19,10 +19,10 @@ end sub
 sub parseApiResponse(response As Object)
     baseModel = CreateObject("roSGNode", "BaseModel")
     
-    if(m.responseCode = 200)
+    if m.responseCode = 200
         baseModel.success = true
         baseModel.message = response.message
-    else if(response.error <> invalid)
+    else if response.error <> invalid
         baseModel.success = false
         baseModel.error = response.error
     end if

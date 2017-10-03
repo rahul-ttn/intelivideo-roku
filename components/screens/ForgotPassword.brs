@@ -74,7 +74,7 @@ end sub
 sub forgotPasswordApiResponse()
    baseModel = m.forgotApi.content
    hideProgressDialog()
-   if(baseModel.success)
+   if baseModel.success
         showNetworkErrorDialog("Password Reset", "An email has been sent to reset your password.")
    else
         showHideError(true,02)
