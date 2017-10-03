@@ -91,16 +91,9 @@ end sub
 
 function setVideo() as void
   videoContent = createObject("RoSGNode", "ContentNode")
-<<<<<<< HEAD
-  videoContent.url = "pkg:/videos/login_video.mp4"
-  videoContent.title = ""
-  videoContent.streamformat = "mp4"
-=======
   videoContent.url = "pkg:/videos/login_video.mov"
   videoContent.title = ""
   videoContent.streamformat = "mov"
->>>>>>> development
-  
  
   m.video = m.top.findNode("musicvideos")
   m.video.content = videoContent

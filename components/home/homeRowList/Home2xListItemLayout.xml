@@ -8,7 +8,6 @@
 		uri="pkg:/components/home/homeRowList/HomeRowListItemLayout.brs" />
 
 	<children>
-<<<<<<< HEAD
 	<Rectangle id="parentRect" width="675" height="572">
 		<Label
 			id = "labelViewAll"
