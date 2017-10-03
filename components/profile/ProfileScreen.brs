@@ -65,7 +65,12 @@ function getGridRowListContent() as object
                           rowItem.isNew = false
                       end if
              end for     
-          end for  
+          end for 
+          if myContentArray.Count() >= 10
+              row = parentContentNode.CreateChild("ContentNode")
+              rowItem = row.CreateChild("HomeRowListItemData")
+              rowItem.isViewAll = true
+          end if 
          return parentContentNode 
 end function
 
