@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="ViewAllScreen" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/components/screens/ViewAllScreen.brs"/>
+	
+	<interface>
+		<field id="titleText" type="string" alwaysNotify="true" onChange="setData"/>
+		<field id="contentArray" type="nodeArray" alwaysNotify="true" onChange="setArray"/>
+	</interface>
+	
+	<children>
+		<Rectangle
+			color = "0x656b6fff"
+			translation="[0.0,0.0]"
+			width = "2080"
+			height = "1920">
+			<Label
+				id = "labelHeading"
+				text = "Popular Collections"
+				translation = "[50,50]"
+				font = "font:LargeSystemFont" >
+			</Label>
+			
+			<HomeRowList 
+				id= "list"
+				translation= "[150,100]" />
+		</Rectangle>
+		
+	</children>
+</component>
