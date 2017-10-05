@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="ProductDetailScreen" extends="Group"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
+	<script type="text/brightscript" uri="pkg:/components/home/ProductDetailScreen.brs" />
+
+	<interface>
+		<field type="integer" id="product_id" alwaysNotify="true"
+			onChange="getProductId" />
+	</interface>
+
+	<children>
+
+		<Rectangle id="productDetailBackground" width="1960" height="1080"
+			translation="[0,0]">
+			
+			<Poster id="productDetailBgPoster" width="1960" height="1080"/>
+
+			<Label id="Error_text" translation="[550,100]" visible="false" />
+
+		</Rectangle>
+
+		<Timer id="timer" repeat="false" duration=".5" />
+
+	</children>
+</component>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="RelatedMediaItemData" extends="ContentNode"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<interface>
+		<field id="id" type="integer" />
+		<field id="title" type="string" />
+		<field id="imageUri" type="string" />
+		<field id="count" type="integer" />
+		<field id="coverBgColor" type="string" />
+		<field id="mediaTime" type="string" />
+		<field id="isViewAll" type="boolean"/>
+		<field id="isMedia" type="boolean" />
+	</interface>
+</component>
