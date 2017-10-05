@@ -94,7 +94,6 @@ function setVideo() as void
   videoContent.url = "pkg:/videos/login_video.mov"
   videoContent.title = ""
   videoContent.streamformat = "mov"
-  
  
   m.video = m.top.findNode("musicvideos")
   m.video.content = videoContent

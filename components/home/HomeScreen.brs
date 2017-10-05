@@ -166,25 +166,29 @@ function getGridRowListContent() as object
          parentContentNode = CreateObject("roSGNode", "ContentNode")
          if m.isSVOD
             if m.featureProductsApiModel.featuredProductsArray.count() <> 0
-            row = parentContentNode.CreateChild("ContentNode")
-            row.title = "Featured Products"
-            for index= 0 to m.featureProductsApiModel.featuredProductsArray.Count()-1
-                rowItem = row.CreateChild("HomeRowListItemData")
-                dataObjet = m.featureProductsApiModel.featuredProductsArray[index]
-                rowItem.id = dataObjet.product_id
-                rowItem.title = dataObjet.title
-                rowItem.imageUri = dataObjet.small
-                rowItem.count = dataObjet.media_count
-                rowItem.coverBgColor = m.appConfig.primary_color
-                rowItem.isMedia = false
-                rowItem.isItem = true
-                if getPostedVideoDayDifference(dataObjet.created_at) < 11
-                    rowItem.isNew = true
-                else
-                    rowItem.isNew = false
+                row = parentContentNode.CreateChild("ContentNode")
+                row.title = "Featured Products"
+                for index= 0 to m.featureProductsApiModel.featuredProductsArray.Count()-1
+                    rowItem = row.CreateChild("HomeRowListItemData")
+                    dataObjet = m.featureProductsApiModel.featuredProductsArray[index]
+                    rowItem.id = dataObjet.product_id
+                    rowItem.title = dataObjet.title
+                    rowItem.imageUri = dataObjet.small
+                    rowItem.count = dataObjet.media_count
+                    rowItem.coverBgColor = m.appConfig.primary_color
+                    rowItem.isMedia = false
+                    rowItem.isViewAll = false
+                    if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
+                        rowItem.isNew = true
+                    else
+                        rowItem.isNew = false
+                    end if
+                end for
+                if m.featureProductsApiModel.featuredProductsArray.Count() >= 10
+                    rowItem = row.CreateChild("HomeRowListItemData")
+                    rowItem.isViewAll = true
                 end if
-            end for
-         end if
+            end if
          
          if m.featureMediaApiModel.featuredMediaArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
@@ -198,18 +202,22 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.isItem = false
+                rowItem.isViewAll = false
                 if dataObjet.type = "Video" OR dataObjet.type = "Audio"
                     rowItem.isMedia = true
                 else
                     rowItem.isMedia = false
                 end if
-                
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
                 end if
             end for
+            if m.featureMediaApiModel.featuredMediaArray.Count() >= 10
+                rowItem = row.CreateChild("HomeRowListItemData")
+                rowItem.isViewAll = true
+            end if
          end if
          
          if m.popularProductApiModel.popularProductsArray.count() <> 0
@@ -225,12 +233,17 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
                 rowItem.isItem = true
+                rowItem.isViewAll = false
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
                     rowItem.isNew = false
                 end if
             end for
+            if m.popularProductApiModel.popularProductsArray.Count() >= 10
+                rowItem = row.CreateChild("HomeRowListItemData")
+                rowItem.isViewAll = true
+            end if
          end if
          
          if m.popularMediaApiModel.popularMediaArray.count() <> 0
@@ -244,6 +257,7 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.coverBgColor = m.appConfig.primary_color
+                rowItem.isViewAll = false
                 rowItem.isItem = false
                 if dataObjet.type = "Video" OR dataObjet.type = "Audio"
                     rowItem.isMedia = true
@@ -256,6 +270,10 @@ function getGridRowListContent() as object
                     rowItem.isNew = false
                 end if
             end for
+            if m.popularMediaApiModel.popularMediaArray.Count() >= 10
+                rowItem = row.CreateChild("HomeRowListItemData")
+                rowItem.isViewAll = true
+            end if
          end if
          
          if m.recentAddedProductApiModel.recentlyAddedProductsArray.count() <> 0
@@ -270,6 +288,7 @@ function getGridRowListContent() as object
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
+                rowItem.isViewAll = false
                 rowItem.isItem = true
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
@@ -277,6 +296,10 @@ function getGridRowListContent() as object
                     rowItem.isNew = false
                 end if
             end for
+            if m.recentAddedProductApiModel.recentlyAddedProductsArray.Count() >= 10
+                rowItem = row.CreateChild("HomeRowListItemData")
+                rowItem.isViewAll = true
+            end if
          end if
          
          if m.recentAddedMediaApiModel.recentlyAddedMediaArray.count() <> 0
@@ -290,6 +313,7 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.coverBgColor = m.appConfig.primary_color
+                rowItem.isViewAll = false
                 rowItem.isItem = false
                 if dataObjet.type = "Video" OR dataObjet.type = "Audio"
                     rowItem.isMedia = true
@@ -302,6 +326,10 @@ function getGridRowListContent() as object
                     rowItem.isNew = false
                 end if
             end for
+            if m.recentAddedMediaApiModel.recentlyAddedMediaArray.Count() >= 10
+                rowItem = row.CreateChild("HomeRowListItemData")
+                rowItem.isViewAll = true
+            end if
          end if
          
          if m.productsAarray.count() <> 0
@@ -316,6 +344,7 @@ function getGridRowListContent() as object
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
+                rowItem.isViewAll = false
                 rowItem.isItem = true
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
@@ -323,9 +352,13 @@ function getGridRowListContent() as object
                     rowItem.isNew = false
                 end if
             end for
+            if m.productsAarray.count() >= 10
+                rowItem = row.CreateChild("HomeRowListItemData")
+                rowItem.isViewAll = true
+            end if
          end if
          
-         else
+         else                                          'else case for TVOD
             if m.productsAarray.count() < 9
                 m.homeRowList.itemComponentName = "Home2xListItemLayout"
                 m.homeRowList.itemSize = [200 * 9 + 100, 600]
@@ -348,23 +381,27 @@ function getGridRowListContent() as object
                 row = parentContentNode.CreateChild("ContentNode")
                 for index = 0 to n
                       if ind < m.productsAarray.count()
-                      rowItem = row.CreateChild("HomeRowListItemData")  
-                      dataObjet = m.productsAarray[ind]
-                      rowItem.id = dataObjet.product_id
-                      rowItem.title = dataObjet.title
-                      rowItem.imageUri = dataObjet.small
-                      rowItem.count = dataObjet.media_count
-                      rowItem.coverBgColor = m.appConfig.primary_color
-                      rowItem.isMedia = false
-                      rowItem.isItem = true
-                      if getPostedVideoDayDifference(dataObjet.created_at) < 11
-                          rowItem.isNew = true
-                      else
-                          rowItem.isNew = false
-                end if
+                          rowItem = row.CreateChild("HomeRowListItemData")  
+                          dataObjet = m.productsAarray[ind]
+                          rowItem.id = dataObjet.product_id
+                          rowItem.title = dataObjet.title
+                          rowItem.imageUri = dataObjet.small
+                          rowItem.count = dataObjet.media_count
+                          rowItem.coverBgColor = m.appConfig.primary_color
+                          rowItem.isMedia = false
+                          rowItem.isItem = true
+                          if getPostedVideoDayDifference(dataObjet.created_at) < 11
+                              rowItem.isNew = true
+                          else
+                              rowItem.isNew = false
+                          end if
                       ind = ind + 1
                       end if
-                end for   
+                end for 
+'                if m.productsAarray.count() >= 7
+'                    rowItem = row.CreateChild("HomeRowListItemData")
+'                    rowItem.isViewAll = true
+'                end if  
             end for 
          end if
          
@@ -386,7 +423,7 @@ End sub
 
 sub showFields()
     m.homeRowList.visible = true
-    m.navBar.visible = true
+    m.navBar.visible = true 
 End sub
 
 sub manageNavBar()
@@ -403,12 +440,38 @@ sub homeRowList()
 End sub
 
 function onRowItemSelected() as void
-        print "***** Some's wish is ********";m.homeRowList.rowItemFocused
-        row = m.homeRowList.rowItemFocused[0]
-        col = m.homeRowList.rowItemFocused[1]
+        print "***** Some's wish is ********";m.homeRowList.rowItemSelected
+        row = m.homeRowList.rowItemSelected[0]
+        col = m.homeRowList.rowItemSelected[1]
         print "**********Row is *********";row
         print "**********col is *********";col
+        if col = 10
+            goTViewAllScreen(m.homeRowList.content.getChild(m.homeRowList.itemFocused).title)
+        end if
+        'print m.homeRowList.content.getChild(m.homeRowList.itemFocused).title   
 end function
+
+sub goTViewAllScreen(titleText as String)
+    viewAllScreen = m.top.createChild("ViewAllScreen")
+    m.top.setFocus(false)
+    viewAllScreen.setFocus(true)
+    viewAllScreen.titleText = titleText
+    if titleText = "Featured Products"
+        viewAllScreen.contentArray = m.featureProductsApiModel.featuredProductsArray
+    else if titleText = "Featured Media"
+        viewAllScreen.contentArray = m.featureMediaApiModel.featuredMediaArray
+    else if titleText = "Popular Products"
+        viewAllScreen.contentArray = m.popularProductApiModel.popularProductsArray
+    else if titleText = "Popular Media"
+        viewAllScreen.contentArray = m.popularMediaApiModel.popularMediaArray
+    else if titleText = "Recently Added Products"
+        viewAllScreen.contentArray = m.recentAddedProductApiModel.recentlyAddedProductsArray
+    else if titleText = "Recently Added Media"
+        viewAllScreen.contentArray = m.recentAddedMediaApiModel.recentlyAddedMediaArray
+    else if titleText = "My Content"
+        viewAllScreen.contentArray = m.productsAarray
+    end if
+end sub
 
 Function onKeyEvent(key as String,press as Boolean) as Boolean
     result = false
