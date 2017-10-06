@@ -64,7 +64,9 @@ function itemContentChanged() as void
         m.rectItemCount.visible = true
         m.labelItemCount.text = StrI(itemData.count) + " Items"
         itemCountLabelWidth = Len(m.labelItemCount.text) * 18
-        m.rectItemCount.width = itemCountLabelWidth 
+        m.rectItemCount.width = itemCountLabelWidth
+    else
+        m.rectItemCount.visible = false
     end if
     
   end function

@@ -178,6 +178,7 @@ function getGridRowListContent() as object
                     rowItem.coverBgColor = m.appConfig.primary_color
                     rowItem.isMedia = dataObjet.is_media
                     rowItem.isViewAll = false
+                    rowItem.isItem = dataObjet.is_item
                     if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                         rowItem.isNew = true
                     else
@@ -201,7 +202,7 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
-                rowItem.isItem = false
+                rowItem.isItem = dataObjet.is_item
                 rowItem.isViewAll = false
                 rowItem.isMedia = dataObjet.is_media
                 
@@ -229,7 +230,7 @@ function getGridRowListContent() as object
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = dataObjet.is_media
-                rowItem.isItem = true
+                rowItem.isItem = dataObjet.is_item
                 rowItem.isViewAll = false
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
@@ -255,7 +256,7 @@ function getGridRowListContent() as object
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isViewAll = false
-                rowItem.isItem = false
+                rowItem.isItem = dataObjet.is_item
                 rowItem.isMedia = dataObjet.is_media
                 
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
@@ -283,7 +284,7 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = dataObjet.is_media
                 rowItem.isViewAll = false
-                rowItem.isItem = true
+                rowItem.isItem = dataObjet.is_item
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
@@ -308,7 +309,7 @@ function getGridRowListContent() as object
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isViewAll = false
-                rowItem.isItem = false
+                rowItem.isItem = dataObjet.is_item
                 rowItem.isMedia = dataObjet.is_media
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
@@ -335,7 +336,7 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
                 rowItem.isViewAll = false
-                rowItem.isItem = true
+                rowItem.isItem = dataObjet.is_item
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
@@ -379,7 +380,7 @@ function getGridRowListContent() as object
                           rowItem.count = dataObjet.media_count
                           rowItem.coverBgColor = m.appConfig.primary_color
                           rowItem.isMedia = false
-                          rowItem.isItem = true
+                          rowItem.isItem = dataObjet.is_item
                           if getPostedVideoDayDifference(dataObjet.created_at) < 11
                               rowItem.isNew = true
                           else

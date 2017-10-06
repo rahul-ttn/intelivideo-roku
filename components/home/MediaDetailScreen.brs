@@ -41,7 +41,11 @@ sub onMediaDetailApiResponse()
     if mediaDetailModel.success
         m.mediaDetailBgPoster.uri = mediaDetailModel.small
         m.labelTitle.text = mediaDetailModel.title
-        m.labelMediaTime.text = getMediaTimeFromSeconds(mediaDetailModel.duration)
+        if mediaDetailModel.is_media
+            m.labelMediaTime.text = getMediaTimeFromSeconds(mediaDetailModel.duration)
+        else
+            m.labelMediaTime.text = "Document"
+        end if            
     else
         showRetryDialog(mediaDetailModel.error, networkErrorMessage())
     end if

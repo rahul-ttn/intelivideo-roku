@@ -29,6 +29,12 @@ sub parseApiResponse(response As Object)
         mediaModel.small = response.cover_art.original
         mediaModel.created_at = response.created_at
         mediaModel.description = response.description
+        if response.type = "Video" OR response.type = "Audio"
+            mediaModel.is_media = true
+        else
+            mediaModel.is_media = false
+        end if
+        mediaModel.is_item = false
     else 
         mediaModel.success = false
         mediaModel.error = apiErrorMessage()
