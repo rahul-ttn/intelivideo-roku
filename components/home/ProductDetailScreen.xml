@@ -4,6 +4,7 @@
 	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
+	<script type="text/brightscript" uri="pkg:/source/helper/ListHelper.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs" />
 	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
 	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />

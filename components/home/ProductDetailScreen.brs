@@ -51,14 +51,37 @@ End sub
 sub onProductDetailApiResponse()
     print "onProductDetailApiResponse() >> "
     hideProgressDialog()
-    productDetailModel = m.productDetailApi.content
-    if productDetailModel.success
-        print "onProductDetailApiResponse() success >> "; productDetailModel.original
-        m.productDetailBgPoster.uri = productDetailModel.original
+    m.productDetailModel = m.productDetailApi.content
+    if m.productDetailModel.success
+        m.productDetailBgPoster.uri = m.productDetailModel.original
+        showMediaList()
     else
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 End sub
+
+sub showMediaList()
+    m.productLabelList.ObserveField("itemFocused", "onListItemFocused")
+    m.productLabelList.ObserveField("itemSelected", "onListItemSelected")
+    
+    m.content = createObject("roSGNode","ContentNode")
+    sectionContent=addListSectionHelper(m.content,"")
+    for i = 0 To m.productDetailModel.objects.count()-1
+        addListItemHelper(sectionContent,m.productDetailModel.objects[i].title)
+    end for   
+  
+    m.productLabelList.content = m.content
+    m.productLabelList.setFocus(true)
+End sub
+
+sub onListItemFocused()
+   
+End sub
+
+sub onListItemSelected()
+    
+End sub
+
 
 Function showRetryDialog(title ,message)
     m.Error_text.visible = true
