@@ -131,3 +131,15 @@ sub startTimer()
     m.testtimer.control = "start"
     m.testtimer.ObserveField("fire","onRetry")
 end sub
+
+function onKeyEvent(key as String, press as Boolean) as Boolean
+    result = false
+    if press
+        if key = "left" or key = "right"
+            return true
+        else if key = "back"
+            m.top.visible = false
+        end if
+    end if
+    return result 
+End function
