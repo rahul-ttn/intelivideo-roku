@@ -9,5 +9,7 @@
 		<field id="small" type="String" />
 		<field id="created_at" type="integer"/>
 		<field id="description" type="String" />
+		<field id="is_media" type="bool"></field>
+		<field id="is_item" type="bool"></field>
 	</interface>
 </component>

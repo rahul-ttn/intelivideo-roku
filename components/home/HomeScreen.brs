@@ -176,7 +176,7 @@ function getGridRowListContent() as object
                     rowItem.imageUri = dataObjet.small
                     rowItem.count = dataObjet.media_count
                     rowItem.coverBgColor = m.appConfig.primary_color
-                    rowItem.isMedia = false
+                    rowItem.isMedia = dataObjet.is_media
                     rowItem.isViewAll = false
                     if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                         rowItem.isNew = true
@@ -203,11 +203,8 @@ function getGridRowListContent() as object
                 rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 rowItem.isItem = false
                 rowItem.isViewAll = false
-                if dataObjet.type = "Video" OR dataObjet.type = "Audio"
-                    rowItem.isMedia = true
-                else
-                    rowItem.isMedia = false
-                end if
+                rowItem.isMedia = dataObjet.is_media
+                
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
@@ -231,7 +228,7 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
-                rowItem.isMedia = false
+                rowItem.isMedia = dataObjet.is_media
                 rowItem.isItem = true
                 rowItem.isViewAll = false
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
@@ -259,11 +256,8 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isViewAll = false
                 rowItem.isItem = false
-                if dataObjet.type = "Video" OR dataObjet.type = "Audio"
-                    rowItem.isMedia = true
-                else
-                    rowItem.isMedia = false
-                end if
+                rowItem.isMedia = dataObjet.is_media
+                
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
@@ -287,7 +281,7 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.appConfig.primary_color
-                rowItem.isMedia = false
+                rowItem.isMedia = dataObjet.is_media
                 rowItem.isViewAll = false
                 rowItem.isItem = true
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
@@ -315,11 +309,7 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isViewAll = false
                 rowItem.isItem = false
-                if dataObjet.type = "Video" OR dataObjet.type = "Audio"
-                    rowItem.isMedia = true
-                else
-                    rowItem.isMedia = false
-                end if
+                rowItem.isMedia = dataObjet.is_media
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
@@ -444,6 +434,7 @@ function onRowItemSelected() as void
         col = m.homeRowList.rowItemSelected[1]
         print "**********Row is *********";row
         print "**********col is *********";col
+        m.focusedItem = [row,col]
         if col = 10
             goTViewAllScreen(m.homeRowList.content.getChild(m.homeRowList.itemFocused).title)
         else
@@ -485,13 +476,13 @@ sub goToMediaDetailScreen(titleText as String, column as Integer)
 end sub
 
 sub goTViewAllScreen(titleText as String)
-    viewAllScreen = m.top.createChild("ViewAllScreen")
+    m.viewAllScreen = m.top.createChild("ViewAllScreen")
     m.top.setFocus(false)
-    viewAllScreen.setFocus(true)
-    viewAllScreen.titleText = titleText
-
+    m.viewAllScreen.setFocus(true)
+    m.viewAllScreen.titleText = titleText
+    m.viewAllScreen.primaryColor = m.appConfig.primary_color
     if titleText = myContent()
-        viewAllScreen.contentArray = m.productsAarray
+        m.viewAllScreen.contentArray = m.productsAarray
     end if
 end sub
 
@@ -547,6 +538,11 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                     m.switchAccount = invalid
                     result = true
                 end if
+            else if m.viewAllScreen <> invalid
+                m.viewAllScreen.setFocus(false)
+                m.homeRowList.setFocus(true)
+                m.homeRowList.jumpToRowItem = m.focusedItem
+                result = true
             else
                 print "switch Account invalid else block"
                 m.top.visible = false

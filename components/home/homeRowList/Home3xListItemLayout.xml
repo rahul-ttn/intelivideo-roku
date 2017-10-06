@@ -47,6 +47,9 @@
 				<Poster id="posterTimer" uri="pkg:/images/$$RES$$/img_media_time_pill.png"
 					translation="[7,7]">
 				</Poster>
+				<Label id="labelMediaTime" height="40" font="font:SmallSystemFont"
+					translation="[40,4]" wrap="false" color="0x000000ff">
+				</Label>
 			</Rectangle>
 			<Rectangle id="rectItemCount" height="50" width=""
 				translation="[20,385]" color="0x565656FF" visible="false">

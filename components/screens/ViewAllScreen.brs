@@ -190,7 +190,7 @@ function onRowItemFocused() as void
         print "**********Row is *********";row
         print "**********col is *********";col
         m.focusedItem = [row,col]
-        if row = m.numberOfRows - 2 And not m.apiModel.pageInfo.last_page 
+        if row = m.numberOfRows - 1 And not m.apiModel.pageInfo.last_page 
           m.pagination = true
           m.pageNumber = m.apiModel.pageInfo.next_page
           callSelectedApi()  

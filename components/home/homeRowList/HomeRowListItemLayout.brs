@@ -54,6 +54,8 @@ function itemContentChanged() as void
         m.rectTimer.visible = true
         m.rectItemCount.visible = false
         m.labelMediaTime.text = itemData.mediaTime
+    else
+        m.rectTimer.visible = false
     end if
     
     if itemData.isItem

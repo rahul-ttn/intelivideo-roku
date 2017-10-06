@@ -32,6 +32,12 @@ sub parseApiResponse(response As Object)
             mediaModel.small = mediaItem.cover_art.small
             mediaModel.created_at = mediaItem.created_at
             mediaModel.description = mediaItem.description
+            if mediaItem.type = "Video" OR mediaItem.type = "Audio"
+                mediaModel.is_media = true
+            else
+                mediaModel.is_media = false
+            end if
+            mediaModel.is_item = false
             
             mediaArray.Push(mediaModel)
         end for

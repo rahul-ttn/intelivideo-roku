@@ -29,6 +29,8 @@ sub parseApiResponse(response As Object)
             productModel.title = productItem.title
             productModel.media_count = productItem.media_count
             productModel.created_at = productItem.created_at
+            productModel.is_media = false
+            productModel.is_item = true
             
             if productItem.images.horizontal_cover_art <> invalid
                 productModel.small = productItem.images.horizontal_cover_art.small
