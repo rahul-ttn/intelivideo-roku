@@ -167,13 +167,7 @@ sub setContentArray()
     else if m.titleText = "My Content"
         m.resultArray = m.myContentArray
     end if
-    'if m.pagination
-        print "m.contentArray.count()-----------------------------before append";m.contentArray.count() 
-        m.contentArray.Append(m.resultArray)
-        print "m.contentArray.count()-----------------------------after append";m.contentArray.count()
-   ' else 
-'        m.contentArraym.resultArray
-'    end if
+    m.contentArray.Append(m.resultArray)
 end sub
 
 function onRowItemSelected() as void
@@ -223,14 +217,13 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.primaryColor
-                if m.myContentArray <> invalid
-                    rowItem.isMedia = m.myContentArray[0].isMedia
-                    print "m.myContentArray[0].isItem +++++";m.myContentArray[0]
-                    rowItem.isItem = m.myContentArray[0].isItem
-                else
-                    rowItem.isMedia = dataObjet.is_media
-                    rowItem.isItem = dataObjet.is_item
-                end if
+'                if m.myContentArray <> invalid
+'                    rowItem.isMedia = m.myContentArray[0].is_media
+'                    rowItem.isItem = m.myContentArray[0].is_item
+'                else
+'                    rowItem.isMedia = dataObjet.is_media
+'                    rowItem.isItem = dataObjet.is_item
+'                end if
                 if dataObjet.is_media
                     rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 else
