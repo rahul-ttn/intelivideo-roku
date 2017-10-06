@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="pageInfoModel" extends="ContentNode" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<interface>
+		<field id="total_items" type="integer" />
+		<field id="total_pages" type="integer" />
+		<field id="first_page" type="bool" />
+		<field id="last_page" type="bool" />
+		<field id="previous_page" type="integer"/>
+		<field id="next_page" type="integer"/>
+		<field id="out_of_bounds" type="bool"/>
+	</interface>
+</component>

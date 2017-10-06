@@ -22,6 +22,7 @@ encoding//components/models/fetchMerchant/AccountsModel.xml=UTF-8
 encoding//components/models/fetchMerchant/MerchantModel.xml=UTF-8
 encoding//components/models/homeData/FeatureMediaModel.xml=UTF-8
 encoding//components/models/homeData/MediaDataModel.xml=UTF-8
+encoding//components/models/homeData/PageInfoModel.xml=UTF-8
 encoding//components/models/homeData/ProductDataModel.xml=UTF-8
 encoding//components/models/homeData/ProductDetailModel.xml=UTF-8
 encoding//components/models/userApiModel/AppConfigModel.xml=UTF-8

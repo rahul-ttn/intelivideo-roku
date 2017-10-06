@@ -489,19 +489,8 @@ sub goTViewAllScreen(titleText as String)
     m.top.setFocus(false)
     viewAllScreen.setFocus(true)
     viewAllScreen.titleText = titleText
-    if titleText = featuredProducts()
-        viewAllScreen.contentArray = m.featureProductsApiModel.featuredProductsArray
-    else if titleText = featuredMedia()
-        viewAllScreen.contentArray = m.featureMediaApiModel.featuredMediaArray
-    else if titleText = popularProducts()
-        viewAllScreen.contentArray = m.popularProductApiModel.popularProductsArray
-    else if titleText = popularMedia()
-        viewAllScreen.contentArray = m.popularMediaApiModel.popularMediaArray
-    else if titleText = recentlyAddedProducts()
-        viewAllScreen.contentArray = m.recentAddedProductApiModel.recentlyAddedProductsArray
-    else if titleText = recentlyAddedMedia()
-        viewAllScreen.contentArray = m.recentAddedMediaApiModel.recentlyAddedMediaArray
-    else if titleText = myContent()
+
+    if titleText = myContent()
         viewAllScreen.contentArray = m.productsAarray
     end if
 end sub
