@@ -139,6 +139,9 @@ sub showList()
     setContentArray()    
     m.list.content = getGridRowListContent()
     m.list.setFocus(true)
+    if m.pagination
+     m.list.jumpToRowItem = m.focusedItem
+    end if
 end sub
 
 sub setContentArray()
@@ -223,9 +226,6 @@ function getGridRowListContent() as object
             end if
         end for
     end for
-    if m.pagination
-     m.list.jumpToRowItem = m.focusedItem
-    end if
     return parentContentNode
 end function
 
