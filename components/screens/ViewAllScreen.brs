@@ -2,7 +2,9 @@ sub init()
     m.top.setFocus(true)
     m.heading = m.top.findNode("labelHeading")
     m.list = m.top.findNode("list") 
-    m.Error_text  = m.top.FindNode("Error_text") 
+    m.Error_text  = m.top.FindNode("Error_text")
+    m.parentRectangle = m.top.FindNode("parentRectangle")
+    m.parentRectangle.color = homeBackground()  
     m.pagination = false 
     m.perPageItems =10
     m.pageNumber =1
@@ -22,6 +24,10 @@ end sub
 sub setArray()
     m.myContentArray = m.top.contentArray
     showList() 'To show list when my content is selected
+end sub
+
+sub setPrimaryColor()
+    m.primaryColor = m.top.primaryColor
 end sub
 
 sub callSelectedApi()
@@ -184,7 +190,7 @@ function onRowItemFocused() as void
         print "**********Row is *********";row
         print "**********col is *********";col
         m.focusedItem = [row,col]
-        if row = m.numberOfRows - 1 And not m.apiModel.pageInfo.last_page 
+        if row = m.numberOfRows - 2 And not m.apiModel.pageInfo.last_page 
           m.pagination = true
           m.pageNumber = m.apiModel.pageInfo.next_page
           callSelectedApi()  
@@ -213,9 +219,14 @@ function getGridRowListContent() as object
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
                 rowItem.count = dataObjet.media_count
-                rowItem.coverBgColor = "0x28c283ff"
-                rowItem.isMedia = false
-                rowItem.isItem = true
+                rowItem.coverBgColor = m.primaryColor
+                rowItem.isMedia = dataObjet.is_media
+                if dataObjet.is_media
+                    rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
+                else
+                    rowItem.mediaTime = ""
+                end if
+                rowItem.isItem = dataObjet.is_item
                 rowItem.isViewAll = false
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
@@ -234,6 +245,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     if press
         if key = "left" or key = "right"
             return true
+        else if key = "back"
+            m.top.visible = false
         end if
     end if
     return result 

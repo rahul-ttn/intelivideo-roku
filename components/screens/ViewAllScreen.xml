@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="ViewAllScreen" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
 	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
@@ -9,10 +10,12 @@
 	<interface>
 		<field id="titleText" type="string" alwaysNotify="true" onChange="setData"/>
 		<field id="contentArray" type="nodeArray" alwaysNotify="true" onChange="setArray"/>
+		<field id="primaryColor" type="string" alwaysNotify= "true" onChange="setPrimaryColor"/>
 	</interface>
 	
 	<children>
 		<Rectangle
+			id = "parentRectangle"
 			color = "0x656b6fff"
 			translation="[0.0,0.0]"
 			width = "2080"
@@ -20,7 +23,7 @@
 			<Label
 				id = "labelHeading"
 				text = "Popular Collections"
-				translation = "[50,50]"
+				translation = "[150,50]"
 				font = "font:LargeSystemFont" >
 			</Label>
 			
