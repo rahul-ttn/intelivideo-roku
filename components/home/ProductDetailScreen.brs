@@ -33,6 +33,16 @@ sub initFields()
     
     m.listRectangle = m.top.findNode("listRectangle")
     m.productLabelList = m.top.findNode("productLabelList")  
+    
+    m.playButtonOuterRectangle = m.top.findNode("playButtonOuterRectangle")
+    m.playButtonrectangle = m.top.findNode("playButtonrectangle")
+    m.buttonPlay = m.top.findNode("buttonPlay")
+    m.playPoster = m.top.findNode("playPoster")
+    
+    m.playbuttonLabel = m.top.findNode("playbuttonLabel")
+    
+    m.favButtonOuterRightRectangle = m.top.findNode("favButtonOuterRightRectangle")
+    m.favButtonRightrectangle = m.top.findNode("favButtonRightrectangle")
 End sub
 
 sub getProductDetails()
