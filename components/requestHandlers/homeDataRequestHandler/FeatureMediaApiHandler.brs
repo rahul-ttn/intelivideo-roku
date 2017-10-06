@@ -30,7 +30,8 @@ sub parseApiResponse(response As Object)
             mediaModel.title = mediaItem.title
             mediaModel.duration = mediaItem.duration
             mediaModel.small = mediaItem.cover_art.small
-            mediaModel.created_at = mediaItem.cover_art.created_at
+            mediaModel.created_at = mediaItem.created_at
+            mediaModel.description = mediaItem.description
             
             mediaArray.Push(mediaModel)
         end for
@@ -41,6 +42,8 @@ sub parseApiResponse(response As Object)
             featureMediaModel.popularMediaArray = mediaArray
         else if m.top.dataType = "recentAdded"
             featureMediaModel.recentlyAddedMediaArray = mediaArray
+        else if m.top.dataType = "related"
+            featureMediaModel.relatedMediaArray = mediaArray
         end if 
         
         pageInfoModel = CreateObject("roSGNode", "PageInfoModel")

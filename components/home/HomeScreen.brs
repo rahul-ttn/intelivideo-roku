@@ -167,7 +167,7 @@ function getGridRowListContent() as object
          if m.isSVOD
             if m.featureProductsApiModel.featuredProductsArray.count() <> 0
                 row = parentContentNode.CreateChild("ContentNode")
-                row.title = "Featured Products"
+                row.title = featuredProducts()
                 for index= 0 to m.featureProductsApiModel.featuredProductsArray.Count()-1
                     rowItem = row.CreateChild("HomeRowListItemData")
                     dataObjet = m.featureProductsApiModel.featuredProductsArray[index]
@@ -192,7 +192,7 @@ function getGridRowListContent() as object
          
          if m.featureMediaApiModel.featuredMediaArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
-            row.title = "Featured Media"
+            row.title = featuredMedia()
             for index= 0 to m.featureMediaApiModel.featuredMediaArray.Count()-1
                 rowItem = row.CreateChild("HomeRowListItemData")
                 dataObjet = m.featureMediaApiModel.featuredMediaArray[index]
@@ -222,7 +222,7 @@ function getGridRowListContent() as object
          
          if m.popularProductApiModel.popularProductsArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
-            row.title = "Popular Products"
+            row.title = popularProducts()
             for index= 0 to m.popularProductApiModel.popularProductsArray.Count()-1
                 rowItem = row.CreateChild("HomeRowListItemData")
                 dataObjet = m.popularProductApiModel.popularProductsArray[index]
@@ -248,7 +248,7 @@ function getGridRowListContent() as object
          
          if m.popularMediaApiModel.popularMediaArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
-            row.title = "Popular Media"
+            row.title = popularMedia()
             for index= 0 to m.popularMediaApiModel.popularMediaArray.Count()-1
                 rowItem = row.CreateChild("HomeRowListItemData")
                 dataObjet = m.popularMediaApiModel.popularMediaArray[index]
@@ -278,7 +278,7 @@ function getGridRowListContent() as object
          
          if m.recentAddedProductApiModel.recentlyAddedProductsArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
-            row.title = "Recently Added Products"
+            row.title = recentlyAddedProducts()
             for index= 0 to m.recentAddedProductApiModel.recentlyAddedProductsArray.Count()-1
                 rowItem = row.CreateChild("HomeRowListItemData")
                 dataObjet = m.recentAddedProductApiModel.recentlyAddedProductsArray[index]
@@ -304,7 +304,7 @@ function getGridRowListContent() as object
          
          if m.recentAddedMediaApiModel.recentlyAddedMediaArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
-            row.title = "Recently Added Media"
+            row.title = recentlyAddedMedia()
             for index= 0 to m.recentAddedMediaApiModel.recentlyAddedMediaArray.Count()-1
                 rowItem = row.CreateChild("HomeRowListItemData")
                 dataObjet = m.recentAddedMediaApiModel.recentlyAddedMediaArray[index]
@@ -334,7 +334,7 @@ function getGridRowListContent() as object
          
          if m.productsAarray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
-            row.title = "My Content"
+            row.title = myContent()
             for index= 0 to m.productsAarray.count()-1
                 rowItem = row.CreateChild("HomeRowListItemData")
                 dataObjet = m.productsAarray[index]
@@ -440,40 +440,59 @@ sub homeRowList()
 End sub
 
 function onRowItemSelected() as void
-        print "***** Some's wish is ********";m.homeRowList.rowItemSelected
         row = m.homeRowList.rowItemSelected[0]
         col = m.homeRowList.rowItemSelected[1]
         print "**********Row is *********";row
         print "**********col is *********";col
         if col = 10
             goTViewAllScreen(m.homeRowList.content.getChild(m.homeRowList.itemFocused).title)
-        end if
-        'print m.homeRowList.content.getChild(m.homeRowList.itemFocused).title   
+        else
+            listTitle = m.homeRowList.content.getChild(m.homeRowList.itemFocused).title
+            if listTitle = featuredMedia() OR listTitle = popularMedia() OR listTitle = recentlyAddedMedia()
+                goToMediaDetailScreen(listTitle, col)
+            else
+                goToProductDetailScreen(listTitle, col)
+            end if
+        end if  
 end function
+
+sub goToProductDetailScreen(titleText as String, column as Integer)
+    m.productDetail = m.top.createChild("ProductDetailScreen")
+    m.top.setFocus(false)
+    m.productDetail.setFocus(true)
+    if titleText = featuredProducts()
+        m.productDetail.product_id = m.featureProductsApiModel.featuredProductsArray[column].product_id
+    else if titleText = popularProducts()
+        m.productDetail.product_id = m.popularProductApiModel.popularProductsArray[column].product_id
+    else if titleText = recentlyAddedProducts()
+        m.productDetail.product_id = m.recentAddedProductApiModel.recentlyAddedProductsArray[column].product_id
+    else if titleText = myContent()
+        m.productDetail.product_id = m.productsAarray[column].product_id
+    end if
+end sub
+
+sub goToMediaDetailScreen(titleText as String, column as Integer)
+    m.mediaDetail = m.top.createChild("MediaDetailScreen")
+    m.top.setFocus(false)
+    m.mediaDetail.setFocus(true)
+    if titleText = featuredMedia()
+        m.mediaDetail.resource_id = m.featureMediaApiModel.featuredMediaArray[column].resource_id
+    else if titleText = popularMedia()
+        m.mediaDetail.resource_id = m.popularProductApiModel.popularMediaArray[column].resource_id
+    else if titleText = recentlyAddedMedia()
+        m.mediaDetail.resource_id = m.recentAddedProductApiModel.recentlyAddedMediaArray[column].resource_id
+    end if
+end sub
 
 sub goTViewAllScreen(titleText as String)
     viewAllScreen = m.top.createChild("ViewAllScreen")
     m.top.setFocus(false)
     viewAllScreen.setFocus(true)
     viewAllScreen.titleText = titleText
-    if titleText = "My Content"
+
+    if titleText = myContent()
         viewAllScreen.contentArray = m.productsAarray
     end if
-'    if titleText = "Featured Products"
-'        viewAllScreen.contentArray = m.featureProductsApiModel.featuredProductsArray
-'    else if titleText = "Featured Media"
-'        viewAllScreen.contentArray = m.featureMediaApiModel.featuredMediaArray
-'    else if titleText = "Popular Products"
-'        viewAllScreen.contentArray = m.popularProductApiModel.popularProductsArray
-'    else if titleText = "Popular Media"
-'        viewAllScreen.contentArray = m.popularMediaApiModel.popularMediaArray
-'    else if titleText = "Recently Added Products"
-'        viewAllScreen.contentArray = m.recentAddedProductApiModel.recentlyAddedProductsArray
-'    else if titleText = "Recently Added Media"
-'        viewAllScreen.contentArray = m.recentAddedMediaApiModel.recentlyAddedMediaArray
-'    else if titleText = "My Content"
-'        viewAllScreen.contentArray = m.productsAarray
-'    end if
 end sub
 
 Function onKeyEvent(key as String,press as Boolean) as Boolean

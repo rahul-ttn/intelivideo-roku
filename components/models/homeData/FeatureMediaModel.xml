@@ -4,6 +4,7 @@
 		<field id="featuredMediaArray" type="nodearray" />
 		<field id="popularMediaArray" type="nodearray" />
 		<field id="recentlyAddedMediaArray" type="nodearray" />
+		<field id="relatedMediaArray" type="nodearray" />
 		<field id="pageInfo" type="node" />
 	</interface>
 </component>
