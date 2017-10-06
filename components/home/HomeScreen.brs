@@ -469,9 +469,9 @@ sub goToMediaDetailScreen(titleText as String, column as Integer)
     if titleText = featuredMedia()
         m.mediaDetail.resource_id = m.featureMediaApiModel.featuredMediaArray[column].resource_id
     else if titleText = popularMedia()
-        m.mediaDetail.resource_id = m.popularProductApiModel.popularMediaArray[column].resource_id
+        m.mediaDetail.resource_id = m.popularMediaApiModel.popularMediaArray[column].resource_id
     else if titleText = recentlyAddedMedia()
-        m.mediaDetail.resource_id = m.recentAddedProductApiModel.recentlyAddedMediaArray[column].resource_id
+        m.mediaDetail.resource_id = m.recentAddedMediaApiModel.recentlyAddedMediaArray[column].resource_id
     end if
 end sub
 
