@@ -26,13 +26,13 @@
 			<Rectangle
 				id = "leftParentRectangle"
 				translation = "[0.0,0.0]"
-				color = "0xf1948aff"
+				color = "0xf1948a00"
 				width = "1152"
 				height = "1080">
 				<Rectangle
 					id = "titleRectangle"
 					translation="[100,100]"
-					color = "0xf0b27a ff"
+					color = "0xf0b27a00"
 					width = "1002"
 					height = "392">
 					<Label
@@ -43,15 +43,14 @@
 						wrap = "true"
 						ellipsizeOnBoundary="false"
 						ellipsisText="..."
-						color="0xffffffff"
-						text="ksjdb kajdnka kadnckasnd kajdkchjsdc kadjlcjd kasdjck kadckd kasdjckjd kadjkc kasdncsd kdncdnc ksdjncdsnc ksndcnsdcnsdc ksdcosdnc">
+						color="0xffffffff">
 						
 					</Label>
 					<Rectangle
 						id = "favButtonOuterRectangle"
 						width="150"
 						height = "130"
-						translation = "[20,200]"
+						translation = "[20,180]"
 						color="0x00CCB900"> 
 						<Rectangle
 							id = "favButtonrectangle"
@@ -89,20 +88,19 @@
 					</Rectangle> 
 					<Label
 						id = "descLabel"
-						translation = "[200,200]"
+						translation = "[200,180]"
 						width = "752"
 						maxLines="3"
 						wrap = "true"
 						ellipsizeOnBoundary="false"
 						ellipsisText="...more"
-						color="0xffffffff"
-						text="ksjdb ajdnka kadnckasnd kajdkchjsdc kadjlcjd kasdjck kadckd kasdjckjd kadjkc kasdncsd kdncdnc ksdjncdsnc ksndcnsdcnsdc ksdcosdnc">
+						color="0xffffffff">
 					</Label>
 				</Rectangle>
 				<Rectangle
 					id = "listRectangle"
 					translation="[100,492]"
-					color = "0x82e0aaff"
+					color = "0x82e0aa00"
 					width = "1002"
 					height = "588">
 					<LabelList id="productLabelList" translation="[50,50]" />
@@ -112,7 +110,7 @@
 			<Rectangle
 				id = "rightParentRectangle"
 				translation = "[1152,0.0]"
-				color = "0x48c9b0ff"
+				color = "0x48c9b000"
 				width = "768"
 				height = "1080">
 				
@@ -120,19 +118,23 @@
 					id = "thumbnailPoster"
 					width = "548"
 					height = "308"
-					translation = "[100,100]"
-					uri = "pkg:/images/splash_hd.png">
+					translation = "[100,100]">
 				</Poster>
 				<Label
 					id = "nameLabel"
 					translation = "[100,420]"
 					width = "568"
-					maxLines="2"
+					maxLines="1"
 					wrap = "true"
 					ellipsizeOnBoundary="false"
 					ellipsisText="..."
-					color="0xffffffff"
-					text="ksjdb ajdnka kadnckasnd kajdkchjsdc kadjlcjd kasdjck kadckd kasdjckjd kadjkc kasdncsd kdncdnc ksdjncdsnc ksndcnsdcnsdc ksdcosdnc">
+					color="0xffffffff">
+				</Label>
+				<Label
+					id = "typeLabel"
+					translation = "[100,470]"
+					width = "568"
+					color="0xffffffff">
 				</Label>
 				
 				<Rectangle
@@ -224,7 +226,7 @@
 					ellipsizeOnBoundary="false"
 					ellipsisText="...more"
 					color="0xffffffff"
-					text="ksjdb ajdnka kadnckasn jfjkdf skfdjvnjkd kjsfvjkdfnv ksdfjnvjknf ksdfjnvkjndf kjndvkn jknvjknd kjnvkjn kjvnkn dkjnkdnf kjffk jkfvk kfdjnvkjd kfnjvkjd kfnvkjdf knjfjk ksdfnvkdf kjfvnfk kdfvnknfd kajdkchjsdc kadjlcjd kasdjck kadckd kasdjckjd kadjkc kasdncsd kdncdnc ksdjncdsnc ksndcnsdcnsdc ksdcosdnc">
+					text="">
 				
 				</Label>
 			</Rectangle>
