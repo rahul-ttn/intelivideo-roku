@@ -19,6 +19,7 @@ sub initFields()
     m.titleLabel = m.top.findNode("titleLabel")
     m.titleLabel.font.size = 60
     
+    m.favButtonOuterRectangle = m.top.findNode("favButtonOuterRectangle")
     m.favButtonrectangle = m.top.findNode("favButtonrectangle")
     m.buttonFav = m.top.findNode("buttonFav")
     m.favPoster = m.top.findNode("favPoster")
