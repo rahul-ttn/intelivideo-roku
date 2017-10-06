@@ -22,7 +22,85 @@
 			<Poster id="productDetailBgPoster" width="1960" height="1080"/>
 			<Poster id="posterBackground" width="1960" height="1080"
 				uri="pkg:/images/$$RES$$/background_gradient.png" />
-
+			<Rectangle
+				id = "leftParentRectangle"
+				translation = "[0.0,0.0]"
+				color = "0xf1948aff"
+				width = "1152"
+				height = "1080">
+				<Rectangle
+					id = "titleRectangle"
+					translation="[100,100]"
+					color = "0xf0b27a ff"
+					width = "1002"
+					height = "392">
+					<Label
+						id = "titleLabel"
+						translation = "[20,0.0]"
+						width = "952"
+						maxLines="2"
+						wrap = "true"
+						ellipsizeOnBoundary="false"
+						ellipsisText="..."
+						color="0xffffffff"
+						text="ksjdb kajdnka kadnckasnd kajdkchjsdc kadjlcjd kasdjck kadckd kasdjckjd kadjkc kasdncsd kdncdnc ksdjncdsnc ksndcnsdcnsdc ksdcosdnc">
+						
+					</Label>
+					<Rectangle
+						id = "favButtonrectangle"
+						width="150"
+						height = "100"
+						translation = "[20,200]"
+						color="0x00CCB9ff">
+						
+						<Button
+							id="buttonFav"
+							height = "50"
+						  	translation="[0,0]"
+						  	textFont = "font:LargeSystemFont"
+						  	iconUri=""
+							focusedIconUri="pkg:/images/img_transparent"
+							focusBitmapUri="pkg:/images/img_transparent"
+							focusFootprintBitmapUri=""/>
+						
+						 <Poster
+							id = "favPoster"
+							uri = "pkg:/images/$$RES$$/img_fav_tag_alt.png"
+							width = "50"
+							height = "50">
+						</Poster> 
+					</Rectangle>
+					<Label
+						id = "descLabel"
+						translation = "[200,200]"
+						width = "752"
+						maxLines="3"
+						wrap = "true"
+						ellipsizeOnBoundary="false"
+						ellipsisText="...more"
+						color="0xffffffff"
+						text="ksjdb ajdnka kadnckasnd kajdkchjsdc kadjlcjd kasdjck kadckd kasdjckjd kadjkc kasdncsd kdncdnc ksdjncdsnc ksndcnsdcnsdc ksdcosdnc">
+					</Label>
+				</Rectangle>
+				<Rectangle
+					id = "listRectangle"
+					translation="[100,492]"
+					color = "0x82e0aaff"
+					width = "1002"
+					height = "588">
+					<LabelList id="productLabelList" translation="[50,50]" />
+				</Rectangle>
+			</Rectangle>
+			
+			<Rectangle
+				id = "rightParentRectangle"
+				translation = "[1152,0.0]"
+				color = "0x48c9b0ff"
+				width = "768"
+				height = "1080">
+				
+			</Rectangle>
+			
 			<Label id="Error_text" translation="[550,100]" visible="false" />
 
 		</Rectangle>

@@ -13,6 +13,25 @@ sub initFields()
     productDetailBackground.color = homeBackground() 
     m.productDetailBgPoster = m.top.FindNode("productDetailBgPoster")
     m.Error_text  = m.top.FindNode("Error_text")
+    m.leftParentRectangle = m.top.findNode("leftParentRectangle")
+    
+    m.titleRectangle = m.top.findNode("titleRectangle")
+    m.titleLabel = m.top.findNode("titleLabel")
+    m.titleLabel.font.size = 60
+    
+    m.favButtonrectangle = m.top.findNode("favButtonrectangle")
+    m.buttonFav = m.top.findNode("buttonFav")
+    m.favPoster = m.top.findNode("favPoster")
+    
+    favPosterX = (m.favButtonrectangle.width  - m.favPoster.width) / 2
+    favPosterY = (m.favButtonrectangle.height  - m.favPoster.height) / 2 
+    m.favPoster.translation = [favPosterX, favPosterY]
+    
+     
+    m.descLabel = m.top.findNode("descLabel")
+    
+    m.listRectangle = m.top.findNode("listRectangle")
+    m.productLabelList = m.top.findNode("productLabelList")  
 End sub
 
 sub getProductDetails()
