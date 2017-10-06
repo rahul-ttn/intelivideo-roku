@@ -540,6 +540,19 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 end if
             else if m.viewAllScreen <> invalid
                 m.viewAllScreen.setFocus(false)
+                m.viewAllScreen = invalid
+                m.homeRowList.setFocus(true)
+                m.homeRowList.jumpToRowItem = m.focusedItem
+                result = true
+            else if m.mediaDetail <> invalid
+                m.mediaDetail.setFocus(false)
+                m.mediaDetail = invalid
+                m.homeRowList.setFocus(true)
+                m.homeRowList.jumpToRowItem = m.focusedItem
+                result = true
+            else if m.productDetail <> invalid
+                m.productDetail.setFocus(false)
+                m.productDetail = invalid
                 m.homeRowList.setFocus(true)
                 m.homeRowList.jumpToRowItem = m.focusedItem
                 result = true
