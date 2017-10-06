@@ -57,7 +57,7 @@
 							width="150"
 							height = "100"
 							translation = "[0,0]"
-							color="0x00CCB9ff">
+							color="0x858585ff">
 							
 							<Button
 								id="buttonFav"
@@ -80,7 +80,7 @@
 							id = "favbuttonLabel"
 							translation = "[0,100]"
 							width = "150"
-							horizAlign="centre"
+							horizAlign = "center"
 							wrap = "true"
 							color="0xffffffff"
 							text="Favorite">
@@ -103,7 +103,7 @@
 					color = "0x82e0aa00"
 					width = "1002"
 					height = "588">
-					<LabelList id="productLabelList" translation="[50,50]" />
+					<LabelList id="productLabelList" numRows="5" translation="[50,50]" />
 				</Rectangle>
 			</Rectangle>
 			
@@ -126,6 +126,7 @@
 					width = "568"
 					maxLines="1"
 					wrap = "true"
+					font="font:MediumBoldSystemFont"
 					ellipsizeOnBoundary="false"
 					ellipsisText="..."
 					color="0xffffffff">
@@ -148,7 +149,7 @@
 							width="150"
 							height = "100"
 							translation = "[0,0]"
-							color="0x00CCB9ff">
+							color="0x858585ff">
 							<Button
 								id="buttonPlay"
 								height = "50"
@@ -187,7 +188,7 @@
 							width="150"
 							height = "100"
 							translation = "[0,0]"
-							color="0x00CCB9ff">
+							color="0x858585ff">
 							
 							<Button
 								id="buttonFavRight"
@@ -210,7 +211,7 @@
 							id = "favbuttonLabelRight"
 							translation = "[0,100]"
 							width = "150"
-							horizAlign="centre"
+							horizAlign = "center"
 							wrap = "true"
 							color="0xffffffff"
 							text="Favorite">

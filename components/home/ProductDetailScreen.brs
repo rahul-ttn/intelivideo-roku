@@ -1,5 +1,6 @@
 sub init()
     m.top.SetFocus(true)
+    m.BUTTONTEXT = 25
 End sub
 
 sub getProductId()
@@ -24,6 +25,8 @@ sub initFields()
     m.favButtonrectangle = m.top.findNode("favButtonrectangle")
     m.buttonFav = m.top.findNode("buttonFav")
     m.favPoster = m.top.findNode("favPoster")
+    m.favbuttonLabel = m.top.findNode("favbuttonLabel")
+    m.favbuttonLabel.font.size = m.BUTTONTEXT
     
     favPosterX = (m.favButtonrectangle.width  - m.favPoster.width) / 2
     favPosterY = (m.favButtonrectangle.height  - m.favPoster.height) / 2 
@@ -42,13 +45,34 @@ sub initFields()
     m.playButtonrectangle = m.top.findNode("playButtonrectangle")
     m.buttonPlay = m.top.findNode("buttonPlay")
     m.playPoster = m.top.findNode("playPoster")
-    
     m.playbuttonLabel = m.top.findNode("playbuttonLabel")
+    m.playbuttonLabel.font.size = m.BUTTONTEXT
+    
+    playPosterX = (m.playButtonrectangle.width  - m.playPoster.width) / 2
+    playPosterY = (m.playButtonrectangle.height  - m.playPoster.height) / 2 
+    m.playPoster.translation = [playPosterX, playPosterY]
+    
     
     m.favButtonOuterRightRectangle = m.top.findNode("favButtonOuterRightRectangle")
     m.favButtonRightrectangle = m.top.findNode("favButtonRightrectangle")
+    m.buttonFavRight = m.top.findNode("buttonFavRight")
+    m.favPosterRight = m.top.findNode("favPosterRight")
+    m.favbuttonLabelRight = m.top.findNode("favbuttonLabelRight")
+    m.favbuttonLabelRight.font.size = m.BUTTONTEXT
+    
+    favPosterRightX = (m.favButtonRightrectangle.width  - m.favPosterRight.width) / 2
+    favPosterRightY = (m.favButtonRightrectangle.height  - m.favPosterRight.height) / 2 
+    m.favPosterRight.translation = [favPosterRightX, favPosterRightY]
 
 End sub
+
+sub handlebuttonSelectedState(isSelected as boolean)
+    if isSelected
+        'TODO
+'        m.favButtonrectangle
+'        m.playButtonrectangle
+    end if
+end sub
 
 sub getProductDetails()
     if checkInternetConnection()
