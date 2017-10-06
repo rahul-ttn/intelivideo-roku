@@ -544,7 +544,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 m.homeRowList.jumpToRowItem = m.focusedItem
                 result = true
             else
-                print "switch Account invalid else block"
+                print "Switch Account invalid else block"
                 m.top.visible = false
                 result = false
             end if
