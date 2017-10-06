@@ -8,6 +8,7 @@ sub init()
     m.pagination = false 
     m.perPageItems =10
     m.pageNumber =1
+    m.isMediaContent = false
     m.contentArray = CreateObject("roArray", 0, true)
 end sub
 
@@ -134,7 +135,9 @@ sub getData()
         end if
         
         if  m.apiModel.success
-            showList() 
+            showList()
+        else
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
         end if
 end sub
 
@@ -154,18 +157,25 @@ end sub
 sub setContentArray()
     if m.titleText = "Featured Products"
         m.resultArray = m.apiModel.featuredProductsArray
+        m.isMediaContent = false
     else if m.titleText = "Featured Media"
         m.resultArray = m.apiModel.featuredMediaArray
+        m.isMediaContent = true
     else if m.titleText = "Popular Products"
         m.resultArray = m.apiModel.popularProductsArray
+        m.isMediaContent = false
     else if m.titleText = "Popular Media"
         m.resultArray = m.apiModel.popularMediaArray
+        m.isMediaContent = true
     else if m.titleText = "Recently Added Products"
         m.resultArray = m.apiModel.recentlyAddedProductsArray
+        m.isMediaContent = false
     else if m.titleText = "Recently Added Media"
         m.resultArray = m.apiModel.recentlyAddedMediaArray
+        m.isMediaContent = true
     else if m.titleText = "My Content"
         m.resultArray = m.myContentArray
+        m.isMediaContent = false
     end if
     'if m.pagination
         print "m.contentArray.count()-----------------------------before append";m.contentArray.count() 
@@ -182,6 +192,18 @@ function onRowItemSelected() as void
         col = m.list.rowItemSelected[1]
         print "**********Row is *********";row
         print "**********col is *********";col
+        m.focusedItem = [row,col]
+        if m.isMediaContent
+            m.mediaDetail = m.top.createChild("MediaDetailScreen")
+            m.top.setFocus(false)
+            m.mediaDetail.setFocus(true)
+            m.mediaDetail.resource_id = m.contentArray[col].resource_id
+        else
+            m.productDetail = m.top.createChild("ProductDetailScreen")
+            m.top.setFocus(false)
+            m.productDetail.setFocus(true)
+            m.productDetail.product_id = m.contentArray[col].product_id
+        end if
 end function
 
 function onRowItemFocused() as void
@@ -206,7 +228,7 @@ function getGridRowListContent() as object
     m.list.rowHeights = [445]
     m.list.rowItemSpacing = [ [150, 0] ]
     m.list.rowItemSize = [ [448, 445] ]
-    print "m.contentArray.count()-----------------------------";m.contentArray.count()
+    
     m.numberOfRows = (m.contentArray.count() + 2) \ 3 
     n = 2
     ind = 0
@@ -218,19 +240,20 @@ function getGridRowListContent() as object
             if ind < m.contentArray.count()
                 rowItem = row.CreateChild("HomeRowListItemData")
                 dataObjet = m.contentArray[ind]
-                rowItem.id = dataObjet.product_id
+                if m.isMediaContent
+                    rowItem.id = dataObjet.resource_id
+                else
+                    rowItem.id = dataObjet.product_id
+                    rowItem.count = dataObjet.media_count
+                end if
+                
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
-                rowItem.count = dataObjet.media_count
+                
                 rowItem.coverBgColor = m.primaryColor
-                if m.myContentArray <> invalid
-                    rowItem.isMedia = m.myContentArray[0].isMedia
-                    print "m.myContentArray[0].isItem +++++";m.myContentArray[0]
-                    rowItem.isItem = m.myContentArray[0].isItem
-                else
-                    rowItem.isMedia = dataObjet.is_media
-                    rowItem.isItem = dataObjet.is_item
-                end if
+                rowItem.isMedia = dataObjet.is_media
+                rowItem.isItem = dataObjet.is_item
+                
                 if dataObjet.is_media
                     rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 else
@@ -256,7 +279,22 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         if key = "left" or key = "right"
             return true
         else if key = "back"
-            m.top.visible = false
+            if m.mediaDetail <> invalid
+                m.mediaDetail.setFocus(false)
+                m.mediaDetail = invalid
+                m.list.setFocus(true)
+                m.list.jumpToRowItem = m.focusedItem
+                result = true
+            else if m.productDetail <> invalid
+                m.productDetail.setFocus(false)
+                m.productDetail = invalid
+                m.list.setFocus(true)
+                m.list.jumpToRowItem = m.focusedItem
+                result = true
+            else
+                m.top.visible = false
+                result = false
+            end if
         end if
     end if
     return result 
