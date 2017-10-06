@@ -28,7 +28,7 @@
 				
 			<Label id="labelMediaTime" translation="[200,180]" color="0xffffffff"/>
 			
-			<RelatedMediaRowList id="relatedMediaRowList" translation="[200,600]" visible="false"/>
+			<RelatedMediaRowList id="relatedMediaRowList" translation="[200,700]" visible="false"/>
 
 		</Rectangle>
 

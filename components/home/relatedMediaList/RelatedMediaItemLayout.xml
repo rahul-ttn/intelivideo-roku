@@ -7,7 +7,7 @@
 	<script type="text/brightscript"
 		uri="pkg:/components/home/relatedMediaList/RelatedMediaItemLayout.brs" />
 	<children>
-	<Rectangle id="parentRect" width="546" height="307">
+	<Rectangle id="parentRect" width="546" height="164">
 	<!-- <Rectangle id="posterRect" height="308" width="548" translation="[0,0]" color="0x565656FF">
 				<Poster id="posterVod" height="308" width="548" translation="[0,-1]">
 

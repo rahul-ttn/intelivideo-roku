@@ -3,9 +3,9 @@ sub init()
         m.top.SetFocus(true)
         m.top.itemComponentName = "RelatedMediaItemLayout"
         m.top.numRows = 1
-        m.top.itemSize = [200 * 9 + 100, 330]'550  600
-        m.top.rowHeights = [330]
-        m.top.rowItemSize = [ [546, 307] ]
+        m.top.itemSize = [200 * 9 + 100, 185]'550  600
+        m.top.rowHeights = [185]
+        m.top.rowItemSize = [ [546, 164] ]
         m.top.itemSpacing = [ 0, 100 ]
         m.top.rowItemSpacing = [ [150, 0] ]
         m.top.rowLabelOffset = [ [0, 20] ]
