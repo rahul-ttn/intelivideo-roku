@@ -177,13 +177,7 @@ sub setContentArray()
         m.resultArray = m.myContentArray
         m.isMediaContent = false
     end if
-    'if m.pagination
-        print "m.contentArray.count()-----------------------------before append";m.contentArray.count() 
-        m.contentArray.Append(m.resultArray)
-        print "m.contentArray.count()-----------------------------after append";m.contentArray.count()
-   ' else 
-'        m.contentArraym.resultArray
-'    end if
+    m.contentArray.Append(m.resultArray)
 end sub
 
 function onRowItemSelected() as void
@@ -249,7 +243,6 @@ function getGridRowListContent() as object
                 
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
-                
                 rowItem.coverBgColor = m.primaryColor
                 rowItem.isMedia = dataObjet.is_media
                 rowItem.isItem = dataObjet.is_item
