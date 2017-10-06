@@ -435,7 +435,7 @@ function onRowItemSelected() as void
         print "**********Row is *********";row
         print "**********col is *********";col
         m.focusedItem = [row,col]
-        if col = 10
+        if col >= 10
             goTViewAllScreen(m.homeRowList.content.getChild(m.homeRowList.itemFocused).title)
         else
             listTitle = m.homeRowList.content.getChild(m.homeRowList.itemFocused).title

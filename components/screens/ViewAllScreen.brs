@@ -22,6 +22,7 @@ sub setData()
 end sub
 
 sub setArray()
+    print "set array called "
     m.myContentArray = m.top.contentArray
     showList() 'To show list when my content is selected
 end sub
@@ -190,10 +191,12 @@ function onRowItemFocused() as void
         print "**********Row is *********";row
         print "**********col is *********";col
         m.focusedItem = [row,col]
-        if row = m.numberOfRows - 1 And not m.apiModel.pageInfo.last_page 
-          m.pagination = true
-          m.pageNumber = m.apiModel.pageInfo.next_page
-          callSelectedApi()  
+        if m.myContentArray = invalid
+            if row = m.numberOfRows - 1 And not m.apiModel.pageInfo.last_page 
+              m.pagination = true
+              m.pageNumber = m.apiModel.pageInfo.next_page
+              callSelectedApi()  
+            end if
         end if
 end function
 
@@ -220,13 +223,20 @@ function getGridRowListContent() as object
                 rowItem.imageUri = dataObjet.small
                 rowItem.count = dataObjet.media_count
                 rowItem.coverBgColor = m.primaryColor
-                rowItem.isMedia = dataObjet.is_media
+                if m.myContentArray <> invalid
+                    rowItem.isMedia = m.myContentArray[0].isMedia
+                    print "m.myContentArray[0].isItem +++++";m.myContentArray[0]
+                    rowItem.isItem = m.myContentArray[0].isItem
+                else
+                    rowItem.isMedia = dataObjet.is_media
+                    rowItem.isItem = dataObjet.is_item
+                end if
                 if dataObjet.is_media
                     rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
                 else
                     rowItem.mediaTime = ""
                 end if
-                rowItem.isItem = dataObjet.is_item
+                
                 rowItem.isViewAll = false
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
