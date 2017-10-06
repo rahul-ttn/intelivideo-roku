@@ -78,7 +78,7 @@ sub getProductDetails()
     if checkInternetConnection()
         m.Error_text.visible = false
         showProgressDialog()
-        baseUrl = getApiBaseUrl() + "products/"+ StrI(m.productId).Trim() +"?access_token=" + getValueInRegistryForKey("authTokenValue")
+        baseUrl = getApiBaseUrl() + "products/"+ StrI(m.productId).Trim() +"?per_page=100&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
         m.productDetailApi = createObject("roSGNode","ProductDetailApiHandler")
         m.productDetailApi.setField("uri",baseUrl)
         m.productDetailApi.observeField("content","onProductDetailApiResponse")
@@ -121,6 +121,12 @@ sub onListItemFocused()
    m.thumbnailPoster.uri = mediaModel.small
    m.nameLabel.text = mediaModel.title
    m.longDescriptionLabel.text = mediaModel.description
+   if mediaModel.type = "Video" OR mediaModel.type = "Audio"
+       m.typeLabel.text = getMediaTimeFromSeconds(mediaModel.duration)
+   else
+       m.typeLabel.text = "Document"
+   end if
+   
 End sub
 
 sub onListItemSelected()
