@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component name="MediaDetailScreen" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
-<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
+<component name="MediaDetailScreen" extends="Group"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs" />
@@ -17,18 +18,21 @@
 
 		<Rectangle id="mediaDetailBackground" width="1960" height="1080"
 			translation="[0,0]">
-			
-			<Poster id="mediaDetailBgPoster" width="1960" height="1080"/>
+
+			<Poster id="mediaDetailBgPoster" width="1960" height="1080" />
+			<Poster id="posterBackground" width="1960" height="1080"
+				uri="pkg:/images/$$RES$$/background_gradient.png" />
 
 			<Label id="Error_text" translation="[550,100]" visible="false" />
-			
-			<Label id="labelTitle" width="800" translation="[200,60]"
-				wrap="true" color="0xffffffff" font="font:LargeBoldSystemFont" maxLines="2"
-				ellipsizeOnBoundary="true"/>
-				
-			<Label id="labelMediaTime" translation="[200,180]" color="0xffffffff"/>
-			
-			<RelatedMediaRowList id="relatedMediaRowList" translation="[200,700]" visible="false"/>
+
+			<Label id="labelTitle" width="800" translation="[200,60]" wrap="true"
+				color="0xffffffff" font="font:LargeBoldSystemFont" maxLines="2"
+				ellipsizeOnBoundary="true" />
+
+			<Label id="labelMediaTime" translation="[200,180]" color="0xffffffff" />
+
+			<RelatedMediaRowList id="relatedMediaRowList"
+				translation="[200,700]" visible="false" />
 
 		</Rectangle>
 

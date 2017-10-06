@@ -20,6 +20,8 @@
 			translation="[0,0]">
 			
 			<Poster id="productDetailBgPoster" width="1960" height="1080"/>
+			<Poster id="posterBackground" width="1960" height="1080"
+				uri="pkg:/images/$$RES$$/background_gradient.png" />
 
 			<Label id="Error_text" translation="[550,100]" visible="false" />
 

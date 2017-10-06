@@ -16,6 +16,7 @@ sub initFields()
     m.labelTitle  = m.top.FindNode("labelTitle")
     m.labelMediaTime  = m.top.FindNode("labelMediaTime")
     m.relatedMediaRowList  = m.top.FindNode("relatedMediaRowList")
+    m.relatedMediaRowList.ObserveField("rowItemSelected", "onRowItemSelected")
 End sub
 
 sub getMediaDetails()
@@ -42,7 +43,7 @@ sub onMediaDetailApiResponse()
         m.labelTitle.text = mediaDetailModel.title
         m.labelMediaTime.text = getMediaTimeFromSeconds(mediaDetailModel.duration)
     else
-        showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        showRetryDialog(mediaDetailModel.error, networkErrorMessage())
     end if
 End sub
 
@@ -68,8 +69,7 @@ end sub
 
 sub relatedContentList()
     m.relatedMediaRowList.visible = true
-    m.relatedMediaRowList.SetFocus(false)
-    m.relatedMediaRowList.ObserveField("rowItemSelected", "onRowItemSelected")
+    m.relatedMediaRowList.SetFocus(true)
     m.relatedMediaRowList.content = getGridRowListContent()
 end sub
 
@@ -83,7 +83,7 @@ function getGridRowListContent() as object
         rowItem.id = dataObjet.resource_id
         rowItem.title = dataObjet.title
         rowItem.imageUri = dataObjet.small
-        'rowItem.coverBgColor = m.appConfig.primary_color
+        rowItem.coverBgColor = m.top.getScene().appConfigContent.primary_color
         rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
         rowItem.isViewAll = false
         if dataObjet.type = "Video" OR dataObjet.type = "Audio"
@@ -96,11 +96,12 @@ function getGridRowListContent() as object
 end function
 
 function onRowItemSelected() as void
-    row = m.homeRowList.rowItemSelected[0]
-    col = m.homeRowList.rowItemSelected[1]
+    row = m.relatedMediaRowList.rowItemSelected[0]
+    col = m.relatedMediaRowList.rowItemSelected[1]
     print "**********Row is *********";row
     print "**********col is *********";col
-         
+    m.resourceId = m.relatedMediaModel.relatedMediaArray[col].resource_id
+    getMediaDetails()
 end function
 
 Function showRetryDialog(title ,message)
