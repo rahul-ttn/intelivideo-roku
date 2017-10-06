@@ -47,29 +47,45 @@
 						
 					</Label>
 					<Rectangle
-						id = "favButtonrectangle"
+						id = "favButtonOuterRectangle"
 						width="150"
-						height = "100"
+						height = "130"
 						translation = "[20,200]"
-						color="0x00CCB9ff">
-						
-						<Button
-							id="buttonFav"
-							height = "50"
-						  	translation="[0,0]"
-						  	textFont = "font:LargeSystemFont"
-						  	iconUri=""
-							focusedIconUri="pkg:/images/img_transparent"
-							focusBitmapUri="pkg:/images/img_transparent"
-							focusFootprintBitmapUri=""/>
-						
-						 <Poster
-							id = "favPoster"
-							uri = "pkg:/images/$$RES$$/img_fav_tag_alt.png"
-							width = "50"
-							height = "50">
-						</Poster> 
-					</Rectangle>
+						color="0x00CCB900"> 
+						<Rectangle
+							id = "favButtonrectangle"
+							width="150"
+							height = "100"
+							translation = "[0,0]"
+							color="0x00CCB9ff">
+							
+							<Button
+								id="buttonFav"
+								height = "50"
+							  	translation="[0,0]"
+							  	textFont = "font:LargeSystemFont"
+							  	iconUri=""
+								focusedIconUri="pkg:/images/img_transparent"
+								focusBitmapUri="pkg:/images/img_transparent"
+								focusFootprintBitmapUri=""/>
+							
+							 <Poster
+								id = "favPoster"
+								uri = "pkg:/images/$$RES$$/img_fav_tag_alt.png"
+								width = "50"
+								height = "50">
+							</Poster> 
+						</Rectangle>
+						<Label
+							id = "favbuttonLabel"
+							translation = "[0,100]"
+							width = "150"
+							horizAlign="centre"
+							wrap = "true"
+							color="0xffffffff"
+							text="Favorite">
+						</Label>
+					</Rectangle> 
 					<Label
 						id = "descLabel"
 						translation = "[200,200]"
@@ -99,6 +115,117 @@
 				width = "768"
 				height = "1080">
 				
+				<Poster
+					id = "thumbnailPoster"
+					width = "548"
+					height = "308"
+					translation = "[100,100]"
+					uri = "pkg:/images/splash_hd.png">
+				</Poster>
+				<Label
+					id = "nameLabel"
+					translation = "[100,420]"
+					width = "568"
+					maxLines="2"
+					wrap = "true"
+					ellipsizeOnBoundary="false"
+					ellipsisText="..."
+					color="0xffffffff"
+					text="ksjdb ajdnka kadnckasnd kajdkchjsdc kadjlcjd kasdjck kadckd kasdjckjd kadjkc kasdncsd kdncdnc ksdjncdsnc ksndcnsdcnsdc ksdcosdnc">
+				</Label>
+				
+				<Rectangle
+						id = "playButtonOuterRectangle"
+						width="150"
+						height = "130"
+						translation = "[100,550]"
+						color="0x00CCB900"> 
+						<Rectangle
+							id = "playButtonrectangle"
+							width="150"
+							height = "100"
+							translation = "[0,0]"
+							color="0x00CCB9ff">
+							<Button
+								id="buttonPlay"
+								height = "50"
+							  	translation="[0,0]"
+							  	textFont = "font:LargeSystemFont"
+							  	iconUri=""
+								focusedIconUri="pkg:/images/img_transparent"
+								focusBitmapUri="pkg:/images/img_transparent"
+								focusFootprintBitmapUri=""/>
+							
+							 <Poster
+								id = "playPoster"
+								uri = "pkg:/images/$$RES$$/img_fav_tag_alt.png"
+								width = "50"
+								height = "50">
+							</Poster> 
+						</Rectangle>
+						<Label
+							id = "playbuttonLabel"
+							translation = "[0,100]"
+							width = "150"
+							horizAlign = "center"
+							wrap = "true"
+							color="0xffffffff"
+							text="Play">
+						</Label>
+					</Rectangle>
+					<Rectangle
+						id = "favButtonOuterRightRectangle"
+						width="150"
+						height = "130"
+						translation = "[270,550]"
+						color="0x00CCB900"> 
+						<Rectangle
+							id = "favButtonRightrectangle"
+							width="150"
+							height = "100"
+							translation = "[0,0]"
+							color="0x00CCB9ff">
+							
+							<Button
+								id="buttonFavRight"
+								height = "50"
+							  	translation="[0,0]"
+							  	textFont = "font:LargeSystemFont"
+							  	iconUri=""
+								focusedIconUri="pkg:/images/img_transparent"
+								focusBitmapUri="pkg:/images/img_transparent"
+								focusFootprintBitmapUri=""/>
+							
+							 <Poster
+								id = "favPosterRight"
+								uri = "pkg:/images/$$RES$$/img_fav_tag_alt.png"
+								width = "50"
+								height = "50">
+							</Poster> 
+						</Rectangle>
+						<Label
+							id = "favbuttonLabelRight"
+							translation = "[0,100]"
+							width = "150"
+							horizAlign="centre"
+							wrap = "true"
+							color="0xffffffff"
+							text="Favorite">
+						</Label>
+					</Rectangle>
+				
+				<Label
+					id = "longDescriptionLabel"
+					translation = "[100,720]"
+					width = "568"
+					maxLines="6"
+					wrap = "true"
+					ellipsizeOnBoundary="false"
+					ellipsisText="...more"
+					color="0xffffffff"
+					text="ksjdb ajdnka kadnckasn jfjkdf skfdjvnjkd kjsfvjkdfnv ksdfjnvjknf ksdfjnvkjndf kjndvkn jknvjknd kjnvkjn kjvnkn dkjnkdnf kjffk jkfvk kfdjnvkjd kfnjvkjd kfnvkjdf knjfjk ksdfnvkdf kjfvnfk kdfvnknfd kajdkchjsdc kadjlcjd kasdjck kadckd kasdjckjd kadjkc kasdncsd kdncdnc ksdjncdsnc ksndcnsdcnsdc ksdcosdnc">
+				
+				</Label>
 			</Rectangle>
 			
 			<Label id="Error_text" translation="[550,100]" visible="false" />
