@@ -46,7 +46,16 @@ sub parseApiResponse(response As Object)
         else if m.top.dataType = "recentAdded"
             featureProductModel.recentlyAddedProductsArray = productArray
         end if 
-        print "productArray >>> ";productArray
+        
+        pageInfoModel = CreateObject("roSGNode", "PageInfoModel")
+        pageInfoModel.total_items = response.page_info.total_items
+        pageInfoModel.total_pages = response.page_info.total_pages
+        pageInfoModel.first_page = response.page_info.first_page
+        pageInfoModel.last_page = response.page_info.last_page
+        pageInfoModel.previous_page = response.page_info.previous_page
+        pageInfoModel.next_page = response.page_info.next_page
+        pageInfoModel.out_of_bounds = response.page_info.out_of_bounds
+        featureProductModel.pageInfo =  pageInfoModel 
     else 
         featureProductModel.error = apiErrorMessage()
         featureProductModel.success = false

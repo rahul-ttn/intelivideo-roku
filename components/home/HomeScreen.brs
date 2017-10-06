@@ -456,21 +456,24 @@ sub goTViewAllScreen(titleText as String)
     m.top.setFocus(false)
     viewAllScreen.setFocus(true)
     viewAllScreen.titleText = titleText
-    if titleText = "Featured Products"
-        viewAllScreen.contentArray = m.featureProductsApiModel.featuredProductsArray
-    else if titleText = "Featured Media"
-        viewAllScreen.contentArray = m.featureMediaApiModel.featuredMediaArray
-    else if titleText = "Popular Products"
-        viewAllScreen.contentArray = m.popularProductApiModel.popularProductsArray
-    else if titleText = "Popular Media"
-        viewAllScreen.contentArray = m.popularMediaApiModel.popularMediaArray
-    else if titleText = "Recently Added Products"
-        viewAllScreen.contentArray = m.recentAddedProductApiModel.recentlyAddedProductsArray
-    else if titleText = "Recently Added Media"
-        viewAllScreen.contentArray = m.recentAddedMediaApiModel.recentlyAddedMediaArray
-    else if titleText = "My Content"
+    if titleText = "My Content"
         viewAllScreen.contentArray = m.productsAarray
     end if
+'    if titleText = "Featured Products"
+'        viewAllScreen.contentArray = m.featureProductsApiModel.featuredProductsArray
+'    else if titleText = "Featured Media"
+'        viewAllScreen.contentArray = m.featureMediaApiModel.featuredMediaArray
+'    else if titleText = "Popular Products"
+'        viewAllScreen.contentArray = m.popularProductApiModel.popularProductsArray
+'    else if titleText = "Popular Media"
+'        viewAllScreen.contentArray = m.popularMediaApiModel.popularMediaArray
+'    else if titleText = "Recently Added Products"
+'        viewAllScreen.contentArray = m.recentAddedProductApiModel.recentlyAddedProductsArray
+'    else if titleText = "Recently Added Media"
+'        viewAllScreen.contentArray = m.recentAddedMediaApiModel.recentlyAddedMediaArray
+'    else if titleText = "My Content"
+'        viewAllScreen.contentArray = m.productsAarray
+'    end if
 end sub
 
 Function onKeyEvent(key as String,press as Boolean) as Boolean
