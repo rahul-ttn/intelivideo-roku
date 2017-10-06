@@ -18,6 +18,7 @@ sub initFields()
     m.titleRectangle = m.top.findNode("titleRectangle")
     m.titleLabel = m.top.findNode("titleLabel")
     m.titleLabel.font.size = 60
+    m.descLabel = m.top.findNode("descLabel")
     
     m.favButtonOuterRectangle = m.top.findNode("favButtonOuterRectangle")
     m.favButtonrectangle = m.top.findNode("favButtonrectangle")
@@ -28,11 +29,13 @@ sub initFields()
     favPosterY = (m.favButtonrectangle.height  - m.favPoster.height) / 2 
     m.favPoster.translation = [favPosterX, favPosterY]
     
-     
-    m.descLabel = m.top.findNode("descLabel")
-    
     m.listRectangle = m.top.findNode("listRectangle")
     m.productLabelList = m.top.findNode("productLabelList")  
+    
+    m.thumbnailPoster = m.top.findNode("thumbnailPoster")
+    m.nameLabel = m.top.findNode("nameLabel")
+    m.thumbnailPoster = m.top.findNode("thumbnailPoster")
+    m.longDescriptionLabel = m.top.findNode("longDescriptionLabel")
 End sub
 
 sub getProductDetails()
@@ -55,6 +58,8 @@ sub onProductDetailApiResponse()
     m.productDetailModel = m.productDetailApi.content
     if m.productDetailModel.success
         m.productDetailBgPoster.uri = m.productDetailModel.original
+        m.titleLabel.text = m.productDetailModel.title
+        m.descLabel.text = m.productDetailModel.description
         showMediaList()
     else
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
@@ -76,7 +81,10 @@ sub showMediaList()
 End sub
 
 sub onListItemFocused()
-   
+   mediaModel = m.productDetailModel.objects[m.productLabelList.itemFocused]
+   m.thumbnailPoster.uri = mediaModel.small
+   m.nameLabel.text = mediaModel.title
+   m.longDescriptionLabel.text = mediaModel.description
 End sub
 
 sub onListItemSelected()

@@ -42,6 +42,7 @@ sub parseApiResponse(response As Object)
             mediaModel.duration = productItem.duration
             mediaModel.small = productItem.cover_art.small
             mediaModel.created_at = productItem.created_at
+            mediaModel.description = productItem.description
             
             mediaArray.Push(mediaModel)
             
