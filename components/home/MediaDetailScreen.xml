@@ -34,11 +34,11 @@
 				<Label id="labelMediaTime" translation="[200,180]" color="0xffffffff" />
 
 				<Label id="descLabel" translation="[200,250]" width="1000"
-					maxLines="5" wrap="true" ellipsizeOnBoundary="true" color="0xffffffff">
+					maxLines="5" wrap="true" ellipsizeOnBoundary="false" ellipsisText="..." color="0xffffffff">
 				</Label>
 
 				<Rectangle id="playButtonOuterRectangle" width="150"
-					height="130" translation="[200,500]" color="0x00CCB900">
+					height="130" translation="[200,520]" color="0x00CCB900">
 					<Rectangle id="playButtonrectangle" width="150" height="100"
 						translation="[0,0]" color="0x858585ff">
 						<Button id="buttonPlay" height="50" translation="[0,0]"
@@ -55,7 +55,7 @@
 					</Label>
 				</Rectangle>
 				<Rectangle id="favButtonOuterRightRectangle" width="150"
-					height="130" translation="[390,500]" color="0x00CCB900">
+					height="130" translation="[390,520]" color="0x00CCB900">
 					<Rectangle id="favButtonRightrectangle" width="150"
 						height="100" translation="[0,0]" color="0x858585ff">
 
@@ -74,21 +74,10 @@
 					</Label>
 				</Rectangle>
 
-					<Label id="documentInfoLabel" translation="[100,720]" width="300"
+					<Label id="documentInfoLabel" translation="[100,740]" width="300"
 						maxLines="2" wrap="true" color="0xffffffff" visible="false"
 						text="View on Mobile or desktop only">
 					</Label>
-			
-			<Rectangle id="moreButtonrectangle" width="120" height="50"
-				translation="[1200,440]" color="0x38383800" visible="false">
-				<Button id="buttonMore" height="50" translation="[0,0]"
-					textFont="font:LargeSystemFont" iconUri=""
-					focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
-					focusFootprintBitmapUri="" />
-				<Label id="labelMore" text="more" color="0xffffffff">
-				</Label>
-			</Rectangle>
-
 
 				<Rectangle id="moreButtonrectangle" width="120" height="50"
 					translation="[1200,440]" color="0x38383800" visible="false">
@@ -101,12 +90,13 @@
 				</Rectangle>
 
 				<RelatedMediaRowList id="relatedMediaRowList"
-					translation="[200,700]" visible="false" />
+					translation="[200,720]" visible="false" />
 
 			</Rectangle>
 			<Label id="Error_text" translation="[550,100]" visible="false" />
 		</Rectangle>
 		<Timer id="timer" repeat="false" duration=".5" />
+		<Timer id="more_timer" repeat="false" duration=".5" />
 
 	</children>
 </component>

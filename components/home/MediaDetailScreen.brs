@@ -1,10 +1,9 @@
 sub init()
     m.top.SetFocus(true)
     m.BUTTONTEXT = 25
-
+    m.appConfig =  m.top.getScene().appConfigContent
     m.counter = 0
     m.counterMaxValue = 2
-
     m.isDocument = false
 End sub
 
@@ -16,18 +15,18 @@ End sub
 
 sub initFocus()
     'up-down-left-right  
-    m.focusIDArray = {    
-                       "buttonPlay":"N-relatedMediaRowList-N-buttonFavRight"                   
-                       "buttonFavRight":"N-relatedMediaRowList-buttonPlay-N" 
+    m.focusIDArray = { "buttonMore":"N-buttonPlay-N-N"
+                       "buttonPlay":"buttonMore-relatedMediaRowList-N-buttonFavRight"                   
+                       "buttonFavRight":"buttonMore-relatedMediaRowList-buttonPlay-N" 
                        "relatedMediaRowList":"buttonPlay-N-N-N"   
                      }
 end sub
 
 sub initFocusWithout()
     'up-down-left-right  
-    m.focusIDArray = {    
-                       "buttonPlay":"N-relatedMediaRowList-N-buttonFavRight"                   
-                       "buttonFavRight":"N-relatedMediaRowList-N-N" 
+    m.focusIDArray = { "buttonMore":"N-buttonPlay-N-N"  
+                       "buttonPlay":"buttonMore-relatedMediaRowList-N-buttonFavRight"                   
+                       "buttonFavRight":"buttonMore-relatedMediaRowList-N-N" 
                        "relatedMediaRowList":"buttonFavRight-N-N-N"   
                      }
 end sub
@@ -83,6 +82,14 @@ sub showMoreLabel()
     m.moreButtonrectangle.visible = true
 end sub
 
+sub setMoreSelectedState(selectedMore as object)
+    selectedMore.color = m.appConfig.primary_color
+end sub
+
+sub setMoreUnselectedState(unfocusedMore as object)
+    unfocusedMore.color = "0xffffffff"
+end sub 
+
 sub updateCounter()
     m.counter = m.counter + 1
     print "m.counter >> ";m.counter
@@ -90,16 +97,16 @@ end sub
 
 sub showPlayFavButton()
     m.playButtonOuterRectangle.visible = true
-    m.playButtonOuterRectangle.translation = [200,500]
-    m.favButtonOuterRightRectangle.translation = [390,500]
+    m.playButtonOuterRectangle.translation = [200,520]
+    m.favButtonOuterRightRectangle.translation = [390,520]
     m.documentInfoLabel.visible = false
 end sub
 
 sub showFavDescText()
     m.playButtonOuterRectangle.visible = false
-    m.favButtonOuterRightRectangle.translation = [200,500]
+    m.favButtonOuterRightRectangle.translation = [200,520]
     m.documentInfoLabel.visible = true
-    m.documentInfoLabel.translation = [390,500]
+    m.documentInfoLabel.translation = [390,520]
 end sub
 
 sub getMediaDetails()
@@ -111,7 +118,6 @@ sub getMediaDetails()
         m.mediaDetailApi.setField("uri",baseUrl)
         m.mediaDetailApi.observeField("content","onApiResponse")
         m.mediaDetailApi.control = "RUN"
-        
         getRelatedMedia()
     else
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
@@ -136,6 +142,20 @@ sub onApiResponse()
         m.mediaDetailRectangle.visible = true
         onMediaDetailApiResponse()
         onRelatedMediaApiResponse()
+        
+        'initializing the currentFocus id 
+        if m.isDocument
+            m.currentFocusID ="buttonFavRight"
+            initFocusWithout()
+        else
+            m.currentFocusID ="buttonPlay"
+            initFocus()
+        end if
+        
+        handlebuttonSelectedState()
+        m.buttonPlay.SetFocus(true)
+        
+        startMoreTimer()
     end if
 end sub
 
@@ -170,20 +190,28 @@ sub onRelatedMediaApiResponse()
 end sub
 
 sub relatedContentList()
-    'initializing the currentFocus id 
-    if m.isDocument
-        m.currentFocusID ="buttonFavRight"
-        initFocusWithout()
-    else
-        m.currentFocusID ="buttonPlay"
-        initFocus()
-    end if
-     handlebuttonSelectedState()
-    m.buttonPlay.SetFocus(true)
-    
     m.relatedMediaRowList.visible = true
     m.relatedMediaRowList.SetFocus(false)
     m.relatedMediaRowList.content = getGridRowListContent()
+end sub
+
+sub startMoreTimer()
+    m.top.getScene().dialog.close = true
+    m.testtimer = m.top.findNode("more_timer")
+    m.testtimer.control = "start"
+    m.testtimer.ObserveField("fire","setFocusArray")
+end sub
+
+sub setFocusArray()
+    if m.descLabel.isTextEllipsized
+        print "entered when more is visible >>>>>>>"
+        m.focusIDArray.AddReplace("buttonPlay","buttonMore-relatedMediaRowList-N-buttonFavRight")
+        m.focusIDArray.AddReplace("buttonFavRight","buttonMore-relatedMediaRowList-buttonPlay-N")
+    else
+        print "entered when more is not visible >>>>>>>" 
+        m.focusIDArray.AddReplace("buttonPlay","N-relatedMediaRowList-N-buttonFavRight")
+        m.focusIDArray.AddReplace("buttonFavRight","N-relatedMediaRowList-buttonPlay-N")
+    end if
 end sub
 
 function getGridRowListContent() as object
@@ -249,12 +277,19 @@ sub handlebuttonSelectedState()
     if m.currentFocusID ="buttonPlay"
         setButtonFocusedState(m.playButtonrectangle)
         setButtonUnFocusedState(m.favButtonRightrectangle)
+        setMoreUnselectedState(m.labelMore)
     else if m.currentFocusID ="buttonFavRight"
         setButtonUnFocusedState(m.playButtonrectangle)
         setButtonFocusedState(m.favButtonRightrectangle)
+        setMoreUnselectedState(m.labelMore)
     else if m.currentFocusID ="relatedMediaRowList"
         setButtonUnFocusedState(m.playButtonrectangle)
         setButtonUnFocusedState(m.favButtonRightrectangle)
+        setMoreUnselectedState(m.labelMore)
+    else if m.currentFocusID ="buttonMore"
+        setButtonUnFocusedState(m.playButtonrectangle)
+        setButtonUnFocusedState(m.favButtonRightrectangle)
+        setMoreSelectedState(m.labelMore)
     end if
 end sub
 
