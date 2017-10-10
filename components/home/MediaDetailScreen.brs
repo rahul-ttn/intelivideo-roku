@@ -15,9 +15,20 @@ sub initFields()
     m.Error_text  = m.top.FindNode("Error_text")
     m.labelTitle  = m.top.FindNode("labelTitle")
     m.labelMediaTime  = m.top.FindNode("labelMediaTime")
+    m.descLabel = m.top.findNode("descLabel")
+    m.descLabel.observeField("isTextEllipsized","showMoreLabel")
+    
+    m.moreButtonrectangle = m.top.findNode("moreButtonrectangle")
+    m.buttonMore = m.top.findNode("buttonMore")
+    m.labelMore = m.top.findNode("labelMore")
+    
     m.relatedMediaRowList  = m.top.FindNode("relatedMediaRowList")
     m.relatedMediaRowList.ObserveField("rowItemSelected", "onRowItemSelected")
 End sub
+
+sub showMoreLabel()
+    m.moreButtonrectangle.visible = true
+end sub
 
 sub getMediaDetails()
     if checkInternetConnection()
@@ -41,6 +52,8 @@ sub onMediaDetailApiResponse()
     if mediaDetailModel.success
         m.mediaDetailBgPoster.uri = mediaDetailModel.small
         m.labelTitle.text = mediaDetailModel.title
+        m.descLabel.text = mediaDetailModel.description
+  
         if mediaDetailModel.is_media
             m.labelMediaTime.text = getMediaTimeFromSeconds(mediaDetailModel.duration)
         else
