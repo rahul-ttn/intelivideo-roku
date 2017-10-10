@@ -152,13 +152,14 @@ end sub
 
 sub relatedContentList()
     'initializing the currentFocus id 
-    m.currentFocusID ="buttonPlay"
-    handlebuttonSelectedState()
     if m.isDocument
+        m.currentFocusID ="buttonFavRight"
         initFocusWithout()
     else
+        m.currentFocusID ="buttonPlay"
         initFocus()
     end if
+     handlebuttonSelectedState()
     m.buttonPlay.SetFocus(true)
     
     m.relatedMediaRowList.visible = true
