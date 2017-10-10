@@ -127,7 +127,6 @@ sub relatedContentList()
     initFocus()
     m.buttonPlay.SetFocus(true)
     
-    
     m.relatedMediaRowList.visible = true
     m.relatedMediaRowList.SetFocus(false)
     m.relatedMediaRowList.content = getGridRowListContent()
