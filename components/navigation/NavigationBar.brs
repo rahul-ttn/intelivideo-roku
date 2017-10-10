@@ -156,7 +156,7 @@ End sub
 
 sub showHomeScreen()
     print "Home Screen"
-    if m.screenName <> "Home"
+    if m.screenName <> homeScreen()
         homeScreen = m.top.createChild("HomeScreen")
         homeScreen.setFocus(true)
     end if
@@ -172,11 +172,15 @@ End sub
 
 sub showSearchScreen()
     print "Search Screen"
+    if m.screenName <> searchScreen()
+        searchScreen = m.top.createChild("SearchScreen")
+        searchScreen.setFocus(true)
+    end if
 End sub
 
 sub showProfileScreen()
     print "Profile Screen"
-    if m.screenName <> "Profile"
+    if m.screenName <> profileScreen()
         profileScreen = m.top.createChild("ProfileScreen")
         profileScreen.setFocus(true)
     end if

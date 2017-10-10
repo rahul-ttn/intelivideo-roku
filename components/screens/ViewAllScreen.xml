@@ -8,6 +8,7 @@
 	<script type="text/brightscript" uri="pkg:/components/screens/ViewAllScreen.brs"/>
 	
 	<interface>
+		<field id="searchQuery" type="string" alwaysNotify= "true" onChange="setData"/>
 		<field id="titleText" type="string" alwaysNotify="true" onChange="setData"/>
 		<field id="contentArray" type="nodeArray" alwaysNotify="true" onChange="setArray"/>
 		<field id="primaryColor" type="string" alwaysNotify= "true" onChange="setPrimaryColor"/>

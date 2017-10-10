@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="SearchScreen" extends="Group"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
+	<script type="text/brightscript" uri="pkg:/components/search/SearchScreen.brs" />
+	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
+	<children>
+
+		<Rectangle id="seacrhBackground" width="1960" height="1080"
+			translation="[0,0]">
+
+			<NavigationBar id="NavigationBar" />
+
+			<Rectangle id="searchRightRect" width="1560" height="1080"
+				translation="[400,0]" color="0x00000000">
+
+				<Rectangle id="searchTextRectangle" width="600" height="60">
+					<Button id="searchTextButton" height="50" translation="[0,0]"
+						textFont="font:LargeSystemFont" iconUri=""
+						focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
+						focusFootprintBitmapUri="" />
+					<Label id="hintlabel" text="Search" width="585"
+						ellipsizeOnBoundary="false" translation="[15,12]" horizAlign="left"
+						vertAlign="center" color="0xB4B4B1ff" />
+				</Rectangle>
+
+				<SearchRowList id="searchRowList" translation="[80,200]" />
+
+				<Label id="Error_text" width="1560" translation="[0,500]"
+					horizAlign="center" />
+			</Rectangle>
+
+		</Rectangle>
+		
+		<Rectangle id="keyboardTheme" color="#252222" width="1420"
+			height="470" translation="[225,450]" visible="false">
+			<Keyboard id="keyboard" translation="[0,20]"
+				showTextEditBox="true" keyboardBitmapUri="pkg:/images/KeyboardTemplatebgfhd"
+				visible="false" focusedKeyColor="0x000000ff">
+			</Keyboard>
+		</Rectangle>
+		
+		<Timer id="timer" repeat="false" duration=".5" />
+	</children>
+</component>
+

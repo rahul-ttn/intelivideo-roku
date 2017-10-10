@@ -15,6 +15,8 @@ end sub
 sub setData()
     m.titleText = m.top.titleText
     m.heading.text =  m.titleText
+    m.searchQuery = m.top.searchQuery
+    print "m.searchQuery >>>> ";m.searchQuery
     if checkInternetConnection()
        callSelectedApi()
      else
@@ -33,18 +35,22 @@ sub setPrimaryColor()
 end sub
 
 sub callSelectedApi()
-     if m.titleText = "Featured Products"
+     if m.titleText = featuredProducts()
         callFeatureProductsApi()
-    else if m.titleText = "Featured Media"
+    else if m.titleText = featuredMedia()
         callFeatureMediaApi()
-    else if m.titleText = "Popular Products"
+    else if m.titleText = popularProducts()
         callPopularProductsApi()
-    else if m.titleText = "Popular Media"
+    else if m.titleText = popularMedia()
         callPopularMediaApi()
-    else if m.titleText = "Recently Added Products"
+    else if m.titleText = recentlyAddedProducts()
         callRecentlyAddedProductsApi()
-    else if m.titleText = "Recently Added Media"
+    else if m.titleText = recentlyAddedMedia()
         callRecentlyAddedMediaApi()
+    else if m.titleText = searchProducts()
+        callProductSearchApi()
+    else if m.titleText = searchMedia()
+        callMediaSearchApi()
     end if
 end sub
 
@@ -108,6 +114,26 @@ sub callRecentlyAddedMediaApi()
     showProgressDialog()
 end sub
 
+sub callProductSearchApi()
+    baseUrl = getApiBaseUrl() + "search/products?search_query="+ m.searchQuery +"&per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.productSearchApi = createObject("roSGNode","FeatureProductApiHandler")
+    m.productSearchApi.setField("uri",baseUrl)
+    m.productSearchApi.setField("dataType","search")
+    m.productSearchApi.observeField("content","onProductsResponse")
+    m.productSearchApi.control = "RUN"
+    showProgressDialog()
+end sub
+
+sub callMediaSearchApi()
+    baseUrl = getApiBaseUrl() + "search/media?search_query="+ m.searchQuery +"&per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.MediaSearchApi = createObject("roSGNode","FeatureMediaApiHandler")
+    m.MediaSearchApi.setField("uri",baseUrl)
+    m.MediaSearchApi.setField("dataType","search")
+    m.MediaSearchApi.observeField("content","onMediaResponse")
+    m.MediaSearchApi.control = "RUN"
+    showProgressDialog()
+end sub
+
 sub onProductsResponse()
     getData()
 end sub
@@ -120,18 +146,22 @@ end sub
 sub getData()
         hideProgressDialog()
         m.Error_text.visible = false
-        if m.titleText = "Featured Products"
+        if m.titleText = featuredProducts()
             m.apiModel = m.featureProductApi.content
-        else if m.titleText = "Featured Media"
+        else if m.titleText = featuredMedia()
             m.apiModel = m.featureMediaApi.content
-        else if m.titleText = "Popular Products"
+        else if m.titleText = popularProducts()
             m.apiModel = m.popularProductApi.content
-        else if m.titleText = "Popular Media"
+        else if m.titleText = popularMedia()
             m.apiModel = m.popularMediaApi.content
-        else if m.titleText = "Recently Added Products"
+        else if m.titleText = recentlyAddedProducts()
             m.apiModel = m.recentAddedProductApi.content
-        else if m.titleText = "Recently Added Media"
+        else if m.titleText = recentlyAddedMedia()
             m.apiModel = m.recentAddedMediaApi.content
+        else if m.titleText = searchProducts()
+            m.apiModel = m.productSearchApi.content
+        else if m.titleText = searchMedia()
+            m.apiModel = m.MediaSearchApi.content
         end if
         
         if  m.apiModel.success
@@ -155,27 +185,33 @@ sub showList()
 end sub
 
 sub setContentArray()
-    if m.titleText = "Featured Products"
+    if m.titleText = featuredProducts()
         m.resultArray = m.apiModel.featuredProductsArray
         m.isMediaContent = false
-    else if m.titleText = "Featured Media"
+    else if m.titleText = featuredMedia()
         m.resultArray = m.apiModel.featuredMediaArray
         m.isMediaContent = true
-    else if m.titleText = "Popular Products"
+    else if m.titleText = popularProducts()
         m.resultArray = m.apiModel.popularProductsArray
         m.isMediaContent = false
-    else if m.titleText = "Popular Media"
+    else if m.titleText = popularMedia()
         m.resultArray = m.apiModel.popularMediaArray
         m.isMediaContent = true
-    else if m.titleText = "Recently Added Products"
+    else if m.titleText = recentlyAddedProducts()
         m.resultArray = m.apiModel.recentlyAddedProductsArray
         m.isMediaContent = false
-    else if m.titleText = "Recently Added Media"
+    else if m.titleText = recentlyAddedMedia()
         m.resultArray = m.apiModel.recentlyAddedMediaArray
         m.isMediaContent = true
     else if m.titleText = "My Content"
         m.resultArray = m.myContentArray
         m.isMediaContent = false
+    else if m.titleText = searchProducts()
+        m.resultArray = m.apiModel.searchProductsArray
+        m.isMediaContent = false
+    else if m.titleText = searchMedia()
+        m.resultArray = m.apiModel.searchMediaArray
+        m.isMediaContent = true
     end if
     m.contentArray.Append(m.resultArray)
 end sub

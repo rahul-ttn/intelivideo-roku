@@ -21,7 +21,12 @@ sub parseApiResponse(response As Object)
     if m.responseCode = 200
         featureProductModel.code = 200
         featureProductModel.success = true
-        products = response.products
+        if m.top.dataType = "search"
+            products = response.products.results
+        else
+            products = response.products
+        end if
+        
         productArray = CreateObject("roArray", products.count(), false)
         for each productItem in products
             productModel = CreateObject("roSGNode", "ProductDataModel")
@@ -47,6 +52,9 @@ sub parseApiResponse(response As Object)
             featureProductModel.popularProductsArray = productArray
         else if m.top.dataType = "recentAdded"
             featureProductModel.recentlyAddedProductsArray = productArray
+        else if m.top.dataType = "search"
+            featureProductModel.searchProductsArray = productArray
+            response = response.products
         end if 
         
         pageInfoModel = CreateObject("roSGNode", "PageInfoModel")

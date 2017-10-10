@@ -3,6 +3,7 @@
 	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
 	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
 	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
 	<script type="text/brightscript" uri="pkg:/source/helper/ListHelper.brs" />
 	<script type="text/brightscript" uri="pkg:/components/profile/ProfileScreen.brs" />
 	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
