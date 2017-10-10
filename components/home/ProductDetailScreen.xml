@@ -7,6 +7,7 @@
 	<script type="text/brightscript" uri="pkg:/source/helper/ListHelper.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs" />
 	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/Utility/FocusUtility.brs" />
 	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
 	<script type="text/brightscript" uri="pkg:/components/home/ProductDetailScreen.brs" />
 
@@ -46,6 +47,8 @@
 						color="0xffffffff">
 						
 					</Label>
+					
+					
 					<Rectangle
 						id = "favButtonOuterRectangle"
 						width="150"
@@ -86,25 +89,56 @@
 							text="Favorite">
 						</Label>
 					</Rectangle> 
+					
+					
 					<Label
 						id = "descLabel"
 						translation = "[200,180]"
 						width = "752"
 						maxLines="3"
 						wrap = "true"
-						ellipsizeOnBoundary="false"
-						ellipsisText="...more"
+						ellipsizeOnBoundary="true"
+						ellipsisText=""
 						color="0xffffffff">
 					</Label>
+					<Rectangle
+						id = "moreButtonrectangle"
+						width="120"
+						height = "50"
+						translation = "[865,275]"
+						color="0x38383800">
+						<Button
+							id="buttonMore"
+							height = "50"
+						  	translation="[0,0]"
+						  	textFont = "font:LargeSystemFont"
+						  	iconUri=""
+							focusedIconUri="pkg:/images/img_transparent"
+							focusBitmapUri="pkg:/images/img_transparent"
+							focusFootprintBitmapUri=""/>
+						<Label
+							id = "labelMore"
+							text = "more"
+							color="0xffffffff">
+						</Label>
+					</Rectangle>
 				</Rectangle>
+				
+				
 				<Rectangle
 					id = "listRectangle"
 					translation="[100,492]"
 					color = "0x82e0aa00"
 					width = "1002"
 					height = "588">
-					<LabelList id="productLabelList" numRows="5" translation="[50,50]" />
+					<LabelList 
+						id="productLabelList" 
+						numRows="5" 
+						vertFocusAnimationStyle="floatingFocus" 
+						translation="[50,50]" />
 				</Rectangle>
+				
+				
 			</Rectangle>
 			
 			<Rectangle
@@ -177,7 +211,7 @@
 							text="Play">
 						</Label>
 					</Rectangle>
-					<Rectangle
+				<Rectangle
 						id = "favButtonOuterRightRectangle"
 						width="150"
 						height = "130"
@@ -217,19 +251,47 @@
 							text="Favorite">
 						</Label>
 					</Rectangle>
-				
+				<Label
+					id = "documentInfoLabel"
+					translation = "[100,700]"
+					width = "300"
+					maxLines="1"
+					wrap = "true"
+					color="0xffffffff"
+					text="View on Mobile or desktop only">
+				</Label>
 				<Label
 					id = "longDescriptionLabel"
 					translation = "[100,720]"
 					width = "568"
 					maxLines="6"
 					wrap = "true"
-					ellipsizeOnBoundary="false"
-					ellipsisText="...more"
+					ellipsizeOnBoundary="true"
+					ellipsisText="..."
 					color="0xffffffff"
 					text="">
-				
 				</Label>
+				<Rectangle
+						id = "moreButtonrectangleRight"
+						width="120"
+						height = "50"
+						translation = "[560,960]"
+						color="0x38383800">
+						<Button
+							id="buttonMoreRight"
+							height = "50"
+						  	translation="[0,0]"
+						  	textFont = "font:LargeSystemFont"
+						  	iconUri=""
+							focusedIconUri="pkg:/images/img_transparent"
+							focusBitmapUri="pkg:/images/img_transparent"
+							focusFootprintBitmapUri=""/>
+						<Label
+							id = "labelMoreRight"
+							text = "more"
+							color="0xffffffff">
+						</Label>
+					</Rectangle>
 			</Rectangle>
 			
 			<Label id="Error_text" translation="[550,100]" visible="false" />
