@@ -52,7 +52,7 @@
 					translation="[40,4]" wrap="false" color="0x000000ff">
 				</Label>
 			</Rectangle>
-			<Rectangle id="rectItemCount" height="50" width=""
+			<Rectangle id="rectItemCount" height="50"
 				translation="[20,430]" color="0x565656FF" visible="false">
 				<Label id="labelItemCount" height="40" 
 					translation="[5,7]" wrap="false" color="0xffffffff">

@@ -3,6 +3,7 @@ function handleFocus(keyEvent)
 end function
 
 function handleCurrentFocus(keyEvent,currentFocusId)
+      print "currentFocusId  >";currentFocusId
       focusIDs = getFocusMapIds(currentFocusId)      
       ids = focusIDs.Split("-")  
       if keyEvent = "up" then
