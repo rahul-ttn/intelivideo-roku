@@ -1,5 +1,6 @@
 sub init()
     m.top.SetFocus(true)
+    m.BUTTONTEXT = 25
 End sub
 
 sub getResourceId()
@@ -7,6 +8,15 @@ sub getResourceId()
     initFields()
     getMediaDetails()
 End sub
+
+sub initFocus()
+    'up-down-left-right  
+    m.focusIDArray = {    
+                       "buttonPlay":"N-relatedMediaRowList-N-buttonFavRight"                   
+                       "buttonFavRight":"N-relatedMediaRowList-buttonPlay-N" 
+                       "relatedMediaRowList":"buttonPlay-N-N-N"   
+                     }
+end sub
 
 sub initFields() 
     mediaDetailBackground = m.top.FindNode("mediaDetailBackground")
@@ -24,6 +34,32 @@ sub initFields()
     
     m.relatedMediaRowList  = m.top.FindNode("relatedMediaRowList")
     m.relatedMediaRowList.ObserveField("rowItemSelected", "onRowItemSelected")
+    
+    
+     'play button right-> configuration
+    m.playButtonOuterRectangle = m.top.findNode("playButtonOuterRectangle")
+    m.playButtonrectangle = m.top.findNode("playButtonrectangle")
+    m.buttonPlay = m.top.findNode("buttonPlay")
+    m.playPoster = m.top.findNode("playPoster")
+    m.playbuttonLabel = m.top.findNode("playbuttonLabel")
+    m.playbuttonLabel.font.size = m.BUTTONTEXT
+    
+    playPosterX = (m.playButtonrectangle.width  - m.playPoster.width) / 2
+    playPosterY = (m.playButtonrectangle.height  - m.playPoster.height) / 2 
+    m.playPoster.translation = [playPosterX, playPosterY]
+    
+    'favourite button on right-> configuration
+    m.favButtonOuterRightRectangle = m.top.findNode("favButtonOuterRightRectangle")
+    m.favButtonRightrectangle = m.top.findNode("favButtonRightrectangle")
+    m.buttonFavRight = m.top.findNode("buttonFavRight")
+    m.favPosterRight = m.top.findNode("favPosterRight")
+    m.favbuttonLabelRight = m.top.findNode("favbuttonLabelRight")
+    m.favbuttonLabelRight.font.size = m.BUTTONTEXT
+    
+    favPosterRightX = (m.favButtonRightrectangle.width  - m.favPosterRight.width) / 2
+    favPosterRightY = (m.favButtonRightrectangle.height  - m.favPosterRight.height) / 2 
+    m.favPosterRight.translation = [favPosterRightX, favPosterRightY]
+    
 End sub
 
 sub showMoreLabel()
@@ -85,8 +121,14 @@ sub onRelatedMediaApiResponse()
 end sub
 
 sub relatedContentList()
+    'initializing the currentFocus id 
+    m.currentFocusID ="buttonPlay"
+    handlebuttonSelectedState()
+    initFocus()
+    m.buttonPlay.SetFocus(true)
+    
     m.relatedMediaRowList.visible = true
-    m.relatedMediaRowList.SetFocus(true)
+    m.relatedMediaRowList.SetFocus(false)
     m.relatedMediaRowList.content = getGridRowListContent()
 end sub
 
@@ -149,10 +191,34 @@ sub startTimer()
     m.testtimer.ObserveField("fire","onRetry")
 end sub
 
+sub handlebuttonSelectedState()
+    if m.currentFocusID ="buttonPlay"
+        setButtonFocusedState(m.playButtonrectangle)
+        setButtonUnFocusedState(m.favButtonRightrectangle)
+    else if m.currentFocusID ="buttonFavRight"
+        setButtonUnFocusedState(m.playButtonrectangle)
+        setButtonFocusedState(m.favButtonRightrectangle)
+    else if m.currentFocusID ="relatedMediaRowList"
+        setButtonUnFocusedState(m.playButtonrectangle)
+        setButtonUnFocusedState(m.favButtonRightrectangle)
+    end if
+end sub
+
+sub setButtonFocusedState(selectedRectangle as object)
+    selectedRectangle.color = "0xffffffff"
+end sub
+
+sub setButtonUnFocusedState(unfocusedRectangle as object)
+    unfocusedRectangle.color = "0x858585ff"
+end sub
+
+
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
-        if key = "left" or key = "right"
+        if key="up" OR key="down" OR key="left" OR key="right" Then
+            handleFocus(key)
+            handlebuttonSelectedState()
             return true
         else if key = "back"
             m.top.visible = false

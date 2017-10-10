@@ -6,12 +6,13 @@
 	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs" />
 	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/Utility/FocusUtility.brs" />
 	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
 	<script type="text/brightscript" uri="pkg:/components/home/MediaDetailScreen.brs" />
 
 	<interface>
 		<field type="integer" id="resource_id" alwaysNotify="true"
-			onChange="getResourceId" />
+			onChange="getResourceId"/>
 	</interface>
 
 	<children>
@@ -35,6 +36,43 @@
 				maxLines="5" wrap="true" ellipsizeOnBoundary="true"
 				color="0xffffffff">
 			</Label>
+			
+			<Rectangle id="playButtonOuterRectangle" width="150"
+						height="130" translation="[200,500]" color="0x00CCB900">
+						<Rectangle id="playButtonrectangle" width="150" height="100"
+							translation="[0,0]" color="0x858585ff">
+							<Button id="buttonPlay" height="50" translation="[0,0]"
+								textFont="font:LargeSystemFont" iconUri=""
+								focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
+								focusFootprintBitmapUri="" />
+
+							<Poster id="playPoster" uri="pkg:/images/$$RES$$/img_media_play.png"
+								width="50" height="50">
+							</Poster>
+						</Rectangle>
+						<Label id="playbuttonLabel" translation="[0,105]" width="150"
+							horizAlign="center" wrap="true" color="0xffffffff" text="Play">
+						</Label>
+					</Rectangle>
+					<Rectangle id="favButtonOuterRightRectangle" width="150"
+						height="130" translation="[390,500]" color="0x00CCB900">
+						<Rectangle id="favButtonRightrectangle" width="150"
+							height="100" translation="[0,0]" color="0x858585ff">
+
+							<Button id="buttonFavRight" height="50" translation="[0,0]"
+								textFont="font:LargeSystemFont" iconUri=""
+								focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
+								focusFootprintBitmapUri="" />
+
+							<Poster id="favPosterRight" uri="pkg:/images/$$RES$$/img_fav_tag_alt.png"
+								width="50" height="50">
+							</Poster>
+						</Rectangle>
+						<Label id="favbuttonLabelRight" translation="[0,105]" width="150"
+							horizAlign="center" wrap="true" color="0xffffffff" text="Favorite">
+						</Label>
+					</Rectangle>
+			
 			<Rectangle id="moreButtonrectangle" width="120" height="50"
 				translation="[1200,440]" color="0x38383800" visible="false">
 				<Button id="buttonMore" height="50" translation="[0,0]"
