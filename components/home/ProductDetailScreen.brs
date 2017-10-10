@@ -6,6 +6,7 @@ End sub
 sub getProductId()
     m.productId = m.top.product_id
     initFields()
+    initFocus()
     getProductDetails()
 End sub
 
@@ -21,7 +22,8 @@ sub initFields()
     m.titleLabel.font.size = 60
     m.descLabel = m.top.findNode("descLabel")
     
-    m.favButtonOuterRectangle = m.top.findNode("favButtonOuterRectangle")
+    'favourite button-> configuration
+    favButtonOuterRectangle = m.top.findNode("favButtonOuterRectangle")
     m.favButtonrectangle = m.top.findNode("favButtonrectangle")
     m.buttonFav = m.top.findNode("buttonFav")
     m.favPoster = m.top.findNode("favPoster")
@@ -41,6 +43,7 @@ sub initFields()
     m.typeLabel = m.top.findNode("typeLabel")
     m.longDescriptionLabel = m.top.findNode("longDescriptionLabel")
 
+    'play button right-> configuration
     m.playButtonOuterRectangle = m.top.findNode("playButtonOuterRectangle")
     m.playButtonrectangle = m.top.findNode("playButtonrectangle")
     m.buttonPlay = m.top.findNode("buttonPlay")
@@ -52,7 +55,7 @@ sub initFields()
     playPosterY = (m.playButtonrectangle.height  - m.playPoster.height) / 2 
     m.playPoster.translation = [playPosterX, playPosterY]
     
-    
+    'favourite button on right-> configuration
     m.favButtonOuterRightRectangle = m.top.findNode("favButtonOuterRightRectangle")
     m.favButtonRightrectangle = m.top.findNode("favButtonRightrectangle")
     m.buttonFavRight = m.top.findNode("buttonFavRight")
@@ -64,14 +67,84 @@ sub initFields()
     favPosterRightY = (m.favButtonRightrectangle.height  - m.favPosterRight.height) / 2 
     m.favPosterRight.translation = [favPosterRightX, favPosterRightY]
 
+    m.moreButtonrectangle = m.top.findNode("moreButtonrectangle")
+    m.buttonMore = m.top.findNode("buttonMore")
+    m.labelMore = m.top.findNode("labelMore")
+    
+    m.moreButtonrectangleRight = m.top.findNode("moreButtonrectangleRight")
+    m.buttonMoreRight = m.top.findNode("buttonMoreRight")
+    m.labelMoreRight = m.top.findNode("labelMoreRight")
+    
 End sub
 
-sub handlebuttonSelectedState(isSelected as boolean)
-    if isSelected
-        'TODO
-'        m.favButtonrectangle
-'        m.playButtonrectangle
+sub initFocus()
+    'initializing the currentFocus id 
+    m.currentFocusID ="buttonFav"
+    
+    'up-down-left-right  
+    m.focusIDArray = {"buttonFav":"N-productLabelList-N-buttonMore"     
+                       "buttonMore":"N-productLabelList-buttonFav-buttonPlay"                 
+                       "productLabelList":"buttonFav-N-N-buttonPlay"     
+                       "buttonPlay":"N-N-productLabelList-buttonFavRight"                   
+                       "buttonFavRight":"N-buttonMoreRight-buttonPlay-N" 
+                       "buttonMoreRight":"buttonFavRight-N-N-N"   
+                     }
+end sub
+
+sub handlebuttonSelectedState()
+    if m.currentFocusID ="buttonFav"
+        setButtonFocusedState(m.favButtonrectangle)
+        setButtonUnFocusedState(m.playButtonrectangle)
+        setButtonUnFocusedState(m.favButtonRightrectangle)
+        setMoreUnselectedState(m.moreButtonrectangle)
+        setMoreUnselectedState(m.moreButtonrectangleRight)
+    else if m.currentFocusID ="buttonMore"
+        setButtonUnFocusedState(m.favButtonrectangle)
+        setButtonUnFocusedState(m.playButtonrectangle)
+        setButtonUnFocusedState(m.favButtonRightrectangle)
+        setMoreSelectedState(m.moreButtonrectangle)
+        setMoreUnselectedState(m.moreButtonrectangleRight)
+    else if m.currentFocusID ="productLabelList"
+        setButtonUnFocusedState(m.favButtonrectangle)
+        setButtonUnFocusedState(m.playButtonrectangle)
+        setButtonUnFocusedState(m.favButtonRightrectangle)
+        setMoreUnselectedState(m.moreButtonrectangle)
+        setMoreUnselectedState(m.moreButtonrectangleRight)
+    else if m.currentFocusID ="buttonPlay"
+        setButtonUnFocusedState(m.favButtonrectangle)
+        setButtonFocusedState(m.playButtonrectangle)
+        setButtonUnFocusedState(m.favButtonRightrectangle)
+        setMoreUnselectedState(m.moreButtonrectangle)
+        setMoreUnselectedState(m.moreButtonrectangleRight)
+    else if m.currentFocusID ="buttonFavRight"
+        setButtonUnFocusedState(m.favButtonrectangle)
+        setButtonUnFocusedState(m.playButtonrectangle)
+        setButtonFocusedState(m.favButtonRightrectangle)
+        setMoreUnselectedState(m.moreButtonrectangle)
+        setMoreUnselectedState(m.moreButtonrectangleRight)
+    else if m.currentFocusID ="buttonMoreRight"
+        setButtonUnFocusedState(m.favButtonrectangle)
+        setButtonUnFocusedState(m.playButtonrectangle)
+        setButtonUnFocusedState(m.favButtonRightrectangle)
+        setMoreUnselectedState(m.moreButtonrectangle)
+        setMoreSelectedState(m.moreButtonrectangleRight)
     end if
+end sub
+
+sub setButtonFocusedState(selectedRectangle as object)
+    selectedRectangle.color = "0xffffffff"
+end sub
+
+sub setButtonUnFocusedState(unfocusedRectangle as object)
+    unfocusedRectangle.color = "0x858585ff"
+end sub
+
+sub setMoreSelectedState(selectedMore as object)
+    selectedMore.color = "0x858585ff"
+end sub
+
+sub setMoreUnselectedState(unfocusedMore as object)
+    unfocusedMore.color = "0xffffffff"
 end sub
 
 sub getProductDetails()
@@ -165,7 +238,9 @@ end sub
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
-        if key = "left" or key = "right"
+        if key="up" OR key="down" OR key="left" OR key="right" Then
+            handleFocus(key)
+            handlebuttonSelectedState()
             return true
         else if key = "back"
             m.top.visible = false
