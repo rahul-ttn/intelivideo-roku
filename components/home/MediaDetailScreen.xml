@@ -12,7 +12,7 @@
 
 	<interface>
 		<field type="integer" id="resource_id" alwaysNotify="true"
-			onChange="getResourceId"/>
+			onChange="getResourceId" />
 	</interface>
 
 	<children>
@@ -20,74 +20,75 @@
 		<Rectangle id="mediaDetailBackground" width="1960" height="1080"
 			translation="[0,0]">
 
-			<Poster id="mediaDetailBgPoster" width="1960" height="1080" />
-			<Poster id="posterBackground" width="1960" height="1080"
-				uri="pkg:/images/$$RES$$/background_gradient.png" />
+			<Rectangle id="mediaDetailRectangle" width="1960" height="1080"
+				color="0xFFFFFF00" translation="[0,0]" visible="false">
 
-			<Label id="Error_text" translation="[550,100]" visible="false" />
+				<Poster id="mediaDetailBgPoster" width="1960" height="1080" />
+				<Poster id="posterBackground" width="1960" height="1080"
+					uri="pkg:/images/$$RES$$/background_gradient.png" />
 
-			<Label id="labelTitle" width="1000" translation="[200,60]" wrap="true"
-				color="0xffffffff" font="font:LargeBoldSystemFont" maxLines="2"
-				ellipsizeOnBoundary="true" />
+				<Label id="labelTitle" width="1000" translation="[200,60]"
+					wrap="true" color="0xffffffff" font="font:LargeBoldSystemFont"
+					maxLines="2" ellipsizeOnBoundary="true" />
 
-			<Label id="labelMediaTime" translation="[200,180]" color="0xffffffff" />
+				<Label id="labelMediaTime" translation="[200,180]" color="0xffffffff" />
 
-			<Label id="descLabel" translation="[200,250]" width="1000"
-				maxLines="5" wrap="true" ellipsizeOnBoundary="true"
-				color="0xffffffff">
-			</Label>
-			
-			<Rectangle id="playButtonOuterRectangle" width="150"
-						height="130" translation="[200,500]" color="0x00CCB900">
-						<Rectangle id="playButtonrectangle" width="150" height="100"
-							translation="[0,0]" color="0x858585ff">
-							<Button id="buttonPlay" height="50" translation="[0,0]"
-								textFont="font:LargeSystemFont" iconUri=""
-								focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
-								focusFootprintBitmapUri="" />
-
-							<Poster id="playPoster" uri="pkg:/images/$$RES$$/img_media_play.png"
-								width="50" height="50">
-							</Poster>
-						</Rectangle>
-						<Label id="playbuttonLabel" translation="[0,105]" width="150"
-							horizAlign="center" wrap="true" color="0xffffffff" text="Play">
-						</Label>
-					</Rectangle>
-					<Rectangle id="favButtonOuterRightRectangle" width="150"
-						height="130" translation="[390,500]" color="0x00CCB900">
-						<Rectangle id="favButtonRightrectangle" width="150"
-							height="100" translation="[0,0]" color="0x858585ff">
-
-							<Button id="buttonFavRight" height="50" translation="[0,0]"
-								textFont="font:LargeSystemFont" iconUri=""
-								focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
-								focusFootprintBitmapUri="" />
-
-							<Poster id="favPosterRight" uri="pkg:/images/$$RES$$/img_fav_tag_alt.png"
-								width="50" height="50">
-							</Poster>
-						</Rectangle>
-						<Label id="favbuttonLabelRight" translation="[0,105]" width="150"
-							horizAlign="center" wrap="true" color="0xffffffff" text="Favorite">
-						</Label>
-					</Rectangle>
-			
-			<Rectangle id="moreButtonrectangle" width="120" height="50"
-				translation="[1200,440]" color="0x38383800" visible="false">
-				<Button id="buttonMore" height="50" translation="[0,0]"
-					textFont="font:LargeSystemFont" iconUri=""
-					focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
-					focusFootprintBitmapUri="" />
-				<Label id="labelMore" text="more" color="0xffffffff">
+				<Label id="descLabel" translation="[200,250]" width="1000"
+					maxLines="5" wrap="true" ellipsizeOnBoundary="true" color="0xffffffff">
 				</Label>
+
+				<Rectangle id="playButtonOuterRectangle" width="150"
+					height="130" translation="[200,500]" color="0x00CCB900">
+					<Rectangle id="playButtonrectangle" width="150" height="100"
+						translation="[0,0]" color="0x858585ff">
+						<Button id="buttonPlay" height="50" translation="[0,0]"
+							textFont="font:LargeSystemFont" iconUri=""
+							focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
+							focusFootprintBitmapUri="" />
+
+						<Poster id="playPoster" uri="pkg:/images/$$RES$$/img_media_play.png"
+							width="50" height="50">
+						</Poster>
+					</Rectangle>
+					<Label id="playbuttonLabel" translation="[0,105]" width="150"
+						horizAlign="center" wrap="true" color="0xffffffff" text="Play">
+					</Label>
+				</Rectangle>
+				<Rectangle id="favButtonOuterRightRectangle" width="150"
+					height="130" translation="[390,500]" color="0x00CCB900">
+					<Rectangle id="favButtonRightrectangle" width="150"
+						height="100" translation="[0,0]" color="0x858585ff">
+
+						<Button id="buttonFavRight" height="50" translation="[0,0]"
+							textFont="font:LargeSystemFont" iconUri=""
+							focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
+							focusFootprintBitmapUri="" />
+
+						<Poster id="favPosterRight" uri="pkg:/images/$$RES$$/img_fav_tag_alt.png"
+							width="50" height="50">
+						</Poster>
+					</Rectangle>
+					<Label id="favbuttonLabelRight" translation="[0,105]" width="150"
+						horizAlign="center" wrap="true" color="0xffffffff" text="Favorite">
+					</Label>
+				</Rectangle>
+
+				<Rectangle id="moreButtonrectangle" width="120" height="50"
+					translation="[1200,440]" color="0x38383800" visible="false">
+					<Button id="buttonMore" height="50" translation="[0,0]"
+						textFont="font:LargeSystemFont" iconUri=""
+						focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
+						focusFootprintBitmapUri="" />
+					<Label id="labelMore" text="more" color="0xffffffff">
+					</Label>
+				</Rectangle>
+
+				<RelatedMediaRowList id="relatedMediaRowList"
+					translation="[200,700]" visible="false" />
+
 			</Rectangle>
-
-			<RelatedMediaRowList id="relatedMediaRowList"
-				translation="[200,700]" visible="false" />
-
+			<Label id="Error_text" translation="[550,100]" visible="false" />
 		</Rectangle>
-
 		<Timer id="timer" repeat="false" duration=".5" />
 
 	</children>
