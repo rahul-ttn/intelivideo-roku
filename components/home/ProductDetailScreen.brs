@@ -75,15 +75,33 @@ sub initFields()
 
     m.moreButtonrectangle = m.top.findNode("moreButtonrectangle")
     m.buttonMore = m.top.findNode("buttonMore")
+    m.buttonMore.observeField("buttonSelected", "showProductMoreScreen")
     m.labelMore = m.top.findNode("labelMore")
     
     m.moreButtonrectangleRight = m.top.findNode("moreButtonrectangleRight")
     m.buttonMoreRight = m.top.findNode("buttonMoreRight")
+    m.buttonMoreRight.observeField("buttonSelected", "showMediaMoreScreen")
     m.labelMoreRight = m.top.findNode("labelMoreRight")
     
     m.documentInfoLabel = m.top.findNode("documentInfoLabel")
     m.documentInfoLabel.font.size = 30 
 End sub
+
+sub showProductMoreScreen()
+    m.productMoreScreen = m.top.createChild("MoreScreen")
+    m.top.setFocus(false)
+    m.productMoreScreen.setFocus(true)
+    m.productMoreScreen.titleText = m.titleLabel.text
+    m.productMoreScreen.moreText = m.descLabel.text
+end sub
+
+sub showMediaMoreScreen()
+    m.mediaMoreScreen = m.top.createChild("MoreScreen")
+    m.top.setFocus(false)
+    m.mediaMoreScreen.setFocus(true)
+    m.mediaMoreScreen.titleText = m.nameLabel.text
+    m.mediaMoreScreen.moreText = m.longDescriptionLabel.text
+end sub
 
 'sub setFavButtonSelection()
 '    m.isFavButtonSelected = not m.isFavButtonSelected
@@ -95,7 +113,7 @@ End sub
 'end sub
 
 sub showPlayFavButton()
-m.playButtonOuterRectangle.visible = true
+    m.playButtonOuterRectangle.visible = true
     m.playButtonOuterRectangle.translation = [100,550]
     m.favButtonOuterRightRectangle.translation = [290,550]
     m.documentInfoLabel.visible = false
@@ -104,7 +122,7 @@ end sub
 sub showFavDescText()
     m.playButtonOuterRectangle.visible = false
     m.favButtonOuterRightRectangle.translation = [100,550]
-     m.documentInfoLabel.visible = true
+    m.documentInfoLabel.visible = true
     m.documentInfoLabel.translation = [290,550]
 end sub
 
@@ -337,7 +355,20 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             handlebuttonSelectedState()
             return true
         else if key = "back"
-            m.top.visible = false
+            if m.productMoreScreen <> invalid
+                m.productMoreScreen.setFocus(false)
+                m.productMoreScreen = invalid
+                m.buttonMore.setFocus(true)
+                return true
+            else if m.mediaMoreScreen <> invalid
+                m.mediaMoreScreen.setFocus(false)
+                m.mediaMoreScreen = invalid
+                m.buttonMoreRight.setFocus(true)
+                return true
+            else
+                m.top.visible = false
+            end if
+            
         end if
     end if
     return result 

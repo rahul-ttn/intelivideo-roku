@@ -1,6 +1,10 @@
 sub init()
     m.top.SetFocus(true)
     m.BUTTONTEXT = 25
+
+    m.counter = 0
+    m.counterMaxValue = 2
+
     m.isDocument = false
 End sub
 
@@ -31,6 +35,7 @@ end sub
 sub initFields() 
     mediaDetailBackground = m.top.FindNode("mediaDetailBackground")
     mediaDetailBackground.color = homeBackground() 
+    m.mediaDetailRectangle = m.top.FindNode("mediaDetailRectangle")
     m.mediaDetailBgPoster = m.top.FindNode("mediaDetailBgPoster")
     m.Error_text  = m.top.FindNode("Error_text")
     m.labelTitle  = m.top.FindNode("labelTitle")
@@ -78,6 +83,11 @@ sub showMoreLabel()
     m.moreButtonrectangle.visible = true
 end sub
 
+sub updateCounter()
+    m.counter = m.counter + 1
+    print "m.counter >> ";m.counter
+end sub
+
 sub showPlayFavButton()
     m.playButtonOuterRectangle.visible = true
     m.playButtonOuterRectangle.translation = [200,500]
@@ -99,7 +109,7 @@ sub getMediaDetails()
         baseUrl = getApiBaseUrl() + "media/"+ StrI(m.resourceId).Trim() +"?access_token=" + getValueInRegistryForKey("authTokenValue")
         m.mediaDetailApi = createObject("roSGNode","MediaDetailApiHandler")
         m.mediaDetailApi.setField("uri",baseUrl)
-        m.mediaDetailApi.observeField("content","onMediaDetailApiResponse")
+        m.mediaDetailApi.observeField("content","onApiResponse")
         m.mediaDetailApi.control = "RUN"
         
         getRelatedMedia()
@@ -108,8 +118,28 @@ sub getMediaDetails()
     end if
 End sub
 
+sub getRelatedMedia()
+    baseUrl = getApiBaseUrl() + "media/"+ StrI(m.resourceId).Trim() +"/related?per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.relatedMediaApi = createObject("roSGNode","FeatureMediaApiHandler")
+    m.relatedMediaApi.setField("uri",baseUrl)
+    m.relatedMediaApi.setField("dataType","related")
+    m.relatedMediaApi.observeField("content","onApiResponse")
+    m.relatedMediaApi.control = "RUN"
+end sub
+
+sub onApiResponse()
+    updateCounter()
+    if m.counter = m.counterMaxValue
+        m.counter = 0
+        m.Error_text.visible = false
+        hideProgressDialog()
+        m.mediaDetailRectangle.visible = true
+        onMediaDetailApiResponse()
+        onRelatedMediaApiResponse()
+    end if
+end sub
+
 sub onMediaDetailApiResponse()
-    hideProgressDialog()
     mediaDetailModel = m.mediaDetailApi.content
     if mediaDetailModel.success
         m.mediaDetailBgPoster.uri = mediaDetailModel.small
@@ -130,23 +160,12 @@ sub onMediaDetailApiResponse()
     end if
 End sub
 
-sub getRelatedMedia()
-    baseUrl = getApiBaseUrl() + "media/"+ StrI(m.resourceId).Trim() +"/related?per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
-    m.relatedMediaApi = createObject("roSGNode","FeatureMediaApiHandler")
-    m.relatedMediaApi.setField("uri",baseUrl)
-    m.relatedMediaApi.setField("dataType","related")
-    m.relatedMediaApi.observeField("content","onRelatedMediaApiResponse")
-    m.relatedMediaApi.control = "RUN"
-end sub
-
 sub onRelatedMediaApiResponse()
     m.relatedMediaModel = m.relatedMediaApi.content
     if m.relatedMediaModel.success
         if m.relatedMediaModel.relatedMediaArray.count() <> 0
             relatedContentList()
         end if
-    else
-        showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
