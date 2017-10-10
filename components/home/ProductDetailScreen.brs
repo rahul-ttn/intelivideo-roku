@@ -2,7 +2,7 @@ sub init()
     m.top.SetFocus(true)
     m.BUTTONTEXT = 25
     m.appConfig =  m.top.getScene().appConfigContent
-    
+    m.isFavButtonSelected = false   
 End sub
 
 sub getProductId()
@@ -16,8 +16,9 @@ sub getProductId()
 End sub
 
 sub initFields() 
-    productDetailBackground = m.top.FindNode("productDetailBackground")
-    productDetailBackground.color = homeBackground() 
+    m.productDetailBackground = m.top.FindNode("productDetailBackground")
+    m.productDetailBackground.color = homeBackground()
+    m.productDetailRectangle = m.top.FindNode("productDetailRectangle") 
     m.productDetailBgPoster = m.top.FindNode("productDetailBgPoster")
     m.Error_text  = m.top.FindNode("Error_text")
     m.leftParentRectangle = m.top.findNode("leftParentRectangle")
@@ -31,6 +32,7 @@ sub initFields()
     favButtonOuterRectangle = m.top.findNode("favButtonOuterRectangle")
     m.favButtonrectangle = m.top.findNode("favButtonrectangle")
     m.buttonFav = m.top.findNode("buttonFav")
+    m.buttonFav.observeField("buttonSelected","setFavButtonSelection")
     m.favPoster = m.top.findNode("favPoster")
     m.favbuttonLabel = m.top.findNode("favbuttonLabel")
     m.favbuttonLabel.font.size = m.BUTTONTEXT
@@ -42,7 +44,6 @@ sub initFields()
     m.listRectangle = m.top.findNode("listRectangle")
     m.productLabelList = m.top.findNode("productLabelList")  
     
-
     m.thumbnailPoster = m.top.findNode("thumbnailPoster")
     m.nameLabel = m.top.findNode("nameLabel")
     m.typeLabel = m.top.findNode("typeLabel")
@@ -81,15 +82,22 @@ sub initFields()
     m.labelMoreRight = m.top.findNode("labelMoreRight")
     
     m.documentInfoLabel = m.top.findNode("documentInfoLabel")
-    'play button translation translation = "[100,550]"
-    'Fav button translation translation = "[270,550]"
-    
+    m.documentInfoLabel.font.size = 30 
 End sub
+
+'sub setFavButtonSelection()
+'    m.isFavButtonSelected = not m.isFavButtonSelected
+'    if m.isFavButtonSelected
+'        m.favButtonrectangle.color = m.appConfig.primary_color
+'    else 
+'        m.favButtonrectangle.color = "0x858585ff"
+'    end if 
+'end sub
 
 sub showPlayFavButton()
 m.playButtonOuterRectangle.visible = true
     m.playButtonOuterRectangle.translation = [100,550]
-    m.favButtonOuterRightRectangle.translation = [270,550]
+    m.favButtonOuterRightRectangle.translation = [290,550]
     m.documentInfoLabel.visible = false
 end sub
 
@@ -97,7 +105,7 @@ sub showFavDescText()
     m.playButtonOuterRectangle.visible = false
     m.favButtonOuterRightRectangle.translation = [100,550]
      m.documentInfoLabel.visible = true
-    m.documentInfoLabel.translation = [270,550]
+    m.documentInfoLabel.translation = [290,550]
 end sub
 
 
@@ -220,6 +228,7 @@ sub onProductDetailApiResponse()
     hideProgressDialog()
     m.productDetailModel = m.productDetailApi.content
     if m.productDetailModel.success
+        m.productDetailRectangle.visible = true
         m.productDetailBgPoster.uri = m.productDetailModel.original
         m.titleLabel.text = m.productDetailModel.title
         m.descLabel.text = m.productDetailModel.description
@@ -265,17 +274,25 @@ End sub
 
 sub setFocusOnTopDesc()
     if m.descLabel.isTextEllipsized AND m.longDescriptionLabel.isTextEllipsized
-        print "initFocus()======>"
+        print "initFocus()========>"
         initFocus()
+        m.moreButtonrectangle.visible = true
+        m.moreButtonrectangleRight.visible = true
     else if m.descLabel.isTextEllipsized AND not m.longDescriptionLabel.isTextEllipsized
-        print "initFocusWithoutRightMoreButton()========>"
+        print "initFocusWithoutRightMoreButton()==========>"
         initFocusWithoutRightMoreButton()
+        m.moreButtonrectangle.visible = true
+        m.moreButtonrectangleRight.visible = false
     else if not m.descLabel.isTextEllipsized AND m.longDescriptionLabel.isTextEllipsized
-        print "initFocusWithoutLeftMoreButton()=========>"
+        print "initFocusWithoutLeftMoreButton()==========>"
         initFocusWithoutLeftMoreButton()
+        m.moreButtonrectangle.visible = false
+        m.moreButtonrectangleRight.visible = true
     else
         print "initFocusWithoutBothMoreButton()==========>"
         initFocusWithoutBothMoreButton()
+        m.moreButtonrectangle.visible = false
+        m.moreButtonrectangleRight.visible = false
     end if
 end sub
 
