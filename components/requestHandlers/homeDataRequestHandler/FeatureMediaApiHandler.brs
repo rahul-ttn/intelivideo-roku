@@ -21,7 +21,12 @@ sub parseApiResponse(response As Object)
     if m.responseCode = 200
         featureMediaModel.code = 200
         featureMediaModel.success = true
-        medias = response.media
+        if m.top.dataType = "search"
+            medias = response.media.results
+        else
+            medias = response.media
+        end if
+        
         mediaArray = CreateObject("roArray", medias.count(), false)
         for each mediaItem in medias
             mediaModel = CreateObject("roSGNode", "MediaDataModel")
@@ -50,6 +55,9 @@ sub parseApiResponse(response As Object)
             featureMediaModel.recentlyAddedMediaArray = mediaArray
         else if m.top.dataType = "related"
             featureMediaModel.relatedMediaArray = mediaArray
+        else if m.top.dataType = "search"
+            featureMediaModel.searchMediaArray = mediaArray
+            response = response.media
         end if 
         
         pageInfoModel = CreateObject("roSGNode", "PageInfoModel")

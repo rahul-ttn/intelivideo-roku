@@ -18,6 +18,32 @@ function apiErrorMessage() as string
     return "Something went wrong"
 end function
 
+'-------------------------- Screen Names ---------------------------------------
+
+function homeScreen() as string
+    return "Home Screen"
+end function
+
+function profileScreen() as string
+    return "Profile Screen"
+end function
+
+function searchScreen() as string
+    return "Search Screen"
+end function
+
+'-------------------------- Search Categories ---------------------------------
+
+function searchProducts() as string
+    return "Collections"
+end function
+
+function searchMedia() as string
+    return "Media"
+end function
+
+'-------------------------- Home Categories ------------------------------------
+
 function featuredProducts() as string
     return "Featured Products"
 end function

@@ -5,6 +5,7 @@
 		<field id="featuredProductsArray" type="nodearray" />
 		<field id="popularProductsArray" type="nodearray" />
 		<field id="recentlyAddedProductsArray" type="nodearray" />
+		<field id="searchProductsArray" type="nodearray" />
 		<field id="pageInfo" type="node" />
 	</interface>
 </component>

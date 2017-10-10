@@ -1,6 +1,6 @@
 sub init()
     m.top.SetFocus(true)
-    m.screenName = "Home"
+    m.screenName = homeScreen()
     m.isSVOD = false
     m.counter = 0
     m.counterMaxValue = 6
@@ -157,6 +157,7 @@ sub getData()
             homeRowList() 
         else
             print "featureProductApiModel.fail"
+            m.counter = 0
             showRetryDialog(networkErrorTitle(), networkErrorMessage())
         end if
     end if
@@ -569,7 +570,7 @@ End Function
 
 Function showRetryDialog(title ,message)
   m.Error_text.visible = true
-  m.Error_text.text = networkErrorMessage()
+  m.Error_text.text = message
   
   
   dialog = createObject("roSGNode", "Dialog") 
