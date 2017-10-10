@@ -38,6 +38,7 @@ encoding//components/requestHandlers/ProductDetailApiHandler.xml=UTF-8
 encoding//components/requestHandlers/UserApiHandler.xml=UTF-8
 encoding//components/screens/ForgotPassword.xml=UTF-8
 encoding//components/screens/LoginScreen.xml=UTF-8
+encoding//components/screens/MoreScreen.xml=UTF-8
 encoding//components/screens/PasswordScreen.xml=UTF-8
 encoding//components/screens/SelectAccount.xml=UTF-8
 encoding//components/screens/SwitchAccount.xml=UTF-8
