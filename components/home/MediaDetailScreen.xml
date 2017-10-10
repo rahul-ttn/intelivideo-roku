@@ -68,10 +68,27 @@
 							width="50" height="50">
 						</Poster>
 					</Rectangle>
+
 					<Label id="favbuttonLabelRight" translation="[0,105]" width="150"
 						horizAlign="center" wrap="true" color="0xffffffff" text="Favorite">
 					</Label>
 				</Rectangle>
+
+					<Label id="documentInfoLabel" translation="[100,720]" width="300"
+						maxLines="2" wrap="true" color="0xffffffff" visible="false"
+						text="View on Mobile or desktop only">
+					</Label>
+			
+			<Rectangle id="moreButtonrectangle" width="120" height="50"
+				translation="[1200,440]" color="0x38383800" visible="false">
+				<Button id="buttonMore" height="50" translation="[0,0]"
+					textFont="font:LargeSystemFont" iconUri=""
+					focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
+					focusFootprintBitmapUri="" />
+				<Label id="labelMore" text="more" color="0xffffffff">
+				</Label>
+			</Rectangle>
+
 
 				<Rectangle id="moreButtonrectangle" width="120" height="50"
 					translation="[1200,440]" color="0x38383800" visible="false">
