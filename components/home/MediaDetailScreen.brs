@@ -44,6 +44,7 @@ sub initFields()
     
     m.moreButtonrectangle = m.top.findNode("moreButtonrectangle")
     m.buttonMore = m.top.findNode("buttonMore")
+    m.buttonMore.observeField("buttonSelected", "showMediaMoreScreen")
     m.labelMore = m.top.findNode("labelMore")
     
     m.relatedMediaRowList  = m.top.FindNode("relatedMediaRowList")
@@ -80,6 +81,14 @@ End sub
 
 sub showMoreLabel()
     m.moreButtonrectangle.visible = true
+end sub
+
+sub showMediaMoreScreen()
+    m.mediaMoreScreen = m.top.createChild("MoreScreen")
+    m.top.setFocus(false)
+    m.mediaMoreScreen.setFocus(true)
+    m.mediaMoreScreen.titleText = m.labelTitle.text
+    m.mediaMoreScreen.moreText = m.descLabel.text
 end sub
 
 sub setMoreSelectedState(selectedMore as object)
@@ -301,7 +310,6 @@ sub setButtonUnFocusedState(unfocusedRectangle as object)
     unfocusedRectangle.color = "0x858585ff"
 end sub
 
-
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
@@ -310,7 +318,14 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             handlebuttonSelectedState()
             return true
         else if key = "back"
-            m.top.visible = false
+            if m.mediaMoreScreen <> invalid
+                m.mediaMoreScreen.setFocus(false)
+                m.mediaMoreScreen = invalid
+                m.buttonMore.setFocus(true)
+                return true
+            else
+                m.top.visible = false
+            end if
         end if
     end if
     return result 
