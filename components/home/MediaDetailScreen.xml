@@ -72,6 +72,10 @@
 							horizAlign="center" wrap="true" color="0xffffffff" text="Favorite">
 						</Label>
 					</Rectangle>
+					<Label id="documentInfoLabel" translation="[100,720]" width="300"
+						maxLines="2" wrap="true" color="0xffffffff" visible="false"
+						text="View on Mobile or desktop only">
+					</Label>
 			
 			<Rectangle id="moreButtonrectangle" width="120" height="50"
 				translation="[1200,440]" color="0x38383800" visible="false">

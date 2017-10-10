@@ -1,6 +1,7 @@
 sub init()
     m.top.SetFocus(true)
     m.BUTTONTEXT = 25
+    m.isDocument = false
 End sub
 
 sub getResourceId()
@@ -15,6 +16,15 @@ sub initFocus()
                        "buttonPlay":"N-relatedMediaRowList-N-buttonFavRight"                   
                        "buttonFavRight":"N-relatedMediaRowList-buttonPlay-N" 
                        "relatedMediaRowList":"buttonPlay-N-N-N"   
+                     }
+end sub
+
+sub initFocusWithout()
+    'up-down-left-right  
+    m.focusIDArray = {    
+                       "buttonPlay":"N-relatedMediaRowList-N-buttonFavRight"                   
+                       "buttonFavRight":"N-relatedMediaRowList-N-N" 
+                       "relatedMediaRowList":"buttonFavRight-N-N-N"   
                      }
 end sub
 
@@ -59,11 +69,27 @@ sub initFields()
     favPosterRightX = (m.favButtonRightrectangle.width  - m.favPosterRight.width) / 2
     favPosterRightY = (m.favButtonRightrectangle.height  - m.favPosterRight.height) / 2 
     m.favPosterRight.translation = [favPosterRightX, favPosterRightY]
-    
+        
+    m.documentInfoLabel = m.top.findNode("documentInfoLabel")
+    m.documentInfoLabel.font.size = 30 
 End sub
 
 sub showMoreLabel()
     m.moreButtonrectangle.visible = true
+end sub
+
+sub showPlayFavButton()
+    m.playButtonOuterRectangle.visible = true
+    m.playButtonOuterRectangle.translation = [200,500]
+    m.favButtonOuterRightRectangle.translation = [390,500]
+    m.documentInfoLabel.visible = false
+end sub
+
+sub showFavDescText()
+    m.playButtonOuterRectangle.visible = false
+    m.favButtonOuterRightRectangle.translation = [200,500]
+    m.documentInfoLabel.visible = true
+    m.documentInfoLabel.translation = [390,500]
 end sub
 
 sub getMediaDetails()
@@ -91,9 +117,13 @@ sub onMediaDetailApiResponse()
         m.descLabel.text = mediaDetailModel.description
   
         if mediaDetailModel.is_media
+            m.isDocument = false
             m.labelMediaTime.text = getMediaTimeFromSeconds(mediaDetailModel.duration)
+            showPlayFavButton()
         else
+            m.isDocument = true
             m.labelMediaTime.text = "Document"
+            showFavDescText()
         end if            
     else
         showRetryDialog(mediaDetailModel.error, networkErrorMessage())
@@ -124,7 +154,11 @@ sub relatedContentList()
     'initializing the currentFocus id 
     m.currentFocusID ="buttonPlay"
     handlebuttonSelectedState()
-    initFocus()
+    if m.isDocument
+        initFocusWithout()
+    else
+        initFocus()
+    end if
     m.buttonPlay.SetFocus(true)
     
     m.relatedMediaRowList.visible = true
