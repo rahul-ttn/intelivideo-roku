@@ -142,6 +142,7 @@ end sub
 
 sub getData()
     if m.counter = m.counterMaxValue
+        m.counter = 0
         m.Error_text.visible = false
         hideProgressDialog()
         m.featureProductsApiModel = m.featureProductApi.content

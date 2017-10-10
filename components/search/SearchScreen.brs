@@ -22,8 +22,43 @@ sub initFields()
     m.searchTextRectangle = m.top.findNode("searchTextRectangle")
     searchTextRectangleX = (1520 - m.searchTextRectangle.width) / 2
     m.searchTextRectangle.translation = [searchTextRectangleX, 70]
-    callSearchApi()
+    
+    m.searchTextButton = m.top.findNode("searchTextButton")
+    m.searchTextButton.observeField("buttonSelected","showKeyboard")
+    
+    
+    m.textLabel = m.top.findNode("hintlabel")
+    m.keyboard = m.top.findNode("keyboard")
+    m.keyboardTheme = m.top.findNode("keyboardTheme")
+    keyboardX = (1920 - m.keyboardTheme.width) / 2
+    m.keyboardTheme.translation = [keyboardX,450]
+    
 End sub
+
+sub showKeyboard()
+    m.keyboard.visible = true
+    m.keyboardTheme.visible = true
+    m.keyboard.setFocus(true)
+    m.searchTextButton.setFocus(false)
+    if m.textLabel.text = "Search" 
+        m.keyboard.text = ""
+    else
+        m.keyboard.text = m.textLabel.text
+    end if
+end sub
+
+function handleButtonSearchTextColorFocus(isSearchTextFocused as boolean) as void
+    if isSearchTextFocused = false
+        m.textLabel.color = "0xB4B4B1ff" 'grey color
+        m.searchTextButton.setFocus(false)
+        m.searchRowList.setFocus(true)
+    else
+        m.textLabel.color = "0x1c2833ff"  'black color
+        m.searchRowList.setFocus(false)
+        m.searchTextButton.setFocus(true)
+    end if
+
+end function
 
 sub callSearchApi()
     if checkInternetConnection()
@@ -32,6 +67,8 @@ sub callSearchApi()
         callProductSearchApi()
         callMediaSearchApi()
     else
+        m.textLabel.text = "Search"
+        handleButtonSearchTextColorFocus(true)
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
@@ -42,7 +79,6 @@ sub updateCounter()
 end sub
 
 sub callProductSearchApi()
-m.searchQuery = "v"
     baseUrl = getApiBaseUrl() + "search/products?search_query="+ m.searchQuery +"&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
     m.productSearchApi = createObject("roSGNode","FeatureProductApiHandler")
     m.productSearchApi.setField("uri",baseUrl)
@@ -52,7 +88,6 @@ m.searchQuery = "v"
 end sub
 
 sub callMediaSearchApi()
-m.searchQuery = "v"
     baseUrl = getApiBaseUrl() + "search/media?search_query="+ m.searchQuery +"&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
     m.MediaSearchApi = createObject("roSGNode","FeatureMediaApiHandler")
     m.MediaSearchApi.setField("uri",baseUrl)
@@ -68,6 +103,7 @@ end sub
 
 sub getData()
     if m.counter = m.counterMaxValue
+        m.counter = 0
         m.Error_text.visible = false
         hideProgressDialog()
         
@@ -83,6 +119,8 @@ sub getData()
             end if 
         else
             m.counter = 0
+            m.textLabel.text = "Search"
+            handleButtonSearchTextColorFocus(true)
             showRetryDialog(networkErrorTitle(), networkErrorMessage())
         end if
     end if
@@ -201,37 +239,67 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     if press
     print "on key event Search Screen  key >";key
         if key = "right"
-            m.searchRowList.SetFocus(true)
-            m.searchRightRect.translation = [180, 0]
-            showCloseState()
-            m.buttonSearchClose.uri = "pkg:/images/$$RES$$/Search Focused.png"
-            searchTextRectangleX = (1740 - m.searchTextRectangle.width) / 2
-            m.searchTextRectangle.translation = [searchTextRectangleX, 70]
+            if m.navRectangleOpen.visible = true
+                handleButtonSearchTextColorFocus(true)
+                m.searchRightRect.translation = [180, 0]
+                showCloseState()
+                m.buttonSearchClose.uri = "pkg:/images/$$RES$$/Search Focused.png"
+                
+                'align search field
+                searchTextRectangleX = (1740 - m.searchTextRectangle.width) / 2
+                m.searchTextRectangle.translation = [searchTextRectangleX, 70]
+                'align Message field
+                error_textRectangleX = (1740 - m.Error_text.width) / 2
+                m.Error_text.translation = [error_textRectangleX, 500]
+                
+            end if
             result = true
         else if key = "left"
+            handleButtonSearchTextColorFocus(false)
             m.searchRowList.setFocus(false)
             m.searchRightRect.translation = [400, 0]
             initNavigationBar()
             showOpenState()
             m.rectSwitchAccountBorder.visible = false
+            
+            'align search field
             searchTextRectangleX = (1520 - m.searchTextRectangle.width) / 2
             m.searchTextRectangle.translation = [searchTextRectangleX, 70]
+            'align Message field
+            error_textRectangleX = (1520 - m.Error_text.width) / 2
+            m.Error_text.translation = [error_textRectangleX, 500]
             result = true 
         else if key = "down"
             if m.buttonProfileOpen.hasFocus()
                 m.rectSwitchAccountBorder.visible = true
                 m.buttonSwitchAccount.setFocus(true)
-            end if
+            else if m.searchTextButton.hasFocus()
+                handleButtonSearchTextColorFocus(false)
+            end if 
             result = true 
         else if key = "up"
             if m.buttonSwitchAccount.hasFocus()
                 m.rectSwitchAccountBorder.visible = false
                 m.buttonSwitchAccount.setFocus(false)
                 m.buttonProfileOpen.setFocus(true)
+            else if m.searchRowList.hasFocus()
+                handleButtonSearchTextColorFocus(true)
             end if
             result = true
         else if key = "back"
-            if m.switchAccount <> invalid 
+            if m.keyboard.visible
+                m.searchQuery = m.keyboard.text.Trim()
+                if m.searchQuery = ""
+                    m.textLabel.text = "Search"
+                else
+                    m.textLabel.text = m.searchQuery
+                    callSearchApi()
+                end if 
+                m.keyboard.visible = false
+                m.keyboardTheme.visible = false
+                handleButtonSearchTextColorFocus(true)
+                result = true
+            else if m.switchAccount <> invalid 
                if m.switchAccount.accountSelected
                     m.top.visible = false
                     result = false
@@ -263,9 +331,6 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 m.top.visible = false
                 result = false
             end if
-'        else 
-'            print "key = else"
-'            result = true
         end if           
     end if
     return result 
