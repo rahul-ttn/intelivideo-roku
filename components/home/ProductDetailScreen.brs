@@ -1,13 +1,18 @@
 sub init()
     m.top.SetFocus(true)
     m.BUTTONTEXT = 25
+    m.appConfig =  m.top.getScene().appConfigContent
+    
 End sub
 
 sub getProductId()
     m.productId = m.top.product_id
     initFields()
-    initFocus()
     getProductDetails()
+    'initializing the currentFocus id 
+    m.currentFocusID ="productLabelList"
+    handlebuttonSelectedState()
+    'm.buttonFav.SetFocus(true)
 End sub
 
 sub initFields() 
@@ -75,19 +80,68 @@ sub initFields()
     m.buttonMoreRight = m.top.findNode("buttonMoreRight")
     m.labelMoreRight = m.top.findNode("labelMoreRight")
     
+    m.documentInfoLabel = m.top.findNode("documentInfoLabel")
+    'play button translation translation = "[100,550]"
+    'Fav button translation translation = "[270,550]"
+    
 End sub
 
+sub showPlayFavButton()
+m.playButtonOuterRectangle.visible = true
+    m.playButtonOuterRectangle.translation = [100,550]
+    m.favButtonOuterRightRectangle.translation = [270,550]
+    m.documentInfoLabel.visible = false
+end sub
+
+sub showFavDescText()
+    m.playButtonOuterRectangle.visible = false
+    m.favButtonOuterRightRectangle.translation = [100,550]
+     m.documentInfoLabel.visible = true
+    m.documentInfoLabel.translation = [270,550]
+end sub
+
+
 sub initFocus()
-    'initializing the currentFocus id 
-    m.currentFocusID ="buttonFav"
-    
     'up-down-left-right  
     m.focusIDArray = {"buttonFav":"N-productLabelList-N-buttonMore"     
                        "buttonMore":"N-productLabelList-buttonFav-buttonPlay"                 
                        "productLabelList":"buttonFav-N-N-buttonPlay"     
                        "buttonPlay":"N-N-productLabelList-buttonFavRight"                   
                        "buttonFavRight":"N-buttonMoreRight-buttonPlay-N" 
-                       "buttonMoreRight":"buttonFavRight-N-N-N"   
+                       "buttonMoreRight":"buttonFavRight-N-productLabelList-N"   
+                     }
+end sub
+
+sub initFocusWithoutLeftMoreButton()
+    'up-down-left-right  
+    m.focusIDArray = {"buttonFav":"N-productLabelList-N-N"    
+                      "buttonMore":"N-productLabelList-buttonFav-buttonPlay"                
+                       "productLabelList":"buttonFav-N-N-buttonPlay"     
+                       "buttonPlay":"N-N-productLabelList-buttonFavRight"                   
+                       "buttonFavRight":"N-buttonMoreRight-buttonPlay-N" 
+                       "buttonMoreRight":"buttonFavRight-N-productLabelList-N"   
+                     }
+end sub
+
+sub initFocusWithoutRightMoreButton()
+    'up-down-left-right  
+    m.focusIDArray = {"buttonFav":"N-productLabelList-N-buttonMore"     
+                       "buttonMore":"N-productLabelList-buttonFav-buttonPlay"                 
+                       "productLabelList":"buttonFav-N-N-buttonPlay"     
+                       "buttonPlay":"N-N-productLabelList-buttonFavRight"                   
+                       "buttonFavRight":"N-N-buttonPlay-N"  
+                        "buttonMoreRight":"buttonFavRight-N-productLabelList-N"  
+                     }
+end sub
+
+sub initFocusWithoutBothMoreButton()
+    'up-down-left-right  
+    m.focusIDArray = {"buttonFav":"N-productLabelList-N-N" 
+                       "buttonMore":"N-productLabelList-buttonFav-buttonPlay"                   
+                       "productLabelList":"buttonFav-N-N-buttonPlay"     
+                       "buttonPlay":"N-N-productLabelList-buttonFavRight"                   
+                       "buttonFavRight":"N-N-buttonPlay-N" 
+                        "buttonMoreRight":"buttonFavRight-N-productLabelList-N"     
                      }
 end sub
 
@@ -96,38 +150,38 @@ sub handlebuttonSelectedState()
         setButtonFocusedState(m.favButtonrectangle)
         setButtonUnFocusedState(m.playButtonrectangle)
         setButtonUnFocusedState(m.favButtonRightrectangle)
-        setMoreUnselectedState(m.moreButtonrectangle)
-        setMoreUnselectedState(m.moreButtonrectangleRight)
+        setMoreUnselectedState(m.labelMore)
+        setMoreUnselectedState(m.labelMoreRight)
     else if m.currentFocusID ="buttonMore"
         setButtonUnFocusedState(m.favButtonrectangle)
         setButtonUnFocusedState(m.playButtonrectangle)
         setButtonUnFocusedState(m.favButtonRightrectangle)
-        setMoreSelectedState(m.moreButtonrectangle)
-        setMoreUnselectedState(m.moreButtonrectangleRight)
+        setMoreSelectedState(m.labelMore)
+        setMoreUnselectedState(m.labelMoreRight)
     else if m.currentFocusID ="productLabelList"
         setButtonUnFocusedState(m.favButtonrectangle)
         setButtonUnFocusedState(m.playButtonrectangle)
         setButtonUnFocusedState(m.favButtonRightrectangle)
-        setMoreUnselectedState(m.moreButtonrectangle)
-        setMoreUnselectedState(m.moreButtonrectangleRight)
+        setMoreUnselectedState(m.labelMore)
+        setMoreUnselectedState(m.labelMoreRight)
     else if m.currentFocusID ="buttonPlay"
         setButtonUnFocusedState(m.favButtonrectangle)
         setButtonFocusedState(m.playButtonrectangle)
         setButtonUnFocusedState(m.favButtonRightrectangle)
-        setMoreUnselectedState(m.moreButtonrectangle)
-        setMoreUnselectedState(m.moreButtonrectangleRight)
+        setMoreUnselectedState(m.labelMore)
+        setMoreUnselectedState(m.labelMoreRight)
     else if m.currentFocusID ="buttonFavRight"
         setButtonUnFocusedState(m.favButtonrectangle)
         setButtonUnFocusedState(m.playButtonrectangle)
         setButtonFocusedState(m.favButtonRightrectangle)
-        setMoreUnselectedState(m.moreButtonrectangle)
-        setMoreUnselectedState(m.moreButtonrectangleRight)
+        setMoreUnselectedState(m.labelMore)
+        setMoreUnselectedState(m.labelMoreRight)
     else if m.currentFocusID ="buttonMoreRight"
         setButtonUnFocusedState(m.favButtonrectangle)
         setButtonUnFocusedState(m.playButtonrectangle)
         setButtonUnFocusedState(m.favButtonRightrectangle)
-        setMoreUnselectedState(m.moreButtonrectangle)
-        setMoreSelectedState(m.moreButtonrectangleRight)
+        setMoreUnselectedState(m.labelMore)
+        setMoreSelectedState(m.labelMoreRight)
     end if
 end sub
 
@@ -140,7 +194,7 @@ sub setButtonUnFocusedState(unfocusedRectangle as object)
 end sub
 
 sub setMoreSelectedState(selectedMore as object)
-    selectedMore.color = "0x858585ff"
+    selectedMore.color = m.appConfig.primary_color
 end sub
 
 sub setMoreUnselectedState(unfocusedMore as object)
@@ -178,13 +232,11 @@ End sub
 sub showMediaList()
     m.productLabelList.ObserveField("itemFocused", "onListItemFocused")
     m.productLabelList.ObserveField("itemSelected", "onListItemSelected")
-    
     m.content = createObject("roSGNode","ContentNode")
     sectionContent=addListSectionHelper(m.content,"")
     for i = 0 To m.productDetailModel.objects.count()-1
         addListItemHelper(sectionContent,m.productDetailModel.objects[i].title)
     end for   
-  
     m.productLabelList.content = m.content
     m.productLabelList.setFocus(true)
 End sub
@@ -194,13 +246,38 @@ sub onListItemFocused()
    m.thumbnailPoster.uri = mediaModel.small
    m.nameLabel.text = mediaModel.title
    m.longDescriptionLabel.text = mediaModel.description
+   setFocusOnTopDesc()
    if mediaModel.type = "Video" OR mediaModel.type = "Audio"
        m.typeLabel.text = getMediaTimeFromSeconds(mediaModel.duration)
+       showPlayFavButton() 
+       m.focusIDArray.AddReplace("productLabelList","buttonFav-N-N-buttonPlay")
+       m.focusIDArray.AddReplace( "buttonPlay","N-N-productLabelList-buttonFavRight")
+       m.focusIDArray.AddReplace( "buttonFavRight","N-buttonMoreRight-buttonPlay-N")
    else
        m.typeLabel.text = "Document"
+       showFavDescText()
+       m.focusIDArray.AddReplace("productLabelList","buttonFav-N-N-buttonFavRight")
+       m.focusIDArray.AddReplace( "buttonFavRight","N-buttonMoreRight-productLabelList-N")
    end if
    
 End sub
+
+
+sub setFocusOnTopDesc()
+    if m.descLabel.isTextEllipsized AND m.longDescriptionLabel.isTextEllipsized
+        print "initFocus()======>"
+        initFocus()
+    else if m.descLabel.isTextEllipsized AND not m.longDescriptionLabel.isTextEllipsized
+        print "initFocusWithoutRightMoreButton()========>"
+        initFocusWithoutRightMoreButton()
+    else if not m.descLabel.isTextEllipsized AND m.longDescriptionLabel.isTextEllipsized
+        print "initFocusWithoutLeftMoreButton()=========>"
+        initFocusWithoutLeftMoreButton()
+    else
+        print "initFocusWithoutBothMoreButton()==========>"
+        initFocusWithoutBothMoreButton()
+    end if
+end sub
 
 sub onListItemSelected()
     

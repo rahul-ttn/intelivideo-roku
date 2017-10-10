@@ -255,9 +255,10 @@
 					id = "documentInfoLabel"
 					translation = "[100,700]"
 					width = "300"
-					maxLines="1"
+					maxLines="2"
 					wrap = "true"
 					color="0xffffffff"
+					visible="false"
 					text="View on Mobile or desktop only">
 				</Label>
 				<Label
