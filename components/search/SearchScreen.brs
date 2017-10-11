@@ -30,8 +30,8 @@ sub initFields()
     m.textLabel = m.top.findNode("hintlabel")
     m.keyboard = m.top.findNode("keyboard")
     m.keyboardTheme = m.top.findNode("keyboardTheme")
-    keyboardX = (1920 - m.keyboardTheme.width) / 2
-    m.keyboardTheme.translation = [keyboardX,450]
+    'keyboardX = (1920 - m.keyboardTheme.width) / 2
+    m.keyboardTheme.translation = [350,450]
     
 End sub
 
@@ -112,18 +112,23 @@ sub getData()
         
         if m.productSearchApiModel.success AND m.MediaSearchApiModel.success
             if m.productSearchApiModel.searchProductsArray.count() = 0 AND m.MediaSearchApiModel.searchMediaArray.count() = 0
-                m.Error_text.visible = true
-                m.Error_text.text = "No Results Found."
+                noResult()
             else
+                m.Error_text.visible = false
                 searchRowList()
             end if 
         else
             m.counter = 0
-            m.textLabel.text = "Search"
-            handleButtonSearchTextColorFocus(true)
-            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+            noResult()
         end if
     end if
+end sub
+
+sub noResult()
+    m.searchRowList.visible = false
+    handleButtonSearchTextColorFocus(true)
+    m.Error_text.visible = true
+    m.Error_text.text = "No Results Found."
 end sub
 
 sub searchRowList()
