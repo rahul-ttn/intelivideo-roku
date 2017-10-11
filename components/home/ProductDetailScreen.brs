@@ -248,9 +248,12 @@ sub onProductDetailApiResponse()
     if m.productDetailModel.success
         m.productDetailRectangle.visible = true
         m.productDetailBgPoster.uri = m.productDetailModel.original
+        print "m.productDetailModel.original >>> ";m.productDetailModel.original
         m.titleLabel.text = m.productDetailModel.title
         m.descLabel.text = m.productDetailModel.description
         showMediaList()
+        
+        print "m.productDetailBgPoster.loadStatus <<>> ";m.productDetailBgPoster.loadStatus
     else
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if

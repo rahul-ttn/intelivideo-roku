@@ -48,8 +48,10 @@ sub callSelectedApi()
     else if m.titleText = recentlyAddedMedia()
         callRecentlyAddedMediaApi()
     else if m.titleText = searchProducts()
+        m.heading.text = m.titleText + " for " + Chr(34) + m.searchQuery + Chr(34)
         callProductSearchApi()
     else if m.titleText = searchMedia()
+        m.heading.text = m.titleText + " for " + Chr(34) + m.searchQuery + Chr(34)
         callMediaSearchApi()
     end if
 end sub

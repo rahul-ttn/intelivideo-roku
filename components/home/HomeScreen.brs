@@ -4,6 +4,7 @@ sub init()
     m.isSVOD = false
     m.counter = 0
     m.counterMaxValue = 6
+    m.numOfColumns = 2
     initFields()
     hideFields()
     callUserApi()
@@ -359,6 +360,7 @@ function getGridRowListContent() as object
                 m.homeRowList.rowItemSize = [ [675, 572] ]
                 numberOfRows = (m.productsAarray.count() + 1) \ 2 
                 n = 1
+                m.numOfColumns = 2
             else
                 m.homeRowList.itemComponentName = "Home3xListItemLayout"
                 m.homeRowList.itemSize = [200 * 9 + 100, 445]
@@ -367,6 +369,7 @@ function getGridRowListContent() as object
                 m.homeRowList.rowItemSize = [ [448, 445] ]
                 numberOfRows = (m.productsAarray.count() + 2) \ 3 
                 n = 2
+                m.numOfColumns = 3
             end if
             
             ind = 0
@@ -437,18 +440,29 @@ function onRowItemSelected() as void
         col = m.homeRowList.rowItemSelected[1]
         print "**********Row is *********";row
         print "**********col is *********";col
+        print "itemFocused >>> ";m.homeRowList.itemFocused
         m.focusedItem = [row,col]
         if col >= 10
             goTViewAllScreen(m.homeRowList.content.getChild(m.homeRowList.itemFocused).title)
         else
             listTitle = m.homeRowList.content.getChild(m.homeRowList.itemFocused).title
-            if listTitle = featuredMedia() OR listTitle = popularMedia() OR listTitle = recentlyAddedMedia()
+            if m.isSVOD = false
+                index = (m.numOfColumns*row) + col
+                goToTVODProductDetailScreen(index)
+            else if listTitle = featuredMedia() OR listTitle = popularMedia() OR listTitle = recentlyAddedMedia()
                 goToMediaDetailScreen(listTitle, col)
             else
                 goToProductDetailScreen(listTitle, col)
             end if
         end if  
 end function
+
+sub goToTVODProductDetailScreen(index as integer)
+    m.productDetail = m.top.createChild("ProductDetailScreen")
+    m.top.setFocus(false)
+    m.productDetail.setFocus(true)
+    m.productDetail.product_id = m.productsAarray[index].product_id
+end sub
 
 sub goToProductDetailScreen(titleText as String, column as Integer)
     m.productDetail = m.top.createChild("ProductDetailScreen")

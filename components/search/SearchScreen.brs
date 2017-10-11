@@ -16,7 +16,7 @@ sub initFields()
     m.searchBackground.color = homeBackground()
     m.searchRightRect = m.top.FindNode("searchRightRect")
     m.Error_text  = m.top.FindNode("Error_text")
-    m.Error_text.text = "Search your content via keyboard or title"
+    m.Error_text.text = "Search your content via keyword or title"
     m.searchRowList = m.top.FindNode("searchRowList")
     
     m.searchTextRectangle = m.top.findNode("searchTextRectangle")

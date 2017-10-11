@@ -24,7 +24,7 @@
 			<Rectangle id="productDetailRectangle" width="1960" color="0xFFFFFF00"
 				height="1080" translation="[0,0]" visible="false">
 
-				<Poster id="productDetailBgPoster" width="1960" height="1080" />
+				<Poster id="productDetailBgPoster" width="1960" height="1080"/>
 				<Poster id="posterBackground" width="1960" height="1080"
 					uri="pkg:/images/$$RES$$/background_gradient.png" />
 				<Rectangle id="leftParentRectangle" translation="[0.0,0.0]"
