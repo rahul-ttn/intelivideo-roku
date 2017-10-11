@@ -31,7 +31,9 @@ sub showProgressDialog()
 end sub
 
 sub hideProgressDialog()
-    m.top.getScene().dialog.close = true
+    if m.top.getScene().dialog <> invalid
+        m.top.getScene().dialog.close = true
+    end if
 end sub
 
 Function SimpleJSONAssociativeArray( jsonArray As Object ) As String
