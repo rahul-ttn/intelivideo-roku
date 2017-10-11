@@ -18,7 +18,7 @@
 				translation="[80,70]" font="font:LargeBoldSystemFont">
 			</Label>
 			
-			<Label id="labeMore" width="1750" height="1080" wrap="true" translation="[100,200]"/>
+			<ScrollableText id="labeMore" width="1750" height="800" wrap="true" translation="[100,200]"/>
 		</Rectangle>
 	</children>
 
