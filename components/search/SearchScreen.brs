@@ -18,6 +18,7 @@ sub initFields()
     m.Error_text  = m.top.FindNode("Error_text")
     m.Error_text.text = "Search your content via keyword or title"
     m.searchRowList = m.top.FindNode("searchRowList")
+    m.searchRowList.setFocus(false)
     
     m.searchTextRectangle = m.top.findNode("searchTextRectangle")
     searchTextRectangleX = (1520 - m.searchTextRectangle.width) / 2
@@ -126,6 +127,7 @@ end sub
 
 sub noResult()
     m.searchRowList.visible = false
+    m.searchRowList.setFocus(false)
     handleButtonSearchTextColorFocus(true)
     m.Error_text.visible = true
     m.Error_text.text = "No Results Found."
@@ -196,6 +198,7 @@ function getGridRowListContent() as object
             rowItem.isMedia = dataObjet.is_media
             rowItem.isViewAll = false
             rowItem.isItem = dataObjet.is_item
+            rowItem.is_vertical_image = dataObjet.is_vertical_image
             if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                 rowItem.isNew = true
             else
@@ -284,10 +287,12 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             result = true 
         else if key = "up"
             if m.buttonSwitchAccount.hasFocus()
+                print "m.buttonSwitchAccount.hasFocus() search up"
                 m.rectSwitchAccountBorder.visible = false
                 m.buttonSwitchAccount.setFocus(false)
                 m.buttonProfileOpen.setFocus(true)
             else if m.searchRowList.hasFocus()
+                print "m.searchRowList.hasFocus() search up"
                 handleButtonSearchTextColorFocus(true)
             end if
             result = true

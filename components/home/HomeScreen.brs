@@ -183,6 +183,7 @@ function getGridRowListContent() as object
                     rowItem.isMedia = dataObjet.is_media
                     rowItem.isViewAll = false
                     rowItem.isItem = dataObjet.is_item
+                    rowItem.is_vertical_image = dataObjet.is_vertical_image
                     if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                         rowItem.isNew = true
                     else
@@ -236,6 +237,7 @@ function getGridRowListContent() as object
                 rowItem.isMedia = dataObjet.is_media
                 rowItem.isItem = dataObjet.is_item
                 rowItem.isViewAll = false
+                rowItem.is_vertical_image = dataObjet.is_vertical_image
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
@@ -289,6 +291,7 @@ function getGridRowListContent() as object
                 rowItem.isMedia = dataObjet.is_media
                 rowItem.isViewAll = false
                 rowItem.isItem = dataObjet.is_item
+                rowItem.is_vertical_image = dataObjet.is_vertical_image
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
@@ -330,7 +333,12 @@ function getGridRowListContent() as object
          if m.productsAarray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
             row.title = myContent()
-            for index= 0 to m.productsAarray.count()-1
+            if m.productsAarray.count() >= 10
+                n = 9
+            else
+                n = m.productsAarray.count()-1
+            end if
+            for index= 0 to n
                 rowItem = row.CreateChild("HomeRowListItemData")
                 dataObjet = m.productsAarray[index]
                 rowItem.id = dataObjet.product_id
@@ -340,6 +348,7 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.appConfig.primary_color
                 rowItem.isMedia = false
                 rowItem.isViewAll = false
+                rowItem.is_vertical_image = dataObjet.is_vertical_image
                 rowItem.isItem = dataObjet.is_item
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
@@ -387,6 +396,7 @@ function getGridRowListContent() as object
                           rowItem.coverBgColor = m.appConfig.primary_color
                           rowItem.isMedia = false
                           rowItem.isItem = dataObjet.is_item
+                          rowItem.is_vertical_image = dataObjet.is_vertical_image
                           if getPostedVideoDayDifference(dataObjet.created_at) < 11
                               rowItem.isNew = true
                           else

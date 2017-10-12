@@ -16,10 +16,10 @@ sub init()
       m.posterArrow = m.top.findNode("posterArrow")
       
       labelViewAllX = (m.rectangle.width - m.labelViewAll.width) / 2
-      labelViewAllY = (m.rectangle.height - m.labelViewAll.height) / 2
+      labelViewAllY = ((m.rectangle.height - m.labelViewAll.height) / 2) - 20
       m.labelViewAll.translation = [labelViewAllX , labelViewAllY]
         
-      posterArrowX = (m.rectangle.width - m.posterArrow.width) / 2
+      posterArrowX = ((m.rectangle.width - m.posterArrow.width) / 2) -20
       posterArrowY = ((m.rectangle.height - m.posterArrow.height) / 2 ) + 50
       m.posterArrow.translation = [posterArrowX , posterArrowY]
     
@@ -38,7 +38,13 @@ function itemContentChanged() as void
          m.rectangle.visible = true
     end if
     
+    if itemData.is_vertical_image
+        m.posterVod.loadDisplayMode = "scaleToFit"
+    else 
+        m.posterVod.loadDisplayMode = "noScale"
+    end if
     m.posterVod.uri = itemData.imageUri
+    
     m.labelDescription.text = itemData.title
     m.posterRect.color = itemData.coverBgColor
     m.rectNew.color = itemData.coverBgColor

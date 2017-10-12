@@ -20,7 +20,7 @@
 		</Label>
 		<Poster
 			id = "posterArrow"
-			uri = "pkg:/images/img_fav_tag_alt.png"
+			uri = "pkg:/images/$$RES$$/view-all-arrow.png"
 			visible = "false">
 		</Poster>
 		<Rectangle id="rectangle" width="675" height="572" visible = "false">

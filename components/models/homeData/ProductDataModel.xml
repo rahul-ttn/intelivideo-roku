@@ -9,5 +9,6 @@
 		<field id="created_at" type="integer"/>
 		<field id="is_media" type="bool"></field>
 		<field id="is_item" type="bool"></field>
+		<field id="is_vertical_image" type="bool"></field>
 	</interface>
 </component>

@@ -48,7 +48,12 @@ function getGridRowListContent() as object
          m.myContentRowList.rowItemSpacing = [ [80, 0] ]
          
          myContentArray = m.top.getScene().myContent
-         for numRows = 0 to myContentArray.Count()-1
+         if myContentArray.count() >= 10
+                n = 9
+            else
+                n = myContentArray.count()-1
+         end if
+         for numRows = 0 to n
             row = parentContentNode.CreateChild("ContentNode")
              for index = 0 to 0
                   rowItem = row.CreateChild("HomeRowListItemData")
@@ -59,6 +64,7 @@ function getGridRowListContent() as object
                       rowItem.count = dataObjet.media_count
                       rowItem.coverBgColor = m.appConfig.primary_color
                       rowItem.isMedia = false
+                      rowItem.is_vertical_image = dataObjet.is_vertical_image
                       if getPostedVideoDayDifference(dataObjet.created_at) < 11
                           rowItem.isNew = true
                       else
@@ -66,23 +72,35 @@ function getGridRowListContent() as object
                       end if
              end for     
           end for 
-'          if myContentArray.Count() >= 10
-'              row = parentContentNode.CreateChild("ContentNode")
-'              rowItem = row.CreateChild("HomeRowListItemData")
-'              rowItem.isViewAll = true
-'          end if 
+          if myContentArray.Count() >= 10
+              row = parentContentNode.CreateChild("ContentNode")
+              rowItem = row.CreateChild("HomeRowListItemData")
+              rowItem.isViewAll = true
+          end if 
          return parentContentNode 
 end function
 
-function rowItemSelected() as void
-        row = m.accountList.rowItemFocused[0]
-        col = m.accountList.rowItemFocused[1]
-'        print "**********Row is *********";row
-'        print "**********col is *********";col
-       
+function onRowItemSelected() as void
+        row = m.myContentRowList.rowItemFocused[0]
+        col = m.myContentRowList.rowItemFocused[1]
+        print "**********Row is *********";row
+        print "**********col is *********";col
+        m.focusedItem = [row,col]
+           if row >= 10
+                goTViewAllScreen()
+           else
+                goToTVODProductDetailScreen(row)
+           end if
 end function
 
-sub goTViewAllScreen(titleText as String)
+sub goToTVODProductDetailScreen(index as integer)
+    m.productDetail = m.top.createChild("ProductDetailScreen")
+    m.top.setFocus(false)
+    m.productDetail.setFocus(true)
+    m.productDetail.product_id = m.top.getScene().myContent[index].product_id
+end sub
+
+sub goTViewAllScreen()
     m.viewAllScreen = m.top.createChild("ViewAllScreen")
     m.top.setFocus(false)
     m.viewAllScreen.setFocus(true)
@@ -259,6 +277,18 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                     m.switchAccount = invalid
                     result = true
                 end if
+            else if m.viewAllScreen <> invalid
+                m.viewAllScreen.setFocus(false)
+                m.viewAllScreen = invalid
+                m.myContentRowList.setFocus(true)
+                m.myContentRowList.jumpToRowItem = m.focusedItem
+                result = true
+            else if m.productDetail <> invalid
+                m.productDetail.setFocus(false)
+                m.productDetail = invalid
+                m.myContentRowList.setFocus(true)
+                m.myContentRowList.jumpToRowItem = m.focusedItem
+                result = true
             else
                 m.top.visible = false
                 result = false

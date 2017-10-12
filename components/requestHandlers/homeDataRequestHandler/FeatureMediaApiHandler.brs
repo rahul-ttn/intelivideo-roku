@@ -37,6 +37,18 @@ sub parseApiResponse(response As Object)
             mediaModel.small = mediaItem.cover_art.small
             mediaModel.created_at = mediaItem.created_at
             mediaModel.description = mediaItem.description
+            
+'            if mediaItem.horizontal_cover_art <> invalid
+'                mediaModel.is_vertical_image = false
+'                mediaModel.small = mediaItem.horizontal_cover_art.small
+'            else if mediaItem.vertical_cover_art <> invalid
+'                mediaModel.is_vertical_image = true
+'                mediaModel.small = mediaItem.vertical_cover_art.small
+'            else if mediaItem.banner_image <> invalid
+'                mediaModel.is_vertical_image = false
+'                mediaModel.small = mediaItem.banner_image.small
+'            end if
+            
             if mediaItem.type = "Video" OR mediaItem.type = "Audio"
                 mediaModel.is_media = true
             else
