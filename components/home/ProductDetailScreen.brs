@@ -132,7 +132,7 @@ sub initFocus()
     m.focusIDArray = {"buttonFav":"N-productLabelList-N-buttonMore"     
                        "buttonMore":"N-productLabelList-buttonFav-buttonPlay"                 
                        "productLabelList":"buttonFav-N-N-buttonPlay"     
-                       "buttonPlay":"N-N-productLabelList-buttonFavRight"                   
+                       "buttonPlay":"N-buttonMoreRight-productLabelList-buttonFavRight"                   
                        "buttonFavRight":"N-buttonMoreRight-buttonPlay-N" 
                        "buttonMoreRight":"buttonFavRight-N-productLabelList-N"   
                      }
@@ -143,7 +143,7 @@ sub initFocusWithoutLeftMoreButton()
     m.focusIDArray = {"buttonFav":"N-productLabelList-N-N"    
                       "buttonMore":"N-productLabelList-buttonFav-buttonPlay"                
                        "productLabelList":"buttonFav-N-N-buttonPlay"     
-                       "buttonPlay":"N-N-productLabelList-buttonFavRight"                   
+                       "buttonPlay":"N-buttonMoreRight-productLabelList-buttonFavRight"                   
                        "buttonFavRight":"N-buttonMoreRight-buttonPlay-N" 
                        "buttonMoreRight":"buttonFavRight-N-productLabelList-N"   
                      }
@@ -272,26 +272,34 @@ sub showMediaList()
 End sub
 
 sub onListItemFocused()
-   mediaModel = m.productDetailModel.objects[m.productLabelList.itemFocused]
-   m.thumbnailPoster.uri = mediaModel.small
-   m.nameLabel.text = mediaModel.title
-   m.longDescriptionLabel.text = mediaModel.description
-   setFocusOnTopDesc()
-   if mediaModel.type = "Video" OR mediaModel.type = "Audio"
-       m.typeLabel.text = getMediaTimeFromSeconds(mediaModel.duration)
+   m.mediaModel = m.productDetailModel.objects[m.productLabelList.itemFocused]
+   m.thumbnailPoster.uri = m.mediaModel.small
+   m.nameLabel.text = m.mediaModel.title
+   m.longDescriptionLabel.text = m.mediaModel.description
+   startMoreTimer()
+End sub
+
+sub startMoreTimer()
+    m.testtimer = m.top.findNode("more_timer")
+    m.testtimer.control = "start"
+    m.testtimer.ObserveField("fire","setListItemData")
+end sub
+
+sub setListItemData()
+    setFocusOnTopDesc()
+   if m.mediaModel.type = "Video" OR m.mediaModel.type = "Audio"
+       m.typeLabel.text = getMediaTimeFromSeconds(m.mediaModel.duration)
        showPlayFavButton() 
        m.focusIDArray.AddReplace("productLabelList","buttonFav-N-N-buttonPlay")
-       m.focusIDArray.AddReplace( "buttonPlay","N-N-productLabelList-buttonFavRight")
+       m.focusIDArray.AddReplace( "buttonPlay","N-buttonMoreRight-productLabelList-buttonFavRight")
        m.focusIDArray.AddReplace( "buttonFavRight","N-buttonMoreRight-buttonPlay-N")
    else
        m.typeLabel.text = "Document"
        showFavDescText()
        m.focusIDArray.AddReplace("productLabelList","buttonFav-N-N-buttonFavRight")
        m.focusIDArray.AddReplace( "buttonFavRight","N-buttonMoreRight-productLabelList-N")
-   end if
-   
-End sub
-
+   end if  
+end sub
 
 sub setFocusOnTopDesc()
     if m.descLabel.isTextEllipsized AND m.longDescriptionLabel.isTextEllipsized
@@ -301,6 +309,7 @@ sub setFocusOnTopDesc()
         m.moreButtonrectangleRight.visible = true
     else if m.descLabel.isTextEllipsized AND not m.longDescriptionLabel.isTextEllipsized
         print "initFocusWithoutRightMoreButton()==========>"
+        print "m.longDescriptionLabel.isTextEllipsized=======>";m.longDescriptionLabel.isTextEllipsized
         initFocusWithoutRightMoreButton()
         m.moreButtonrectangle.visible = true
         m.moreButtonrectangleRight.visible = false

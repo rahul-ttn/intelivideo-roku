@@ -155,6 +155,6 @@
 		</Rectangle>
 
 		<Timer id="timer" repeat="false" duration=".5" />
-
+		<Timer id="more_timer" repeat="false" duration=".3" />
 	</children>
 </component>

@@ -13,6 +13,7 @@ sub initField()
     m.labelHeading.text = m.titleText
     m.labeMore = m.top.FindNode("labeMore")
     m.labeMore.text = m.moreText
+    m.labeMore.setFocus(true)
 end sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean

@@ -66,13 +66,31 @@ function getGridRowListContent() as object
                       end if
              end for     
           end for 
-          if myContentArray.Count() >= 10
-              row = parentContentNode.CreateChild("ContentNode")
-              rowItem = row.CreateChild("HomeRowListItemData")
-              rowItem.isViewAll = true
-          end if 
+'          if myContentArray.Count() >= 10
+'              row = parentContentNode.CreateChild("ContentNode")
+'              rowItem = row.CreateChild("HomeRowListItemData")
+'              rowItem.isViewAll = true
+'          end if 
          return parentContentNode 
 end function
+
+function rowItemSelected() as void
+        row = m.accountList.rowItemFocused[0]
+        col = m.accountList.rowItemFocused[1]
+'        print "**********Row is *********";row
+'        print "**********col is *********";col
+       
+end function
+
+sub goTViewAllScreen(titleText as String)
+    m.viewAllScreen = m.top.createChild("ViewAllScreen")
+    m.top.setFocus(false)
+    m.viewAllScreen.setFocus(true)
+    m.viewAllScreen.titleText = "My Content"
+    m.viewAllScreen.primaryColor = m.appConfig.primary_color
+    m.viewAllScreen.contentArray = m.top.getScene().myContent
+end sub
+
 
 sub onListItemFocused()
     n = 0

@@ -205,7 +205,6 @@ sub relatedContentList()
 end sub
 
 sub startMoreTimer()
-    m.top.getScene().dialog.close = true
     m.testtimer = m.top.findNode("more_timer")
     m.testtimer.control = "start"
     m.testtimer.ObserveField("fire","setFocusArray")
