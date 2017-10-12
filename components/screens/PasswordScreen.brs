@@ -127,15 +127,18 @@ end sub
 
 'Call on Authentication API response
 sub onAuthToken()
+    print "onAuthToken >>> "
    authTokenModel = m.authApi.content
    if authTokenModel.success
+        print "onAuthToken success >>> "
         if getValueInRegistryForKey("isLoginValue") = "true"
             hideViews()
-            
+            print "onAuthToken isLogin true >>> "
             
             'store account list in RoRegistry
             accountJson = createAccountDetailsJson(m.account.name, m.account.id, m.account.thumbnail, getValueInRegistryForKey("authTokenValue"), getValueInRegistryForKey("refreshTokenValue"))
             accountList = getValueInRegistryForKey("accountsValue")
+            print "onAuthToken accountList >>> "; accountList
             if accountList = ""
                 setValueInRegistryForKey("accounts", accountJson)
             else
@@ -143,6 +146,7 @@ sub onAuthToken()
                 accountsArray.Push(accountJson)
                 accountString = accountsArray.Join("||")
                 setValueInRegistryForKey("accounts", accountString)
+                print "onAuthToken >>> added account list"
             end if
             m.video.control = "stop"
             'move to Home Screen
@@ -150,7 +154,9 @@ sub onAuthToken()
             m.homeScreen = m.top.createChild("HomeScreen")
             m.top.setFocus(false)
             m.homeScreen.setFocus(true)
+            print "onAuthToken moved to home screen>>> "
         else
+            print "onAuthToken isLogin false>>> "
            showHideError(true,01)
            m.top.getScene().dialog.close = true
            m.currentFocusID = "editTextButton"

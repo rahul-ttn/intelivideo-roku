@@ -10,6 +10,7 @@ sub init()
     callUserApi()
     setValueInRegistryForKey("isHome","true")
     m.switchAccount = invalid
+    print "Home screen init >>> "
 End sub
 
 sub callUserApi()
