@@ -24,7 +24,7 @@
 			<Rectangle id="productDetailRectangle" width="1960" color="0xFFFFFF00"
 				height="1080" translation="[0,0]" visible="false">
 
-				<Poster id="productDetailBgPoster" width="1960" height="1080"/>
+				<Poster id="productDetailBgPoster" width="1960" height="1080" loadWidth="1960" loadHeight="1080"/>
 				<Poster id="posterBackground" width="1960" height="1080"
 					uri="pkg:/images/$$RES$$/background_gradient.png" />
 				<Rectangle id="leftParentRectangle" translation="[0.0,0.0]"
@@ -87,7 +87,7 @@
 					color="0x48c9b000" width="768" height="1080">
 
 					<Poster id="thumbnailPoster" width="548" height="308"
-						translation="[100,100]">
+						translation="[100,100]" loadWidth="548" loadHeight="308">
 					</Poster>
 					<Label id="nameLabel" translation="[100,420]" width="568"
 						maxLines="1" wrap="true" font="font:MediumBoldSystemFont"

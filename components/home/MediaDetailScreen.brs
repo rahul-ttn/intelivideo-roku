@@ -204,6 +204,7 @@ sub relatedContentList()
     m.relatedMediaRowList.visible = true
     m.relatedMediaRowList.SetFocus(false)
     m.relatedMediaRowList.content = getGridRowListContent()
+    m.relatedMediaRowList.jumpToRowItem = [0,0]
 end sub
 
 sub startMoreTimer()
