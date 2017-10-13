@@ -63,7 +63,7 @@
 							ellipsisText="..." color="0xffffffff">
 						</Label>
 						<Rectangle id="moreButtonrectangle" width="120" height="50"
-							translation="[952,275]" color="0x38383800">
+							translation="[952,275]" color="0x38383800" visible = "false">
 							<Button id="buttonMore" height="50" translation="[0,0]"
 								textFont="font:LargeSystemFont" iconUri=""
 								focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
@@ -115,7 +115,7 @@
 						</Label>
 					</Rectangle>
 					<Rectangle id="favButtonOuterRightRectangle" width="150"
-						height="130" translation="[290,550]" color="0x00CCB900">
+						height="130" translation="[290,550]" color="0x00CCB900" visible = "false">
 						<Rectangle id="favButtonRightrectangle" width="150"
 							height="100" translation="[0,0]" color="0x858585ff">
 
