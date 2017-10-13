@@ -26,7 +26,7 @@ end sub
 
 sub initFocusWithout()
     'up-down-left-right  
-    m.focusIDArray = { "buttonMore":"N-buttonPlay-N-N"  
+    m.focusIDArray = { "buttonMore":"N-buttonFavRight-N-N"  
                        "buttonPlay":"buttonMore-relatedMediaRowList-N-buttonFavRight"                   
                        "buttonFavRight":"buttonMore-relatedMediaRowList-N-N" 
                        "relatedMediaRowList":"buttonFavRight-N-N-N"   
@@ -216,12 +216,22 @@ end sub
 sub setFocusArray()
     if m.descLabel.isTextEllipsized
         print "entered when more is visible >>>>>>>"
-        m.focusIDArray.AddReplace("buttonPlay","buttonMore-relatedMediaRowList-N-buttonFavRight")
-        m.focusIDArray.AddReplace("buttonFavRight","buttonMore-relatedMediaRowList-buttonPlay-N")
+        if m.relatedMediaModel.relatedMediaArray.Count() = 0
+            m.focusIDArray.AddReplace("buttonPlay","buttonMore-N-N-buttonFavRight")
+            m.focusIDArray.AddReplace("buttonFavRight","buttonMore-N-buttonPlay-N")
+        else 
+            m.focusIDArray.AddReplace("buttonPlay","buttonMore-relatedMediaRowList-N-buttonFavRight")
+            m.focusIDArray.AddReplace("buttonFavRight","buttonMore-relatedMediaRowList-buttonPlay-N")
+        end if
     else
         print "entered when more is not visible >>>>>>>" 
-        m.focusIDArray.AddReplace("buttonPlay","N-relatedMediaRowList-N-buttonFavRight")
-        m.focusIDArray.AddReplace("buttonFavRight","N-relatedMediaRowList-buttonPlay-N")
+        if m.relatedMediaModel.relatedMediaArray.Count() = 0
+            m.focusIDArray.AddReplace("buttonPlay","N-N-N-buttonFavRight")
+            m.focusIDArray.AddReplace("buttonFavRight","N-N-buttonPlay-N")
+        else
+            m.focusIDArray.AddReplace("buttonPlay","N-relatedMediaRowList-N-buttonFavRight")
+            m.focusIDArray.AddReplace("buttonFavRight","N-relatedMediaRowList-buttonPlay-N") 
+        end if
     end if
 end sub
 
@@ -244,6 +254,14 @@ function getGridRowListContent() as object
             rowItem.isMedia = false
         end if
     end for
+    print "List loop completed"
+'    if m.relatedMediaModel.relatedMediaArray.Count() = 0
+'       m.focusIDArray.AddReplace("buttonPlay","buttonMore-N-N-buttonFavRight")
+'        m.focusIDArray.AddReplace("buttonFavRight","buttonMore-N-buttonPlay-N") 
+'    else
+'        m.focusIDArray.AddReplace("buttonPlay","buttonMore-relatedMediaRowList-N-buttonFavRight")
+'        m.focusIDArray.AddReplace("buttonFavRight","buttonMore-relatedMediaRowList-buttonPlay-N") 
+'    end if
     return parentContentNode 
 end function
 

@@ -115,7 +115,7 @@
 						</Label>
 					</Rectangle>
 					<Rectangle id="favButtonOuterRightRectangle" width="150"
-						height="130" translation="[290,550]" color="0x00CCB900">
+						height="130" translation="[290,550]" color="0x00CCB900" visible = "">
 						<Rectangle id="favButtonRightrectangle" width="150"
 							height="100" translation="[0,0]" color="0x858585ff">
 
@@ -155,6 +155,6 @@
 		</Rectangle>
 
 		<Timer id="timer" repeat="false" duration=".5" />
-		<Timer id="more_timer" repeat="false" duration=".3" />
+		<Timer id="more_timer" repeat="false" duration=".01" />
 	</children>
 </component>
