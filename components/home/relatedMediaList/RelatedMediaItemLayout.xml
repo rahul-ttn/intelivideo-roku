@@ -9,7 +9,7 @@
 	<children>
 	<Rectangle id="parentRect" width="546" height="164">
 		<Rectangle id="posterRect" width="260" height="164">
-			<Poster id="posterVod" width="260" height="164"/>
+			<Poster id="posterVod" width="260" height="164" loadWidth="260.0" loadHeight="164.0"/>
 		</Rectangle>
 		<Label id="labelTitle" width="260" translation="[275,15]"
 				wrap="true" color="0x000000ff" font="font:SmallSystemFont" maxLines="2"

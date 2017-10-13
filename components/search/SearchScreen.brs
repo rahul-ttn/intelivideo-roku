@@ -80,7 +80,9 @@ sub updateCounter()
 end sub
 
 sub callProductSearchApi()
-    baseUrl = getApiBaseUrl() + "search/products?search_query="+ m.searchQuery +"&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+    baseUrl = getApiBaseUrl() + "search/products?search_query="+ m.searchQuery.ToStr() +"&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+    baseUrl = baseUrl.EncodeUri()
+    print "search baseUrl >>>> ";baseUrl.EncodeUri()
     m.productSearchApi = createObject("roSGNode","FeatureProductApiHandler")
     m.productSearchApi.setField("uri",baseUrl)
     m.productSearchApi.setField("dataType","search")
@@ -118,7 +120,16 @@ sub getData()
                 m.Error_text.visible = false
                 searchRowList()
             end if 
-        else
+        else if m.productSearchApiModel.success OR m.MediaSearchApiModel.success
+            if m.productSearchApiModel.success AND m.productSearchApiModel.searchProductsArray.count() = 0
+                noResult()
+            else if m.MediaSearchApiModel.success AND m.MediaSearchApiModel.searchMediaArray.count() = 0
+                noResult()
+            else
+                m.Error_text.visible = false
+                searchRowList()
+            end if
+        else 
             m.counter = 0
             noResult()
         end if

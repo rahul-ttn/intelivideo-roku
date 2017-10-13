@@ -1,4 +1,5 @@
 sub init()
+    print "Media detail init >> "
     m.top.SetFocus(true)
     m.BUTTONTEXT = 25
     m.appConfig =  m.top.getScene().appConfigContent
@@ -8,6 +9,7 @@ sub init()
 End sub
 
 sub getResourceId()
+    print "Media detail getResourceId >> "
     m.resourceId = m.top.resource_id
     initFields()
     getMediaDetails()

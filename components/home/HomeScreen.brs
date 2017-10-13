@@ -449,9 +449,9 @@ End sub
 function onRowItemSelected() as void
         row = m.homeRowList.rowItemSelected[0]
         col = m.homeRowList.rowItemSelected[1]
-        print "**********Row is *********";row
-        print "**********col is *********";col
-        print "itemFocused >>> ";m.homeRowList.itemFocused
+'        print "**********Row is *********";row
+'        print "**********col is *********";col
+'        print "itemFocused >>> ";m.homeRowList.itemFocused
         m.focusedItem = [row,col]
         if col >= 10
             goTViewAllScreen(m.homeRowList.content.getChild(m.homeRowList.itemFocused).title)

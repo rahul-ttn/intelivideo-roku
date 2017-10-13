@@ -137,11 +137,11 @@
 						text="View on Mobile or desktop only">
 					</Label>
 					<Label id="longDescriptionLabel" translation="[100,720]"
-						width="550" maxLines="6" wrap="true" ellipsizeOnBoundary="false"
+						width="500" maxLines="6" wrap="true" ellipsizeOnBoundary="false"
 						ellipsisText="..." color="0xffffffff" text="">
 					</Label>
 					<Rectangle id="moreButtonrectangleRight" width="100"
-						height="50" translation="[650,960]" color="0x38383800">
+						height="50" translation="[600,960]" color="0x38383800">
 						<Button id="buttonMoreRight" height="50" translation="[0,0]" iconUri=""
 							focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
 							focusFootprintBitmapUri="" />

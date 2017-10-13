@@ -165,11 +165,9 @@ sub getData()
         else if m.titleText = searchMedia()
             m.apiModel = m.MediaSearchApi.content
         end if
-        
-        if  m.apiModel.success
+
+        if m.apiModel <> invalid AND m.apiModel.success
             showList()
-        else
-            showRetryDialog(networkErrorTitle(), networkErrorMessage())
         end if
 end sub
 
@@ -222,8 +220,8 @@ function onRowItemSelected() as void
         print "***** Some's wish is ********";m.list.rowItemSelected
         row = m.list.rowItemSelected[0]
         col = m.list.rowItemSelected[1]
-        print "**********Row is *********";row
-        print "**********col is *********";col
+'        print "**********Row is *********";row
+'        print "**********col is *********";col
         m.focusedItem = [row,col]
         if m.isMediaContent
             m.mediaDetail = m.top.createChild("MediaDetailScreen")
