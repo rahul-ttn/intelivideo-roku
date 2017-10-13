@@ -23,12 +23,17 @@ sub parseApiResponse(response As Object)
         productDetailModel.success = true
         productDetailModel.product_id = response.product.product_id
         productDetailModel.title = response.product.title
-        productDetailModel.description = response.product.description
+        if response.product.long_description <> invalid
+            productDetailModel.description = response.product.long_description
+        else
+            productDetailModel.description = response.product.description
+        end if
+        
         productDetailModel.media_count = response.product.media_count
         if response.product.images.horizontal_cover_art <> invalid
-            productDetailModel.original = response.product.images.horizontal_cover_art.original
+            productDetailModel.original = response.product.images.horizontal_cover_art.small
         else if response.product.images.banner_image <> invalid
-            productDetailModel.original = response.product.images.banner_image.original
+            productDetailModel.original = response.product.images.banner_image.small
         end if
         productDetailModel.created_at = response.product.created_at
         

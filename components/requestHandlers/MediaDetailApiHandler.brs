@@ -26,7 +26,7 @@ sub parseApiResponse(response As Object)
         mediaModel.type = response.type
         mediaModel.title = response.title
         mediaModel.duration = response.duration
-        mediaModel.small = response.cover_art.original
+        mediaModel.small = response.cover_art.small
         mediaModel.created_at = response.created_at
         mediaModel.description = response.description
         if response.type = "Video" OR response.type = "Audio"
