@@ -39,13 +39,13 @@ sub parseApiResponse(response As Object)
             
             if productItem.images.horizontal_cover_art <> invalid
                 productModel.is_vertical_image = false
-                productModel.small = productItem.images.horizontal_cover_art.small
+                productModel.small = productItem.images.horizontal_cover_art.thumbnail
             else if productItem.images.vertical_cover_art <> invalid
                 productModel.is_vertical_image = true
-                productModel.small = productItem.images.vertical_cover_art.small
+                productModel.small = productItem.images.vertical_cover_art.thumbnail
             else if productItem.images.banner_image <> invalid
                 productModel.is_vertical_image = false
-                productModel.small = productItem.images.banner_image.small
+                productModel.small = productItem.images.banner_image.thumbnail
             end if
             
             productArray.Push(productModel)

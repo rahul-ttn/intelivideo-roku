@@ -117,7 +117,9 @@ sub callRecentlyAddedMediaApi()
 end sub
 
 sub callProductSearchApi()
-    baseUrl = getApiBaseUrl() + "search/products?search_query="+ m.searchQuery +"&per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
+    baseUrl = getApiBaseUrl() + "search/products?search_query="+ m.searchQuery.ToStr() +"&per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
+    baseUrl = baseUrl.EncodeUri()
+    print "search baseUrl >>>> ";baseUrl.EncodeUri()
     m.productSearchApi = createObject("roSGNode","FeatureProductApiHandler")
     m.productSearchApi.setField("uri",baseUrl)
     m.productSearchApi.setField("dataType","search")
@@ -127,7 +129,8 @@ sub callProductSearchApi()
 end sub
 
 sub callMediaSearchApi()
-    baseUrl = getApiBaseUrl() + "search/media?search_query="+ m.searchQuery +"&per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
+    baseUrl = getApiBaseUrl() + "search/media?search_query="+ m.searchQuery.ToStr() +"&per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
+    baseUrl = baseUrl.EncodeUri()
     m.MediaSearchApi = createObject("roSGNode","FeatureMediaApiHandler")
     m.MediaSearchApi.setField("uri",baseUrl)
     m.MediaSearchApi.setField("dataType","search")

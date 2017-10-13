@@ -34,7 +34,7 @@ sub parseApiResponse(response As Object)
             mediaModel.type = mediaItem.type
             mediaModel.title = mediaItem.title
             mediaModel.duration = mediaItem.duration
-            mediaModel.small = mediaItem.cover_art.small
+            mediaModel.small = mediaItem.cover_art.thumbnail
             mediaModel.created_at = mediaItem.created_at
             mediaModel.description = mediaItem.description
             

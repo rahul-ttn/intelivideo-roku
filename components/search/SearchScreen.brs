@@ -91,7 +91,8 @@ sub callProductSearchApi()
 end sub
 
 sub callMediaSearchApi()
-    baseUrl = getApiBaseUrl() + "search/media?search_query="+ m.searchQuery +"&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+    baseUrl = getApiBaseUrl() + "search/media?search_query="+ m.searchQuery.ToStr() +"&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+    baseUrl = baseUrl.EncodeUri()
     m.MediaSearchApi = createObject("roSGNode","FeatureMediaApiHandler")
     m.MediaSearchApi.setField("uri",baseUrl)
     m.MediaSearchApi.setField("dataType","search")
