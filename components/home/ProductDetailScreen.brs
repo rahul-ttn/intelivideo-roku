@@ -291,13 +291,25 @@ sub setListItemData()
        m.typeLabel.text = getMediaTimeFromSeconds(m.mediaModel.duration)
        showPlayFavButton() 
        m.focusIDArray.AddReplace("productLabelList","buttonFav-N-N-buttonPlay")
-       m.focusIDArray.AddReplace( "buttonPlay","N-buttonMoreRight-productLabelList-buttonFavRight")
-       m.focusIDArray.AddReplace( "buttonFavRight","N-buttonMoreRight-buttonPlay-N")
+       m.focusIDArray.AddReplace("buttonMore","N-productLabelList-buttonFav-buttonPlay")
+       if m.moreButtonrectangleRight.visible
+           m.focusIDArray.AddReplace( "buttonPlay","N-buttonMoreRight-productLabelList-buttonFavRight")
+           m.focusIDArray.AddReplace( "buttonFavRight","N-buttonMoreRight-buttonPlay-N")
+       else
+           m.focusIDArray.AddReplace( "buttonPlay","N-N-productLabelList-buttonFavRight")
+           m.focusIDArray.AddReplace( "buttonFavRight","N-N-buttonPlay-N")
+       end if
    else
        m.typeLabel.text = "Document"
        showFavDescText()
-       m.focusIDArray.AddReplace("productLabelList","buttonFav-N-N-buttonFavRight")
-       m.focusIDArray.AddReplace( "buttonFavRight","N-buttonMoreRight-productLabelList-N")
+       m.focusIDArray.AddReplace( "buttonMore","N-productLabelList-buttonFav-buttonFavRight")
+       if m.moreButtonrectangleRight.visible
+           m.focusIDArray.AddReplace("productLabelList","buttonFav-N-N-buttonFavRight")
+           m.focusIDArray.AddReplace( "buttonFavRight","N-buttonMoreRight-productLabelList-N")
+       else
+           m.focusIDArray.AddReplace("productLabelList","buttonFav-N-N-buttonFavRight")
+           m.focusIDArray.AddReplace( "buttonFavRight","N-N-productLabelList-N")
+       end if
    end if  
 end sub
 
