@@ -163,7 +163,11 @@ sub showHomeScreen()
 End sub
 
 sub showCategoryScreen()
-    print "showCategoryScreen " 
+    print "showCategoryScreen "
+     if m.screenName <> categoryScreen()
+        categoryScreen = m.top.createChild("CategoriesScreen")
+        categoryScreen.setFocus(true)
+     end if
 End sub
 
 sub showFavoriteScreen()

@@ -31,7 +31,6 @@ sub parseApiResponse(response As Object)
         authTokenModel.error = response.error
         setValueInRegistryForKey("isLogin", "false")
     end if
-    
     m.top.content = authTokenModel
 
 end sub

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="CategoriesScreen" extends="Group"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
+	<script type="text/brightscript" uri="pkg:/source/helper/ListHelper.brs" />
+	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
+	<script type="text/brightscript" uri="pkg:/components/categories/CategoriesScreen.brs" />
+
+	<children>
+		<Rectangle id="categoryBackground" width="1960" height="1080"
+			translation="[0,0]">
+			<NavigationBar id="NavigationBar" />
+			<Rectangle id="parentCategoryRect" width="1960" height="1080"
+				translation="[400,0]" color="0x38383800">
+				<Rectangle id="categoryLeftRect" width="700" height="1080"
+					color="0x38383800">
+					<Label text="Categories" font="font:LargeSystemFont"
+						translation="[100,90]" />
+					<LabelList id="categoryLabelList" translation="[100,200]" />
+				</Rectangle>
+				<Rectangle id="categoryRightRect" width="1960" height="1080"
+					translation="[1100,0]" color="0x38383800">
+					<HomeRowList id="myContentRowList" translation="[200,60]"
+						visible="false" />
+				</Rectangle>
+			</Rectangle>
+
+		</Rectangle>
+	</children>
+</component>

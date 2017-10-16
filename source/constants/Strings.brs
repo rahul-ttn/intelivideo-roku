@@ -32,6 +32,10 @@ function searchScreen() as string
     return "Search Screen"
 end function
 
+function categoryScreen() as string
+    return "Categories Screen"
+end function
+
 '-------------------------- Search Categories ---------------------------------
 
 function searchProducts() as string
