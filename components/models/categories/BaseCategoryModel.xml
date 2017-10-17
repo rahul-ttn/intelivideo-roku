@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="BaseCategoryModel" extends="BaseModel" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<interface>
+		<field id="baseCategoriesArray" type="nodearray"/>	
+	</interface>
+</component>

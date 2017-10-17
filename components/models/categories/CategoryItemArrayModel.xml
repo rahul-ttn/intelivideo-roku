@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="CategoryItemArrayModel" extends="ContentNode"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<interface>
+		<!--product related ids  -->
+		<field type="integer" id="product_id" />
+		<field type="integer" id="media_count" />
+		<field id="is_vertical_image" type="bool"></field>
+		
+		<!--media related ids  -->
+		<field id="resource_id" type="integer" />
+		<field id="type" type="String" />
+		<field type="integer" id="duration" />
+		
+		<!--common ids  -->
+		<field type="string" id="item_type" />
+		<field type="string" id="title" />
+		<field type="integer" id="created_at" />
+		<field type="string" id="thumbnail" />
+		<field id="is_media" type="bool"></field>
+		<field id="is_item" type="bool"></field>
+	</interface>
+</component>

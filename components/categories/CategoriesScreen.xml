@@ -4,6 +4,7 @@
 	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
 	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
 	<script type="text/brightscript" uri="pkg:/source/helper/ListHelper.brs" />
 	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
 	<script type="text/brightscript" uri="pkg:/components/categories/CategoriesScreen.brs" />
@@ -25,8 +26,9 @@
 					<HomeRowList id="myContentRowList" translation="[200,60]"
 						visible="false" />
 				</Rectangle>
+				<Label id="Error_text" translation="[550,100]" visible="false"/>
 			</Rectangle>
-
+			<Timer id="timer" repeat="false" duration=".5" />
 		</Rectangle>
 	</children>
 </component>

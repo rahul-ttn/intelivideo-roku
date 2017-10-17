@@ -13,7 +13,60 @@ sub initFields()
     m.categoryBackground = m.top.FindNode("categoryBackground")
     m.categoryBackground.color = homeBackground()
     m.parentCategoryRect = m.top.findNode("parentCategoryRect")
+    m.categoryLabelList = m.top.findNode("categoryLabelList")
+    m.Error_text  = m.top.FindNode("Error_text")
+    callBaseCategoryApi()
 End sub
+
+sub callBaseCategoryApi()
+    if checkInternetConnection()
+        m.Error_text.visible = false
+        showProgressDialog()
+        baseUrl = getApiBaseUrl() + "categories?access_token=" + getValueInRegistryForKey("authTokenValue")
+        m.baseCategoryApi = createObject("roSGNode","CategoriesApiHandler")
+        m.baseCategoryApi.setField("uri",baseUrl)
+        m.baseCategoryApi.observeField("content","onCategoryBaseApiResponse")
+        m.baseCategoryApi.control = "RUN"
+    else
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
+    end if
+end sub
+
+sub onCategoryBaseApiResponse()
+     baseCategoryApiModel = m.baseCategoryApi.content
+     hideProgressDialog()
+    if baseCategoryApiModel.success
+        m.baseCategoryArray =  baseCategoryApiModel.baseCategoriesArray
+        showBaseCategoryList() 
+    else
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
+    end if
+end sub
+
+sub showBaseCategoryList()
+    m.categoryLabelList.ObserveField("itemFocused", "onListItemFocused")
+    m.categoryLabelList.ObserveField("itemSelected", "onListItemSelected")
+    m.content = createObject("roSGNode","ContentNode")
+    sectionContent=addListSectionHelper(m.content,"")
+    for i = 0 To m.baseCategoryArray.count()-1
+        addListItemHelper(sectionContent,m.baseCategoryArray[i].name)
+    end for   
+    m.categoryLabelList.content = m.content
+    m.categoryLabelList.setFocus(true)
+End sub
+
+sub onListItemFocused()
+'   m.mediaModel = m.productDetailModel.objects[m.productLabelList.itemFocused]
+'   m.thumbnailPoster.uri = m.mediaModel.small
+'   m.nameLabel.text = m.mediaModel.title
+'   m.longDescriptionLabel.text = m.mediaModel.description
+'   startMoreTimer()
+End sub
+
+sub onListItemSelected()
+   
+End sub
+
 
 Function onKeyEvent(key as String,press as Boolean) as Boolean
     result = false
@@ -93,3 +146,33 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     end if
     return result 
 End Function
+
+
+Function showRetryDialog(title ,message)
+  m.Error_text.visible = true
+  m.Error_text.text = message
+  
+  
+  dialog = createObject("roSGNode", "Dialog") 
+  dialog.backgroundUri = "" 
+  dialog.title = title
+  dialog.optionsDialog = true 
+  dialog.iconUri = ""
+  dialog.message = message
+  dialog.width = 1200
+  dialog.buttons = ["Retry"]
+  dialog.optionsDialog = true
+  dialog.observeField("buttonSelected", "startTimer") 'The field is set when the dialog close field is set,
+  m.top.getScene().dialog = dialog
+end Function
+
+sub onRetry()
+    callBaseCategoryApi()
+end sub
+
+sub startTimer()
+    m.top.getScene().dialog.close = true
+    m.testtimer = m.top.findNode("timer")
+    m.testtimer.control = "start"
+    m.testtimer.ObserveField("fire","onRetry")
+end sub

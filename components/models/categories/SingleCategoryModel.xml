@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="SingleCategoryModel" extends="BaseModel"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<interface>
+		<field type="integer" id="id"/>
+		<field type="string" id="name"/>
+		<field type="nodearray" id="items"/>
+		<field type="nodearray" id="children"/>
+	</interface>
+</component>
