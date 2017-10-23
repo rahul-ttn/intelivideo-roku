@@ -57,6 +57,8 @@ sub initFields()
     m.playButtonOuterRectangle = m.top.findNode("playButtonOuterRectangle")
     m.playButtonrectangle = m.top.findNode("playButtonrectangle")
     m.buttonPlay = m.top.findNode("buttonPlay")
+    m.buttonPlay.unobserveField("buttonSelected")
+    m.buttonPlay.observeField("buttonSelected", "onButtonPlay")
     m.playPoster = m.top.findNode("playPoster")
     m.playbuttonLabel = m.top.findNode("playbuttonLabel")
     m.playbuttonLabel.font.size = m.BUTTONTEXT
@@ -79,6 +81,13 @@ sub initFields()
         
     m.documentInfoLabel = m.top.findNode("documentInfoLabel")
     m.documentInfoLabel.font.size = 30 
+End sub
+
+sub onButtonPlay()
+    m.videoPlayer = m.top.createChild("VideoPlayer")
+    m.top.setFocus(false)
+    m.videoPlayer.setFocus(true)
+    m.videoPlayer.resourceId = StrI(m.resourceId).Trim()
 End sub
 
 sub showMoreLabel()
@@ -130,23 +139,10 @@ sub getMediaDetails()
         m.mediaDetailApi.observeField("content","onApiResponse")
         m.mediaDetailApi.control = "RUN"
         getRelatedMedia()
-        
-        'Add Media to recently Viewed Content
-        addRecentlyViewedAPI()
     else
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 End sub
-
-sub addRecentlyViewedAPI()
-    baseUrl = getApiBaseUrl() +"recent?access_token=" + getValueInRegistryForKey("authTokenValue")
-    parmas = createRecentlyViewedParams(StrI(m.resourceId).Trim(),"media")
-    m.recentlyViewedApi = createObject("roSGNode","AddRecentlyViewedApiHandler")
-    m.recentlyViewedApi.setField("uri",baseUrl)
-    m.recentlyViewedApi.setField("params",parmas)
-    'm.recentlyViewedApi.observeField("content","onAuthToken")
-    m.recentlyViewedApi.control = "RUN"
-end sub
 
 sub getRelatedMedia()
     baseUrl = getApiBaseUrl() + "media/"+ StrI(m.resourceId).Trim() +"/related?per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
@@ -355,6 +351,11 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 m.mediaMoreScreen.setFocus(false)
                 m.mediaMoreScreen = invalid
                 m.buttonMore.setFocus(true)
+                return true
+            else if m.videoPlayer <> invalid
+                m.videoPlayer.setFocus(false)
+                m.videoPlayer = invalid
+                m.buttonPlay.setFocus(true)
                 return true
             else
                 m.top.visible = false

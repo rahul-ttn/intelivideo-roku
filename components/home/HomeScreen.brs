@@ -78,6 +78,15 @@ sub updateCounter()
     print "m.counter >> ";m.counter
 end sub
 
+'sub callRecentlyViewedApi()
+'    baseUrl = getApiBaseUrl() + "lists/featured?content_type=product&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+'    m.featureProductApi = createObject("roSGNode","FeatureProductApiHandler")
+'    m.featureProductApi.setField("uri",baseUrl)
+'    m.featureProductApi.setField("dataType","feature")
+'    m.featureProductApi.observeField("content","onProductsResponse")
+'    m.featureProductApi.control = "RUN"
+'end sub
+
 sub callFeatureProductsApi()
     baseUrl = getApiBaseUrl() + "lists/featured?content_type=product&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
     m.featureProductApi = createObject("roSGNode","FeatureProductApiHandler")
@@ -156,7 +165,7 @@ sub getData()
         m.recentAddedProductApiModel = m.recentAddedProductApi.content
         m.recentAddedMediaApiModel = m.recentAddedMediaApi.content
         
-        if m.featureProductsApiModel.success AND m.featureMediaApiModel.success AND m.popularProductApiModel.success AND m.popularMediaApiModel.success AND m.recentAddedProductApiModel.success AND m.recentAddedMediaApiModel.success
+        if m.featureProductsApiModel.success OR m.featureMediaApiModel.success OR m.popularProductApiModel.success OR m.popularMediaApiModel.success OR m.recentAddedProductApiModel.success OR m.recentAddedMediaApiModel.success
             homeRowList() 
         else
             print "featureProductApiModel.fail"
@@ -169,7 +178,7 @@ end sub
 function getGridRowListContent() as object
          parentContentNode = CreateObject("roSGNode", "ContentNode")
          if m.isSVOD
-            if m.featureProductsApiModel.featuredProductsArray.count() <> 0
+            if m.featureProductsApiModel.success AND m.featureProductsApiModel.featuredProductsArray.count() <> 0
                 row = parentContentNode.CreateChild("ContentNode")
                 row.title = featuredProducts()
                 for index= 0 to m.featureProductsApiModel.featuredProductsArray.Count()-1
@@ -196,7 +205,7 @@ function getGridRowListContent() as object
                 end if
             end if
          
-         if m.featureMediaApiModel.featuredMediaArray.count() <> 0
+         if m.featureMediaApiModel.success AND m.featureMediaApiModel.featuredMediaArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
             row.title = featuredMedia()
             for index= 0 to m.featureMediaApiModel.featuredMediaArray.Count()-1
@@ -223,7 +232,7 @@ function getGridRowListContent() as object
             end if
          end if
          
-         if m.popularProductApiModel.popularProductsArray.count() <> 0
+         if m.popularProductApiModel.success AND m.popularProductApiModel.popularProductsArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
             row.title = popularProducts()
             for index= 0 to m.popularProductApiModel.popularProductsArray.Count()-1
@@ -250,7 +259,7 @@ function getGridRowListContent() as object
             end if
          end if
          
-         if m.popularMediaApiModel.popularMediaArray.count() <> 0
+         if m.popularMediaApiModel.success AND m.popularMediaApiModel.popularMediaArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
             row.title = popularMedia()
             for index= 0 to m.popularMediaApiModel.popularMediaArray.Count()-1
@@ -277,7 +286,7 @@ function getGridRowListContent() as object
             end if
          end if
          
-         if m.recentAddedProductApiModel.recentlyAddedProductsArray.count() <> 0
+         if m.recentAddedProductApiModel.success AND m.recentAddedProductApiModel.recentlyAddedProductsArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
             row.title = recentlyAddedProducts()
             for index= 0 to m.recentAddedProductApiModel.recentlyAddedProductsArray.Count()-1
@@ -304,7 +313,7 @@ function getGridRowListContent() as object
             end if
          end if
          
-         if m.recentAddedMediaApiModel.recentlyAddedMediaArray.count() <> 0
+         if m.recentAddedMediaApiModel.success AND m.recentAddedMediaApiModel.recentlyAddedMediaArray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
             row.title = recentlyAddedMedia()
             for index= 0 to m.recentAddedMediaApiModel.recentlyAddedMediaArray.Count()-1

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="VideoPlayer" extends="Group"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/RequestParamsUtility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/Utility/FocusUtility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
+	<script type="text/brightscript" uri="pkg:/components/video/VideoPlayer.brs" />
+
+	<interface>
+		<field type="String" id="uri" alwaysNotify="true" onChange="onVideoUri" />
+		<field type="String" id="resourceId" alwaysNotify="true"
+			onChange="onResourceId" />
+	</interface>
+
+	<children>
+
+		<Video id="videoPlayer" width="0.0" height="0.0" translation="[0,0]"/>
+
+	</children>
+</component>

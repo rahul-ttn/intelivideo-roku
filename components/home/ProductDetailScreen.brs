@@ -53,6 +53,7 @@ sub initFields()
     m.playButtonOuterRectangle = m.top.findNode("playButtonOuterRectangle")
     m.playButtonrectangle = m.top.findNode("playButtonrectangle")
     m.buttonPlay = m.top.findNode("buttonPlay")
+    m.buttonPlay.observeField("buttonSelected", "onButtonPlay")
     m.playPoster = m.top.findNode("playPoster")
     m.playbuttonLabel = m.top.findNode("playbuttonLabel")
     m.playbuttonLabel.font.size = m.BUTTONTEXT
@@ -85,6 +86,13 @@ sub initFields()
     
     m.documentInfoLabel = m.top.findNode("documentInfoLabel")
     m.documentInfoLabel.font.size = 30 
+End sub
+
+sub onButtonPlay()
+    m.videoPlayer = m.top.createChild("VideoPlayer")
+    m.top.setFocus(false)
+    m.videoPlayer.setFocus(true)
+    m.videoPlayer.resourceId = StrI(m.resourceId).Trim()
 End sub
 
 sub showProductMoreScreen()
@@ -236,23 +244,10 @@ sub getProductDetails()
         m.productDetailApi.setField("uri",baseUrl)
         m.productDetailApi.observeField("content","onProductDetailApiResponse")
         m.productDetailApi.control = "RUN"
-        
-        'Add product to recently Viewed Content
-        addRecentlyViewedAPI()
     else
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 End sub
-
-sub addRecentlyViewedAPI()
-    baseUrl = getApiBaseUrl() +"recent?access_token=" + getValueInRegistryForKey("authTokenValue")
-    parmas = createRecentlyViewedParams(StrI(m.productId).Trim(),"product")
-    m.recentlyViewedApi = createObject("roSGNode","AddRecentlyViewedApiHandler")
-    m.recentlyViewedApi.setField("uri",baseUrl)
-    m.recentlyViewedApi.setField("params",parmas)
-    'm.recentlyViewedApi.observeField("content","onAuthToken")
-    m.recentlyViewedApi.control = "RUN"
-end sub
 
 sub onProductDetailApiResponse()
     print "onProductDetailApiResponse() >> "
@@ -289,6 +284,7 @@ sub onListItemFocused()
    m.thumbnailPoster.uri = m.mediaModel.small
    m.nameLabel.text = m.mediaModel.title
    m.longDescriptionLabel.text = m.mediaModel.description
+   m.resourceId = m.mediaModel.resource_id
    startMoreTimer()
 End sub
 
@@ -401,6 +397,11 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 m.mediaMoreScreen.setFocus(false)
                 m.mediaMoreScreen = invalid
                 m.buttonMoreRight.setFocus(true)
+                return true
+            else if m.videoPlayer <> invalid
+                m.videoPlayer.setFocus(false)
+                m.videoPlayer = invalid
+                m.buttonPlay.setFocus(true)
                 return true
             else
                 m.top.visible = false
