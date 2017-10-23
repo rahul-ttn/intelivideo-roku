@@ -36,6 +36,7 @@ encoding//components/models/userApiModel/UserApiModel.xml=UTF-8
 encoding//components/models/userApiModel/UserModel.xml=UTF-8
 encoding//components/navigation/NavigationBar.xml=UTF-8
 encoding//components/profile/ProfileScreen.xml=UTF-8
+encoding//components/requestHandlers/AddRecentlyViewedApiHandler.xml=UTF-8
 encoding//components/requestHandlers/AuthTokenApiHandler.xml=UTF-8
 encoding//components/requestHandlers/CategoriesApiHandler.xml=UTF-8
 encoding//components/requestHandlers/CategorySingleApiHandler.xml=UTF-8

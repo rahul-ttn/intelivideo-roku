@@ -130,10 +130,23 @@ sub getMediaDetails()
         m.mediaDetailApi.observeField("content","onApiResponse")
         m.mediaDetailApi.control = "RUN"
         getRelatedMedia()
+        
+        'Add Media to recently Viewed Content
+        addRecentlyViewedAPI()
     else
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 End sub
+
+sub addRecentlyViewedAPI()
+    baseUrl = getApiBaseUrl() +"recent?access_token=" + getValueInRegistryForKey("authTokenValue")
+    parmas = createRecentlyViewedParams(StrI(m.resourceId).Trim(),"media")
+    m.recentlyViewedApi = createObject("roSGNode","AddRecentlyViewedApiHandler")
+    m.recentlyViewedApi.setField("uri",baseUrl)
+    m.recentlyViewedApi.setField("params",parmas)
+    'm.recentlyViewedApi.observeField("content","onAuthToken")
+    m.recentlyViewedApi.control = "RUN"
+end sub
 
 sub getRelatedMedia()
     baseUrl = getApiBaseUrl() + "media/"+ StrI(m.resourceId).Trim() +"/related?per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")

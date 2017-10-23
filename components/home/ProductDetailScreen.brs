@@ -236,10 +236,23 @@ sub getProductDetails()
         m.productDetailApi.setField("uri",baseUrl)
         m.productDetailApi.observeField("content","onProductDetailApiResponse")
         m.productDetailApi.control = "RUN"
+        
+        'Add product to recently Viewed Content
+        addRecentlyViewedAPI()
     else
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 End sub
+
+sub addRecentlyViewedAPI()
+    baseUrl = getApiBaseUrl() +"recent?access_token=" + getValueInRegistryForKey("authTokenValue")
+    parmas = createRecentlyViewedParams(StrI(m.productId).Trim(),"product")
+    m.recentlyViewedApi = createObject("roSGNode","AddRecentlyViewedApiHandler")
+    m.recentlyViewedApi.setField("uri",baseUrl)
+    m.recentlyViewedApi.setField("params",parmas)
+    'm.recentlyViewedApi.observeField("content","onAuthToken")
+    m.recentlyViewedApi.control = "RUN"
+end sub
 
 sub onProductDetailApiResponse()
     print "onProductDetailApiResponse() >> "

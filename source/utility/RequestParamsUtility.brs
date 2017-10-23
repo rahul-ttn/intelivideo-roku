@@ -22,4 +22,12 @@ Function createAccountDetailsJson(name as String, id as String, thumbnail as Str
     return params
 end Function
 
+Function createRecentlyViewedParams(item_id as String, item_type as String) as Object
+    headerParam = CreateObject("roAssociativeArray")
+    headerValueParam = CreateObject("roAssociativeArray")
+    headerValueParam = {"item_id":item_id, "item_type":item_type}
+    params = SimpleJSONAssociativeArray(headerValueParam)
+    return params
+end Function
+
 

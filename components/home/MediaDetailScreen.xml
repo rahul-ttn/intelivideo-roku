@@ -6,6 +6,7 @@
 	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs" />
 	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/RequestParamsUtility.brs"/>
 	<script type="text/brightscript" uri="pkg:/source/Utility/FocusUtility.brs" />
 	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
 	<script type="text/brightscript" uri="pkg:/components/home/MediaDetailScreen.brs" />
