@@ -63,14 +63,17 @@ sub parseApiResponse(response As Object)
         end for
         singleCategoryModel.items = itemArray
         
-        childrenArray = CreateObject("roArray", response.children.count(), false)
-        for each child in response.children
-            childrenItemModel = CreateObject("roSGNode", "CategoryChildrenItemModel")
-            childrenItemModel.id = child.id
-            childrenItemModel.name = child.name
-            childrenArray.push(childrenItemModel)
-        end for
-        singleCategoryModel.children = childrenArray
+        if response.children <> invalid
+            childrenArray = CreateObject("roArray", response.children.count(), false)
+            for each child in response.children
+                childrenItemModel = CreateObject("roSGNode", "CategoryChildrenItemModel")
+                childrenItemModel.id = child.id
+                childrenItemModel.name = child.name
+                childrenArray.push(childrenItemModel)
+            end for
+            singleCategoryModel.children = childrenArray 
+        end if
+        
     else 
         singleCategoryModel.success = false
         singleCategoryModel.error = apiErrorMessage()
