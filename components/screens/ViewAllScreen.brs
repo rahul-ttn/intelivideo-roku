@@ -47,6 +47,8 @@ sub callSelectedApi()
         callRecentlyAddedProductsApi()
     else if m.titleText = recentlyAddedMedia()
         callRecentlyAddedMediaApi()
+    else if m.titleText = featuredRecent()
+        callRecentlyViewedApi()
     else if m.titleText = searchProducts()
         m.heading.text = m.titleText + " for " + Chr(34) + m.searchQuery + Chr(34)
         callProductSearchApi()
@@ -54,6 +56,16 @@ sub callSelectedApi()
         m.heading.text = m.titleText + " for " + Chr(34) + m.searchQuery + Chr(34)
         callMediaSearchApi()
     end if
+end sub
+
+sub callRecentlyViewedApi()
+    baseUrl = getApiBaseUrl() +"recent?per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.recentlyViewedApi = createObject("roSGNode","FeatureMediaApiHandler")
+    m.recentlyViewedApi.setField("uri",baseUrl)
+    m.recentlyViewedApi.setField("dataType","recent")
+    m.recentlyViewedApi.observeField("content","onMediaResponse")
+    m.recentlyViewedApi.control = "RUN"
+    showProgressDialog()
 end sub
 
 sub callFeatureProductsApi()
@@ -163,6 +175,8 @@ sub getData()
             m.apiModel = m.recentAddedProductApi.content
         else if m.titleText = recentlyAddedMedia()
             m.apiModel = m.recentAddedMediaApi.content
+        else if m.titleText = featuredRecent()
+            m.apiModel = m.recentlyViewedApi.content
         else if m.titleText = searchProducts()
             m.apiModel = m.productSearchApi.content
         else if m.titleText = searchMedia()
@@ -177,6 +191,8 @@ end sub
 sub showList()
     m.list.visible = true
     m.list.SetFocus(false)
+    m.list.unobserveField("rowItemSelected")
+    m.list.unobserveField("rowItemFocused")
     m.list.ObserveField("rowItemSelected", "onRowItemSelected")
     m.list.ObserveField("rowItemFocused", "onRowItemFocused")
     setContentArray()    
@@ -205,6 +221,9 @@ sub setContentArray()
         m.isMediaContent = false
     else if m.titleText = recentlyAddedMedia()
         m.resultArray = m.apiModel.recentlyAddedMediaArray
+        m.isMediaContent = true
+    else if m.titleText = featuredRecent()
+        m.resultArray = m.apiModel.recentMediaArray
         m.isMediaContent = true
     else if m.titleText = "My Content"
         m.resultArray = m.myContentArray

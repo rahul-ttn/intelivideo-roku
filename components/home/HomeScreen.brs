@@ -629,8 +629,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             else if m.viewAllScreen <> invalid
                 m.viewAllScreen.setFocus(false)
                 m.viewAllScreen = invalid
-                m.homeRowList.setFocus(true)
-                m.homeRowList.jumpToRowItem = m.focusedItem
+                updateScreen()
                 result = true
             else if m.mediaDetail <> invalid
                 m.mediaDetail.setFocus(false)

@@ -360,7 +360,6 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 return true
             else
                 m.top.visible = false
-                return false
             end if
         end if
     end if
