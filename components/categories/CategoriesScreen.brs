@@ -58,12 +58,23 @@ End sub
 
 sub onListItemFocused()
    'startCategoryTimer()
-    itemId = m.baseCategoryArray[m.categoryLabelList.itemFocused].id
-    baseUrl = getApiBaseUrl() + "categories/"+itemId+"items?access_token=" + getValueInRegistryForKey("authTokenValue")
-    m.itemCategoryApi = createObject("roSGNode","CategorySingleApiHandler")
-    m.itemCategoryApi.setField("uri",baseUrl)
-    m.itemCategoryApi.observeField("content","onCategorySingleApiResponse")
-    m.itemCategoryApi.control = "RUN"
+   if checkInternetConnection()
+        print "Internet connection yes"
+        m.Error_text.visible = false
+        showProgressDialog()
+        itemId = m.baseCategoryArray[m.categoryLabelList.itemFocused].id
+        baseUrl = getApiBaseUrl() + "categories/"+itemId+"?access_token=" + getValueInRegistryForKey("authTokenValue")
+        m.itemCategoryApi = createObject("roSGNode","CategorySingleApiHandler")
+        m.itemCategoryApi.setField("uri",baseUrl)
+        m.itemCategoryApi.observeField("content","onCategorySingleApiResponse")
+        m.itemCategoryApi.control = "RUN"
+   else
+        print "Internet connection No"
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
+   end if
+End sub
+
+sub onListItemSelected()
 End sub
 
 sub startCategoryTimer()
@@ -82,6 +93,8 @@ end sub
 
 sub onCategorySingleApiResponse()
     print "on success of single category item fetched"
+    hideProgressDialog()
+    print 
     if m.itemCategoryApi.content <> invalid
         if m.itemCategoryApi.content.success
             m.categoryItemApiContent = m.itemCategoryApi.content
@@ -122,7 +135,7 @@ function getGridRowListContent() as object
                   rowItem.coverBgColor = m.appConfig.primary_color
                   rowItem.imageUri = dataObjet.thumbnail
                   rowItem.isMedia = dataObjet.is_media
-                  rowItem.is_item = dataObjet.is_item
+                  rowItem.isItem = dataObjet.is_item
                   rowItem.isViewAll = false
                   
                   if dataObjet.item_type = "product"
@@ -149,11 +162,46 @@ function getGridRowListContent() as object
          return parentContentNode 
 end function
 
+sub onRowItemSelected()
+    row = m.categoriesRowList.rowItemSelected[0]
+    col = m.categoriesRowList.rowItemSelected[1]
+'        print "**********Row is *********";row
+'        print "**********col is *********";col
+        m.focusedItem = [row,col]
+        if row >= 10
+            goToViewAllScreen(m.categoryItemApiContent.name,m.categoryItemApiContent.id)
+        else
+            selectedItem = m.categoryItemApiContent.items[row]
+            if selectedItem.item_type = "product"
+                goToProductDetailScreen(selectedItem.product_id)
+            else if selectedItem.item_type = "media"
+                goToMediaDetailScreen(selectedItem.resource_id)
+            end if
+        end if  
+end sub
 
-sub onListItemSelected()
-   
-End sub
+sub goToViewAllScreen(categoryName as String,id as String)
+    m.viewAllScreen = m.top.createChild("ViewAllScreen")
+    m.top.setFocus(false)
+    m.viewAllScreen.setFocus(true)
+    m.viewAllScreen.categoryId = id
+    m.viewAllScreen.categoryHeading = categoryName
+    m.viewAllScreen.primaryColor = m.appConfig.primary_color
+end sub
 
+sub goToProductDetailScreen(id as Integer)
+    m.productDetail = m.top.createChild("ProductDetailScreen")
+    m.top.setFocus(false)
+    m.productDetail.setFocus(true)
+    m.productDetail.product_id = id
+end sub
+
+sub goToMediaDetailScreen(id as Integer)
+    m.mediaDetail = m.top.createChild("MediaDetailScreen")
+    m.top.setFocus(false)
+    m.mediaDetail.setFocus(true)
+    m.mediaDetail.resource_id = id
+end sub
 
 Function onKeyEvent(key as String,press as Boolean) as Boolean
     result = false
