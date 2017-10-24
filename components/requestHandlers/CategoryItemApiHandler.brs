@@ -10,22 +10,20 @@ sub callApiHandler()
         json = ParseJSON(response)
         parseApiResponse(json)
      else
-        singleCategoryModel = CreateObject("roSGNode", "SingleCategoryModel")
-        singleCategoryModel.success = false
-        m.top.content = singleCategoryModel
+        categoryItemModel = CreateObject("roSGNode", "CategoryItemModel")
+        categoryItemModel.success = false
+        m.top.content = categoryItemModel
      end if
 end sub
 
 sub parseApiResponse(response As Object)
-    singleCategoryModel = CreateObject("roSGNode", "SingleCategoryModel")
+    categoryItemModel = CreateObject("roSGNode", "CategoryItemModel")
     if m.responseCode = 200
-        singleCategoryModel.code = 200
-        singleCategoryModel.success = true
-        singleCategoryModel.id = response.id
-        singleCategoryModel.name = response.name
+        categoryItemModel.code = 200
+        categoryItemModel.success = true
         
-        itemArray = CreateObject("roArray", response.categorized.items.count(), false)
-        for each item in response.categorized.items
+        objectsItemsArray = CreateObject("roArray", response.items.count(), false)
+        for each item in response.items
             categoryItemModel = CreateObject("roSGNode", "CategoryItemArrayModel")
             categoryItemModel.created_at = item.created_at
             categoryItemModel.title = item.title
@@ -59,27 +57,14 @@ sub parseApiResponse(response As Object)
                 end if  
             end if
             
-            itemArray.Push(categoryItemModel)
+            objectsItemsArray.Push(categoryItemModel)
         end for
-        singleCategoryModel.items = itemArray
-        
-        if response.children <> invalid
-            childrenArray = CreateObject("roArray", response.children.count(), false)
-            for each child in response.children
-                childrenItemModel = CreateObject("roSGNode", "CategoryChildrenItemModel")
-                childrenItemModel.id = child.id
-                childrenItemModel.name = child.name
-                childrenArray.push(childrenItemModel)
-            end for
-            singleCategoryModel.children = childrenArray 
-        end if
-        
+        categoryItemModel.items = objectsItemsArray
     else 
-        singleCategoryModel.success = false
-        singleCategoryModel.error = apiErrorMessage()
+        categoryItemModel.success = false
+        categoryItemModel.error = apiErrorMessage()
     end if
     
-    m.top.content = singleCategoryModel
+    m.top.content = categoryItemModel
 
 end sub
-

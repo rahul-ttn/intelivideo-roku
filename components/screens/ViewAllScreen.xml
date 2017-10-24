@@ -12,6 +12,9 @@
 		<field id="titleText" type="string" alwaysNotify="true" onChange="setData"/>
 		<field id="contentArray" type="nodeArray" alwaysNotify="true" onChange="setArray"/>
 		<field id="primaryColor" type="string" alwaysNotify= "true" onChange="setPrimaryColor"/>
+		<field id="categoryId" type="string"/>
+		<field id="categoryHeading" type="string" alwaysNotify = "true" onChange = "setCategoryData" />
+		
 	</interface>
 	
 	<children>
