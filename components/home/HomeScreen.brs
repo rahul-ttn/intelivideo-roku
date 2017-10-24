@@ -81,7 +81,7 @@ sub updateCounter()
 end sub
 
 sub callRecentlyViewedApi()
-    baseUrl = getApiBaseUrl() +"recent?access_token=" + getValueInRegistryForKey("authTokenValue")
+    baseUrl = getApiBaseUrl() +"recent?per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
     m.recentlyViewedApi = createObject("roSGNode","FeatureMediaApiHandler")
     m.recentlyViewedApi.setField("uri",baseUrl)
     m.recentlyViewedApi.setField("dataType","recent")

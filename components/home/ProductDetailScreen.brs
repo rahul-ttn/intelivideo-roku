@@ -2,7 +2,8 @@ sub init()
     m.top.SetFocus(true)
     m.BUTTONTEXT = 25
     m.appConfig =  m.top.getScene().appConfigContent
-    m.isFavButtonSelected = false   
+    m.isFavProduct = false
+    m.isFavMedia = false
 End sub
 
 sub getProductId()
@@ -31,8 +32,11 @@ sub initFields()
     'favourite button-> configuration
     favButtonOuterRectangle = m.top.findNode("favButtonOuterRectangle")
     m.favButtonrectangle = m.top.findNode("favButtonrectangle")
+    
     m.buttonFav = m.top.findNode("buttonFav")
-    m.buttonFav.observeField("buttonSelected","setFavButtonSelection")
+    m.buttonFav.unobserveField("buttonSelected")
+    m.buttonFav.observeField("buttonSelected", "onProductFavorite")
+    
     m.favPoster = m.top.findNode("favPoster")
     m.favbuttonLabel = m.top.findNode("favbuttonLabel")
     m.favbuttonLabel.font.size = m.BUTTONTEXT
@@ -66,6 +70,9 @@ sub initFields()
     m.favButtonOuterRightRectangle = m.top.findNode("favButtonOuterRightRectangle")
     m.favButtonRightrectangle = m.top.findNode("favButtonRightrectangle")
     m.buttonFavRight = m.top.findNode("buttonFavRight")
+    m.buttonFavRight.unobserveField("buttonSelected")
+    m.buttonFavRight.observeField("buttonSelected", "onMediaFavorite")
+    
     m.favPosterRight = m.top.findNode("favPosterRight")
     m.favbuttonLabelRight = m.top.findNode("favbuttonLabelRight")
     m.favbuttonLabelRight.font.size = m.BUTTONTEXT
@@ -87,6 +94,50 @@ sub initFields()
     m.documentInfoLabel = m.top.findNode("documentInfoLabel")
     m.documentInfoLabel.font.size = 30 
 End sub
+
+sub onProductFavorite()
+    if m.isFavProduct
+        m.isFavProduct = false
+        setButtonFocusedState(m.favButtonrectangle, true, false)
+    else
+        m.isFavProduct = true
+        addFavProductAPI()
+        m.favButtonrectangle.color = favButtonFocusColor()
+    end if
+end sub
+
+sub onMediaFavorite()
+    if m.isFavMedia
+        m.isFavMedia = false
+        setButtonFocusedState(m.favButtonRightrectangle, false, true)
+    else
+        m.isFavMedia = true
+        addFavMediaAPI()
+        m.favButtonRightrectangle.color = favButtonFocusColor()
+    end if
+end sub
+
+sub addFavProductAPI()
+    baseUrl = getApiBaseUrl() +"favorites?access_token=" + getValueInRegistryForKey("authTokenValue")
+    parmas = createRecentlyViewedParams(StrI(m.productId),"product")
+    m.addFavProductApi = createObject("roSGNode","AddRecentlyViewedApiHandler")
+    m.addFavProductApi.setField("uri",baseUrl)
+    m.addFavProductApi.setField("params",parmas)
+    m.addFavProductApi.control = "RUN"
+end sub
+
+sub addFavMediaAPI()
+    baseUrl = getApiBaseUrl() +"favorites?access_token=" + getValueInRegistryForKey("authTokenValue")
+    parmas = createRecentlyViewedParams(StrI(m.resourceId),"media")
+    m.addFavMediaApi = createObject("roSGNode","AddRecentlyViewedApiHandler")
+    m.addFavMediaApi.setField("uri",baseUrl)
+    m.addFavMediaApi.setField("params",parmas)
+    m.addFavMediaApi.control = "RUN"
+end sub
+
+function favButtonFocusColor() as String
+    return m.appConfig.primary_color + "CC"
+end function
 
 sub onButtonPlay()
     m.videoPlayer = m.top.createChild("VideoPlayer")
@@ -110,15 +161,6 @@ sub showMediaMoreScreen()
     m.mediaMoreScreen.titleText = m.nameLabel.text
     m.mediaMoreScreen.moreText = m.longDescriptionLabel.text
 end sub
-
-'sub setFavButtonSelection()
-'    m.isFavButtonSelected = not m.isFavButtonSelected
-'    if m.isFavButtonSelected
-'        m.favButtonrectangle.color = m.appConfig.primary_color
-'    else 
-'        m.favButtonrectangle.color = "0x858585ff"
-'    end if 
-'end sub
 
 sub showPlayFavButton()
     m.playButtonOuterRectangle.visible = true
@@ -181,50 +223,62 @@ end sub
 
 sub handlebuttonSelectedState()
     if m.currentFocusID ="buttonFav"
-        setButtonFocusedState(m.favButtonrectangle)
-        setButtonUnFocusedState(m.playButtonrectangle)
-        setButtonUnFocusedState(m.favButtonRightrectangle)
+        setButtonFocusedState(m.favButtonrectangle, true, false)
+        setButtonUnFocusedState(m.playButtonrectangle, false, false)
+        setButtonUnFocusedState(m.favButtonRightrectangle, false, true)
         setMoreUnselectedState(m.labelMore)
         setMoreUnselectedState(m.labelMoreRight)
     else if m.currentFocusID ="buttonMore"
-        setButtonUnFocusedState(m.favButtonrectangle)
-        setButtonUnFocusedState(m.playButtonrectangle)
-        setButtonUnFocusedState(m.favButtonRightrectangle)
+        setButtonUnFocusedState(m.favButtonrectangle, true, false)
+        setButtonUnFocusedState(m.playButtonrectangle, false, false)
+        setButtonUnFocusedState(m.favButtonRightrectangle, false, true)
         setMoreSelectedState(m.labelMore)
         setMoreUnselectedState(m.labelMoreRight)
     else if m.currentFocusID ="productLabelList"
-        setButtonUnFocusedState(m.favButtonrectangle)
-        setButtonUnFocusedState(m.playButtonrectangle)
-        setButtonUnFocusedState(m.favButtonRightrectangle)
+        setButtonUnFocusedState(m.favButtonrectangle, true, false)
+        setButtonUnFocusedState(m.playButtonrectangle, false, false)
+        setButtonUnFocusedState(m.favButtonRightrectangle, false, true)
         setMoreUnselectedState(m.labelMore)
         setMoreUnselectedState(m.labelMoreRight)
     else if m.currentFocusID ="buttonPlay"
-        setButtonUnFocusedState(m.favButtonrectangle)
-        setButtonFocusedState(m.playButtonrectangle)
-        setButtonUnFocusedState(m.favButtonRightrectangle)
+        setButtonUnFocusedState(m.favButtonrectangle, true, false)
+        setButtonFocusedState(m.playButtonrectangle, false, false)
+        setButtonUnFocusedState(m.favButtonRightrectangle, false, true)
         setMoreUnselectedState(m.labelMore)
         setMoreUnselectedState(m.labelMoreRight)
     else if m.currentFocusID ="buttonFavRight"
-        setButtonUnFocusedState(m.favButtonrectangle)
-        setButtonUnFocusedState(m.playButtonrectangle)
-        setButtonFocusedState(m.favButtonRightrectangle)
+        setButtonUnFocusedState(m.favButtonrectangle, true, false)
+        setButtonUnFocusedState(m.playButtonrectangle, false, false)
+        setButtonFocusedState(m.favButtonRightrectangle, false, true)
         setMoreUnselectedState(m.labelMore)
         setMoreUnselectedState(m.labelMoreRight)
     else if m.currentFocusID ="buttonMoreRight"
-        setButtonUnFocusedState(m.favButtonrectangle)
-        setButtonUnFocusedState(m.playButtonrectangle)
-        setButtonUnFocusedState(m.favButtonRightrectangle)
+        setButtonUnFocusedState(m.favButtonrectangle, true, false)
+        setButtonUnFocusedState(m.playButtonrectangle, false, false)
+        setButtonUnFocusedState(m.favButtonRightrectangle, true, false)
         setMoreUnselectedState(m.labelMore)
         setMoreSelectedState(m.labelMoreRight)
     end if
 end sub
 
-sub setButtonFocusedState(selectedRectangle as object)
-    selectedRectangle.color = "0xffffffff"
+sub setButtonFocusedState(selectedRectangle as object, isProductFavButton as boolean, isMediaFavButton as boolean)
+    if m.isFavProduct AND isProductFavButton
+        selectedRectangle.color = favButtonFocusColor()
+    else if m.isFavMedia AND isMediaFavButton
+        selectedRectangle.color = favButtonFocusColor()
+    else
+        selectedRectangle.color = "0xffffffff"
+    end if
 end sub
 
-sub setButtonUnFocusedState(unfocusedRectangle as object)
-    unfocusedRectangle.color = "0x858585ff"
+sub setButtonUnFocusedState(unfocusedRectangle as object, isProductFavButton as boolean, isMediaFavButton as boolean)
+    if m.isFavProduct AND isProductFavButton
+        unfocusedRectangle.color = m.appConfig.primary_color
+    else if m.isFavMedia AND isMediaFavButton
+        unfocusedRectangle.color = m.appConfig.primary_color
+    else
+        unfocusedRectangle.color = "0x858585ff"
+    end if
 end sub
 
 sub setMoreSelectedState(selectedMore as object)
