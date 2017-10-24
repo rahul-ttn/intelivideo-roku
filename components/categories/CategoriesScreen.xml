@@ -22,8 +22,8 @@
 					<LabelList id="categoryLabelList" translation="[100,200]" />
 				</Rectangle>
 				<Rectangle id="categoryRightRect" width="1960" height="1080"
-					translation="[1100,0]" color="0x38383800">
-					<HomeRowList id="myContentRowList" translation="[200,60]"
+					translation="[600,0]" color="0x38383800">
+					<HomeRowList id="categoriesRowList" translation="[200,60]"
 						visible="false" />
 				</Rectangle>
 				<Label id="Error_text" translation="[550,100]" visible="false"/>

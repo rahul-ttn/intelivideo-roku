@@ -68,6 +68,12 @@ sub callRecentlyViewedApi()
     showProgressDialog()
 end sub
 
+sub setCategoryData()
+    m.categoryId = m.top.categoryId
+    m.heading.text = m.top.categoryHeading
+    callCategoriesApi()
+end sub
+
 sub callFeatureProductsApi()
     baseUrl = getApiBaseUrl() + "lists/featured?content_type=product&per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
     m.featureProductApi = createObject("roSGNode","FeatureProductApiHandler")
@@ -151,6 +157,15 @@ sub callMediaSearchApi()
     showProgressDialog()
 end sub
 
+sub callCategoriesApi()
+    baseUrl = getApiBaseUrl() + "categories/"+m.categoryId+"/items?access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.itemCategoryApi = createObject("roSGNode","CategoryItemApiHandler")
+    m.itemCategoryApi.setField("uri",baseUrl)
+    m.itemCategoryApi.observeField("content","onCategoryItemsApiResponse")
+    m.itemCategoryApi.control = "RUN"
+    'showProgressDialog()
+end sub 
+
 sub onProductsResponse()
     getData()
 end sub
@@ -159,6 +174,15 @@ sub onMediaResponse()
     getData()
 end sub
 
+sub onCategoryItemsApiResponse()
+    print "m.itemCategoryApi.content ";m.itemCategoryApi.content
+    m.categoryItemsModel = m.itemCategoryApi.content
+'    if m.categoryItemsModel.success
+'        m.resultArray = m.categoryItemsModel.items
+'        m.contentArray.Append(m.resultArray)
+'        showCategoriesList()
+'    end if
+end sub
 
 sub getData()
         hideProgressDialog()
@@ -196,6 +220,18 @@ sub showList()
     m.list.ObserveField("rowItemSelected", "onRowItemSelected")
     m.list.ObserveField("rowItemFocused", "onRowItemFocused")
     setContentArray()    
+    m.list.content = getGridRowListContent()
+    m.list.setFocus(true)
+    if m.pagination
+     m.list.jumpToRowItem = m.focusedItem
+    end if
+end sub
+
+sub showCategoriesList()
+    m.list.visible = true
+    m.list.SetFocus(false)
+    m.list.ObserveField("rowItemSelected", "onRowItemSelected")
+    m.list.ObserveField("rowItemFocused", "onRowItemFocused")   
     m.list.content = getGridRowListContent()
     m.list.setFocus(true)
     if m.pagination

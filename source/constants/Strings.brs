@@ -83,3 +83,8 @@ end function
 function favorites() as string
     return "Favorites"
 end function
+
+'--------------------------Categories View All---------------------------------
+function categoriesViewAll() as string
+    return "MainCategoryViewAll"
+end function 

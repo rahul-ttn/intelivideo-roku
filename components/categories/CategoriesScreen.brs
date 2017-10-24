@@ -14,6 +14,7 @@ sub initFields()
     m.categoryBackground.color = homeBackground()
     m.parentCategoryRect = m.top.findNode("parentCategoryRect")
     m.categoryLabelList = m.top.findNode("categoryLabelList")
+    m.categoriesRowList = m.top.findNode("categoriesRowList")
     m.Error_text  = m.top.FindNode("Error_text")
     callBaseCategoryApi()
 End sub
@@ -56,46 +57,183 @@ sub showBaseCategoryList()
 End sub
 
 sub onListItemFocused()
-'   m.mediaModel = m.productDetailModel.objects[m.productLabelList.itemFocused]
-'   m.thumbnailPoster.uri = m.mediaModel.small
-'   m.nameLabel.text = m.mediaModel.title
-'   m.longDescriptionLabel.text = m.mediaModel.description
-'   startMoreTimer()
+   'startCategoryTimer()
+   if checkInternetConnection()
+        print "Internet connection yes"
+        m.Error_text.visible = false
+        showProgressDialog()
+        itemId = m.baseCategoryArray[m.categoryLabelList.itemFocused].id
+        baseUrl = getApiBaseUrl() + "categories/"+itemId+"?access_token=" + getValueInRegistryForKey("authTokenValue")
+        m.itemCategoryApi = createObject("roSGNode","CategorySingleApiHandler")
+        m.itemCategoryApi.setField("uri",baseUrl)
+        m.itemCategoryApi.observeField("content","onCategorySingleApiResponse")
+        m.itemCategoryApi.control = "RUN"
+   else
+        print "Internet connection No"
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
+   end if
 End sub
 
 sub onListItemSelected()
-   
 End sub
 
+sub startCategoryTimer()
+    m.testtimer = m.top.findNode("timer")
+    m.testtimer.control = "start"
+    m.testtimer.ObserveField("fire","onSelection")
+end sub
+
+sub onSelection()
+    if checkInternetConnection()
+        m.Error_text.visible = false
+        showProgressDialog()
+       
+    end if
+end sub
+
+sub onCategorySingleApiResponse()
+    print "on success of single category item fetched"
+    hideProgressDialog()
+    print 
+    if m.itemCategoryApi.content <> invalid
+        if m.itemCategoryApi.content.success
+            m.categoryItemApiContent = m.itemCategoryApi.content
+            categoryItemRowList() 
+        end if
+    end if 
+end sub
+
+sub categoryItemRowList()
+    m.categoriesRowList.visible = true
+    m.categoriesRowList.SetFocus(false)
+    m.categoriesRowList.ObserveField("rowItemSelected", "onRowItemSelected")
+    m.categoriesRowList.content = getGridRowListContent()
+End sub
+
+function getGridRowListContent() as object
+         parentContentNode = CreateObject("roSGNode", "ContentNode")
+         
+         m.categoriesRowList.itemSize = [200 * 9 + 100, 550]'550  600
+         m.categoriesRowList.rowHeights = [550]
+         m.categoriesRowList.rowItemSize = [ [550, 500] ]
+         m.categoriesRowList.itemSpacing = [ 0, 80 ]
+         m.categoriesRowList.rowItemSpacing = [ [80, 0] ]
+         
+         categoryItemArray = m.categoryItemApiContent.items
+         if categoryItemArray.count() >= 10
+                n = 9
+            else
+                n = categoryItemArray.count()-1
+         end if
+         for numRows = 0 to n
+            row = parentContentNode.CreateChild("ContentNode")
+             for index = 0 to 0
+                  rowItem = row.CreateChild("HomeRowListItemData")
+                  dataObjet = categoryItemArray[numRows]
+                  rowItem.created_at = dataObjet.created_at
+                  rowItem.title = dataObjet.title
+                  rowItem.coverBgColor = m.appConfig.primary_color
+                  rowItem.imageUri = dataObjet.thumbnail
+                  rowItem.isMedia = dataObjet.is_media
+                  rowItem.isItem = dataObjet.is_item
+                  rowItem.isViewAll = false
+                  
+                  if dataObjet.item_type = "product"
+                    rowItem.id = dataObjet.product_id
+                    rowItem.count = dataObjet.media_count
+                    rowItem.is_vertical_image = dataObjet.is_vertical_image
+                    if getPostedVideoDayDifference(dataObjet.created_at) < 11
+                        rowItem.isNew = true
+                    else
+                        rowItem.isNew = false
+                    end if
+                  else if dataObjet.item_type = "media"
+                    rowItem.id = dataObjet.resource_id
+                    rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
+                  end if
+                      
+             end for     
+          end for 
+          if categoryItemArray.Count() >= 10
+              row = parentContentNode.CreateChild("ContentNode")
+              rowItem = row.CreateChild("HomeRowListItemData")
+              rowItem.isViewAll = true
+          end if 
+         return parentContentNode 
+end function
+
+sub onRowItemSelected()
+    row = m.categoriesRowList.rowItemSelected[0]
+    col = m.categoriesRowList.rowItemSelected[1]
+'        print "**********Row is *********";row
+'        print "**********col is *********";col
+        m.focusedItem = [row,col]
+        if row >= 10
+            goToViewAllScreen(m.categoryItemApiContent.name,m.categoryItemApiContent.id)
+        else
+            selectedItem = m.categoryItemApiContent.items[row]
+            if selectedItem.item_type = "product"
+                goToProductDetailScreen(selectedItem.product_id)
+            else if selectedItem.item_type = "media"
+                goToMediaDetailScreen(selectedItem.resource_id)
+            end if
+        end if  
+end sub
+
+sub goToViewAllScreen(categoryName as String,id as String)
+    m.viewAllScreen = m.top.createChild("ViewAllScreen")
+    m.top.setFocus(false)
+    m.viewAllScreen.setFocus(true)
+    m.viewAllScreen.categoryId = id
+    m.viewAllScreen.categoryHeading = categoryName
+    m.viewAllScreen.primaryColor = m.appConfig.primary_color
+end sub
+
+sub goToProductDetailScreen(id as Integer)
+    m.productDetail = m.top.createChild("ProductDetailScreen")
+    m.top.setFocus(false)
+    m.productDetail.setFocus(true)
+    m.productDetail.product_id = id
+end sub
+
+sub goToMediaDetailScreen(id as Integer)
+    m.mediaDetail = m.top.createChild("MediaDetailScreen")
+    m.top.setFocus(false)
+    m.mediaDetail.setFocus(true)
+    m.mediaDetail.resource_id = id
+end sub
 
 Function onKeyEvent(key as String,press as Boolean) as Boolean
     result = false
     if press
     print "on key event Profile Screen  key >";key
         if key = "right"
-'            if m.profileLabelList.hasFocus() AND m.myContentRowList.visible
-'                m.profileLabelList.setFocus(false)
-'                m.myContentRowList.setFocus(true)
-'            else
-'                m.profileLabelList.setFocus(true)  
-'                showCloseState()
+            if m.categoryLabelList.hasFocus()
+                m.categoryLabelList.setFocus(false)
+                m.categoriesRowList.setFocus(true)
+            else if m.categoriesRowList.hasFocus()
+                m.categoriesRowList.setFocus(true)
+            else
+                m.categoryLabelList.setFocus(true) 
+                m.categoriesRowList.setFocus(false) 
+                showCloseState()
 '                m.buttonProfileClose.uri = "pkg:/images/$$RES$$/Profile Focused.png" 
 '                m.profileLeftRect.translation = [180, 0]
 '                m.profileRightRect.translation = [880, 0]
-'            end if
+            end if
             result = true
         else if key = "left"
-'            if  m.profileLabelList.hasFocus()
-'                m.profileLabelList.setFocus(false)
-'                initNavigationBar()
+            if  m.categoryLabelList.hasFocus()
+                m.categoryLabelList.setFocus(false)
+                initNavigationBar()
 '                m.profileLeftRect.translation = [400, 0]
 '                m.profileRightRect.translation = [1100, 0]
-'                showOpenState()
+                showOpenState()
 '                m.rectSwitchAccountBorder.visible = false
-'            else if m.myContentRowList.hasFocus()
-'                m.profileLabelList.setFocus(true)
-'                m.myContentRowList.setFocus(false)
-'            end if
+            else if m.categoriesRowList.hasFocus()
+                m.categoryLabelList.setFocus(true)
+                m.categoriesRowList.setFocus(false)
+            end if
             result = true 
         else if key = "down"
             if m.buttonProfileOpen.hasFocus()
@@ -126,14 +264,14 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
 '            else if m.viewAllScreen <> invalid
 '                m.viewAllScreen.setFocus(false)
 '                m.viewAllScreen = invalid
-'                m.myContentRowList.setFocus(true)
+'                m.categoriesRowList.setFocus(true)
 '                m.myContentRowList.jumpToRowItem = m.focusedItem
 '                result = true
 '            else if m.productDetail <> invalid
 '                m.productDetail.setFocus(false)
 '                m.productDetail = invalid
-'                m.myContentRowList.setFocus(true)
-'                m.myContentRowList.jumpToRowItem = m.focusedItem
+'                m.categoriesRowList.setFocus(true)
+'                m.categoriesRowList.jumpToRowItem = m.focusedItem
 '                result = true
 '            else
 '                m.top.visible = false
