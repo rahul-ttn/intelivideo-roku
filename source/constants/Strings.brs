@@ -48,6 +48,10 @@ end function
 
 '-------------------------- Home Categories ------------------------------------
 
+function featuredRecent() as string
+    return "Recently Viewed"
+end function
+
 function featuredProducts() as string
     return "Featured Products"
 end function

@@ -6,6 +6,7 @@
 		<field id="recentlyAddedMediaArray" type="nodearray" />
 		<field id="relatedMediaArray" type="nodearray" />
 		<field id="searchMediaArray" type="nodearray" />
+		<field id="recentMediaArray" type="nodearray" />
 		<field id="pageInfo" type="node" />
 	</interface>
 </component>

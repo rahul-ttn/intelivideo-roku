@@ -67,6 +67,8 @@ sub parseApiResponse(response As Object)
             featureMediaModel.recentlyAddedMediaArray = mediaArray
         else if m.top.dataType = "related"
             featureMediaModel.relatedMediaArray = mediaArray
+        else if m.top.dataType = "recent"
+            featureMediaModel.recentMediaArray = mediaArray
         else if m.top.dataType = "search"
             featureMediaModel.searchMediaArray = mediaArray
             response = response.media

@@ -347,6 +347,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             handlebuttonSelectedState()
             return true
         else if key = "back"
+            print "Media Detail Screen back press >>>> "
             if m.mediaMoreScreen <> invalid
                 m.mediaMoreScreen.setFocus(false)
                 m.mediaMoreScreen = invalid
@@ -359,6 +360,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 return true
             else
                 m.top.visible = false
+                return false
             end if
         end if
     end if

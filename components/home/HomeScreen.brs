@@ -3,8 +3,9 @@ sub init()
     m.screenName = homeScreen()
     m.isSVOD = false
     m.counter = 0
-    m.counterMaxValue = 6
+    m.counterMaxValue = 7
     m.numOfColumns = 2
+    m.isRefreshScreen = false
     initFields()
     hideFields()
     callUserApi()
@@ -62,6 +63,7 @@ end sub
 
 sub callHomeSVODApis()
     if checkInternetConnection()
+        callRecentlyViewedApi()
         callFeatureProductsApi()
         callFeatureMediaApi()
         callPopularProductsApi()
@@ -78,14 +80,14 @@ sub updateCounter()
     print "m.counter >> ";m.counter
 end sub
 
-'sub callRecentlyViewedApi()
-'    baseUrl = getApiBaseUrl() + "lists/featured?content_type=product&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
-'    m.featureProductApi = createObject("roSGNode","FeatureProductApiHandler")
-'    m.featureProductApi.setField("uri",baseUrl)
-'    m.featureProductApi.setField("dataType","feature")
-'    m.featureProductApi.observeField("content","onProductsResponse")
-'    m.featureProductApi.control = "RUN"
-'end sub
+sub callRecentlyViewedApi()
+    baseUrl = getApiBaseUrl() +"recent?access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.recentlyViewedApi = createObject("roSGNode","FeatureMediaApiHandler")
+    m.recentlyViewedApi.setField("uri",baseUrl)
+    m.recentlyViewedApi.setField("dataType","recent")
+    m.recentlyViewedApi.observeField("content","onMediaResponse")
+    m.recentlyViewedApi.control = "RUN"
+end sub
 
 sub callFeatureProductsApi()
     baseUrl = getApiBaseUrl() + "lists/featured?content_type=product&per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
@@ -156,6 +158,8 @@ sub getData()
         m.counter = 0
         m.Error_text.visible = false
         hideProgressDialog()
+        m.recentlyViewedApiModel = m.recentlyViewedApi.content
+        
         m.featureProductsApiModel = m.featureProductApi.content
         m.featureMediaApiModel = m.featureMediaApi.content
         
@@ -178,6 +182,34 @@ end sub
 function getGridRowListContent() as object
          parentContentNode = CreateObject("roSGNode", "ContentNode")
          if m.isSVOD
+            if m.recentlyViewedApiModel.success AND m.recentlyViewedApiModel.recentMediaArray.count() <> 0
+            row = parentContentNode.CreateChild("ContentNode")
+            row.title = featuredRecent()
+            print "m.recentlyViewedApiModel.recentMediaArray.Count()  >>> ";m.recentlyViewedApiModel.recentMediaArray.Count()
+            for index= m.recentlyViewedApiModel.recentMediaArray.Count()-1 to 0 step -1
+                rowItem = row.CreateChild("HomeRowListItemData")
+                dataObjet = m.recentlyViewedApiModel.recentMediaArray[index]
+                rowItem.id = dataObjet.resource_id
+                rowItem.title = dataObjet.title
+                rowItem.imageUri = dataObjet.small
+                rowItem.coverBgColor = m.appConfig.primary_color
+                rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
+                rowItem.isItem = dataObjet.is_item
+                rowItem.isViewAll = false
+                rowItem.isMedia = dataObjet.is_media
+                
+                if getPostedVideoDayDifference(dataObjet.created_at) < 11
+                    rowItem.isNew = true
+                else
+                    rowItem.isNew = false
+                end if
+            end for
+            if m.recentlyViewedApiModel.recentMediaArray.Count() >= 10
+                rowItem = row.CreateChild("HomeRowListItemData")
+                rowItem.isViewAll = true
+            end if
+         end if
+         
             if m.featureProductsApiModel.success AND m.featureProductsApiModel.featuredProductsArray.count() <> 0
                 row = parentContentNode.CreateChild("ContentNode")
                 row.title = featuredProducts()
@@ -371,6 +403,10 @@ function getGridRowListContent() as object
             end if
          end if
          
+         if m.isRefreshScreen
+            startUpdateFocusTimer()
+         end if
+         
          else                                          'else case for TVOD
             if m.productsAarray.count() < 9
                 m.homeRowList.itemComponentName = "Home2xListItemLayout"
@@ -424,6 +460,18 @@ function getGridRowListContent() as object
          return parentContentNode 
 end function
 
+sub updateFocus()
+    m.isRefreshScreen = false
+    m.homeRowList.setFocus(true)
+    m.homeRowList.jumpToRowItem = m.focusedItem
+end sub
+
+sub startUpdateFocusTimer()
+    m.updateFocusTimer = m.top.findNode("updateFocusTimer")
+    m.updateFocusTimer.control = "start"
+    m.updateFocusTimer.ObserveField("fire","updateFocus")
+end sub
+
 sub initFields() 
     homeBackground = m.top.FindNode("homeBackground")
     homeBackground.color = homeBackground() 
@@ -451,6 +499,7 @@ End sub
 sub homeRowList()
     m.homeRowList.visible = true
     m.homeRowList.SetFocus(false)
+    m.homeRowList.unobserveField("rowItemSelected")
     m.homeRowList.ObserveField("rowItemSelected", "onRowItemSelected")
     m.homeRowList.content = getGridRowListContent()
 End sub
@@ -469,7 +518,7 @@ function onRowItemSelected() as void
             if m.isSVOD = false
                 index = (m.numOfColumns*row) + col
                 goToTVODProductDetailScreen(index)
-            else if listTitle = featuredMedia() OR listTitle = popularMedia() OR listTitle = recentlyAddedMedia()
+            else if listTitle = featuredRecent() OR listTitle = featuredMedia() OR listTitle = popularMedia() OR listTitle = recentlyAddedMedia()
                 goToMediaDetailScreen(listTitle, col)
             else
                 goToProductDetailScreen(listTitle, col)
@@ -509,6 +558,8 @@ sub goToMediaDetailScreen(titleText as String, column as Integer)
         m.mediaDetail.resource_id = m.popularMediaApiModel.popularMediaArray[column].resource_id
     else if titleText = recentlyAddedMedia()
         m.mediaDetail.resource_id = m.recentAddedMediaApiModel.recentlyAddedMediaArray[column].resource_id
+    else if titleText = featuredRecent()
+        m.mediaDetail.resource_id = m.recentlyViewedApiModel.recentMediaArray[column].resource_id        
     end if
 end sub
 
@@ -584,14 +635,12 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             else if m.mediaDetail <> invalid
                 m.mediaDetail.setFocus(false)
                 m.mediaDetail = invalid
-                m.homeRowList.setFocus(true)
-                m.homeRowList.jumpToRowItem = m.focusedItem
+                updateScreen()
                 result = true
             else if m.productDetail <> invalid
                 m.productDetail.setFocus(false)
                 m.productDetail = invalid
-                m.homeRowList.setFocus(true)
-                m.homeRowList.jumpToRowItem = m.focusedItem
+                updateScreen()
                 result = true
             else
                 print "Switch Account invalid else block"
@@ -602,6 +651,13 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     end if
     return result 
 End Function
+
+sub updateScreen()
+    m.isRefreshScreen = true
+    m.counterMaxValue = 1
+    showProgressDialog()
+    callRecentlyViewedApi()
+end sub
 
 Function showRetryDialog(title ,message)
   m.Error_text.visible = true
