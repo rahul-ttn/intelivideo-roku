@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component name="ViewAllScreen" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+<component name="CategoryViewAll" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
 	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
 	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
 	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
-	<script type="text/brightscript" uri="pkg:/components/screens/ViewAllScreen.brs"/>
+	<script type="text/brightscript" uri="pkg:/components/categories/CategoryViewAll.brs"/>
 	
 	<interface>
-		<field id="searchQuery" type="string" alwaysNotify= "true" onChange="setData"/>
-		<field id="titleText" type="string" alwaysNotify="true" onChange="setData"/>
-		<field id="contentArray" type="nodeArray" alwaysNotify="true" onChange="setArray"/>
-		<field id="primaryColor" type="string" alwaysNotify= "true" onChange="setPrimaryColor"/>
-		
+		<field id="categoryId" type="string"/>
+		<field id="categoryHeading" type="string" alwaysNotify = "true" onChange = "setCategoryData" />
 	</interface>
-	
+
 	<children>
 		<Rectangle
 			id = "parentRectangle"

@@ -15,6 +15,8 @@ sub initFields()
     m.parentCategoryRect = m.top.findNode("parentCategoryRect")
     m.categoryLabelList = m.top.findNode("categoryLabelList")
     m.categoriesRowList = m.top.findNode("categoriesRowList")
+    m.categoriesRowList.ObserveField("rowItemSelected", "onRowItemSelected")
+    m.categoriesRowList.setFocus(false)
     m.Error_text  = m.top.FindNode("Error_text")
     callBaseCategoryApi()
 End sub
@@ -53,13 +55,11 @@ sub showBaseCategoryList()
         addListItemHelper(sectionContent,m.baseCategoryArray[i].name)
     end for   
     m.categoryLabelList.content = m.content
-    m.categoryLabelList.setFocus(true)
+    'm.categoryLabelList.setFocus(true)
 End sub
 
 sub onListItemFocused()
-   'startCategoryTimer()
    if checkInternetConnection()
-        print "Internet connection yes"
         m.Error_text.visible = false
         showProgressDialog()
         itemId = m.baseCategoryArray[m.categoryLabelList.itemFocused].id
@@ -69,7 +69,6 @@ sub onListItemFocused()
         m.itemCategoryApi.observeField("content","onCategorySingleApiResponse")
         m.itemCategoryApi.control = "RUN"
    else
-        print "Internet connection No"
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
    end if
 End sub
@@ -77,27 +76,13 @@ End sub
 sub onListItemSelected()
 End sub
 
-sub startCategoryTimer()
-    m.testtimer = m.top.findNode("timer")
-    m.testtimer.control = "start"
-    m.testtimer.ObserveField("fire","onSelection")
-end sub
-
-sub onSelection()
-    if checkInternetConnection()
-        m.Error_text.visible = false
-        showProgressDialog()
-       
-    end if
-end sub
-
 sub onCategorySingleApiResponse()
-    print "on success of single category item fetched"
     hideProgressDialog()
     print 
     if m.itemCategoryApi.content <> invalid
         if m.itemCategoryApi.content.success
             m.categoryItemApiContent = m.itemCategoryApi.content
+            m.categoriesRowList.content = invalid
             categoryItemRowList() 
         end if
     end if 
@@ -106,7 +91,6 @@ end sub
 sub categoryItemRowList()
     m.categoriesRowList.visible = true
     m.categoriesRowList.SetFocus(false)
-    m.categoriesRowList.ObserveField("rowItemSelected", "onRowItemSelected")
     m.categoriesRowList.content = getGridRowListContent()
 End sub
 
@@ -165,28 +149,25 @@ end function
 sub onRowItemSelected()
     row = m.categoriesRowList.rowItemSelected[0]
     col = m.categoriesRowList.rowItemSelected[1]
-'        print "**********Row is *********";row
-'        print "**********col is *********";col
-        m.focusedItem = [row,col]
-        if row >= 10
-            goToViewAllScreen(m.categoryItemApiContent.name,m.categoryItemApiContent.id)
-        else
-            selectedItem = m.categoryItemApiContent.items[row]
-            if selectedItem.item_type = "product"
-                goToProductDetailScreen(selectedItem.product_id)
-            else if selectedItem.item_type = "media"
-                goToMediaDetailScreen(selectedItem.resource_id)
-            end if
-        end if  
+    m.focusedItem = [row,col]
+    if row >= 10
+        goToViewAllScreen(m.categoryItemApiContent.name,m.categoryItemApiContent.id)
+    else
+        selectedItem = m.categoryItemApiContent.items[row]
+        if selectedItem.item_type = "product"
+            goToProductDetailScreen(selectedItem.product_id)
+        else if selectedItem.item_type = "media"
+            goToMediaDetailScreen(selectedItem.resource_id)
+        end if
+    end if  
 end sub
 
 sub goToViewAllScreen(categoryName as String,id as String)
-    m.viewAllScreen = m.top.createChild("ViewAllScreen")
+    m.categoryViewAll = m.top.createChild("CategoryViewAll")
     m.top.setFocus(false)
-    m.viewAllScreen.setFocus(true)
-    m.viewAllScreen.categoryId = id
-    m.viewAllScreen.categoryHeading = categoryName
-    m.viewAllScreen.primaryColor = m.appConfig.primary_color
+    m.categoryViewAll.setFocus(true)
+    m.categoryViewAll.categoryId = id
+    m.categoryViewAll.categoryHeading = categoryName
 end sub
 
 sub goToProductDetailScreen(id as Integer)
@@ -208,28 +189,30 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     if press
     print "on key event Profile Screen  key >";key
         if key = "right"
-            if m.categoryLabelList.hasFocus()
+            if m.categoryLabelList.hasFocus() and m.categoriesRowList.visible
+                print "case 1"
                 m.categoryLabelList.setFocus(false)
                 m.categoriesRowList.setFocus(true)
             else if m.categoriesRowList.hasFocus()
+                print "case 2"
                 m.categoriesRowList.setFocus(true)
             else
+                print "case 3"
                 m.categoryLabelList.setFocus(true) 
-                m.categoriesRowList.setFocus(false) 
                 showCloseState()
-'                m.buttonProfileClose.uri = "pkg:/images/$$RES$$/Profile Focused.png" 
-'                m.profileLeftRect.translation = [180, 0]
-'                m.profileRightRect.translation = [880, 0]
+                m.buttonProfileClose.uri = "pkg:/images/$$RES$$/Profile Focused.png" 
+                m.parentCategoryRect.translation = [180, 0]
+               ' m.profileRightRect.translation = [880, 0]
             end if
             result = true
         else if key = "left"
             if  m.categoryLabelList.hasFocus()
                 m.categoryLabelList.setFocus(false)
                 initNavigationBar()
-'                m.profileLeftRect.translation = [400, 0]
+                m.parentCategoryRect.translation = [400, 0]
 '                m.profileRightRect.translation = [1100, 0]
                 showOpenState()
-'                m.rectSwitchAccountBorder.visible = false
+                m.rectSwitchAccountBorder.visible = false
             else if m.categoriesRowList.hasFocus()
                 m.categoryLabelList.setFocus(true)
                 m.categoriesRowList.setFocus(false)

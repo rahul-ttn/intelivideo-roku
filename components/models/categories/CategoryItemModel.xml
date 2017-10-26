@@ -3,5 +3,6 @@
 	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
 	<interface>
 		<field type="nodearray" id="items" />
+		<field id="pageInfo" type="node" />
 	</interface>
 </component>
