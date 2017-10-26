@@ -9,6 +9,12 @@
 	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
 	<script type="text/brightscript" uri="pkg:/components/categories/CategoriesScreen.brs" />
 
+	<interface>
+		<field type="integer" id="categoryId"/>
+		<field type="string" id="categoryName"/>
+		<field type="nodearray" id="subCategoryList" alwaysNotify="true" onChange="setSubCategoryData"/>
+	</interface>
+
 	<children>
 		<Rectangle id="categoryBackground" width="1960" height="1080"
 			translation="[0,0]">
