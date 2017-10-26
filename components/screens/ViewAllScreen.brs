@@ -70,12 +70,6 @@ sub callRecentlyViewedApi()
     showProgressDialog()
 end sub
 
-sub setCategoryData()
-    m.categoryId = m.top.categoryId
-    m.heading.text = m.top.categoryHeading
-    callCategoriesApi()
-end sub
-
 sub callFeatureProductsApi()
     baseUrl = getApiBaseUrl() + "lists/featured?content_type=product&per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
     m.featureProductApi = createObject("roSGNode","FeatureProductApiHandler")

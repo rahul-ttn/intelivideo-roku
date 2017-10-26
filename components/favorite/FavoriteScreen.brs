@@ -50,9 +50,14 @@ sub onFavoriteResponse()
     m.myFavoriteApiModel = m.myFavoriteApi.content
     if m.myFavoriteApiModel.success
         m.favoriteItems.Append(m.myFavoriteApiModel.items)
-        m.favoriteRowList.content = getGridRowListContent()
-        if m.pagination
-            m.favoriteRowList.jumpToRowItem = m.focusedItem
+        if m.favoriteItems.count() = 0
+            m.Error_text.visible = true
+            m.Error_text.text = "This is where you will find content that you have Favorited"
+        else
+            m.favoriteRowList.content = getGridRowListContent()
+            if m.pagination
+                m.favoriteRowList.jumpToRowItem = m.focusedItem
+            end if
         end if
     else
         if m.favoriteItems.count() = 0

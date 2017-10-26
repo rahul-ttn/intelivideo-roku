@@ -625,14 +625,21 @@ sub goToMediaDetailScreen(titleText as String, column as Integer)
 end sub
 
 sub goTViewAllScreen(titleText as String)
-    m.viewAllScreen = m.top.createChild("ViewAllScreen")
-    m.top.setFocus(false)
-    m.viewAllScreen.setFocus(true)
-    m.viewAllScreen.titleText = titleText
-    m.viewAllScreen.primaryColor = m.appConfig.primary_color
-    if titleText = myContent()
-        m.viewAllScreen.contentArray = m.productsAarray
+    if titleText = myFavorites()
+        m.viewAllScreen = m.top.createChild("FavoriteViewAll")
+        m.top.setFocus(false)
+        m.viewAllScreen.setFocus(true)
+    else
+        m.viewAllScreen = m.top.createChild("ViewAllScreen")
+        m.top.setFocus(false)
+        m.viewAllScreen.setFocus(true)
+        m.viewAllScreen.titleText = titleText
+        m.viewAllScreen.primaryColor = m.appConfig.primary_color
+        if titleText = myContent()
+            m.viewAllScreen.contentArray = m.productsAarray
+        end if
     end if
+    
 end sub
 
 Function onKeyEvent(key as String,press as Boolean) as Boolean

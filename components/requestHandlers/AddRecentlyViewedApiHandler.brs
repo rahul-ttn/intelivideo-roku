@@ -3,7 +3,12 @@ sub init()
 end sub
 
 sub callApiHandler()
-     response = callPostApi(m.top.uri, m.top.header, m.top.params)
+    if m.top.isDelete
+        response = callDeleteApi(m.top.uri, m.top.header, m.top.params)
+    else
+        response = callPostApi(m.top.uri, m.top.header, m.top.params)
+    end if
+     
      if response <> invalid
         m.responseCode = response.GetResponseCode()
         responseString = response.GetString()

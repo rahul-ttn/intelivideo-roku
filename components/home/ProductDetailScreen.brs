@@ -99,6 +99,7 @@ sub onProductFavorite()
     if m.isFavProduct
         m.isFavProduct = false
         setButtonFocusedState(m.favButtonrectangle, true, false)
+        deleteFavProductAPI()
     else
         m.isFavProduct = true
         addFavProductAPI()
@@ -110,11 +111,22 @@ sub onMediaFavorite()
     if m.isFavMedia
         m.isFavMedia = false
         setButtonFocusedState(m.favButtonRightrectangle, false, true)
+        deleteFavMediaAPI()
     else
         m.isFavMedia = true
         addFavMediaAPI()
         m.favButtonRightrectangle.color = favButtonFocusColor()
     end if
+end sub
+
+sub deleteFavProductAPI()
+    baseUrl = getApiBaseUrl() +"favorites?access_token=" + getValueInRegistryForKey("authTokenValue")
+    parmas = createRecentlyViewedParams(StrI(m.productId),"product")
+    m.deleteFavProductAPI = createObject("roSGNode","AddRecentlyViewedApiHandler")
+    m.deleteFavProductAPI.setField("uri",baseUrl)
+    m.deleteFavProductAPI.setField("params",parmas)
+    m.deleteFavProductAPI.setField("isDelete",true)
+    m.deleteFavProductAPI.control = "RUN"
 end sub
 
 sub addFavProductAPI()
@@ -124,6 +136,16 @@ sub addFavProductAPI()
     m.addFavProductApi.setField("uri",baseUrl)
     m.addFavProductApi.setField("params",parmas)
     m.addFavProductApi.control = "RUN"
+end sub
+
+sub deleteFavMediaAPI()
+    baseUrl = getApiBaseUrl() +"favorites?access_token=" + getValueInRegistryForKey("authTokenValue")
+    parmas = createRecentlyViewedParams(StrI(m.resourceId),"media")
+    m.deleteFavMediaAPI = createObject("roSGNode","AddRecentlyViewedApiHandler")
+    m.deleteFavMediaAPI.setField("uri",baseUrl)
+    m.deleteFavMediaAPI.setField("params",parmas)
+    m.deleteFavMediaAPI.setField("isDelete",true)
+    m.deleteFavMediaAPI.control = "RUN"
 end sub
 
 sub addFavMediaAPI()

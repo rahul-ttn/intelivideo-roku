@@ -17,7 +17,7 @@
 
 			<HomeRowList id="favoriteRowList" translation="[480,40]" />
 			
-			<Label id="Error_text" translation="[550,100]" visible="false"/>
+			<Label id="Error_text" translation="[700,450]" visible="false"/>
 
 		</Rectangle>
 		

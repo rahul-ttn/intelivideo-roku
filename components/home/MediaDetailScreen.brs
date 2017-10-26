@@ -94,6 +94,7 @@ sub onButtonFavorite()
     if m.isFav
         m.isFav = false
         setButtonFocusedState(m.favButtonRightrectangle, true)
+        deleteFavMediaAPI()
     else
         m.isFav = true
         addFavMediaAPI()
@@ -108,6 +109,16 @@ sub addFavMediaAPI()
     m.addFavMediaApi.setField("uri",baseUrl)
     m.addFavMediaApi.setField("params",parmas)
     m.addFavMediaApi.control = "RUN"
+end sub
+
+sub deleteFavMediaAPI()
+    baseUrl = getApiBaseUrl() +"favorites?access_token=" + getValueInRegistryForKey("authTokenValue")
+    parmas = createRecentlyViewedParams(StrI(m.resourceId),"media")
+    m.deleteFavMediaAPI = createObject("roSGNode","AddRecentlyViewedApiHandler")
+    m.deleteFavMediaAPI.setField("uri",baseUrl)
+    m.deleteFavMediaAPI.setField("params",parmas)
+    m.deleteFavMediaAPI.setField("isDelete",true)
+    m.deleteFavMediaAPI.control = "RUN"
 end sub
 
 function favButtonFocusColor() as String

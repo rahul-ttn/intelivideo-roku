@@ -5,16 +5,20 @@ End Function
 
 Function callGetApi(url as String) as object
     print "url is :";url
-    return callApi(url,invalid,false,"")
+    return callApi(url,invalid,false,"",false)
 End Function
 
 Function callPostApi(url as String,headers as object,params as String) as object
     print "til post method"
-    return callApi(url,headers,true,params)
+    return callApi(url,headers,true,params,false)
 End Function
 
-'header as roAssociativeArray
-Function callApi(url as String,headers as Object,isPostApi as boolean,params as String)
+Function callDeleteApi(url as String,headers as object,params as String) as object
+    print "til delete method"
+    return callApi(url,headers,true,params,true)
+End Function
+
+Function callApi(url as String,headers as Object,isPostApi as boolean,params as String,isDeleteApi as boolean)
     print "url is :";type(params)
     print "headers are :";headers
     print "params are :";params
@@ -23,6 +27,9 @@ Function callApi(url as String,headers as Object,isPostApi as boolean,params as 
     request.SetMessagePort(port)
     request.EnableEncodings(true)
     request.RetainBodyOnError(true)
+    if isDeleteApi
+        request.SetRequest("DELETE")
+    end if
     print "url that we are going to hit to servr "+url
     request.SetUrl(url)
     request.SetCertificatesFile("common:/certs/ca-bundle.crt")

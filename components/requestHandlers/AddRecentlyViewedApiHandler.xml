@@ -10,5 +10,6 @@
 		<field id="content" type="node" />
 		<field id="header" type="assocarray" />
 		<field id="params" type="string" />
+		<field id="isDelete" type="boolean" />
 	</interface>
 </component>
