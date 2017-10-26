@@ -172,6 +172,10 @@ End sub
 
 sub showFavoriteScreen()
     print "Favorite Screen"
+    if m.screenName <> favoriteScreen()
+        favoriteScreen = m.top.createChild("FavoriteScreen")
+        favoriteScreen.setFocus(true)
+    end if
 End sub
 
 sub showSearchScreen()

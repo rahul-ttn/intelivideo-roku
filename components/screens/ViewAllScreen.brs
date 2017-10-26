@@ -49,6 +49,8 @@ sub callSelectedApi()
         callRecentlyAddedMediaApi()
     else if m.titleText = featuredRecent()
         callRecentlyViewedApi()
+    else if m.titleText = myFavorites()
+        callMyFavoriteApi()
     else if m.titleText = searchProducts()
         m.heading.text = m.titleText + " for " + Chr(34) + m.searchQuery + Chr(34)
         callProductSearchApi()
@@ -134,6 +136,15 @@ sub callRecentlyAddedMediaApi()
     showProgressDialog()
 end sub
 
+sub callMyFavoriteApi()
+    baseUrl = getApiBaseUrl() + "favorites?per_page="+ Stri(m.perPageItems).Trim() +"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.myFavoriteApi = createObject("roSGNode","GetFavoriteApiHandler")
+    m.myFavoriteApi.setField("uri",baseUrl)
+    m.myFavoriteApi.observeField("content","onMediaResponse")
+    m.myFavoriteApi.control = "RUN"
+    showProgressDialog()
+end sub
+
 sub callProductSearchApi()
     baseUrl = getApiBaseUrl() + "search/products?search_query="+ m.searchQuery.ToStr() +"&per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
     baseUrl = baseUrl.EncodeUri()
@@ -201,6 +212,8 @@ sub getData()
             m.apiModel = m.recentAddedMediaApi.content
         else if m.titleText = featuredRecent()
             m.apiModel = m.recentlyViewedApi.content
+        else if m.titleText = myFavorites()
+            m.apiModel = m.myFavoriteApi.content
         else if m.titleText = searchProducts()
             m.apiModel = m.productSearchApi.content
         else if m.titleText = searchMedia()

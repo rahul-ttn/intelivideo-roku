@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="FavoriteScreen" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
+	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
+	<script type="text/brightscript" uri="pkg:/components/favorite/FavoriteScreen.brs" />
+	<children>
+
+		<Rectangle id="FavoriteBackground" width="1960" height="1080"
+			translation="[0,0]">
+
+			<NavigationBar id="NavigationBar" />
+
+			<HomeRowList id="favoriteRowList" translation="[480,40]" />
+			
+			<Label id="Error_text" translation="[550,100]" visible="false"/>
+
+		</Rectangle>
+		
+		<Timer id="timer" repeat="false" duration=".5" />
+		<Timer id="updateFocusTimer" repeat="false" duration=".1" />
+
+	</children>
+</component>

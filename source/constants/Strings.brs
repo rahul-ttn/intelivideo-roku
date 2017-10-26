@@ -36,6 +36,10 @@ function categoryScreen() as string
     return "Categories Screen"
 end function
 
+function favoriteScreen() as string
+    return "Favorite Screen"
+end function
+
 '-------------------------- Search Categories ---------------------------------
 
 function searchProducts() as string
@@ -74,6 +78,10 @@ end function
 
 function recentlyAddedMedia() as string
     return "Recently Added Media"
+end function
+
+function myFavorites() as string
+    return "My Favorites"
 end function
 
 function myContent() as string

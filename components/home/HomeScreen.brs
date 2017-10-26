@@ -3,7 +3,7 @@ sub init()
     m.screenName = homeScreen()
     m.isSVOD = false
     m.counter = 0
-    m.counterMaxValue = 7
+    m.counterMaxValue = 8
     m.numOfColumns = 2
     m.isRefreshScreen = false
     initFields()
@@ -70,6 +70,7 @@ sub callHomeSVODApis()
         callPopularMediaApi()
         callRecentlyAddedProductsApi()
         callRecentlyAddedMediaApi()
+        callMyFavoriteApi()
     else
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
@@ -143,6 +144,14 @@ sub callRecentlyAddedMediaApi()
     m.recentAddedMediaApi.control = "RUN"
 end sub
 
+sub callMyFavoriteApi()
+    baseUrl = getApiBaseUrl() + "favorites?per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+    m.myFavoriteApi = createObject("roSGNode","GetFavoriteApiHandler")
+    m.myFavoriteApi.setField("uri",baseUrl)
+    m.myFavoriteApi.observeField("content","onMediaResponse")
+    m.myFavoriteApi.control = "RUN"
+end sub
+
 sub onProductsResponse()
     updateCounter()
     getData()
@@ -169,7 +178,9 @@ sub getData()
         m.recentAddedProductApiModel = m.recentAddedProductApi.content
         m.recentAddedMediaApiModel = m.recentAddedMediaApi.content
         
-        if m.featureProductsApiModel.success OR m.featureMediaApiModel.success OR m.popularProductApiModel.success OR m.popularMediaApiModel.success OR m.recentAddedProductApiModel.success OR m.recentAddedMediaApiModel.success
+        m.myFavoriteApiModel = m.myFavoriteApi.content
+        
+        if m.myFavoriteApiModel.success OR m.featureProductsApiModel.success OR m.featureMediaApiModel.success OR m.popularProductApiModel.success OR m.popularMediaApiModel.success OR m.recentAddedProductApiModel.success OR m.recentAddedMediaApiModel.success
             homeRowList() 
         else
             print "featureProductApiModel.fail"
@@ -186,7 +197,7 @@ function getGridRowListContent() as object
             row = parentContentNode.CreateChild("ContentNode")
             row.title = featuredRecent()
             print "m.recentlyViewedApiModel.recentMediaArray.Count()  >>> ";m.recentlyViewedApiModel.recentMediaArray.Count()
-            for index= m.recentlyViewedApiModel.recentMediaArray.Count()-1 to 0 step -1
+            for index = 0 to m.recentlyViewedApiModel.recentMediaArray.Count()-1
                 rowItem = row.CreateChild("HomeRowListItemData")
                 dataObjet = m.recentlyViewedApiModel.recentMediaArray[index]
                 rowItem.id = dataObjet.resource_id
@@ -371,6 +382,40 @@ function getGridRowListContent() as object
             end if
          end if
          
+         if m.myFavoriteApiModel.success AND m.myFavoriteApiModel.items.count() <> 0
+            row = parentContentNode.CreateChild("ContentNode")
+            row.title = myFavorites()
+            for index = 0 to m.myFavoriteApiModel.items.Count()-1
+                rowItem = row.CreateChild("HomeRowListItemData")
+                  dataObjet = m.myFavoriteApiModel.items[index]
+                  rowItem.created_at = dataObjet.created_at
+                  rowItem.title = dataObjet.title
+                  rowItem.coverBgColor = m.appConfig.primary_color
+                  rowItem.imageUri = dataObjet.thumbnail
+                  rowItem.isMedia = dataObjet.is_media
+                  rowItem.isItem = dataObjet.is_item
+                  rowItem.isViewAll = false
+                  
+                  if dataObjet.item_type = "product"
+                    rowItem.id = dataObjet.product_id
+                    rowItem.count = dataObjet.media_count
+                    rowItem.is_vertical_image = dataObjet.is_vertical_image
+                    if getPostedVideoDayDifference(dataObjet.created_at) < 11
+                        rowItem.isNew = true
+                    else
+                        rowItem.isNew = false
+                    end if
+                  else if dataObjet.item_type = "media"
+                    rowItem.id = dataObjet.resource_id
+                    rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
+                  end if
+            end for
+            if m.myFavoriteApiModel.items.Count() >= 10
+                rowItem = row.CreateChild("HomeRowListItemData")
+                rowItem.isViewAll = true
+            end if
+         end if
+         
          if m.productsAarray.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
             row.title = myContent()
@@ -518,6 +563,8 @@ function onRowItemSelected() as void
             if m.isSVOD = false
                 index = (m.numOfColumns*row) + col
                 goToTVODProductDetailScreen(index)
+            else if listTitle = myFavorites()
+                goToFavDetail(listTitle, col)
             else if listTitle = featuredRecent() OR listTitle = featuredMedia() OR listTitle = popularMedia() OR listTitle = recentlyAddedMedia()
                 goToMediaDetailScreen(listTitle, col)
             else
@@ -525,6 +572,16 @@ function onRowItemSelected() as void
             end if
         end if  
 end function
+
+sub goToFavDetail(listTitle as String, column as Integer)
+'    col = m.myFavoriteApiModel.items.count()-1-column
+'    print "m.myFavoriteApiModel.items.count()-1-column >> "; col
+    if m.myFavoriteApiModel.items[column].item_type = "product"
+        goToProductDetailScreen(listTitle, column)
+    else
+        goToMediaDetailScreen(listTitle, column)
+    end if
+end sub
 
 sub goToTVODProductDetailScreen(index as integer)
     m.productDetail = m.top.createChild("ProductDetailScreen")
@@ -543,6 +600,8 @@ sub goToProductDetailScreen(titleText as String, column as Integer)
         m.productDetail.product_id = m.popularProductApiModel.popularProductsArray[column].product_id
     else if titleText = recentlyAddedProducts()
         m.productDetail.product_id = m.recentAddedProductApiModel.recentlyAddedProductsArray[column].product_id
+    else if titleText = myFavorites()
+        m.productDetail.product_id = m.myFavoriteApiModel.items[column].product_id
     else if titleText = myContent()
         m.productDetail.product_id = m.productsAarray[column].product_id
     end if
@@ -558,6 +617,8 @@ sub goToMediaDetailScreen(titleText as String, column as Integer)
         m.mediaDetail.resource_id = m.popularMediaApiModel.popularMediaArray[column].resource_id
     else if titleText = recentlyAddedMedia()
         m.mediaDetail.resource_id = m.recentAddedMediaApiModel.recentlyAddedMediaArray[column].resource_id
+    else if titleText = myFavorites()
+        m.mediaDetail.resource_id = m.myFavoriteApiModel.items[column].resource_id
     else if titleText = featuredRecent()
         m.mediaDetail.resource_id = m.recentlyViewedApiModel.recentMediaArray[column].resource_id        
     end if
