@@ -9,6 +9,14 @@ sub init()
     initFields()
 end sub
 
+sub setSubCategoryData()
+    print "Category setSubCategoryData method called";m.top.categoryId;m.top.categoryName;m.top.subCategoryList
+    mainCategoryId = m.top.categoryId
+    mainCategoryName = m.top.categoryName
+    m.childrenList = m.top.subCategoryList
+    showBaseCategoryList(m.childrenList)
+end sub
+
 sub initFields()
     m.categoryBackground = m.top.FindNode("categoryBackground")
     m.categoryBackground.color = homeBackground()
@@ -40,22 +48,21 @@ sub onCategoryBaseApiResponse()
      hideProgressDialog()
     if baseCategoryApiModel.success
         m.baseCategoryArray =  baseCategoryApiModel.baseCategoriesArray
-        showBaseCategoryList() 
+        showBaseCategoryList(m.baseCategoryArray) 
     else
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
-sub showBaseCategoryList()
+sub showBaseCategoryList(list as object)
     m.categoryLabelList.ObserveField("itemFocused", "onListItemFocused")
     m.categoryLabelList.ObserveField("itemSelected", "onListItemSelected")
     m.content = createObject("roSGNode","ContentNode")
     sectionContent=addListSectionHelper(m.content,"")
-    for i = 0 To m.baseCategoryArray.count()-1
-        addListItemHelper(sectionContent,m.baseCategoryArray[i].name)
+    for i = 0 To list.count()-1
+        addListItemHelper(sectionContent,list[i].name)
     end for   
     m.categoryLabelList.content = m.content
-    'm.categoryLabelList.setFocus(true)
 End sub
 
 sub onListItemFocused()
@@ -74,7 +81,26 @@ sub onListItemFocused()
 End sub
 
 sub onListItemSelected()
+    categoryId = m.baseCategoryArray[m.categoryLabelList.itemSelected].id
+    categoryName = m.baseCategoryArray[m.categoryLabelList.itemSelected].name
+    if(m.categoryItemApiContent.children <> invalid)
+        m.subCategoryList = m.categoryItemApiContent.children
+    end if
+    print "categoryId categoryName";categoryId;categoryName
+    callSubCategoryScreen(categoryId,categoryName)
 End sub
+
+sub callSubCategoryScreen(categoryId as string,categoryName as string) 
+    m.subCategoryScreen = m.top.createChild("CategoriesScreen")
+    m.top.setFocus(false)
+    m.subCategoryScreen.setFocus(true)
+    m.subCategoryScreen.categoryId = categoryId
+    m.subCategoryScreen.categoryName = categoryName
+    if m.subCategoryList <> invalid
+        m.subCategoryScreen.subCategoryList = m.subCategoryList
+    end if
+    
+end sub
 
 sub onCategorySingleApiResponse()
     hideProgressDialog()
