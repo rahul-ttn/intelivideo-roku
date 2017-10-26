@@ -16,6 +16,7 @@ sub initFields()
     m.categoryLabelList = m.top.findNode("categoryLabelList")
     m.categoriesRowList = m.top.findNode("categoriesRowList")
     m.categoriesRowList.ObserveField("rowItemSelected", "onRowItemSelected")
+    m.categoriesRowList.setFocus(false)
     m.Error_text  = m.top.FindNode("Error_text")
     callBaseCategoryApi()
 End sub
@@ -188,28 +189,30 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     if press
     print "on key event Profile Screen  key >";key
         if key = "right"
-            if m.categoryLabelList.hasFocus()
+            if m.categoryLabelList.hasFocus() and m.categoriesRowList.visible
+                print "case 1"
                 m.categoryLabelList.setFocus(false)
                 m.categoriesRowList.setFocus(true)
             else if m.categoriesRowList.hasFocus()
+                print "case 2"
                 m.categoriesRowList.setFocus(true)
             else
+                print "case 3"
                 m.categoryLabelList.setFocus(true) 
-                m.categoriesRowList.setFocus(false) 
                 showCloseState()
-'                m.buttonProfileClose.uri = "pkg:/images/$$RES$$/Profile Focused.png" 
-'                m.profileLeftRect.translation = [180, 0]
-'                m.profileRightRect.translation = [880, 0]
+                m.buttonProfileClose.uri = "pkg:/images/$$RES$$/Profile Focused.png" 
+                m.parentCategoryRect.translation = [180, 0]
+               ' m.profileRightRect.translation = [880, 0]
             end if
             result = true
         else if key = "left"
             if  m.categoryLabelList.hasFocus()
                 m.categoryLabelList.setFocus(false)
                 initNavigationBar()
-'                m.profileLeftRect.translation = [400, 0]
+                m.parentCategoryRect.translation = [400, 0]
 '                m.profileRightRect.translation = [1100, 0]
                 showOpenState()
-'                m.rectSwitchAccountBorder.visible = false
+                m.rectSwitchAccountBorder.visible = false
             else if m.categoriesRowList.hasFocus()
                 m.categoryLabelList.setFocus(true)
                 m.categoriesRowList.setFocus(false)
