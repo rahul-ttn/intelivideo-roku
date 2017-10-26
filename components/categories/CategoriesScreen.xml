@@ -28,7 +28,7 @@
 				</Rectangle>
 				<Label id="Error_text" translation="[550,100]" visible="false"/>
 			</Rectangle>
-			<Timer id="timer" repeat="false" duration=".5" />
+			<Timer id="timer" repeat="false" duration=".2" />
 		</Rectangle>
 	</children>
 </component>

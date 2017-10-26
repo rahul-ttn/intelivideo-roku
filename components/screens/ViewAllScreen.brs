@@ -56,12 +56,6 @@ sub callSelectedApi()
     end if
 end sub
 
-sub setCategoryData()
-    m.categoryId = m.top.categoryId
-    m.heading.text = m.top.categoryHeading
-    callCategoriesApi()
-end sub
-
 sub callFeatureProductsApi()
     baseUrl = getApiBaseUrl() + "lists/featured?content_type=product&per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
     m.featureProductApi = createObject("roSGNode","FeatureProductApiHandler")
@@ -145,31 +139,12 @@ sub callMediaSearchApi()
     showProgressDialog()
 end sub
 
-sub callCategoriesApi()
-    baseUrl = getApiBaseUrl() + "categories/"+m.categoryId+"/items?access_token=" + getValueInRegistryForKey("authTokenValue")
-    m.itemCategoryApi = createObject("roSGNode","CategoryItemApiHandler")
-    m.itemCategoryApi.setField("uri",baseUrl)
-    m.itemCategoryApi.observeField("content","onCategoryItemsApiResponse")
-    m.itemCategoryApi.control = "RUN"
-    'showProgressDialog()
-end sub 
-
 sub onProductsResponse()
     getData()
 end sub
 
 sub onMediaResponse()
     getData()
-end sub
-
-sub onCategoryItemsApiResponse()
-    print "m.itemCategoryApi.content ";m.itemCategoryApi.content
-    m.categoryItemsModel = m.itemCategoryApi.content
-'    if m.categoryItemsModel.success
-'        m.resultArray = m.categoryItemsModel.items
-'        m.contentArray.Append(m.resultArray)
-'        showCategoriesList()
-'    end if
 end sub
 
 sub getData()
@@ -204,18 +179,6 @@ sub showList()
     m.list.ObserveField("rowItemSelected", "onRowItemSelected")
     m.list.ObserveField("rowItemFocused", "onRowItemFocused")
     setContentArray()    
-    m.list.content = getGridRowListContent()
-    m.list.setFocus(true)
-    if m.pagination
-     m.list.jumpToRowItem = m.focusedItem
-    end if
-end sub
-
-sub showCategoriesList()
-    m.list.visible = true
-    m.list.SetFocus(false)
-    m.list.ObserveField("rowItemSelected", "onRowItemSelected")
-    m.list.ObserveField("rowItemFocused", "onRowItemFocused")   
     m.list.content = getGridRowListContent()
     m.list.setFocus(true)
     if m.pagination
@@ -276,11 +239,8 @@ function onRowItemSelected() as void
 end function
 
 function onRowItemFocused() as void
-        print "***** Some's wish is ********";m.list.rowItemFocused
         row = m.list.rowItemFocused[0]
         col = m.list.rowItemFocused[1]
-        print "**********Row is *********";row
-        print "**********col is *********";col
         m.focusedItem = [row,col]
         if m.myContentArray = invalid
             if row = m.numberOfRows - 1 And not m.apiModel.pageInfo.last_page 
@@ -289,6 +249,8 @@ function onRowItemFocused() as void
               callSelectedApi()  
             end if
         end if
+
+        
 end function
 
 function getGridRowListContent() as object
@@ -318,6 +280,7 @@ function getGridRowListContent() as object
                 
                 rowItem.title = dataObjet.title
                 rowItem.imageUri = dataObjet.small
+                
                 rowItem.coverBgColor = m.primaryColor
                 rowItem.isMedia = dataObjet.is_media
                 rowItem.isItem = dataObjet.is_item
@@ -344,7 +307,7 @@ end function
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
-        if key = "left" or key = "right"
+        if key = "left" or key = "right" or key = "up" or key = "down"
             return true
         else if key = "back"
             if m.mediaDetail <> invalid

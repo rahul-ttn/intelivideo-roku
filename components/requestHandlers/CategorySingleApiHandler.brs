@@ -74,6 +74,8 @@ sub parseApiResponse(response As Object)
             singleCategoryModel.children = childrenArray 
         end if
         
+        print "Single Category Model";singleCategoryModel
+        
     else 
         singleCategoryModel.success = false
         singleCategoryModel.error = apiErrorMessage()
