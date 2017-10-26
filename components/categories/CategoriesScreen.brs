@@ -6,15 +6,17 @@ sub init()
     initNavigationBar()
     m.buttonHomeOpen.setFocus(false)
     m.buttonCategoryOpen.setFocus(true)
+    m.subCategoryFlag = false
     initFields()
 end sub
 
 sub setSubCategoryData()
-    print "Category setSubCategoryData method called";m.top.categoryId;m.top.categoryName;m.top.subCategoryList
+    m.subCategoryFlag = true
     mainCategoryId = m.top.categoryId
     mainCategoryName = m.top.categoryName
     m.childrenList = m.top.subCategoryList
     showBaseCategoryList(m.childrenList)
+    showCloseState()
 end sub
 
 sub initFields()
@@ -26,11 +28,13 @@ sub initFields()
     m.categoriesRowList.ObserveField("rowItemSelected", "onRowItemSelected")
     m.categoriesRowList.setFocus(false)
     m.Error_text  = m.top.FindNode("Error_text")
-    callBaseCategoryApi()
+    if m.subCategoryFlag = false
+        callBaseCategoryApi()
+    end if
 End sub
 
 sub callBaseCategoryApi()
-    if checkInternetConnection()
+    if checkInternetConnection() 
         m.Error_text.visible = false
         showProgressDialog()
         baseUrl = getApiBaseUrl() + "categories?access_token=" + getValueInRegistryForKey("authTokenValue")
@@ -93,6 +97,7 @@ End sub
 sub callSubCategoryScreen(categoryId as string,categoryName as string) 
     m.subCategoryScreen = m.top.createChild("CategoriesScreen")
     m.top.setFocus(false)
+    'm.top.visible = false
     m.subCategoryScreen.setFocus(true)
     m.subCategoryScreen.categoryId = categoryId
     m.subCategoryScreen.categoryName = categoryName
