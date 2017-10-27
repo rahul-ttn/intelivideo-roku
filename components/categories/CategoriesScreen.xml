@@ -13,6 +13,8 @@
 		<field type="integer" id="categoryId"/>
 		<field type="string" id="categoryName"/>
 		<field type="nodearray" id="subCategoryList" alwaysNotify="true" onChange="setSubCategoryData"/>
+		<field type="bool" id="isbaseCategory" alwaysNotify="true" onChange = "setBaseCategory"/>
+		<field type="integer" id="backPressed" alwaysNotify="true" onChange = "setFocusOnBackPressed"/>
 	</interface>
 
 	<children>
@@ -23,12 +25,12 @@
 				translation="[400,0]" color="0x38383800">
 				<Rectangle id="categoryLeftRect" width="700" height="1080"
 					color="0x38383800">
-					<Label text="Categories" font="font:LargeSystemFont"
+					<Label id = "listLabel" text="Categories" font="font:LargeSystemFont"
 						translation="[100,90]" />
-					<LabelList id="categoryLabelList" translation="[100,200]" />
+					<LabelList id="categoryLabelList" vertFocusAnimationStyle="floatingFocus" translation="[100,200]" />
 				</Rectangle>
 				<Rectangle id="categoryRightRect" width="1960" height="1080"
-					translation="[600,0]" color="0x38383800">
+					translation="[730,0]" color="0x38383800">
 					<HomeRowList id="categoriesRowList" translation="[200,60]"
 						visible="false" />
 				</Rectangle>

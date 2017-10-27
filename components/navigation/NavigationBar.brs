@@ -167,6 +167,7 @@ sub showCategoryScreen()
      if m.screenName <> categoryScreen()
         categoryScreen = m.top.createChild("CategoriesScreen")
         categoryScreen.setFocus(true)
+        categoryScreen.isbaseCategory = true
      end if
 End sub
 

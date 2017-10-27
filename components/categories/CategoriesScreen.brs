@@ -6,17 +6,32 @@ sub init()
     initNavigationBar()
     m.buttonHomeOpen.setFocus(false)
     m.buttonCategoryOpen.setFocus(true)
-    m.subCategoryFlag = false
+    m.isItemsLoaded = false
     initFields()
+    m.focusedLabelListItem = -1
 end sub
 
 sub setSubCategoryData()
     m.subCategoryFlag = true
-    mainCategoryId = m.top.categoryId
-    mainCategoryName = m.top.categoryName
+    m.mainCategoryId = m.top.categoryId
+    m.mainCategoryName = m.top.categoryName
+    m.listLabel.text = m.mainCategoryName
     m.childrenList = m.top.subCategoryList
     showBaseCategoryList(m.childrenList)
     showCloseState()
+    m.parentCategoryRect.translation = [180, 0]
+    m.categoryLabelList.setFocus(true)
+    m.categoryLabelList.numRows = m.childrenList.count()
+    m.categoryLabelList.jumpToItem = 1
+end sub
+
+sub setBaseCategory()
+    callBaseCategoryApi()
+end sub
+
+sub setFocusOnBackPressed()
+    m.categoryLabelList.setFocus(true)
+ m.categoryLabelList.jumpToItem = m.focusedLabelListItem
 end sub
 
 sub initFields()
@@ -28,9 +43,7 @@ sub initFields()
     m.categoriesRowList.ObserveField("rowItemSelected", "onRowItemSelected")
     m.categoriesRowList.setFocus(false)
     m.Error_text  = m.top.FindNode("Error_text")
-    if m.subCategoryFlag = false
-        callBaseCategoryApi()
-    end if
+    m.listLabel = m.top.FindNode("listLabel")
 End sub
 
 sub callBaseCategoryApi()
@@ -70,34 +83,58 @@ sub showBaseCategoryList(list as object)
 End sub
 
 sub onListItemFocused()
-   if checkInternetConnection()
-        m.Error_text.visible = false
-        showProgressDialog()
-        itemId = m.baseCategoryArray[m.categoryLabelList.itemFocused].id
-        baseUrl = getApiBaseUrl() + "categories/"+itemId+"?access_token=" + getValueInRegistryForKey("authTokenValue")
-        m.itemCategoryApi = createObject("roSGNode","CategorySingleApiHandler")
-        m.itemCategoryApi.setField("uri",baseUrl)
-        m.itemCategoryApi.observeField("content","onCategorySingleApiResponse")
-        m.itemCategoryApi.control = "RUN"
-   else
-        showRetryDialog(networkErrorTitle(), networkErrorMessage())
-   end if
+    if m.focusedLabelListItem <> m.categoryLabelList.itemFocused
+        if checkInternetConnection()
+            m.Error_text.visible = false
+            if m.baseCategoryArray <> invalid and m.baseCategoryArray.count()>0
+                itemId = m.baseCategoryArray[m.categoryLabelList.itemFocused].id
+            else 
+                itemId = m.childrenList[m.categoryLabelList.itemFocused].id
+            end if 
+            newItemId = itemId.toInt()
+            if newItemId <> -1
+                showProgressDialog()
+                baseUrl = getApiBaseUrl() + "categories/"+itemId+"?access_token=" + getValueInRegistryForKey("authTokenValue")
+                m.itemCategoryApi = createObject("roSGNode","CategorySingleApiHandler")
+                m.itemCategoryApi.setField("uri",baseUrl)
+                m.itemCategoryApi.observeField("content","onCategorySingleApiResponse")
+                m.itemCategoryApi.control = "RUN"
+            end if
+        else
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        end if
+    end if
+   m.focusedLabelListItem = m.categoryLabelList.itemFocused
 End sub
 
 sub onListItemSelected()
-    categoryId = m.baseCategoryArray[m.categoryLabelList.itemSelected].id
-    categoryName = m.baseCategoryArray[m.categoryLabelList.itemSelected].name
-    if(m.categoryItemApiContent.children <> invalid)
-        m.subCategoryList = m.categoryItemApiContent.children
+    if m.baseCategoryArray <> invalid and m.baseCategoryArray.count()>0
+        categoryId = m.baseCategoryArray[m.categoryLabelList.itemSelected].id
+        categoryName = m.baseCategoryArray[m.categoryLabelList.itemSelected].name   
+    else 
+        categoryId = m.childrenList[m.categoryLabelList.itemSelected].id
+        categoryName = m.childrenList[m.categoryLabelList.itemSelected].name     
     end if
-    print "categoryId categoryName";categoryId;categoryName
-    callSubCategoryScreen(categoryId,categoryName)
+    if  categoryId.toInt() = -1
+        goToViewAllScreen(m.mainCategoryName,m.mainCategoryId.toStr())
+    else
+        if m.categoryItemApiContent.children <> invalid and m.categoryItemApiContent.children.count() > 0
+            m.subCategoryList = CreateObject("roArray", m.categoryItemApiContent.children.count() + 1, true)
+            childrenItemModel = CreateObject("roSGNode", "CategoryChildrenItemModel")
+            childrenItemModel.id = -1
+            childrenItemModel.name = "ViewAll"
+            m.subCategoryList.push(childrenItemModel)
+            m.subCategoryList.append(m.categoryItemApiContent.children)
+            callSubCategoryScreen(categoryId,categoryName)
+        else
+            goToViewAllScreen(categoryName,categoryId.toStr()) 
+        end if
+    end if   
 End sub
 
 sub callSubCategoryScreen(categoryId as string,categoryName as string) 
     m.subCategoryScreen = m.top.createChild("CategoriesScreen")
     m.top.setFocus(false)
-    'm.top.visible = false
     m.subCategoryScreen.setFocus(true)
     m.subCategoryScreen.categoryId = categoryId
     m.subCategoryScreen.categoryName = categoryName
@@ -152,16 +189,15 @@ function getGridRowListContent() as object
                   rowItem.isMedia = dataObjet.is_media
                   rowItem.isItem = dataObjet.is_item
                   rowItem.isViewAll = false
-                  
+                  if getPostedVideoDayDifference(dataObjet.created_at) < 11
+                      rowItem.isNew = true
+                  else
+                      rowItem.isNew = false
+                  end if
                   if dataObjet.item_type = "product"
                     rowItem.id = dataObjet.product_id
                     rowItem.count = dataObjet.media_count
                     rowItem.is_vertical_image = dataObjet.is_vertical_image
-                    if getPostedVideoDayDifference(dataObjet.created_at) < 11
-                        rowItem.isNew = true
-                    else
-                        rowItem.isNew = false
-                    end if
                   else if dataObjet.item_type = "media"
                     rowItem.id = dataObjet.resource_id
                     rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
@@ -193,7 +229,7 @@ sub onRowItemSelected()
     end if  
 end sub
 
-sub goToViewAllScreen(categoryName as String,id as String)
+sub goToViewAllScreen(categoryName as string,id as string)
     m.categoryViewAll = m.top.createChild("CategoryViewAll")
     m.top.setFocus(false)
     m.categoryViewAll.setFocus(true)
@@ -217,23 +253,20 @@ end sub
 
 Function onKeyEvent(key as String,press as Boolean) as Boolean
     result = false
+    m.key = key
     if press
     print "on key event Profile Screen  key >";key
         if key = "right"
             if m.categoryLabelList.hasFocus() and m.categoriesRowList.visible
-                print "case 1"
                 m.categoryLabelList.setFocus(false)
                 m.categoriesRowList.setFocus(true)
             else if m.categoriesRowList.hasFocus()
-                print "case 2"
                 m.categoriesRowList.setFocus(true)
             else
-                print "case 3"
-                m.categoryLabelList.setFocus(true) 
+                m.categoryLabelList.setFocus(true)
                 showCloseState()
-                m.buttonProfileClose.uri = "pkg:/images/$$RES$$/Profile Focused.png" 
+                m.buttonCategoryClose.uri = "pkg:/images/$$RES$$/Categories Focused.png" 
                 m.parentCategoryRect.translation = [180, 0]
-               ' m.profileRightRect.translation = [880, 0]
             end if
             result = true
         else if key = "left"
@@ -241,7 +274,6 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 m.categoryLabelList.setFocus(false)
                 initNavigationBar()
                 m.parentCategoryRect.translation = [400, 0]
-'                m.profileRightRect.translation = [1100, 0]
                 showOpenState()
                 m.rectSwitchAccountBorder.visible = false
             else if m.categoriesRowList.hasFocus()
@@ -265,6 +297,22 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
 '            end if
             result = true
         else if key = "back"
+            print "m.subCategoryScreen> ";m.subCategoryScreen;m.focusedLabelListItem 
+'            if m.subCategoryScreen <> invalid
+'                m.subCategoryScreen.setFocus(false)
+'                m.categoryLabelList.setFocus(true)
+'                m.categoryLabelList.jumpToItem = m.focusedLabelListItem
+'                m.top.removeChild(m.subCategoryScreen)
+'                print "m.subCategoryScreen>   ";m.subCategoryScreen
+'                return false
+'            else
+'                return true
+'            end if 
+             m.top.getParent().backPressed = 12
+             print "m.top categories Screen";m.top
+             m.top.visible = false
+             m.top.getParent().removeChild(m.subCategoryScreen)
+             return true
 '            if m.switchAccount <> invalid 
 '               if m.switchAccount.accountSelected
 '                    m.top.visible = false
