@@ -23,7 +23,7 @@ sub setCategoryData()
 end sub
 
 sub callCategoriesApi()
-    baseUrl = getApiBaseUrl() + "categories/"+m.categoryId+"/items?access_token=" + getValueInRegistryForKey("authTokenValue")
+    baseUrl = getApiBaseUrl() + "categories/"+m.categoryId+"/items?per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
     m.itemCategoryApi = createObject("roSGNode","CategoryItemApiHandler")
     m.itemCategoryApi.setField("uri",baseUrl)
     m.itemCategoryApi.observeField("content","onCategoryItemsApiResponse")
@@ -44,6 +44,8 @@ end sub
 
 sub showCategoriesList()
     m.list.visible = true
+    m.list.unobserveField("rowItemSelected")
+    m.list.unobserveField("rowItemFocused")
     m.list.ObserveField("rowItemSelected", "onRowItemSelected")
     m.list.ObserveField("rowItemFocused", "onRowItemFocused")   
     m.list.content = getGridRowListContent()
@@ -74,12 +76,12 @@ function onRowItemSelected() as void
             m.mediaDetail = m.top.createChild("MediaDetailScreen")
             m.top.setFocus(false)
             m.mediaDetail.setFocus(true)
-            m.mediaDetail.resource_id = m.contentArray[col].resource_id
+            m.mediaDetail.resource_id = m.contentArray[arrayIndex].resource_id
         else
             m.productDetail = m.top.createChild("ProductDetailScreen")
             m.top.setFocus(false)
             m.productDetail.setFocus(true)
-            m.productDetail.product_id = m.contentArray[col].product_id
+            m.productDetail.product_id = m.contentArray[arrayIndex].product_id
         end if
 end function
 
@@ -161,22 +163,22 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         if key = "left" or key = "right" or key = "up" or key = "down"
             return true
         else if key = "back"
-'            if m.mediaDetail <> invalid
-'                m.mediaDetail.setFocus(false)
-'                m.mediaDetail = invalid
-'                m.list.setFocus(true)
-'                m.list.jumpToRowItem = m.focusedItem
-'                result = true
-'            else if m.productDetail <> invalid
-'                m.productDetail.setFocus(false)
-'                m.productDetail = invalid
-'                m.list.setFocus(true)
-'                m.list.jumpToRowItem = m.focusedItem
-'                result = true
-'            else
+            if m.mediaDetail <> invalid
+                m.mediaDetail.setFocus(false)
+                m.mediaDetail = invalid
+                m.list.setFocus(true)
+                m.list.jumpToRowItem = m.focusedItem
+                result = true
+            else if m.productDetail <> invalid
+                m.productDetail.setFocus(false)
+                m.productDetail = invalid
+                m.list.setFocus(true)
+                m.list.jumpToRowItem = m.focusedItem
+                result = true
+            else
                 m.top.visible = false
                 result = false
-'            end if
+            end if
         end if
     end if
     return result 
