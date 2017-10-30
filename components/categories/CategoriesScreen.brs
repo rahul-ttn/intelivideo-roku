@@ -289,12 +289,11 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             end if
             result = true 
         else if key = "up"
-'            if m.buttonSwitchAccount.hasFocus()
-'                m.rectSwitchAccountBorder.visible = false
-'                m.buttonSwitchAccount.setFocus(false)
-'                m.buttonProfileOpen.setFocus(true)
-'                 
-'            end if
+            if m.buttonSwitchAccount.hasFocus()
+                m.rectSwitchAccountBorder.visible = false
+                m.buttonSwitchAccount.setFocus(false)
+                m.buttonProfileOpen.setFocus(true)  
+            end if
             result = true
         else if key = "back"
             if m.categoryViewAll <> invalid
