@@ -179,20 +179,27 @@ function getMediaTimeFromSeconds(totalSeconds as Integer) as String
     hours = totalSeconds \ 3600
     
     hoursStr = hours.toStr()
-    if hours < 10   
-       hoursStr = hoursStr
+    if hours > 9
+        hoursStr = hoursStr
+    else
+        hoursStr = "0"+hoursStr
     end if
+    
     
     minutesStr = minutes.toStr()
-    if minutes < 10   
-       minutesStr = minutesStr
-    end if
+     if minutes > 9
+        minutesStr = minutesStr
+     else
+        minutesStr = "0"+minutesStr
+     end if
     
     secondsStr = seconds.toStr()
-    if seconds < 10   
-       secondsStr = secondsStr
-    end if
-    
+    if seconds > 9
+        secondsStr = secondsStr
+    else
+        secondsStr = "0"+secondsStr
+    end if 
+
     if hours > 0 
         return  hoursStr + ":" +  minutesStr + ":" + secondsStr
     else if  minutes > 0 
