@@ -76,12 +76,12 @@ function onRowItemSelected() as void
             m.mediaDetail = m.top.createChild("MediaDetailScreen")
             m.top.setFocus(false)
             m.mediaDetail.setFocus(true)
-            m.mediaDetail.resource_id = m.contentArray[col].resource_id
+            m.mediaDetail.resource_id = m.contentArray[arrayIndex].resource_id
         else
             m.productDetail = m.top.createChild("ProductDetailScreen")
             m.top.setFocus(false)
             m.productDetail.setFocus(true)
-            m.productDetail.product_id = m.contentArray[col].product_id
+            m.productDetail.product_id = m.contentArray[arrayIndex].product_id
         end if
 end function
 
