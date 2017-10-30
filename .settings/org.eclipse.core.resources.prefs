@@ -9,6 +9,7 @@ encoding//components/categories/CategoriesScreen.xml=UTF-8
 encoding//components/categories/CategoryViewAll.xml=UTF-8
 encoding//components/customcomponents/CustomButtonLogin.xml=UTF-8
 encoding//components/favorite/FavoriteScreen.xml=UTF-8
+encoding//components/home/BasedOnFavoriteViewAll.xml=UTF-8
 encoding//components/home/HomeScreen.xml=UTF-8
 encoding//components/home/MediaDetailScreen.xml=UTF-8
 encoding//components/home/ProductDetailScreen.xml=UTF-8

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component name="FavoriteViewAll" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
-	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
+<component name="BasedOnFavoriteViewAll" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
 	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
 	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
 	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
-	<script type="text/brightscript" uri="pkg:/components/home/FavoriteViewAll.brs"/>
+	<script type="text/brightscript" uri="pkg:/components/home/BasedOnFavoriteViewAll.brs"/>
 	
 	<interface>
 		<field id="itemId" type="integer"/>
@@ -21,7 +21,7 @@
 			height = "1920">
 			<Label
 				id = "labelHeading"
-				text = "My Favorites"
+				text = "Based on Your Favorites"
 				translation = "[150,50]"
 				font = "font:LargeSystemFont" >
 			</Label>
@@ -39,3 +39,4 @@
 		<Timer id="timer" repeat="false" duration=".5" />
 	</children>
 </component>
+

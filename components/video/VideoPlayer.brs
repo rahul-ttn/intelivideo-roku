@@ -30,6 +30,7 @@ function setVideo() as void
 end function
 
 sub addRecentlyViewedAPI()
+    m.top.getScene().isRefreshOnBack = true
     baseUrl = getApiBaseUrl() +"recent?access_token=" + getValueInRegistryForKey("authTokenValue")
     parmas = createRecentlyViewedParams(m.resourceId,"media")
     m.recentlyViewedApi = createObject("roSGNode","AddRecentlyViewedApiHandler")

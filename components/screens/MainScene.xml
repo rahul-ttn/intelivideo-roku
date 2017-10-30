@@ -10,6 +10,7 @@
     <interface>
     	<field type="nodearray" id="myContent"/>
     	<field type="node" id="appConfigContent"/>
+    	<field type="boolean" id="isRefreshOnBack"/>
     </interface>
     
     <children>

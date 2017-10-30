@@ -3,7 +3,7 @@ sub init()
     m.screenName = homeScreen()
     m.isSVOD = false
     m.counter = 0
-    m.counterMaxValue = 8
+    m.counterMaxValue = 9
     m.numOfColumns = 2
     m.isRefreshScreen = false
     initFields()
@@ -63,14 +63,14 @@ end sub
 
 sub callHomeSVODApis()
     if checkInternetConnection()
+        callMyFavoriteApi()
         callRecentlyViewedApi()
         callFeatureProductsApi()
         callFeatureMediaApi()
         callPopularProductsApi()
         callPopularMediaApi()
         callRecentlyAddedProductsApi()
-        callRecentlyAddedMediaApi()
-        callMyFavoriteApi()
+        callRecentlyAddedMediaApi()   
     else
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
@@ -148,8 +148,27 @@ sub callMyFavoriteApi()
     baseUrl = getApiBaseUrl() + "favorites?per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
     m.myFavoriteApi = createObject("roSGNode","GetFavoriteApiHandler")
     m.myFavoriteApi.setField("uri",baseUrl)
-    m.myFavoriteApi.observeField("content","onMediaResponse")
+    m.myFavoriteApi.observeField("content","onFavApiResponse")
     m.myFavoriteApi.control = "RUN"
+end sub
+
+sub callBasedOnFavoriteApi(id as Integer, dataType as String)
+    print "dataObjet.item_type = ";dataType
+    if dataType = "media"
+        baseUrl = getApiBaseUrl() + "media/"+ StrI(id).Trim() +"/related?per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+        m.basedOnFavoriteApi = createObject("roSGNode","FeatureMediaApiHandler")
+        m.basedOnFavoriteApi.setField("uri",baseUrl)
+        m.basedOnFavoriteApi.setField("dataType","related")
+        m.basedOnFavoriteApi.observeField("content","onMediaResponse")
+        m.basedOnFavoriteApi.control = "RUN"
+    else if dataType = "product"
+        baseUrl = getApiBaseUrl() + "products/"+ StrI(id).Trim() +"/related?per_page=10&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+        m.basedOnFavoriteApi = createObject("roSGNode","FeatureProductApiHandler")
+        m.basedOnFavoriteApi.setField("uri",baseUrl)
+        m.basedOnFavoriteApi.setField("dataType","related")
+        m.basedOnFavoriteApi.observeField("content","onMediaResponse")
+        m.basedOnFavoriteApi.control = "RUN"
+    end if
 end sub
 
 sub onProductsResponse()
@@ -158,6 +177,28 @@ sub onProductsResponse()
 end sub
 
 sub onMediaResponse()
+    updateCounter()
+    getData()
+end sub
+
+sub onFavApiResponse()
+    m.myFavoriteApiModel = m.myFavoriteApi.content
+    if m.myFavoriteApiModel.success
+        if m.myFavoriteApiModel.items.count() > 0
+            index = Rnd(m.myFavoriteApiModel.items.count())
+            m.basedOnFavId = index-1
+            dataObjet = m.myFavoriteApiModel.items[m.basedOnFavId]
+            if dataObjet.item_type = "product"
+                callBasedOnFavoriteApi(dataObjet.product_id, dataObjet.item_type)
+            else if dataObjet.item_type = "media"
+                callBasedOnFavoriteApi(dataObjet.resource_id, dataObjet.item_type)
+            end if
+        else
+            m.counterMaxValue = m.counterMaxValue-1
+        end if
+    else
+        m.counterMaxValue = m.counterMaxValue-1 
+    end if
     updateCounter()
     getData()
 end sub
@@ -179,6 +220,9 @@ sub getData()
         m.recentAddedMediaApiModel = m.recentAddedMediaApi.content
         
         m.myFavoriteApiModel = m.myFavoriteApi.content
+        if m.basedOnFavoriteApi <> invalid
+            m.basedOnFavoriteApiModel = m.basedOnFavoriteApi.content
+        end if
         
         if m.myFavoriteApiModel.success OR m.featureProductsApiModel.success OR m.featureMediaApiModel.success OR m.popularProductApiModel.success OR m.popularMediaApiModel.success OR m.recentAddedProductApiModel.success OR m.recentAddedMediaApiModel.success
             homeRowList() 
@@ -382,6 +426,42 @@ function getGridRowListContent() as object
             end if
          end if
          
+         if m.basedOnFavoriteApiModel <> invalid AND m.basedOnFavoriteApiModel.success AND m.basedOnFavoriteApiModel.relatedMediaArray.count() <> 0
+            row = parentContentNode.CreateChild("ContentNode")
+            row.title = basedOnFavorites()
+            for index = 0 to m.basedOnFavoriteApiModel.relatedMediaArray.Count()-1
+                rowItem = row.CreateChild("HomeRowListItemData")
+                  dataObjet = m.basedOnFavoriteApiModel.relatedMediaArray[index]
+                  rowItem.created_at = dataObjet.created_at
+                  rowItem.title = dataObjet.title
+                  rowItem.coverBgColor = m.appConfig.primary_color
+                  rowItem.imageUri = dataObjet.small
+                  rowItem.isMedia = dataObjet.is_media
+                  rowItem.isItem = dataObjet.is_item
+                  rowItem.isViewAll = false
+                  
+                  if dataObjet.is_item
+                    rowItem.id = dataObjet.product_id
+                    rowItem.count = dataObjet.media_count
+                    rowItem.is_vertical_image = dataObjet.is_vertical_image
+                  else
+                    rowItem.id = dataObjet.resource_id
+                    rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
+                  end if
+                  
+                  if getPostedVideoDayDifference(dataObjet.created_at) < 11
+                        rowItem.isNew = true
+                  else
+                        rowItem.isNew = false
+                  end if
+            end for
+            if m.basedOnFavoriteApiModel.relatedMediaArray.Count() >= 10
+                rowItem = row.CreateChild("HomeRowListItemData")
+                rowItem.isViewAll = true
+            end if
+         end if
+         
+         
          if m.myFavoriteApiModel.success AND m.myFavoriteApiModel.items.count() <> 0
             row = parentContentNode.CreateChild("ContentNode")
             row.title = myFavorites()
@@ -400,14 +480,16 @@ function getGridRowListContent() as object
                     rowItem.id = dataObjet.product_id
                     rowItem.count = dataObjet.media_count
                     rowItem.is_vertical_image = dataObjet.is_vertical_image
-                    if getPostedVideoDayDifference(dataObjet.created_at) < 11
-                        rowItem.isNew = true
-                    else
-                        rowItem.isNew = false
-                    end if
+                    
                   else if dataObjet.item_type = "media"
                     rowItem.id = dataObjet.resource_id
                     rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
+                  end if
+                  
+                  if getPostedVideoDayDifference(dataObjet.created_at) < 11
+                        rowItem.isNew = true
+                  else
+                        rowItem.isNew = false
                   end if
             end for
             if m.myFavoriteApiModel.items.Count() >= 10
@@ -565,6 +647,8 @@ function onRowItemSelected() as void
                 goToTVODProductDetailScreen(index)
             else if listTitle = myFavorites()
                 goToFavDetail(listTitle, col)
+            else if listTitle = basedOnFavorites()
+                goToBasedOnFavDetail(listTitle, col)
             else if listTitle = featuredRecent() OR listTitle = featuredMedia() OR listTitle = popularMedia() OR listTitle = recentlyAddedMedia()
                 goToMediaDetailScreen(listTitle, col)
             else
@@ -572,6 +656,14 @@ function onRowItemSelected() as void
             end if
         end if  
 end function
+
+sub goToBasedOnFavDetail(listTitle as String, column as Integer)
+    if m.basedOnFavoriteApiModel.relatedMediaArray[column].is_item
+        goToProductDetailScreen(listTitle, column)
+    else
+        goToMediaDetailScreen(listTitle, column)
+    end if
+end sub
 
 sub goToFavDetail(listTitle as String, column as Integer)
 '    col = m.myFavoriteApiModel.items.count()-1-column
@@ -604,6 +696,8 @@ sub goToProductDetailScreen(titleText as String, column as Integer)
         m.productDetail.product_id = m.myFavoriteApiModel.items[column].product_id
     else if titleText = myContent()
         m.productDetail.product_id = m.productsAarray[column].product_id
+    else if titleText = basedOnFavorites()
+        m.productDetail.product_id = m.basedOnFavoriteApiModel.relatedMediaArray[column].product_id
     end if
 end sub
 
@@ -620,24 +714,35 @@ sub goToMediaDetailScreen(titleText as String, column as Integer)
     else if titleText = myFavorites()
         m.mediaDetail.resource_id = m.myFavoriteApiModel.items[column].resource_id
     else if titleText = featuredRecent()
-        m.mediaDetail.resource_id = m.recentlyViewedApiModel.recentMediaArray[column].resource_id        
+        m.mediaDetail.resource_id = m.recentlyViewedApiModel.recentMediaArray[column].resource_id
+    else if titleText = basedOnFavorites()
+        m.mediaDetail.resource_id = m.basedOnFavoriteApiModel.relatedMediaArray[column].resource_id  
     end if
 end sub
 
 sub goTViewAllScreen(titleText as String)
     if titleText = myFavorites()
         m.viewAllScreen = m.top.createChild("FavoriteViewAll")
-        m.top.setFocus(false)
-        m.viewAllScreen.setFocus(true)
+    else if titleText = basedOnFavorites()
+        m.viewAllScreen = m.top.createChild("BasedOnFavoriteViewAll")
+        dataObjet = m.myFavoriteApiModel.items[m.basedOnFavId]
+        if dataObjet.item_type = "product"
+            m.viewAllScreen.itemId = dataObjet.product_id
+            m.viewAllScreen.isProduct = true
+        else if dataObjet.item_type = "media"
+            m.viewAllScreen.itemId = dataObjet.resource_id
+            m.viewAllScreen.isProduct = false
+        end if
     else
         m.viewAllScreen = m.top.createChild("ViewAllScreen")
-        m.top.setFocus(false)
-        m.viewAllScreen.setFocus(true)
-        m.viewAllScreen.titleText = titleText
-        m.viewAllScreen.primaryColor = m.appConfig.primary_color
-        if titleText = myContent()
-            m.viewAllScreen.contentArray = m.productsAarray
-        end if
+    end if
+    
+    m.top.setFocus(false)
+    m.viewAllScreen.setFocus(true)
+    m.viewAllScreen.titleText = titleText
+    m.viewAllScreen.primaryColor = m.appConfig.primary_color
+    if titleText = myContent()
+        m.viewAllScreen.contentArray = m.productsAarray
     end if
     
 end sub
@@ -697,17 +802,32 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             else if m.viewAllScreen <> invalid
                 m.viewAllScreen.setFocus(false)
                 m.viewAllScreen = invalid
-                updateScreen()
+                if m.top.getScene().isRefreshOnBack
+                    updateScreen()
+                else
+                    m.homeRowList.setFocus(true)
+                    m.homeRowList.jumpToRowItem = m.focusedItem
+                end if
                 result = true
             else if m.mediaDetail <> invalid
                 m.mediaDetail.setFocus(false)
                 m.mediaDetail = invalid
-                updateScreen()
+                if m.top.getScene().isRefreshOnBack
+                    updateScreen()
+                else
+                    m.homeRowList.setFocus(true)
+                    m.homeRowList.jumpToRowItem = m.focusedItem
+                end if
                 result = true
             else if m.productDetail <> invalid
                 m.productDetail.setFocus(false)
                 m.productDetail = invalid
-                updateScreen()
+                if m.top.getScene().isRefreshOnBack
+                    updateScreen()
+                else
+                    m.homeRowList.setFocus(true)
+                    m.homeRowList.jumpToRowItem = m.focusedItem
+                end if
                 result = true
             else
                 print "Switch Account invalid else block"
@@ -720,10 +840,10 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
 End Function
 
 sub updateScreen()
+    m.top.getScene().isRefreshOnBack = false
     m.isRefreshScreen = true
-    m.counterMaxValue = 1
     showProgressDialog()
-    callRecentlyViewedApi()
+    callHomeSVODApis()
 end sub
 
 Function showRetryDialog(title ,message)

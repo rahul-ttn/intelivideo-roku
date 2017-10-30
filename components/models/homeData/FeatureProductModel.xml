@@ -7,5 +7,6 @@
 		<field id="recentlyAddedProductsArray" type="nodearray" />
 		<field id="searchProductsArray" type="nodearray" />
 		<field id="pageInfo" type="node" />
+		<field id="relatedMediaArray" type="nodearray" />
 	</interface>
 </component>

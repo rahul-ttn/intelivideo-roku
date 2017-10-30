@@ -84,6 +84,10 @@ function myFavorites() as string
     return "My Favorites"
 end function
 
+function basedOnFavorites() as string
+    return "Based on Your Favorites"
+end function
+
 function myContent() as string
     return "My Content"
 end function

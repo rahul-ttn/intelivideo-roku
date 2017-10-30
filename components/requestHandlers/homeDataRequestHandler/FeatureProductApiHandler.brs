@@ -57,6 +57,8 @@ sub parseApiResponse(response As Object)
             featureProductModel.popularProductsArray = productArray
         else if m.top.dataType = "recentAdded"
             featureProductModel.recentlyAddedProductsArray = productArray
+        else if m.top.dataType = "related"
+            featureProductModel.relatedMediaArray = productArray
         else if m.top.dataType = "search"
             featureProductModel.searchProductsArray = productArray
             response = response.products

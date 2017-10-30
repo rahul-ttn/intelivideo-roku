@@ -11,18 +11,33 @@ sub init()
     m.isMediaContent = false
     m.contentArray = CreateObject("roArray", 0, true)
     m.primaryColor = m.appConfig.primary_color
-    callMyFavoriteApi()
 end sub
 
-sub callMyFavoriteApi()
+sub setContentId()
+    callBasedOnFavApi()
+end sub
+
+sub callBasedOnFavApi()
     if checkInternetConnection()
         m.Error_text.visible = false
         showProgressDialog()
-        baseUrl = getApiBaseUrl() + "favorites?per_page="+ Stri(m.perPageItems).Trim() +"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
-        m.myFavoriteApi = createObject("roSGNode","GetFavoriteApiHandler")
-        m.myFavoriteApi.setField("uri",baseUrl)
-        m.myFavoriteApi.observeField("content","onFavoriteResponse")
-        m.myFavoriteApi.control = "RUN"
+        if m.top.isProduct
+            m.isMediaContent = false
+            baseUrl = getApiBaseUrl() + "products/"+ StrI(m.top.itemId).Trim() +"/related?per_page="+ Stri(m.perPageItems).Trim() +"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
+            m.basedOnFavoriteApi = createObject("roSGNode","FeatureProductApiHandler")
+            m.basedOnFavoriteApi.setField("uri",baseUrl)
+            m.basedOnFavoriteApi.setField("dataType","related")
+            m.basedOnFavoriteApi.observeField("content","onBasedOnFavResponse")
+            m.basedOnFavoriteApi.control = "RUN"
+        else 
+            m.isMediaContent = true
+            baseUrl = getApiBaseUrl() + "media/"+ StrI(m.top.itemId).Trim() +"/related?per_page="+ Stri(m.perPageItems).Trim() +"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
+            m.basedOnFavoriteApi = createObject("roSGNode","FeatureMediaApiHandler")
+            m.basedOnFavoriteApi.setField("uri",baseUrl)
+            m.basedOnFavoriteApi.setField("dataType","related")
+            m.basedOnFavoriteApi.observeField("content","onBasedOnFavResponse")
+            m.basedOnFavoriteApi.control = "RUN"
+        end if
     else
         if m.contentArray.count() = 0
             showRetryDialog(networkErrorTitle(), networkErrorMessage())
@@ -30,12 +45,11 @@ sub callMyFavoriteApi()
     end if
 end sub
 
-sub onFavoriteResponse()
-    print "Category Item Api response called"
+sub onBasedOnFavResponse()
     hideProgressDialog()
-    m.categoryItemsModel = m.myFavoriteApi.content
+    m.categoryItemsModel = m.basedOnFavoriteApi.content
     if m.categoryItemsModel <> invalid and m.categoryItemsModel.success
-        m.resultArray = m.categoryItemsModel.items
+        m.resultArray = m.categoryItemsModel.relatedMediaArray
         m.contentArray.Append(m.resultArray)
         showCategoriesList()
     end if
@@ -66,11 +80,6 @@ function onRowItemSelected() as void
         
         arrayIndex = (num * row) + col
         
-        if m.contentArray[arrayIndex].item_type = "products"
-            m.isMediaContent = false
-        else if m.contentArray[arrayIndex].item_type = "media"
-            m.isMediaContent = true
-        end if
         if m.isMediaContent
             m.mediaDetail = m.top.createChild("MediaDetailScreen")
             m.top.setFocus(false)
@@ -91,7 +100,7 @@ function onRowItemFocused() as void
         if row = m.numberOfRows - 1 And not m.categoryItemsModel.pageInfo.last_page 
           m.pagination = true
           m.pageNumber = m.categoryItemsModel.pageInfo.next_page
-          callMyFavoriteApi()  
+          callBasedOnFavApi()  
         end if
 end function
 
@@ -123,31 +132,29 @@ function getGridRowListContent() as object
             if ind < m.contentArray.count()
                 rowItem = row.CreateChild("HomeRowListItemData")
                 dataObjet = m.contentArray[ind]
-                if dataObjet.item_type = "product"
-                    rowItem.id = dataObjet.resource_id
-                else if dataObjet.item_type = "media"
+                  rowItem.created_at = dataObjet.created_at
+                  rowItem.title = dataObjet.title
+                  rowItem.coverBgColor = m.appConfig.primary_color
+                  rowItem.imageUri = dataObjet.small
+                  rowItem.isMedia = dataObjet.is_media
+                  rowItem.isItem = dataObjet.is_item
+                  rowItem.isViewAll = false
+                  
+                  if dataObjet.is_item
                     rowItem.id = dataObjet.product_id
                     rowItem.count = dataObjet.media_count
-                end if
-                
-                rowItem.title = dataObjet.title
-                rowItem.imageUri = dataObjet.thumbnail
-                rowItem.coverBgColor = m.primaryColor
-                rowItem.isMedia = dataObjet.is_media
-                rowItem.isItem = dataObjet.is_item
-                
-                if dataObjet.is_media
+                    rowItem.is_vertical_image = dataObjet.is_vertical_image
+                  else
+                    rowItem.id = dataObjet.resource_id
                     rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
-                else
-                    rowItem.mediaTime = ""
-                end if
-                
-                rowItem.isViewAll = false
-                if getPostedVideoDayDifference(dataObjet.created_at) < 11
-                    rowItem.isNew = true
-                else
-                    rowItem.isNew = false
-                end if
+                  end if
+                  
+                  if getPostedVideoDayDifference(dataObjet.created_at) < 11
+                        rowItem.isNew = true
+                  else
+                        rowItem.isNew = false
+                  end if
+ 
                 ind = ind + 1
             end if
         end for
@@ -207,14 +214,5 @@ sub startTimer()
 end sub
 
 sub onRetry()
-    callMyFavoriteApi()
+    callBasedOnFavApi()
 end sub
-
-
-
-
-
-
-
-
-
