@@ -161,16 +161,14 @@ end Function
 function getPostedVideoDayDifference(postedEpochTime as Integer) as Integer
     if postedEpochTime = 0
         return 100
-    end if 
+    end if
+    
     todaysDate = CreateObject("roDateTime")
     todaysDateEpochTime = todaysDate.asSeconds()
     
     timeDifferenceDate = todaysDateEpochTime - postedEpochTime
-    actualDate = CreateObject("roDateTime")
-    actualDate.fromSeconds(timeDifferenceDate)
-    
-    day =  actualDate.getDayOfMonth()
-    return day - 1
+    day =  (timeDifferenceDate/3600) / 24
+    return day
 end function
 
 function getMediaTimeFromSeconds(totalSeconds as Integer) as String   

@@ -153,15 +153,16 @@ function getGridRowListContent() as object
                   rowItem.isItem = dataObjet.is_item
                   rowItem.isViewAll = false
                   
-                  if dataObjet.item_type = "product"
-                    rowItem.id = dataObjet.product_id
-                    rowItem.count = dataObjet.media_count
-                    rowItem.is_vertical_image = dataObjet.is_vertical_image
-                    if getPostedVideoDayDifference(dataObjet.created_at) < 11
+                  if getPostedVideoDayDifference(dataObjet.created_at) < 11
                         rowItem.isNew = true
                     else
                         rowItem.isNew = false
                     end if
+                  
+                  if dataObjet.item_type = "product"
+                    rowItem.id = dataObjet.product_id
+                    rowItem.count = dataObjet.media_count
+                    rowItem.is_vertical_image = dataObjet.is_vertical_image
                   else if dataObjet.item_type = "media"
                     rowItem.id = dataObjet.resource_id
                     rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
