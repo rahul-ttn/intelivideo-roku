@@ -91,6 +91,7 @@ sub initFields()
 End sub
 
 sub onButtonFavorite()
+    m.top.getScene().isRefreshOnBack = true
     if m.isFav
         m.isFav = false
         setButtonFocusedState(m.favButtonRightrectangle, true)

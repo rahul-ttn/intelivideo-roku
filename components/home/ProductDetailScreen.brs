@@ -96,6 +96,7 @@ sub initFields()
 End sub
 
 sub onProductFavorite()
+    m.top.getScene().isRefreshOnBack = true
     if m.isFavProduct
         m.isFavProduct = false
         setButtonFocusedState(m.favButtonrectangle, true, false)
@@ -108,6 +109,7 @@ sub onProductFavorite()
 end sub
 
 sub onMediaFavorite()
+    m.top.getScene().isRefreshOnBack = true
     if m.isFavMedia
         m.isFavMedia = false
         setButtonFocusedState(m.favButtonRightrectangle, false, true)

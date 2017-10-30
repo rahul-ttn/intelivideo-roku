@@ -57,7 +57,7 @@ function featuredRecent() as string
 end function
 
 function featuredProducts() as string
-    return "Featured Products"
+    return "Featured Collections"
 end function
 
 function featuredMedia() as string
@@ -65,7 +65,7 @@ function featuredMedia() as string
 end function
 
 function popularProducts() as string
-    return "Popular Products"
+    return "Popular Collections"
 end function
 
 function popularMedia() as string
@@ -73,7 +73,7 @@ function popularMedia() as string
 end function
 
 function recentlyAddedProducts() as string
-    return "Recently Added Products"
+    return "Recently Added Collections"
 end function
 
 function recentlyAddedMedia() as string

@@ -5,6 +5,8 @@ sub init()
     m.pagination = false 
     m.perPageItems =10
     m.pageNumber =1
+    m.isRefreshScreen = false
+    m.top.getScene().isRefreshOnBack = false
     m.favoriteItems = CreateObject("roArray", 0, true)
 
     initNavigationBar()
@@ -21,6 +23,8 @@ sub initFields()
     m.favoriteRowList = m.top.FindNode("favoriteRowList")
     m.favoriteRowList.visible = true
     m.favoriteRowList.SetFocus(false)
+'    m.favoriteRowList.unobserveField("rowItemSelected")
+'    m.favoriteRowList.unobserveField("rowItemFocused")
     m.favoriteRowList.ObserveField("rowItemSelected", "onRowItemSelected")
     m.favoriteRowList.ObserveField("rowItemFocused", "onRowItemFocused")
     
@@ -51,6 +55,7 @@ sub onFavoriteResponse()
     if m.myFavoriteApiModel.success
         m.favoriteItems.Append(m.myFavoriteApiModel.items)
         if m.favoriteItems.count() = 0
+            m.favoriteRowList.content = invalid
             m.Error_text.visible = true
             m.Error_text.text = "This is where you will find content that you have Favorited"
         else
@@ -165,6 +170,10 @@ function getGridRowListContent() as object
                   end if
             end for 
         end for
+        
+        if m.isRefreshScreen
+            startUpdateFocusTimer()
+        end if
      return parentContentNode 
 end function
 
@@ -223,14 +232,22 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
             else if m.mediaDetail <> invalid
                 m.mediaDetail.setFocus(false)
                 m.mediaDetail = invalid
-                m.favoriteRowList.setFocus(true)
-                m.favoriteRowList.jumpToRowItem = m.focusedItem
+                if m.top.getScene().isRefreshOnBack
+                    updateScreen()
+                else
+                    m.favoriteRowList.setFocus(true)
+                    m.favoriteRowList.jumpToRowItem = m.focusedItem
+                end if
                 result = true
             else if m.productDetail <> invalid
                 m.productDetail.setFocus(false)
                 m.productDetail = invalid
-                m.favoriteRowList.setFocus(true)
-                m.favoriteRowList.jumpToRowItem = m.focusedItem
+                if m.top.getScene().isRefreshOnBack
+                    updateScreen()
+                else
+                    m.favoriteRowList.setFocus(true)
+                    m.favoriteRowList.jumpToRowItem = m.focusedItem
+                end if
                 result = true
             else
                 m.top.visible = false
@@ -240,6 +257,26 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     end if
     return result 
 End Function
+
+sub updateScreen()
+    m.top.getScene().isRefreshOnBack = false
+    m.isRefreshScreen = true
+    showProgressDialog()
+    m.favoriteItems.Clear()
+    callMyFavoriteApi()
+end sub
+
+sub updateFocus()
+    m.isRefreshScreen = false
+    m.favoriteRowList.setFocus(true)
+    m.favoriteRowList.jumpToRowItem = m.focusedItem
+end sub
+
+sub startUpdateFocusTimer()
+    m.updateFocusTimer = m.top.findNode("updateFocusTimer")
+    m.updateFocusTimer.control = "start"
+    m.updateFocusTimer.ObserveField("fire","updateFocus")
+end sub
 
 Function showRetryDialog(title ,message)
   m.Error_text.visible = true
