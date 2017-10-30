@@ -31,7 +31,7 @@ end sub
 
 sub setFocusOnBackPressed()
     m.categoryLabelList.setFocus(true)
- m.categoryLabelList.jumpToItem = m.focusedLabelListItem
+    m.categoryLabelList.jumpToItem = m.focusedLabelListItem
 end sub
 
 sub initFields()
@@ -255,7 +255,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
     result = false
     m.key = key
     if press
-    print "on key event Profile Screen  key >";key
+    print "on key event Category Screen  key >";key
         if key = "right"
             if m.categoryLabelList.hasFocus() and m.categoriesRowList.visible
                 m.categoryLabelList.setFocus(false)
@@ -297,51 +297,35 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
 '            end if
             result = true
         else if key = "back"
-            print "m.subCategoryScreen> ";m.subCategoryScreen;m.focusedLabelListItem 
-'            if m.subCategoryScreen <> invalid
-'                m.subCategoryScreen.setFocus(false)
-'                m.categoryLabelList.setFocus(true)
-'                m.categoryLabelList.jumpToItem = m.focusedLabelListItem
-'                m.top.removeChild(m.subCategoryScreen)
-'                print "m.subCategoryScreen>   ";m.subCategoryScreen
-'                return false
-'            else
-'                return true
-'            end if 
-             m.top.getParent().backPressed = 12
-             print "m.top categories Screen";m.top
-             m.top.visible = false
-             m.top.getParent().removeChild(m.subCategoryScreen)
-             return true
-'            if m.switchAccount <> invalid 
-'               if m.switchAccount.accountSelected
-'                    m.top.visible = false
-'                    result = false
-'                else
-'                    m.switchAccount.setFocus(false)
-'                    m.buttonSwitchAccount.setFocus(true)
-'                    m.switchAccount = invalid
-'                    result = true
-'                end if
-'            else if m.viewAllScreen <> invalid
-'                m.viewAllScreen.setFocus(false)
-'                m.viewAllScreen = invalid
-'                m.categoriesRowList.setFocus(true)
-'                m.myContentRowList.jumpToRowItem = m.focusedItem
-'                result = true
-'            else if m.productDetail <> invalid
-'                m.productDetail.setFocus(false)
-'                m.productDetail = invalid
-'                m.categoriesRowList.setFocus(true)
-'                m.categoriesRowList.jumpToRowItem = m.focusedItem
-'                result = true
-'            else
-'                m.top.visible = false
-'                result = false
-'            end if
-'        else 
-'            print "key = else"
-'            result = true
+            if m.categoryViewAll <> invalid
+                m.categoryViewAll.setFocus(false)
+                m.categoryViewAll = invalid
+                m.categoryLabelList.setFocus(true)
+                m.categoryLabelList.jumpToItem = m.focusedLabelListItem
+                result = true
+            else if m.mediaDetail <> invalid
+                m.mediaDetail.setFocus(false)
+                m.mediaDetail = invalid
+                m.categoriesRowList.setFocus(true)
+                m.categoriesRowList.jumpToRowItem = m.focusedItem
+                result = true
+            else if m.productDetail <> invalid
+                m.productDetail.setFocus(false)
+                m.productDetail = invalid
+                m.categoriesRowList.setFocus(true)
+                m.categoriesRowList.jumpToRowItem = m.focusedItem
+                result = true
+            else 
+                 if m.top.getParent().backPressed = invalid
+                    return false
+                 end if
+                 print "m.top.getParent().backPressed > ";m.top.getParent().backPressed
+                 m.top.getParent().backPressed = 12
+                 print "m.top categories Screen";m.top
+                 m.top.visible = false
+                 m.top.getParent().removeChild(m.subCategoryScreen)
+                 return true
+            end if
         end if           
     end if
     return result 

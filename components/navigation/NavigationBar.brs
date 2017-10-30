@@ -165,9 +165,9 @@ End sub
 sub showCategoryScreen()
     print "showCategoryScreen "
      if m.screenName <> categoryScreen()
-        categoryScreen = m.top.createChild("CategoriesScreen")
-        categoryScreen.setFocus(true)
-        categoryScreen.isbaseCategory = true
+        m.categoryScreen = m.top.createChild("CategoriesScreen")
+        m.categoryScreen.setFocus(true)
+        m.categoryScreen.isbaseCategory = true
      end if
 End sub
 
