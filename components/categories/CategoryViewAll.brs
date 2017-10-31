@@ -126,9 +126,10 @@ function getGridRowListContent() as object
                 dataObjet = m.contentArray[ind]
                 if dataObjet.item_type = "product"
                     rowItem.id = dataObjet.resource_id
+                    rowItem.count = dataObjet.media_count
                 else if dataObjet.item_type = "media"
                     rowItem.id = dataObjet.product_id
-                    rowItem.count = dataObjet.media_count
+                    'rowItem.count = dataObjet.media_count
                 end if
                 
                 rowItem.title = dataObjet.title
