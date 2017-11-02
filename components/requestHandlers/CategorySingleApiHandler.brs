@@ -36,15 +36,17 @@ sub parseApiResponse(response As Object)
                 categoryItemModel.media_count = item.media_count
                 categoryItemModel.is_media = false
                 categoryItemModel.is_item = true
-                if item.images.horizontal_cover_art <> invalid
-                    categoryItemModel.is_vertical_image = false
-                    categoryItemModel.thumbnail = item.images.horizontal_cover_art.thumbnail
-                else if item.images.vertical_cover_art <> invalid
-                    categoryItemModel.is_vertical_image = true
-                    categoryItemModel.thumbnail = item.images.vertical_cover_art.thumbnail
-                else if item.images.banner_image <> invalid
-                    categoryItemModel.is_vertical_image = false
-                    categoryItemModel.thumbnail = item.images.banner_image.thumbnail
+                if item.images <> invalid
+                    if item.images.horizontal_cover_art <> invalid
+                        categoryItemModel.is_vertical_image = false
+                        categoryItemModel.thumbnail = item.images.horizontal_cover_art.thumbnail
+                    else if item.images.vertical_cover_art <> invalid
+                        categoryItemModel.is_vertical_image = true
+                        categoryItemModel.thumbnail = item.images.vertical_cover_art.thumbnail
+                    else if item.images.banner_image <> invalid
+                        categoryItemModel.is_vertical_image = false
+                        categoryItemModel.thumbnail = item.images.banner_image.thumbnail
+                    end if
                 end if
             else if item.item_type = "media"
                 categoryItemModel.resource_id = item.resource_id
