@@ -39,8 +39,11 @@ sub onUserApiResponse()
         m.productsAarray = m.userApi.content.productsArray
         m.subsAarray = m.userApi.content.subscriptionsArray
         
-        m.top.getScene().appConfigContent = m.appConfig 
-        initNavigationBar()
+        m.top.getScene().appConfigContent = m.appConfig
+        if m.isRefreshScreen = false
+            initNavigationBar()
+        end if
+        
         if m.subsAarray.count() > 0
             m.top.getScene().myContent = m.productsAarray
             m.isSVOD = true
@@ -531,11 +534,7 @@ function getGridRowListContent() as object
                 rowItem.isViewAll = true
             end if
          end if
-         
-         if m.isRefreshScreen
-            startUpdateFocusTimer()
-         end if
-         
+             
          else                                          'else case for TVOD
             if m.productsAarray.count() < 9
                 m.homeRowList.itemComponentName = "Home2xListItemLayout"
@@ -586,6 +585,10 @@ function getGridRowListContent() as object
             end for 
          end if
          
+         if m.isRefreshScreen
+            startUpdateFocusTimer()
+         end if
+         
          return parentContentNode 
 end function
 
@@ -630,7 +633,6 @@ sub homeRowList()
     m.homeRowList.SetFocus(false)
     m.homeRowList.unobserveField("rowItemSelected")
     m.homeRowList.ObserveField("rowItemSelected", "onRowItemSelected")
-    m.homeRowList.content = invalid
     m.homeRowList.content = getGridRowListContent()
 End sub
 
@@ -845,8 +847,12 @@ End Function
 sub updateScreen()
     m.top.getScene().isRefreshOnBack = false
     m.isRefreshScreen = true
-    showProgressDialog()
-    callHomeSVODApis()
+    if m.isSVOD
+        showProgressDialog()
+        callHomeSVODApis()
+    else
+        callUserApi()
+    end if
 end sub
 
 Function showRetryDialog(title ,message)

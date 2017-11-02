@@ -29,6 +29,8 @@ sub initFields()
     m.favoriteRowList.ObserveField("rowItemFocused", "onRowItemFocused")
     
     m.Error_text  = m.top.FindNode("Error_text")
+    error_textRectangleX = (1360 - m.Error_text.width) / 2
+    m.Error_text.translation = [error_textRectangleX, 480]
     callMyFavoriteApi()
 End sub
 
@@ -55,9 +57,15 @@ sub onFavoriteResponse()
     if m.myFavoriteApiModel.success
         m.favoriteItems.Append(m.myFavoriteApiModel.items)
         if m.favoriteItems.count() = 0
-            m.favoriteRowList.content = invalid
+            m.favoriteRowList.visible = false
             m.Error_text.visible = true
             m.Error_text.text = "This is where you will find content that you have Favorited"
+            if m.isRefreshScreen
+                m.isRefreshScreen = false
+                initNavigationBar()
+                showOpenState()
+                m.rectSwitchAccountBorder.visible = false
+            end if
         else
             m.favoriteRowList.content = getGridRowListContent()
             if m.pagination
