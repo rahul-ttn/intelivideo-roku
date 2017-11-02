@@ -257,16 +257,22 @@ function onRowItemSelected() as void
 '        print "**********Row is *********";row
 '        print "**********col is *********";col
         m.focusedItem = [row,col]
+        if m.list.itemComponentName = "Home3xListItemLayout"
+            num = 3
+        else
+            num = 2
+        end if
+        arrayIndex = (num * row) + col
         if m.isMediaContent
             m.mediaDetail = m.top.createChild("MediaDetailScreen")
             m.top.setFocus(false)
             m.mediaDetail.setFocus(true)
-            m.mediaDetail.resource_id = m.contentArray[col].resource_id
+            m.mediaDetail.resource_id = m.contentArray[arrayIndex].resource_id
         else
             m.productDetail = m.top.createChild("ProductDetailScreen")
             m.top.setFocus(false)
             m.productDetail.setFocus(true)
-            m.productDetail.product_id = m.contentArray[col].product_id
+            m.productDetail.product_id = m.contentArray[arrayIndex].product_id
         end if
 end function
 

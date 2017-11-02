@@ -148,6 +148,7 @@ end sub
 sub searchRowList()
     m.searchRowList.visible = true
     m.searchRowList.SetFocus(false)
+    m.searchRowList.unobserveField("rowItemSelected")
     m.searchRowList.ObserveField("rowItemSelected", "onRowItemSelected")
     m.searchRowList.content = getGridRowListContent()
 End sub
