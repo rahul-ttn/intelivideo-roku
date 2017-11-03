@@ -63,12 +63,14 @@ end sub
 sub onCategoryBaseApiResponse()
      baseCategoryApiModel = m.baseCategoryApi.content
      hideProgressDialog()
-    if baseCategoryApiModel.success
-        m.baseCategoryArray =  baseCategoryApiModel.baseCategoriesArray
-        showBaseCategoryList(m.baseCategoryArray) 
-    else
-        showRetryDialog(networkErrorTitle(), networkErrorMessage())
-    end if
+     if baseCategoryApiModel <> invalid
+        if baseCategoryApiModel.success
+            m.baseCategoryArray =  baseCategoryApiModel.baseCategoriesArray
+            showBaseCategoryList(m.baseCategoryArray) 
+        else
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        end if
+     end if
 end sub
 
 sub showBaseCategoryList(list as object)
@@ -83,16 +85,23 @@ sub showBaseCategoryList(list as object)
 End sub
 
 sub onListItemFocused()
-    if m.focusedLabelListItem <> m.categoryLabelList.itemFocused
-        if checkInternetConnection()
+    if m.focusedLabelListItem <> m.categoryLabelList.itemFocused 
+        callItemListApi(m.categoryLabelList.itemFocused)
+    end if
+   m.focusedLabelListItem = m.categoryLabelList.itemFocused
+End sub
+
+sub callItemListApi(itemFocused as integer)
+    if checkInternetConnection()
             m.Error_text.visible = false
             if m.baseCategoryArray <> invalid and m.baseCategoryArray.count()>0
-                itemId = m.baseCategoryArray[m.categoryLabelList.itemFocused].id
+                itemId = m.baseCategoryArray[itemFocused].id
             else 
-                itemId = m.childrenList[m.categoryLabelList.itemFocused].id
+                itemId = m.childrenList[itemFocused].id
             end if 
             newItemId = itemId.toInt()
             if newItemId <> -1
+                print "call Items "
                 showProgressDialog()
                 baseUrl = getApiBaseUrl() + "categories/"+itemId+"?access_token=" + getValueInRegistryForKey("authTokenValue")
                 m.itemCategoryApi = createObject("roSGNode","CategorySingleApiHandler")
@@ -101,11 +110,10 @@ sub onListItemFocused()
                 m.itemCategoryApi.control = "RUN"
             end if
         else
-            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+            print "Show ItemList retry Dialog"
+            showItemRetryDialog(networkErrorTitle(), networkErrorMessage())
         end if
-    end if
-   m.focusedLabelListItem = m.categoryLabelList.itemFocused
-End sub
+end sub
 
 sub onListItemSelected()
     if m.baseCategoryArray <> invalid and m.baseCategoryArray.count()>0
@@ -118,16 +126,18 @@ sub onListItemSelected()
     if  categoryId.toInt() = -1
         goToViewAllScreen(m.mainCategoryName,m.mainCategoryId.toStr())
     else
-        if m.categoryItemApiContent.children <> invalid and m.categoryItemApiContent.children.count() > 0
-            m.subCategoryList = CreateObject("roArray", m.categoryItemApiContent.children.count() + 1, true)
-            childrenItemModel = CreateObject("roSGNode", "CategoryChildrenItemModel")
-            childrenItemModel.id = -1
-            childrenItemModel.name = "ViewAll"
-            m.subCategoryList.push(childrenItemModel)
-            m.subCategoryList.append(m.categoryItemApiContent.children)
-            callSubCategoryScreen(categoryId,categoryName)
-        else
-            goToViewAllScreen(categoryName,categoryId.toStr()) 
+        if m.categoryItemApiContent <> invalid
+            if m.categoryItemApiContent.children <> invalid and m.categoryItemApiContent.children.count() > 0
+                m.subCategoryList = CreateObject("roArray", m.categoryItemApiContent.children.count() + 1, true)
+                childrenItemModel = CreateObject("roSGNode", "CategoryChildrenItemModel")
+                childrenItemModel.id = -1
+                childrenItemModel.name = "ViewAll"
+                m.subCategoryList.push(childrenItemModel)
+                m.subCategoryList.append(m.categoryItemApiContent.children)
+                callSubCategoryScreen(categoryId,categoryName)
+            else
+                goToViewAllScreen(categoryName,categoryId.toStr()) 
+            end if
         end if
     end if   
 End sub
@@ -146,12 +156,14 @@ end sub
 
 sub onCategorySingleApiResponse()
     hideProgressDialog()
-    print 
+    print "on SingleCategory Api Response Method called";m.itemCategoryApi.content
     if m.itemCategoryApi.content <> invalid
         if m.itemCategoryApi.content.success
             m.categoryItemApiContent = m.itemCategoryApi.content
             m.categoriesRowList.content = invalid
             categoryItemRowList() 
+        else
+            showItemRetryDialog(networkErrorTitle(), networkErrorMessage())
         end if
     end if 
 end sub
@@ -358,4 +370,33 @@ sub startTimer()
     m.testtimer = m.top.findNode("timer")
     m.testtimer.control = "start"
     m.testtimer.ObserveField("fire","onRetry")
+end sub
+
+Function showItemRetryDialog(title ,message)
+  m.Error_text.visible = true
+  m.Error_text.text = ""
+  
+  
+  dialog = createObject("roSGNode", "Dialog") 
+  dialog.backgroundUri = "" 
+  dialog.title = title
+  dialog.optionsDialog = true 
+  dialog.iconUri = ""
+  dialog.message = message
+  dialog.width = 1200
+  dialog.buttons = ["Retry"]
+  dialog.optionsDialog = true
+  dialog.observeField("buttonSelected", "startItemListTimer") 'The field is set when the dialog close field is set,
+  m.top.getScene().dialog = dialog
+end Function
+
+sub onItemListRetry()
+    callItemListApi(m.categoryLabelList.itemFocused)
+end sub
+
+sub startItemListTimer()
+    m.top.getScene().dialog.close = true
+    m.testtimer = m.top.findNode("timer")
+    m.testtimer.control = "start"
+    m.testtimer.ObserveField("fire","onItemListRetry")
 end sub

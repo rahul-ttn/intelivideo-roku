@@ -5,11 +5,13 @@ end sub
 sub callApiHandler()
      response = callGetApi(m.top.uri)
      if response <> invalid
+        print "Response valid SINGLE API HANDLER"
         m.responseCode = response.GetResponseCode()
         responseString = response.GetString()
         json = ParseJSON(response)
         parseApiResponse(json)
      else
+        print "Response not valid SINGLE API HANDLER"
         singleCategoryModel = CreateObject("roSGNode", "SingleCategoryModel")
         singleCategoryModel.success = false
         m.top.content = singleCategoryModel
@@ -77,6 +79,7 @@ sub parseApiResponse(response As Object)
         end if
         
     else 
+        print "SINGLE API HANDLER FAILURE>>>>>>"
         singleCategoryModel.success = false
         singleCategoryModel.error = apiErrorMessage()
     end if

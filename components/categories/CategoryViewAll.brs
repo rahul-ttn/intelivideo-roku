@@ -17,18 +17,23 @@ end sub
 sub setCategoryData()
     print "Set Category called"
     m.categoryId = m.top.categoryId
-    m.heading.text = m.top.categoryHeading
+    m.headingTitle = m.top.categoryHeading
     callCategoriesApi()
     m.list.setFocus(true)
 end sub
 
 sub callCategoriesApi()
-    baseUrl = getApiBaseUrl() + "categories/"+m.categoryId+"/items?per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
-    m.itemCategoryApi = createObject("roSGNode","CategoryItemApiHandler")
-    m.itemCategoryApi.setField("uri",baseUrl)
-    m.itemCategoryApi.observeField("content","onCategoryItemsApiResponse")
-    m.itemCategoryApi.control = "RUN"
-    showProgressDialog()
+    if checkInternetConnection()
+        m.Error_text.visible = false
+        showProgressDialog()
+        baseUrl = getApiBaseUrl() + "categories/"+m.categoryId+"/items?per_page="+Stri(m.perPageItems).Trim()+"&page_number="+Stri(m.pageNumber).Trim()+"&access_token=" + getValueInRegistryForKey("authTokenValue")
+        m.itemCategoryApi = createObject("roSGNode","CategoryItemApiHandler")
+        m.itemCategoryApi.setField("uri",baseUrl)
+        m.itemCategoryApi.observeField("content","onCategoryItemsApiResponse")
+        m.itemCategoryApi.control = "RUN"
+    else
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
+    end if
 end sub 
 
 sub onCategoryItemsApiResponse()
@@ -36,9 +41,12 @@ sub onCategoryItemsApiResponse()
     hideProgressDialog()
     m.categoryItemsModel = m.itemCategoryApi.content
     if m.categoryItemsModel <> invalid and m.categoryItemsModel.success
+        m.heading.text = m.headingTitle
         m.resultArray = m.categoryItemsModel.items
         m.contentArray.Append(m.resultArray)
         showCategoriesList()
+     else
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
