@@ -1,6 +1,7 @@
 sub init()
     m.top.SetFocus(true)
     setVideo()
+    setValueInRegistryForKey("isHome","false")
     m.top.buttonFocus = false
     m.parentRectangle = m.top.findNode("parentRectangle")
     m.oopsLabel = m.top.findNode("oopsLabel")

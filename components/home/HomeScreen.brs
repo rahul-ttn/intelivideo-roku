@@ -18,6 +18,11 @@ sub init()
     print "Home screen init >>> "
 End sub
 
+sub fromPasswordScreen()
+    m.passwordScreen = m.top.isFromPasswordScreen
+    m.passwordScreen = invalid
+end sub
+
 sub callUserApi()
     if checkInternetConnection()
         m.Error_text.visible = false
@@ -889,7 +894,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 end if
                 result = true
             else
-                print "Switch Account invalid else block"
+                print "Switch Account invalid else block";m.top.getParent().getChildCount()
                 m.top.visible = false
                 result = false
             end if

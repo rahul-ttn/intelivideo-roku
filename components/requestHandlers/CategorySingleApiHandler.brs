@@ -5,11 +5,13 @@ end sub
 sub callApiHandler()
      response = callGetApi(m.top.uri)
      if response <> invalid
+        print "Response valid SINGLE API HANDLER"
         m.responseCode = response.GetResponseCode()
         responseString = response.GetString()
         json = ParseJSON(response)
         parseApiResponse(json)
      else
+        print "Response not valid SINGLE API HANDLER"
         singleCategoryModel = CreateObject("roSGNode", "SingleCategoryModel")
         singleCategoryModel.success = false
         m.top.content = singleCategoryModel
@@ -36,15 +38,17 @@ sub parseApiResponse(response As Object)
                 categoryItemModel.media_count = item.media_count
                 categoryItemModel.is_media = false
                 categoryItemModel.is_item = true
-                if item.images.horizontal_cover_art <> invalid
-                    categoryItemModel.is_vertical_image = false
-                    categoryItemModel.thumbnail = item.images.horizontal_cover_art.thumbnail
-                else if item.images.vertical_cover_art <> invalid
-                    categoryItemModel.is_vertical_image = true
-                    categoryItemModel.thumbnail = item.images.vertical_cover_art.thumbnail
-                else if item.images.banner_image <> invalid
-                    categoryItemModel.is_vertical_image = false
-                    categoryItemModel.thumbnail = item.images.banner_image.thumbnail
+                if item.images <> invalid
+                    if item.images.horizontal_cover_art <> invalid
+                        categoryItemModel.is_vertical_image = false
+                        categoryItemModel.thumbnail = item.images.horizontal_cover_art.thumbnail
+                    else if item.images.vertical_cover_art <> invalid
+                        categoryItemModel.is_vertical_image = true
+                        categoryItemModel.thumbnail = item.images.vertical_cover_art.thumbnail
+                    else if item.images.banner_image <> invalid
+                        categoryItemModel.is_vertical_image = false
+                        categoryItemModel.thumbnail = item.images.banner_image.thumbnail
+                    end if
                 end if
             else if item.item_type = "media"
                 categoryItemModel.resource_id = item.resource_id
@@ -75,6 +79,7 @@ sub parseApiResponse(response As Object)
         end if
         
     else 
+        print "SINGLE API HANDLER FAILURE>>>>>>"
         singleCategoryModel.success = false
         singleCategoryModel.error = apiErrorMessage()
     end if

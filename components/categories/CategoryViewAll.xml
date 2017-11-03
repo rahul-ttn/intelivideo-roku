@@ -21,7 +21,7 @@
 			height = "1920">
 			<Label
 				id = "labelHeading"
-				text = "Popular Collections"
+				text = ""
 				translation = "[150,50]"
 				font = "font:LargeSystemFont" >
 			</Label>
