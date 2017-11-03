@@ -80,16 +80,20 @@ function onRowItemSelected() as void
         else if m.contentArray[arrayIndex].item_type = "media"
             m.isMediaContent = true
         end if
-        if m.isMediaContent
-            m.mediaDetail = m.top.createChild("MediaDetailScreen")
-            m.top.setFocus(false)
-            m.mediaDetail.setFocus(true)
-            m.mediaDetail.resource_id = m.contentArray[arrayIndex].resource_id
+        if checkInternetConnection()
+            if m.isMediaContent
+                m.mediaDetail = m.top.createChild("MediaDetailScreen")
+                m.top.setFocus(false)
+                m.mediaDetail.setFocus(true)
+                m.mediaDetail.resource_id = m.contentArray[arrayIndex].resource_id
+            else
+                m.productDetail = m.top.createChild("ProductDetailScreen")
+                m.top.setFocus(false)
+                m.productDetail.setFocus(true)
+                m.productDetail.product_id = m.contentArray[arrayIndex].product_id
+            end if
         else
-            m.productDetail = m.top.createChild("ProductDetailScreen")
-            m.top.setFocus(false)
-            m.productDetail.setFocus(true)
-            m.productDetail.product_id = m.contentArray[arrayIndex].product_id
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
         end if
 end function
 
