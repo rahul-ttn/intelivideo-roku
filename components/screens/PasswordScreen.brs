@@ -154,7 +154,8 @@ sub onAuthToken()
             m.homeScreen = m.top.createChild("HomeScreen")
             m.top.setFocus(false)
             m.homeScreen.setFocus(true)
-            print "onAuthToken moved to home screen>>> "
+            m.homeScreen.isFromPasswordScreen = m.top
+            'print "onAuthToken moved to home screen>>> "
         else
             print "onAuthToken isLogin false>>> "
            showHideError(true,01)

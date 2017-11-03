@@ -39,7 +39,7 @@
 				</Label>
 
 				<Rectangle id="playButtonOuterRectangle" width="150"
-					height="130" translation="[200,520]" color="0x00CCB900">
+					height="130" translation="[200,520]" color="0x00CCB900" visible="false">
 					<Rectangle id="playButtonrectangle" width="150" height="100"
 						translation="[0,0]" color="0x858585ff">
 						<Button id="buttonPlay" height="50" translation="[0,0]"
@@ -56,7 +56,7 @@
 					</Label>
 				</Rectangle>
 				<Rectangle id="favButtonOuterRightRectangle" width="150"
-					height="130" translation="[390,520]" color="0x00CCB900">
+					height="130" translation="[390,520]" color="0x00CCB900" visible = "false">
 					<Rectangle id="favButtonRightrectangle" width="150"
 						height="100" translation="[0,0]" color="0x858585ff">
 
