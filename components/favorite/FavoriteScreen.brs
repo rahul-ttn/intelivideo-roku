@@ -124,15 +124,15 @@ end sub
 
 function getGridRowListContent() as object
      parentContentNode = CreateObject("roSGNode", "ContentNode")
-        if m.favoriteItems.count() < 9 
-            m.favoriteRowList.itemComponentName = "Home2xListItemLayout"
-            m.favoriteRowList.itemSize = [200 * 9 + 100, 600]
-            m.favoriteRowList.rowHeights = [600]
-            m.favoriteRowList.rowItemSize = [ [675, 572] ]
-            m.numberOfRows = (m.favoriteItems.count() + 1) \ 2 
-            n = 1
-            m.numOfColumns = 2
-        else
+'        if m.favoriteItems.count() < 9 
+'            m.favoriteRowList.itemComponentName = "Home2xListItemLayout"
+'            m.favoriteRowList.itemSize = [200 * 9 + 100, 600]
+'            m.favoriteRowList.rowHeights = [600]
+'            m.favoriteRowList.rowItemSize = [ [675, 572] ]
+'            m.numberOfRows = (m.favoriteItems.count() + 1) \ 2 
+'            n = 1
+'            m.numOfColumns = 2
+'        else
             m.favoriteRowList.itemComponentName = "Home3xListItemLayout"
             m.favoriteRowList.itemSize = [200 * 9 + 100, 445]
             m.favoriteRowList.rowHeights = [445]
@@ -141,7 +141,7 @@ function getGridRowListContent() as object
             m.numberOfRows = (m.favoriteItems.count() + 2) \ 3 
             n = 2
             m.numOfColumns = 3
-        end if
+'        end if
         
         ind = 0
         for numRows = 0 to m.numberOfRows-1
