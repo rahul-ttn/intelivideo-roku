@@ -9,10 +9,14 @@ sub init()
     m.perPageItems =10
     m.pageNumber =1
     m.isMediaContent = false
+    m.isMyContent = false
+    m.isRefreshScreen = false
+    m.needToRefreshHome = false
     m.contentArray = CreateObject("roArray", 0, true)
 end sub
 
 sub setData()
+    m.isMyContent = false
     m.titleText = m.top.titleText
     m.heading.text =  m.titleText
     m.searchQuery = m.top.searchQuery
@@ -26,6 +30,7 @@ end sub
 
 sub setArray()
     print "set array called "
+    m.isMyContent = true
     m.myContentArray = m.top.contentArray
     showList() 'To show list when my content is selected
 end sub
@@ -262,17 +267,17 @@ function onRowItemSelected() as void
         else
             num = 2
         end if
-        arrayIndex = (num * row) + col
+        m.rowSelectedIndex = (num * row) + col
         if m.isMediaContent
             m.mediaDetail = m.top.createChild("MediaDetailScreen")
             m.top.setFocus(false)
             m.mediaDetail.setFocus(true)
-            m.mediaDetail.resource_id = m.contentArray[arrayIndex].resource_id
+            m.mediaDetail.resource_id = m.contentArray[m.rowSelectedIndex].resource_id
         else
             m.productDetail = m.top.createChild("ProductDetailScreen")
             m.top.setFocus(false)
             m.productDetail.setFocus(true)
-            m.productDetail.product_id = m.contentArray[arrayIndex].product_id
+            m.productDetail.product_id = m.contentArray[m.rowSelectedIndex].product_id
         end if
 end function
 
@@ -322,6 +327,7 @@ function getGridRowListContent() as object
                 rowItem.coverBgColor = m.primaryColor
                 rowItem.isMedia = dataObjet.is_media
                 rowItem.isItem = dataObjet.is_item
+                rowItem.favorite = dataObjet.favorite
                 
                 if dataObjet.is_media
                     rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
@@ -339,6 +345,9 @@ function getGridRowListContent() as object
             end if
         end for
     end for
+    if m.isRefreshScreen
+        startUpdateFocusTimer()
+    end if
     return parentContentNode
 end function
 
@@ -351,16 +360,28 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             if m.mediaDetail <> invalid
                 m.mediaDetail.setFocus(false)
                 m.mediaDetail = invalid
-                m.list.setFocus(true)
-                m.list.jumpToRowItem = m.focusedItem
+                if m.top.getScene().isRefreshOnBack AND NOT m.isMyContent
+                    updateScreen()
+                else
+                    m.list.setFocus(true)
+                    m.list.jumpToRowItem = m.focusedItem
+                end if
+                
                 result = true
             else if m.productDetail <> invalid
                 m.productDetail.setFocus(false)
                 m.productDetail = invalid
-                m.list.setFocus(true)
-                m.list.jumpToRowItem = m.focusedItem
+                if m.top.getScene().isRefreshOnBack AND NOT m.isMyContent
+                    updateScreen()
+                else
+                    m.list.setFocus(true)
+                    m.list.jumpToRowItem = m.focusedItem
+                end if
                 result = true
             else
+'                if m.needToRefreshHome
+'                    m.top.getScene().isRefreshOnBack = true
+'                end if
                 m.top.visible = false
                 result = false
             end if
@@ -368,6 +389,31 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     end if
     return result 
 End function
+
+sub updateScreen()
+    m.top.getScene().isRefreshOnBack = false
+    m.needToRefreshHome = true
+    m.isRefreshScreen = true
+    showProgressDialog()
+    m.contentArray.Clear()
+    if m.rowSelectedIndex >= 10
+        m.perPageItems = m.rowSelectedIndex+5
+        m.pageNumber = 1
+    end if
+    callSelectedApi()
+end sub
+
+sub updateFocus()
+    m.isRefreshScreen = false
+    m.list.setFocus(true)
+    m.list.jumpToRowItem = m.focusedItem
+end sub
+
+sub startUpdateFocusTimer()
+    m.updateFocusTimer = m.top.findNode("updateFocusTimer")
+    m.updateFocusTimer.control = "start"
+    m.updateFocusTimer.ObserveField("fire","updateFocus")
+end sub
 
 Function showRetryDialog(title ,message)
   m.Error_text.visible = true

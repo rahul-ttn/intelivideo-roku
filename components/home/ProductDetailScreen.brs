@@ -113,9 +113,13 @@ sub onMediaFavorite()
     if m.isFavMedia
         m.isFavMedia = false
         setButtonFocusedState(m.favButtonRightrectangle, false, true)
+        m.mediaModel = m.productDetailModel.objects[m.productLabelList.itemFocused]
+        m.mediaModel.favorite = false
         deleteFavMediaAPI()
     else
         m.isFavMedia = true
+        m.mediaModel = m.productDetailModel.objects[m.productLabelList.itemFocused]
+        m.mediaModel.favorite = true
         addFavMediaAPI()
         m.favButtonRightrectangle.color = favButtonFocusColor()
     end if
@@ -279,7 +283,7 @@ sub handlebuttonSelectedState()
     else if m.currentFocusID ="buttonMoreRight"
         setButtonUnFocusedState(m.favButtonrectangle, true, false)
         setButtonUnFocusedState(m.playButtonrectangle, false, false)
-        setButtonUnFocusedState(m.favButtonRightrectangle, true, false)
+        setButtonUnFocusedState(m.favButtonRightrectangle, false, true)
         setMoreUnselectedState(m.labelMore)
         setMoreSelectedState(m.labelMoreRight)
     end if
@@ -337,6 +341,12 @@ sub onProductDetailApiResponse()
         print "m.productDetailModel.original >>> ";m.productDetailModel.original
         m.titleLabel.text = m.productDetailModel.title
         m.descLabel.text = m.productDetailModel.description
+        
+        if m.productDetailModel.favorite
+            m.isFavProduct = true
+            m.favButtonrectangle.color = m.appConfig.primary_color
+        end if
+        
         showMediaList()
         
         print "m.productDetailBgPoster.loadStatus <<>> ";m.productDetailBgPoster.loadStatus
@@ -363,6 +373,13 @@ sub onListItemFocused()
    m.nameLabel.text = m.mediaModel.title
    m.longDescriptionLabel.text = m.mediaModel.description
    m.resourceId = m.mediaModel.resource_id
+   if m.mediaModel.favorite
+        m.isFavMedia = true
+        setButtonUnFocusedState(m.favButtonRightrectangle, false, true)
+   else
+        m.isFavMedia = false
+        setButtonUnFocusedState(m.favButtonRightrectangle, false, true)
+   end if
    startMoreTimer()
 End sub
 

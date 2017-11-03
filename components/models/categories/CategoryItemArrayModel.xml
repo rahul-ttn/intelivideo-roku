@@ -19,5 +19,6 @@
 		<field type="string" id="thumbnail" />
 		<field id="is_media" type="bool"></field>
 		<field id="is_item" type="bool"></field>
+		<field id="favorite" type="bool"></field>
 	</interface>
 </component>

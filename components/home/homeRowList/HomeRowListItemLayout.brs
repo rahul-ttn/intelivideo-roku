@@ -43,6 +43,7 @@ function itemContentChanged() as void
     else 
         m.posterVod.loadDisplayMode = "noScale"
     end if
+   
     m.posterVod.uri = itemData.imageUri
     
     m.labelDescription.text = itemData.title
@@ -53,6 +54,12 @@ function itemContentChanged() as void
         m.rectNew.visible = true
     else
         m.rectNew.visible = false
+    end if
+    
+    if itemData.favorite
+        m.posterFav.visible = true
+    else
+        m.posterFav.visible = false
     end if
     
     if itemData.isMedia

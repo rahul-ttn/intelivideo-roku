@@ -10,7 +10,7 @@ sub callApiHandler()
         json = ParseJSON(response)
         parseApiResponse(json)
      else
-        singleCategoryModel = CreateObject("roSGNode", "SingleCategoryModel")
+        singleCategoryModel = CreateObject("roSGNode", "FavoriteModel")
         singleCategoryModel.success = false
         m.top.content = singleCategoryModel
      end if

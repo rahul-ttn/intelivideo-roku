@@ -12,5 +12,6 @@
   <field id="mediaTime" type="string" />
   <field id="isViewAll" type="boolean"/>
   <field id="is_vertical_image" type="boolean"/>
+  <field id="favorite" type="bool"></field>
 </interface>
 </component>

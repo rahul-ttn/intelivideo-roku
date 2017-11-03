@@ -85,7 +85,7 @@ function onRowItemFocused() as void
         col = m.favoriteRowList.rowItemFocused[1]
 
         m.focusedItem = [row,col]
-        if row = m.numberOfRows - 1 And not m.myFavoriteApiModel.pageInfo.last_page 
+        if checkInternetConnection() AND row = m.numberOfRows - 1 And not m.myFavoriteApiModel.pageInfo.last_page 
             m.pagination = true
             m.pageNumber = m.myFavoriteApiModel.pageInfo.next_page
             callMyFavoriteApi()  
@@ -98,8 +98,8 @@ function onRowItemSelected() as void
         
         m.focusedItem = [row,col]
         
-        index = (m.numOfColumns*row) + col
-        goToFavDetail(index)
+        m.rowSelectedIndex = (m.numOfColumns*row) + col
+        goToFavDetail(m.rowSelectedIndex)
 end function
 
 sub goToFavDetail(index as Integer)
@@ -272,6 +272,10 @@ sub updateScreen()
     m.isRefreshScreen = true
     showProgressDialog()
     m.favoriteItems.Clear()
+    if m.rowSelectedIndex >= 10
+        m.perPageItems = m.rowSelectedIndex+5
+        m.pageNumber = 1
+    end if
     callMyFavoriteApi()
 end sub
 

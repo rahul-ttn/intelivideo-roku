@@ -23,6 +23,8 @@ sub parseApiResponse(response As Object)
         productDetailModel.success = true
         productDetailModel.product_id = response.product.product_id
         productDetailModel.title = response.product.title
+        productDetailModel.favorite = response.product.favorite
+        
         if response.product.long_description <> invalid
             productDetailModel.description = response.product.long_description
         else
@@ -48,6 +50,7 @@ sub parseApiResponse(response As Object)
             mediaModel.small = productItem.cover_art.small
             mediaModel.created_at = productItem.created_at
             mediaModel.description = productItem.description
+            mediaModel.favorite = productItem.favorite
             
             mediaArray.Push(mediaModel)
             

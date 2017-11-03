@@ -37,6 +37,7 @@ sub parseApiResponse(response As Object)
             mediaModel.small = mediaItem.cover_art.thumbnail
             mediaModel.created_at = mediaItem.created_at
             mediaModel.description = mediaItem.description
+            mediaModel.favorite = mediaItem.favorite
             
 '            if mediaItem.horizontal_cover_art <> invalid
 '                mediaModel.is_vertical_image = false

@@ -41,7 +41,7 @@
 				ellipsizeOnBoundary="true">
 			</Label>
 			<Poster id="posterFav" uri="pkg:/images/img_fav_tag_alt.png"
-				translation="[480,440]" visible="false">
+				translation="[480,430]" visible="false">
 			</Poster>
 			<Rectangle id="rectTimer" height="50" width="170"
 				translation="[20,440]" color="0x56565600" visible="false">

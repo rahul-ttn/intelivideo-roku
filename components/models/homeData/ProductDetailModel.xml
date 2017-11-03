@@ -8,5 +8,6 @@
 		<field id="original" type="String" />
 		<field id="created_at" type="integer"/>
 		<field id="objects" type="nodearray" />
+		<field id="favorite" type="bool"></field>
 	</interface>
 </component>

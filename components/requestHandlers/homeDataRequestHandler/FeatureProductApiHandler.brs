@@ -34,6 +34,7 @@ sub parseApiResponse(response As Object)
             productModel.title = productItem.title
             productModel.media_count = productItem.media_count
             productModel.created_at = productItem.created_at
+            productModel.favorite = productItem.favorite
             productModel.is_media = false
             productModel.is_item = true
             

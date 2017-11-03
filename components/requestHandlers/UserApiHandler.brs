@@ -48,6 +48,7 @@ sub parseApiResponse(response As Object)
             productModel.created_at = productItem.created_at
             productModel.is_media = false
             productModel.is_item = true
+            productModel.favorite = productItem.favorite
             
             if productItem.images <> invalid
                 if productItem.images.horizontal_cover_art <> invalid

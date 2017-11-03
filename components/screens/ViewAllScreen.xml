@@ -40,5 +40,6 @@
 		</Rectangle>
 		
 		<Timer id="timer" repeat="false" duration=".5" />
+		<Timer id="updateFocusTimer" repeat="false" duration=".1" />
 	</children>
 </component>

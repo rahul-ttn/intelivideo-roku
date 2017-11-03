@@ -29,6 +29,7 @@ sub parseApiResponse(response As Object)
         mediaModel.small = response.cover_art.small
         mediaModel.created_at = response.created_at
         mediaModel.description = response.description
+        mediaModel.favorite = response.favorite
         if response.type = "Video" OR response.type = "Audio"
             mediaModel.is_media = true
         else

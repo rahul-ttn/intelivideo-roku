@@ -19,7 +19,7 @@
 
 			<HomeRowList id="homeRowList" translation="[480,60]" />
 			
-			<Label id="Error_text" translation="[550,100]" visible="false"/>
+			<Label id="Error_text" translation="[600,450]" visible="false"/>
 
 		</Rectangle>
 		

@@ -7,6 +7,7 @@ sub init()
     m.numOfColumns = 2
     m.isRefreshScreen = false
     m.top.getScene().isRefreshOnBack = false
+    m.isContentLoaded = false
     
     initFields()
     hideFields()
@@ -188,7 +189,7 @@ end sub
 
 sub onFavApiResponse()
     m.myFavoriteApiModel = m.myFavoriteApi.content
-    if m.myFavoriteApiModel.success
+    if m.myFavoriteApiModel <> invalid AND m.myFavoriteApiModel.success
         if m.myFavoriteApiModel.items.count() > 0
             index = Rnd(m.myFavoriteApiModel.items.count())
             m.basedOnFavId = index-1
@@ -229,7 +230,7 @@ sub getData()
             m.basedOnFavoriteApiModel = m.basedOnFavoriteApi.content
         end if
         
-        if m.myFavoriteApiModel.success OR m.featureProductsApiModel.success OR m.featureMediaApiModel.success OR m.popularProductApiModel.success OR m.popularMediaApiModel.success OR m.recentAddedProductApiModel.success OR m.recentAddedMediaApiModel.success
+        if m.myFavoriteApiModel.success AND m.featureProductsApiModel.success AND m.featureMediaApiModel.success AND m.popularProductApiModel.success AND m.popularMediaApiModel.success AND m.recentAddedProductApiModel.success AND m.recentAddedMediaApiModel.success
             homeRowList() 
         else
             print "featureProductApiModel.fail"
@@ -243,6 +244,8 @@ function getGridRowListContent() as object
          parentContentNode = CreateObject("roSGNode", "ContentNode")
          if m.isSVOD
             if m.recentlyViewedApiModel <> invalid AND m.recentlyViewedApiModel.success AND m.recentlyViewedApiModel.recentMediaArray.count() <> 0
+                print "recently Viewed >>> "
+                m.isContentLoaded = true
                 row = parentContentNode.CreateChild("ContentNode")
                 row.title = featuredRecent()
                 print "m.recentlyViewedApiModel.recentMediaArray.Count()  >>> ";m.recentlyViewedApiModel.recentMediaArray.Count()
@@ -257,6 +260,7 @@ function getGridRowListContent() as object
                     rowItem.isItem = dataObjet.is_item
                     rowItem.isViewAll = false
                     rowItem.isMedia = dataObjet.is_media
+                    rowItem.favorite = dataObjet.favorite
                     
                     if getPostedVideoDayDifference(dataObjet.created_at) < 11
                         rowItem.isNew = true
@@ -271,6 +275,8 @@ function getGridRowListContent() as object
              end if
          
             if m.featureProductsApiModel <> invalid AND m.featureProductsApiModel.success AND m.featureProductsApiModel.featuredProductsArray.count() <> 0
+                print "feature Product >>> "
+                m.isContentLoaded = true
                 row = parentContentNode.CreateChild("ContentNode")
                 row.title = featuredProducts()
                 for index= 0 to m.featureProductsApiModel.featuredProductsArray.Count()-1
@@ -285,6 +291,7 @@ function getGridRowListContent() as object
                     rowItem.isViewAll = false
                     rowItem.isItem = dataObjet.is_item
                     rowItem.is_vertical_image = dataObjet.is_vertical_image
+                    rowItem.favorite = dataObjet.favorite
                     if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                         rowItem.isNew = true
                     else
@@ -298,6 +305,8 @@ function getGridRowListContent() as object
             end if
          
          if m.featureMediaApiModel <> invalid AND m.featureMediaApiModel.success AND m.featureMediaApiModel.featuredMediaArray.count() <> 0
+            print "Feature Media >>> "
+            m.isContentLoaded = true
             row = parentContentNode.CreateChild("ContentNode")
             row.title = featuredMedia()
             for index= 0 to m.featureMediaApiModel.featuredMediaArray.Count()-1
@@ -311,6 +320,7 @@ function getGridRowListContent() as object
                 rowItem.isItem = dataObjet.is_item
                 rowItem.isViewAll = false
                 rowItem.isMedia = dataObjet.is_media
+                rowItem.favorite = dataObjet.favorite
                 
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
@@ -325,6 +335,8 @@ function getGridRowListContent() as object
          end if
          
          if m.popularProductApiModel <> invalid AND m.popularProductApiModel.success AND m.popularProductApiModel.popularProductsArray.count() <> 0
+            print "Popular Product >>> "
+            m.isContentLoaded = true
             row = parentContentNode.CreateChild("ContentNode")
             row.title = popularProducts()
             for index= 0 to m.popularProductApiModel.popularProductsArray.Count()-1
@@ -339,6 +351,8 @@ function getGridRowListContent() as object
                 rowItem.isItem = dataObjet.is_item
                 rowItem.isViewAll = false
                 rowItem.is_vertical_image = dataObjet.is_vertical_image
+                rowItem.favorite = dataObjet.favorite
+                
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
@@ -352,6 +366,8 @@ function getGridRowListContent() as object
          end if
          
          if m.popularMediaApiModel <> invalid AND m.popularMediaApiModel.success AND m.popularMediaApiModel.popularMediaArray.count() <> 0
+            print "Popular Media >>> "
+            m.isContentLoaded = true
             row = parentContentNode.CreateChild("ContentNode")
             row.title = popularMedia()
             for index= 0 to m.popularMediaApiModel.popularMediaArray.Count()-1
@@ -365,6 +381,7 @@ function getGridRowListContent() as object
                 rowItem.isViewAll = false
                 rowItem.isItem = dataObjet.is_item
                 rowItem.isMedia = dataObjet.is_media
+                rowItem.favorite = dataObjet.favorite
                 
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
@@ -379,6 +396,8 @@ function getGridRowListContent() as object
          end if
          
          if m.recentAddedProductApiModel <> invalid AND m.recentAddedProductApiModel.success AND m.recentAddedProductApiModel.recentlyAddedProductsArray.count() <> 0
+            print "recently Added Product >>> "
+            m.isContentLoaded = true
             row = parentContentNode.CreateChild("ContentNode")
             row.title = recentlyAddedProducts()
             for index= 0 to m.recentAddedProductApiModel.recentlyAddedProductsArray.Count()-1
@@ -393,6 +412,8 @@ function getGridRowListContent() as object
                 rowItem.isViewAll = false
                 rowItem.isItem = dataObjet.is_item
                 rowItem.is_vertical_image = dataObjet.is_vertical_image
+                rowItem.favorite = dataObjet.favorite
+                
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
@@ -406,6 +427,8 @@ function getGridRowListContent() as object
          end if
          
          if m.recentAddedMediaApiModel <> invalid AND m.recentAddedMediaApiModel.success AND m.recentAddedMediaApiModel.recentlyAddedMediaArray.count() <> 0
+            print "recently Added Media >>> "
+            m.isContentLoaded = true
             row = parentContentNode.CreateChild("ContentNode")
             row.title = recentlyAddedMedia()
             for index= 0 to m.recentAddedMediaApiModel.recentlyAddedMediaArray.Count()-1
@@ -419,6 +442,8 @@ function getGridRowListContent() as object
                 rowItem.isViewAll = false
                 rowItem.isItem = dataObjet.is_item
                 rowItem.isMedia = dataObjet.is_media
+                rowItem.favorite = dataObjet.favorite
+                
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
@@ -432,6 +457,8 @@ function getGridRowListContent() as object
          end if
          
          if m.basedOnFavoriteApiModel <> invalid AND m.basedOnFavoriteApiModel.success AND m.basedOnFavoriteApiModel.relatedMediaArray.count() <> 0
+            print "Based on Favorite >>> "
+            m.isContentLoaded = true
             row = parentContentNode.CreateChild("ContentNode")
             row.title = basedOnFavorites()
             for index = 0 to m.basedOnFavoriteApiModel.relatedMediaArray.Count()-1
@@ -444,6 +471,7 @@ function getGridRowListContent() as object
                   rowItem.isMedia = dataObjet.is_media
                   rowItem.isItem = dataObjet.is_item
                   rowItem.isViewAll = false
+                  rowItem.favorite = dataObjet.favorite
                   
                   if dataObjet.is_item
                     rowItem.id = dataObjet.product_id
@@ -468,6 +496,8 @@ function getGridRowListContent() as object
          
          
          if m.myFavoriteApiModel <> invalid AND m.myFavoriteApiModel.success AND m.myFavoriteApiModel.items.count() <> 0
+            print "My Favorite >>> "
+            m.isContentLoaded = true
             row = parentContentNode.CreateChild("ContentNode")
             row.title = myFavorites()
             for index = 0 to m.myFavoriteApiModel.items.Count()-1
@@ -480,6 +510,7 @@ function getGridRowListContent() as object
                   rowItem.isMedia = dataObjet.is_media
                   rowItem.isItem = dataObjet.is_item
                   rowItem.isViewAll = false
+                  rowItem.favorite = dataObjet.favorite
                   
                   if dataObjet.item_type = "product"
                     rowItem.id = dataObjet.product_id
@@ -503,7 +534,8 @@ function getGridRowListContent() as object
             end if
          end if
          
-         if m.productsAarray.count() <> 0
+         if m.productsAarray <> invalid AND m.productsAarray.count() <> 0
+            m.isContentLoaded = true
             row = parentContentNode.CreateChild("ContentNode")
             row.title = myContent()
             if m.productsAarray.count() >= 10
@@ -523,6 +555,8 @@ function getGridRowListContent() as object
                 rowItem.isViewAll = false
                 rowItem.is_vertical_image = dataObjet.is_vertical_image
                 rowItem.isItem = dataObjet.is_item
+                rowItem.favorite = dataObjet.favorite
+                
                 if getPostedVideoDayDifference(dataObjet.created_at) < 11
                     rowItem.isNew = true
                 else
@@ -535,54 +569,63 @@ function getGridRowListContent() as object
             end if
          end if
              
-         else                                          'else case for TVOD
-            if m.productsAarray.count() < 9
-                m.homeRowList.itemComponentName = "Home2xListItemLayout"
-                m.homeRowList.itemSize = [200 * 9 + 100, 600]
-                m.homeRowList.rowHeights = [600]
-                m.homeRowList.rowItemSize = [ [675, 572] ]
-                numberOfRows = (m.productsAarray.count() + 1) \ 2 
-                n = 1
-                m.numOfColumns = 2
-            else
-                m.homeRowList.itemComponentName = "Home3xListItemLayout"
-                m.homeRowList.itemSize = [200 * 9 + 100, 445]
-                m.homeRowList.rowHeights = [445]
-                m.homeRowList.rowItemSpacing = [ [100, 0] ]
-                m.homeRowList.rowItemSize = [ [448, 445] ]
-                numberOfRows = (m.productsAarray.count() + 2) \ 3 
-                n = 2
-                m.numOfColumns = 3
-            end if
-            
-            ind = 0
-            for numRows = 0 to numberOfRows-1
-                row = parentContentNode.CreateChild("ContentNode")
-                for index = 0 to n
-                      if ind < m.productsAarray.count()
-                          rowItem = row.CreateChild("HomeRowListItemData")  
-                          dataObjet = m.productsAarray[ind]
-                          rowItem.id = dataObjet.product_id
-                          rowItem.title = dataObjet.title
-                          rowItem.imageUri = dataObjet.small
-                          rowItem.count = dataObjet.media_count
-                          rowItem.coverBgColor = m.appConfig.primary_color
-                          rowItem.isMedia = false
-                          rowItem.isItem = dataObjet.is_item
-                          rowItem.is_vertical_image = dataObjet.is_vertical_image
-                          if getPostedVideoDayDifference(dataObjet.created_at) < 11
-                              rowItem.isNew = true
-                          else
-                              rowItem.isNew = false
+         else  
+            if m.productsAarray <> invalid AND m.productsAarray.count() <> 0 
+                m.isContentLoaded = true                                       'else case for TVOD
+                if m.productsAarray.count() < 9
+                    m.homeRowList.itemComponentName = "Home2xListItemLayout"
+                    m.homeRowList.itemSize = [200 * 9 + 100, 600]
+                    m.homeRowList.rowHeights = [600]
+                    m.homeRowList.rowItemSize = [ [675, 572] ]
+                    numberOfRows = (m.productsAarray.count() + 1) \ 2 
+                    n = 1
+                    m.numOfColumns = 2
+                else
+                    m.homeRowList.itemComponentName = "Home3xListItemLayout"
+                    m.homeRowList.itemSize = [200 * 9 + 100, 445]
+                    m.homeRowList.rowHeights = [445]
+                    m.homeRowList.rowItemSpacing = [ [100, 0] ]
+                    m.homeRowList.rowItemSize = [ [448, 445] ]
+                    numberOfRows = (m.productsAarray.count() + 2) \ 3 
+                    n = 2
+                    m.numOfColumns = 3
+                end if
+                
+                ind = 0
+                for numRows = 0 to numberOfRows-1
+                    row = parentContentNode.CreateChild("ContentNode")
+                    for index = 0 to n
+                          if ind < m.productsAarray.count()
+                              rowItem = row.CreateChild("HomeRowListItemData")  
+                              dataObjet = m.productsAarray[ind]
+                              rowItem.id = dataObjet.product_id
+                              rowItem.title = dataObjet.title
+                              rowItem.imageUri = dataObjet.small
+                              rowItem.count = dataObjet.media_count
+                              rowItem.coverBgColor = m.appConfig.primary_color
+                              rowItem.isMedia = false
+                              rowItem.isItem = dataObjet.is_item
+                              rowItem.is_vertical_image = dataObjet.is_vertical_image
+                              rowItem.favorite = dataObjet.favorite
+                              
+                              if getPostedVideoDayDifference(dataObjet.created_at) < 11
+                                  rowItem.isNew = true
+                              else
+                                  rowItem.isNew = false
+                              end if
+                          ind = ind + 1
                           end if
-                      ind = ind + 1
-                      end if
+                    end for 
+    '                if m.productsAarray.count() >= 7
+    '                    rowItem = row.CreateChild("HomeRowListItemData")
+    '                    rowItem.isViewAll = true
+    '                end if  
                 end for 
-'                if m.productsAarray.count() >= 7
-'                    rowItem = row.CreateChild("HomeRowListItemData")
-'                    rowItem.isViewAll = true
-'                end if  
-            end for 
+            end if
+         end if
+         
+         if NOT m.isContentLoaded
+            m.Error_text.text = "There is No Content available for this account"
          end if
          
          if m.isRefreshScreen
@@ -643,23 +686,27 @@ function onRowItemSelected() as void
 '        print "**********col is *********";col
 '        print "itemFocused >>> ";m.homeRowList.itemFocused
         m.focusedItem = [row,col]
-        if col >= 10
-            goTViewAllScreen(m.homeRowList.content.getChild(m.homeRowList.itemFocused).title)
-        else
-            listTitle = m.homeRowList.content.getChild(m.homeRowList.itemFocused).title
-            if m.isSVOD = false
-                index = (m.numOfColumns*row) + col
-                goToTVODProductDetailScreen(index)
-            else if listTitle = myFavorites()
-                goToFavDetail(listTitle, col)
-            else if listTitle = basedOnFavorites()
-                goToBasedOnFavDetail(listTitle, col)
-            else if listTitle = featuredRecent() OR listTitle = featuredMedia() OR listTitle = popularMedia() OR listTitle = recentlyAddedMedia()
-                goToMediaDetailScreen(listTitle, col)
+        if checkInternetConnection()
+            if col >= 10
+                goTViewAllScreen(m.homeRowList.content.getChild(m.homeRowList.itemFocused).title)
             else
-                goToProductDetailScreen(listTitle, col)
-            end if
-        end if  
+                listTitle = m.homeRowList.content.getChild(m.homeRowList.itemFocused).title
+                if m.isSVOD = false
+                    index = (m.numOfColumns*row) + col
+                    goToTVODProductDetailScreen(index)
+                else if listTitle = myFavorites()
+                    goToFavDetail(listTitle, col)
+                else if listTitle = basedOnFavorites()
+                    goToBasedOnFavDetail(listTitle, col)
+                else if listTitle = featuredRecent() OR listTitle = featuredMedia() OR listTitle = popularMedia() OR listTitle = recentlyAddedMedia()
+                    goToMediaDetailScreen(listTitle, col)
+                else
+                    goToProductDetailScreen(listTitle, col)
+                end if
+            end if  
+        else
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        end if
 end function
 
 sub goToBasedOnFavDetail(listTitle as String, column as Integer)
@@ -856,8 +903,14 @@ sub updateScreen()
 end sub
 
 Function showRetryDialog(title ,message)
-  m.Error_text.visible = true
-  m.Error_text.text = message
+    if m.isContentLoaded
+        m.Error_text.visible = false
+        m.homeRowList.setFocus(true)
+        m.homeRowList.jumpToRowItem = m.focusedItem
+    else
+        m.Error_text.visible = true
+        m.Error_text.text = message
+    end if
   
   dialog = createObject("roSGNode", "Dialog") 
   dialog.backgroundUri = "" 

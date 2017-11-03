@@ -223,6 +223,7 @@ sub onApiResponse()
         onMediaDetailApiResponse()
         onRelatedMediaApiResponse()
         
+        
         'initializing the currentFocus id 
         if m.isDocument
             m.currentFocusID ="buttonFavRight"
@@ -255,6 +256,22 @@ sub onMediaDetailApiResponse()
             m.isDocument = true
             m.labelMediaTime.text = "Document"
             showFavDescText()
+        end if
+        
+        if mediaDetailModel.favorite
+            m.isFav = true
+            if m.isDocument
+                setButtonUnFocusedState(m.favButtonRightrectangle, true)
+            else
+                setButtonFocusedState(m.favButtonRightrectangle, true)
+            end if
+        else
+            m.isFav = false
+            if m.isDocument
+                setButtonUnFocusedState(m.favButtonRightrectangle, true)
+            else
+                setButtonFocusedState(m.favButtonRightrectangle, true)
+            end if
         end if            
     else
         showRetryDialog(mediaDetailModel.error, networkErrorMessage())
