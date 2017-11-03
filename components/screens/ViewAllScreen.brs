@@ -286,7 +286,7 @@ function onRowItemFocused() as void
         col = m.list.rowItemFocused[1]
         m.focusedItem = [row,col]
         if m.myContentArray = invalid
-            if row = m.numberOfRows - 1 And not m.apiModel.pageInfo.last_page 
+            if row = m.numberOfRows - 1 AND m.apiModel.success And not m.apiModel.pageInfo.last_page 
               m.pagination = true
               m.pageNumber = m.apiModel.pageInfo.next_page
               callSelectedApi()  
@@ -396,7 +396,7 @@ sub updateScreen()
     m.isRefreshScreen = true
     showProgressDialog()
     m.contentArray.Clear()
-    if m.rowSelectedIndex >= 10
+    if m.rowSelectedIndex > 8
         m.perPageItems = m.rowSelectedIndex+5
         m.pageNumber = 1
     end if
