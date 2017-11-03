@@ -8,6 +8,7 @@ sub init()
     m.isRefreshScreen = false
     m.top.getScene().isRefreshOnBack = false
     m.isContentLoaded = false
+    m.isOpenNav = false
     
     initFields()
     hideFields()
@@ -230,7 +231,7 @@ sub getData()
             m.basedOnFavoriteApiModel = m.basedOnFavoriteApi.content
         end if
         
-        if m.myFavoriteApiModel.success AND m.featureProductsApiModel.success AND m.featureMediaApiModel.success AND m.popularProductApiModel.success AND m.popularMediaApiModel.success AND m.recentAddedProductApiModel.success AND m.recentAddedMediaApiModel.success
+        if m.recentlyViewedApiModel <> invalid AND m.recentlyViewedApiModel.success AND m.myFavoriteApiModel <> invalid AND m.myFavoriteApiModel.success AND m.featureProductsApiModel <> invalid AND m.featureProductsApiModel.success AND m.featureMediaApiModel <> invalid AND m.featureMediaApiModel.success AND m.popularProductApiModel <> invalid AND m.popularProductApiModel.success AND m.popularMediaApiModel <> invalid AND m.popularMediaApiModel.success AND m.recentAddedProductApiModel <> invalid AND m.recentAddedProductApiModel.success AND m.recentAddedMediaApiModel <> invalid AND m.recentAddedMediaApiModel.success
             homeRowList() 
         else
             print "featureProductApiModel.fail"
@@ -637,6 +638,12 @@ end function
 
 sub updateFocus()
     m.isRefreshScreen = false
+    if m.isOpenNav
+        m.isOpenNav = false
+        m.homeRowList.translation = [260, 60]
+        m.buttonHomeClose.uri = "pkg:/images/$$RES$$/Home Focused.png" 
+        showCloseState()
+    end if
     m.homeRowList.setFocus(true)
     m.homeRowList.jumpToRowItem = m.focusedItem
 end sub
@@ -904,9 +911,15 @@ end sub
 
 Function showRetryDialog(title ,message)
     if m.isContentLoaded
-        m.Error_text.visible = false
-        m.homeRowList.setFocus(true)
-        m.homeRowList.jumpToRowItem = m.focusedItem
+        m.Error_text.visible = true
+        m.Error_text.text = message
+        m.homeRowList.visible = false
+        m.homeRowList.setFocus(false)
+        m.homeRowList.translation = [480, 60]
+        initNavigationBar()
+        showOpenState()
+        m.rectSwitchAccountBorder.visible = false
+        m.isOpenNav = true
     else
         m.Error_text.visible = true
         m.Error_text.text = message

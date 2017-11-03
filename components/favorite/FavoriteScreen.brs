@@ -19,12 +19,12 @@ End sub
 sub initFields()
     m.profileBackground = m.top.FindNode("FavoriteBackground")
     m.profileBackground.color = homeBackground()
-    
+    m.favoriteRowList = invalid
     m.favoriteRowList = m.top.FindNode("favoriteRowList")
     m.favoriteRowList.visible = true
     m.favoriteRowList.SetFocus(false)
-'    m.favoriteRowList.unobserveField("rowItemSelected")
-'    m.favoriteRowList.unobserveField("rowItemFocused")
+    m.favoriteRowList.unobserveField("rowItemSelected")
+    m.favoriteRowList.unobserveField("rowItemFocused")
     m.favoriteRowList.ObserveField("rowItemSelected", "onRowItemSelected")
     m.favoriteRowList.ObserveField("rowItemFocused", "onRowItemFocused")
     
@@ -44,9 +44,9 @@ sub callMyFavoriteApi()
         m.myFavoriteApi.observeField("content","onFavoriteResponse")
         m.myFavoriteApi.control = "RUN"
     else
-        if m.favoriteItems.count() = 0
-            showRetryDialog(networkErrorTitle(), networkErrorMessage())
-        end if
+        
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
+
     end if
 end sub
 
@@ -73,10 +73,7 @@ sub onFavoriteResponse()
             end if
         end if
     else
-        if m.favoriteItems.count() = 0
-            m.Error_text.visible = true
-            m.Error_text.text = "This is where you will find content that you have Favorited"
-        end if
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
@@ -85,10 +82,10 @@ function onRowItemFocused() as void
         col = m.favoriteRowList.rowItemFocused[1]
 
         m.focusedItem = [row,col]
-        if checkInternetConnection() AND row = m.numberOfRows - 1 And not m.myFavoriteApiModel.pageInfo.last_page 
+        if row = m.numberOfRows - 1 And m.myFavoriteApiModel.success AND not m.myFavoriteApiModel.pageInfo.last_page 
             m.pagination = true
             m.pageNumber = m.myFavoriteApiModel.pageInfo.next_page
-            callMyFavoriteApi()  
+            callMyFavoriteApi()
         end if
 end function
 
@@ -127,7 +124,7 @@ end sub
 
 function getGridRowListContent() as object
      parentContentNode = CreateObject("roSGNode", "ContentNode")
-        if m.favoriteItems.count() < 9
+        if m.favoriteItems.count() < 9 
             m.favoriteRowList.itemComponentName = "Home2xListItemLayout"
             m.favoriteRowList.itemSize = [200 * 9 + 100, 600]
             m.favoriteRowList.rowHeights = [600]
@@ -272,7 +269,7 @@ sub updateScreen()
     m.isRefreshScreen = true
     showProgressDialog()
     m.favoriteItems.Clear()
-    if m.rowSelectedIndex >= 10
+    if m.rowSelectedIndex > 8
         m.perPageItems = m.rowSelectedIndex+5
         m.pageNumber = 1
     end if
@@ -292,10 +289,10 @@ sub startUpdateFocusTimer()
 end sub
 
 Function showRetryDialog(title ,message)
-  m.Error_text.visible = true
-  m.Error_text.text = message
-  
-  
+    if m.favoriteItems.count() = 0
+        m.Error_text.visible = true
+        m.Error_text.text = message
+    end if
   dialog = createObject("roSGNode", "Dialog") 
   dialog.backgroundUri = "" 
   dialog.title = title
@@ -310,7 +307,7 @@ Function showRetryDialog(title ,message)
 end Function
 
 sub onRetry()
-    callMyFavoriteApi()
+    initFields()
 end sub
 
 sub startTimer()
