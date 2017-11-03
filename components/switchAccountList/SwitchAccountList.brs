@@ -1,6 +1,6 @@
 sub init()
     m.top.SetFocus(true)
-        m.top.itemComponentName = "SelectAccountListItemsLayout"
+        m.top.itemComponentName = "SwitchAccountListItemsLayout"
         m.top.numRows = 1
         m.top.itemSize = [200 * 9 + 100, 100]
        ' m.top.itemSize = [1500, 100]

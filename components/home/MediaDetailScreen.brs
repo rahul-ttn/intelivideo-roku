@@ -186,6 +186,8 @@ end sub
 sub showFavDescText()
     m.playButtonOuterRectangle.visible = false
     m.favButtonOuterRightRectangle.visible = true
+    
+    
     m.favButtonOuterRightRectangle.translation = [200,520]
     m.documentInfoLabel.visible = true
     m.documentInfoLabel.translation = [390,520]

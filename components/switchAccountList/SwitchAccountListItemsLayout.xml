@@ -3,7 +3,7 @@
 	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
 
 	<interface>
-		<field id="itemContent" type="node" onChange="itemContentChanged" />
+		<field id="itemContent" type="node" alwaysNotify="true" onChange="itemContentChanged" />
 	</interface>
 
 	<script type="text/brightscript"
@@ -16,7 +16,7 @@
 			<Poster id="posterBackground" width="300" height="300"
 				loadWidth="300" loadHeight="300">
 			</Poster>
-			<Label id="accountNameLabel" width="300" translation="[0.0,150]"
+			<Label id="accountNameLabel" width="300" translation="[0.0,120]"
 				horizAlign="center" color="0x1c2833ff" ellipsizeOnBoundary="false"
 				font="font:SmallSystemFont" />
 		</Rectangle>

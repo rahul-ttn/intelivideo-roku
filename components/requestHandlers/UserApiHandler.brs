@@ -7,6 +7,7 @@ sub callUserApiHandler()
      if response <> invalid
         m.responseCode = response.GetResponseCode()
         responseString = response.GetString()
+        print "USerApiResponse";response
         json = ParseJSON(response)
         parseApiResponse(json)
      else
