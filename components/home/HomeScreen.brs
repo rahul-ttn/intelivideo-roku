@@ -111,9 +111,50 @@ sub onRefreshToken()
          
          callUserApi()
    else
-        hideProgressDialog()
-        showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        if authTokenModel <> invalid AND authTokenModel.code = 401
+            switchAccount()
+        else
+            hideProgressDialog()
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        end if
    end if
+end sub
+
+sub switchAccount()
+accountList = getValueInRegistryForKey("accountsValue")
+         accountsArray =  accountList.Split("||")
+         if accountsArray.count() = 1
+            setValueInRegistryForKey("isLogin", "false")
+            deleteValue("accountsDelete")
+            callLoginScreen()
+         else
+            for index= 0 to accountsArray.count()-1
+                   accountsModel = accountsArray[index]
+                   if accountsModel <> invalid
+                       accountsModel = ParseJSON(accountsModel)
+                       if accountsModel.access_token = getValueInRegistryForKey("authTokenValue") 
+                            accountsArray.Delete(index)
+                       end if
+                   else
+                       accountsArray.Delete(index) 
+                   end if
+             end for
+                accountsModel = accountsArray[0]
+                accountsModel = ParseJSON(accountsModel)
+                setValueInRegistryForKey("selectedAccountName", accountsModel.name)
+                if accountsModel.thumbnail <> invalid
+                    setValueInRegistryForKey("selectedAccountThumb", accountsModel.thumbnail)
+                end if
+                setValueInRegistryForKey("authToken", accountsModel.access_token)
+                setValueInRegistryForKey("refreshToken", accountsModel.refresh_token)
+                homeScreen = m.top.createChild("HomeScreen")
+                m.top.setFocus(false)
+                homeScreen.setFocus(true) 
+                accountString = accountsArray.Join("||")
+                setValueInRegistryForKey("accounts", accountString)   
+                
+                callUserApi()
+         end if    
 end sub
 
 sub showTVODData()

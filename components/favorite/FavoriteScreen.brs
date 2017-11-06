@@ -52,14 +52,14 @@ end sub
 
 sub onFavoriteResponse()
     m.Error_text.visible = false
+    m.Error_text.text = "This is where you will find content that you have Favorited"
     hideProgressDialog()
     m.myFavoriteApiModel = m.myFavoriteApi.content
-    if m.myFavoriteApiModel.success
+    if m.myFavoriteApiModel <> invalid AND m.myFavoriteApiModel.success
         m.favoriteItems.Append(m.myFavoriteApiModel.items)
         if m.favoriteItems.count() = 0
             m.favoriteRowList.visible = false
             m.Error_text.visible = true
-            m.Error_text.text = "This is where you will find content that you have Favorited"
             if m.isRefreshScreen
                 m.isRefreshScreen = false
                 initNavigationBar()
@@ -73,7 +73,11 @@ sub onFavoriteResponse()
             end if
         end if
     else
-        showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        if m.favoriteItems.count() = 0
+            m.Error_text.visible = true
+        else
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        end if
     end if
 end sub
 

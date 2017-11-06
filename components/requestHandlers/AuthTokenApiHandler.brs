@@ -18,9 +18,10 @@ end sub
 
 sub parseApiResponse(response As Object)
     authTokenModel = CreateObject("roSGNode", "AuthTokenModel")
-    authTokenModel.success = true
+    authTokenModel.code = m.responseCode
     if m.responseCode = 200
-        authTokenModel.code = 200
+        authTokenModel.success = true
+        authTokenModel.code = m.responseCode
         authTokenModel.access_token = response.access_token
         authTokenModel.refresh_token = response.refresh_token
         
@@ -28,6 +29,7 @@ sub parseApiResponse(response As Object)
         setValueInRegistryForKey("authToken", response.access_token)
         setValueInRegistryForKey("refreshToken", response.refresh_token)
     else if response.error <> invalid
+        authTokenModel.success = false
         authTokenModel.error = response.error
         setValueInRegistryForKey("isLogin", "false")
     end if
