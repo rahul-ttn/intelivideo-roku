@@ -127,6 +127,7 @@ function favButtonFocusColor() as String
 end function
 
 sub onButtonPlay()
+    print "onButtonPlay() >>>>> "
     m.videoPlayer = m.top.createChild("VideoPlayer")
     m.top.setFocus(false)
     m.videoPlayer.setFocus(true)
@@ -247,7 +248,7 @@ end sub
 
 sub onMediaDetailApiResponse()
     mediaDetailModel = m.mediaDetailApi.content
-    if mediaDetailModel.success
+    if mediaDetailModel <> invalid AND mediaDetailModel.success
         m.mediaDetailBgPoster.uri = mediaDetailModel.small
         m.labelTitle.text = mediaDetailModel.title
         m.descLabel.text = mediaDetailModel.description
@@ -284,7 +285,7 @@ End sub
 
 sub onRelatedMediaApiResponse()
     m.relatedMediaModel = m.relatedMediaApi.content
-    if m.relatedMediaModel.success
+    if m.relatedMediaModel <> invalid AND m.relatedMediaModel.success
         if m.relatedMediaModel.relatedMediaArray.count() <> 0
             relatedContentList()
         end if

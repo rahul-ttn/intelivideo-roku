@@ -237,7 +237,7 @@ sub getData()
             m.basedOnFavoriteApiModel = m.basedOnFavoriteApi.content
         end if
         
-        if m.recentlyViewedApiModel <> invalid AND m.recentlyViewedApiModel.success AND m.myFavoriteApiModel <> invalid AND m.myFavoriteApiModel.success AND m.featureProductsApiModel <> invalid AND m.featureProductsApiModel.success AND m.featureMediaApiModel <> invalid AND m.featureMediaApiModel.success AND m.popularProductApiModel <> invalid AND m.popularProductApiModel.success AND m.popularMediaApiModel <> invalid AND m.popularMediaApiModel.success AND m.recentAddedProductApiModel <> invalid AND m.recentAddedProductApiModel.success AND m.recentAddedMediaApiModel <> invalid AND m.recentAddedMediaApiModel.success
+        if m.recentlyViewedApiModel <> invalid AND m.recentlyViewedApiModel.success OR m.myFavoriteApiModel <> invalid AND m.myFavoriteApiModel.success OR m.featureProductsApiModel <> invalid AND m.featureProductsApiModel.success OR m.featureMediaApiModel <> invalid AND m.featureMediaApiModel.success OR m.popularProductApiModel <> invalid AND m.popularProductApiModel.success OR m.popularMediaApiModel <> invalid AND m.popularMediaApiModel.success OR m.recentAddedProductApiModel <> invalid AND m.recentAddedProductApiModel.success OR m.recentAddedMediaApiModel <> invalid AND m.recentAddedMediaApiModel.success
             homeRowList() 
         else
             print "featureProductApiModel.fail"
