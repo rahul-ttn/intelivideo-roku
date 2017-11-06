@@ -25,6 +25,7 @@ end sub
 
 sub callUserApi()
     if checkInternetConnection()
+        print "call user API"
         m.Error_text.visible = false
         showProgressDialog()
         baseUrl = getApiBaseUrl() + "user?access_token=" + getValueInRegistryForKey("authTokenValue")
