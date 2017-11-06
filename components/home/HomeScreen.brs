@@ -41,7 +41,7 @@ end sub
 sub onUserApiResponse()
     userApiModel = m.userApi.content
     print "user API response received ,userApiModel";userApiModel
-    if userApiModel.success
+    if userApiModel <> invalid AND userApiModel.success
         showFields()
         m.appConfig =  m.userApi.content.appConfigModel
         m.userData =  m.userApi.content.userModel
@@ -63,7 +63,7 @@ sub onUserApiResponse()
             showTVODData()
         else
         
-    end if
+        end if
     else
         print "User API model not success"
         hideProgressDialog()
