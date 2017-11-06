@@ -61,8 +61,6 @@ sub onUserApiResponse()
             m.top.getScene().myContent = []
             m.isSVOD = false
             showTVODData()
-        else
-        
         end if
     else
         print "User API model not success"
