@@ -89,6 +89,7 @@ sub goToHomeScreen()
         handleVisibility()
         m.editTextButton.setFocus(true)
     else if checkInternetConnection()
+        print "getValueInRegistryForKey(authTokenValue) >>";getValueInRegistryForKey("authTokenValue")
         baseUrl = getAuthTokenApiUrl()
         if m.pinSelected
             parmas = createAuthTokenParams("password",m.emailId,"",m.account.id,pwd)
@@ -134,7 +135,7 @@ sub onAuthToken()
         if getValueInRegistryForKey("isLoginValue") = "true"
             hideViews()
             print "onAuthToken isLogin true >>> "
-            
+            print "getValueInRegistryForKey(authTokenValue) >>";getValueInRegistryForKey("authTokenValue")
             'store account list in RoRegistry
             accountJson = createAccountDetailsJson(m.account.name, m.account.id, m.account.thumbnail, getValueInRegistryForKey("authTokenValue"), getValueInRegistryForKey("refreshTokenValue"))
             accountList = getValueInRegistryForKey("accountsValue")

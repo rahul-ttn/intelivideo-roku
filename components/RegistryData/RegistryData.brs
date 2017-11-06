@@ -1,6 +1,6 @@
 sub init()
     m.sec=CreateObject("roRegistrySection","Authentication")
-    m.addNumber="1"
+    m.addNumber="2"
 end sub
 
 

@@ -25,7 +25,7 @@ end sub
 
 sub callUserApi()
     if checkInternetConnection()
-        print "User Api Initialization started"
+        print "User Api Initialization started";getValueInRegistryForKey("authTokenValue")
         m.Error_text.visible = false
         showProgressDialog()
         baseUrl = getApiBaseUrl() + "user?access_token=" + getValueInRegistryForKey("authTokenValue")
