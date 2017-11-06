@@ -202,6 +202,8 @@ sub getData()
 
         if m.apiModel <> invalid AND m.apiModel.success
             showList()
+        else
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
         end if
 end sub
 
