@@ -130,7 +130,7 @@ end sub
 sub onAuthToken()
     print "onAuthToken >>> "
    authTokenModel = m.authApi.content
-   if authTokenModel.success
+   if authTokenModel <> invalid AND authTokenModel.success
         print "onAuthToken success >>> "
         if getValueInRegistryForKey("isLoginValue") = "true"
             hideViews()

@@ -13,7 +13,7 @@ sub callUserApiHandler()
         parseApiResponse(json)
      else
         print "User API not valid"
-        userApiModel = CreateObject("roSGNode", "AuthTokenModel")
+        userApiModel = CreateObject("roSGNode", "UserApiModel")
         userApiModel.success = false
         m.top.content = userApiModel
      end if
@@ -21,9 +21,11 @@ end sub
 
 sub parseApiResponse(response As Object)
     userApiModel = CreateObject("roSGNode", "UserApiModel")
+    userApiModel.code = m.responseCode
     if m.responseCode = 200
         print "User Api response code 200"
         userApiModel.success = true
+       
         appConfigModel = CreateObject("roSGNode", "AppConfigModel")
         appConfigModel.base_theme = response.app_config.base_theme
         appConfigModel.primary_color = response.app_config.primary_color

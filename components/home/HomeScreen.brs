@@ -66,9 +66,56 @@ sub onUserApiResponse()
         end if
     else
         print "User API model not success"
+        
+        if userApiModel <> invalid AND userApiModel.code = 401
+            callRefreshTokenApi()
+        else
+            hideProgressDialog()
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        end if
+    end if
+end sub
+
+sub callRefreshTokenApi()
+    print "calling refresh token >>> "
+    m.tempAuthToken = getValueInRegistryForKey("authTokenValue")
+    if checkInternetConnection()
+        baseUrl = getAuthTokenApiUrl()
+        parmas = createRefreshTokenParams("refresh_token",getValueInRegistryForKey("refreshTokenValue"))
+        m.authApi = createObject("roSGNode","AuthTokenApiHandler")
+        
+        m.authApi.setField("uri",baseUrl)
+        m.authApi.setField("params",parmas)
+        m.authApi.observeField("content","onRefreshToken")
+        m.authApi.control = "RUN"
+    else
         hideProgressDialog()
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
+end sub
+
+sub onRefreshToken()
+   print "onRefreshToken response >>> "
+   authTokenModel = m.authApi.content
+   if authTokenModel <> invalid AND authTokenModel.success
+        accountList = getValueInRegistryForKey("accountsValue")
+        accountsArray =  accountList.Split("||")
+        for index= 0 to accountsArray.count()-1
+               accountsModel = accountsArray[index]
+               if accountsModel <> invalid
+                   accountsModel = ParseJSON(accountsModel)
+                   if accountsModel.access_token = m.tempAuthToken 
+                        accountsModel.access_token = getValueInRegistryForKey("authTokenValue")
+                        accountsModel.refresh_token = getValueInRegistryForKey("refreshTokenValue")
+                   end if 
+               end if
+         end for
+         
+         callUserApi()
+   else
+        hideProgressDialog()
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
+   end if
 end sub
 
 sub showTVODData()
