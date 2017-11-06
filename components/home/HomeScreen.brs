@@ -25,6 +25,7 @@ end sub
 
 sub callUserApi()
     if checkInternetConnection()
+        print "User Api Initialization started"
         m.Error_text.visible = false
         showProgressDialog()
         baseUrl = getApiBaseUrl() + "user?access_token=" + getValueInRegistryForKey("authTokenValue")
@@ -39,6 +40,7 @@ end sub
 
 sub onUserApiResponse()
     userApiModel = m.userApi.content
+    print "user API response received ,userApiModel";userApiModel
     if userApiModel.success
         showFields()
         m.appConfig =  m.userApi.content.appConfigModel
@@ -63,6 +65,7 @@ sub onUserApiResponse()
         
     end if
     else
+        print "User API model not success"
         hideProgressDialog()
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if

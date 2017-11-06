@@ -5,12 +5,14 @@ end sub
 sub callUserApiHandler()
      response = callGetApi(m.top.uri)
      if response <> invalid
+        print "UserAPi response valid"
         m.responseCode = response.GetResponseCode()
         responseString = response.GetString()
-        print "USerApiResponse";response
+        print "USerApiResponse";responseString
         json = ParseJSON(response)
         parseApiResponse(json)
      else
+        print "User API not valid"
         userApiModel = CreateObject("roSGNode", "AuthTokenModel")
         userApiModel.success = false
         m.top.content = userApiModel
@@ -20,6 +22,7 @@ end sub
 sub parseApiResponse(response As Object)
     userApiModel = CreateObject("roSGNode", "UserApiModel")
     if m.responseCode = 200
+        print "User Api response code 200"
         userApiModel.success = true
         appConfigModel = CreateObject("roSGNode", "AppConfigModel")
         appConfigModel.base_theme = response.app_config.base_theme
@@ -88,6 +91,7 @@ sub parseApiResponse(response As Object)
         userApiModel.subscriptionsArray = subsArray
        
     else 
+        print "User Api response code not 200"
         userApiModel.success = false
         userApiModel.error = apiErrorMessage()
     end if
