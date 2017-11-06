@@ -24,9 +24,7 @@ sub callMyFavoriteApi()
         m.myFavoriteApi.observeField("content","onFavoriteResponse")
         m.myFavoriteApi.control = "RUN"
     else
-        if m.contentArray.count() = 0
-            showRetryDialog(networkErrorTitle(), networkErrorMessage())
-        end if
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
 end sub
 
@@ -184,19 +182,21 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
 End function
 
 Function showRetryDialog(title ,message)
-  m.Error_text.visible = true
-  m.Error_text.text = networkErrorMessage()
-  dialog = createObject("roSGNode", "Dialog") 
-  dialog.backgroundUri = "" 
-  dialog.title = title
-  dialog.optionsDialog = true 
-  dialog.iconUri = ""
-  dialog.message = message
-  dialog.width = 1200
-  dialog.buttons = ["Retry"]
-  dialog.optionsDialog = true
-  dialog.observeField("buttonSelected", "startTimer") 'The field is set when the dialog close field is set,
-  m.top.getScene().dialog = dialog
+    if m.contentArray.count() = 0
+          m.Error_text.visible = true
+          m.Error_text.text = networkErrorMessage()
+    end if
+      dialog = createObject("roSGNode", "Dialog") 
+      dialog.backgroundUri = "" 
+      dialog.title = title
+      dialog.optionsDialog = true 
+      dialog.iconUri = ""
+      dialog.message = message
+      dialog.width = 1200
+      dialog.buttons = ["Retry"]
+      dialog.optionsDialog = true
+      dialog.observeField("buttonSelected", "startTimer") 'The field is set when the dialog close field is set,
+      m.top.getScene().dialog = dialog
 end Function
 
 sub startTimer()
