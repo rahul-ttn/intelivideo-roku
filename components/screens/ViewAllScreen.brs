@@ -418,9 +418,10 @@ sub startUpdateFocusTimer()
 end sub
 
 Function showRetryDialog(title ,message)
-  m.Error_text.visible = true
-  m.Error_text.text = networkErrorMessage()
-  
+    if m.contentArray.count() = 0
+        m.Error_text.visible = true
+        m.Error_text.text = networkErrorMessage()
+    end if
   
   dialog = createObject("roSGNode", "Dialog") 
   dialog.backgroundUri = "" 

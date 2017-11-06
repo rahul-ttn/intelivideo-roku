@@ -201,9 +201,9 @@ sub getMediaDetails()
         baseUrl = getApiBaseUrl() + "media/"+ StrI(m.resourceId).Trim() +"?access_token=" + getValueInRegistryForKey("authTokenValue")
         m.mediaDetailApi = createObject("roSGNode","MediaDetailApiHandler")
         m.mediaDetailApi.setField("uri",baseUrl)
-        m.mediaDetailApi.observeField("content","onApiResponse")
+        m.mediaDetailApi.observeField("content","onMediaDetailApiResponse")
         m.mediaDetailApi.control = "RUN"
-        getRelatedMedia()
+        
     else
         showRetryDialog(networkErrorTitle(), networkErrorMessage())
     end if
@@ -214,48 +214,65 @@ sub getRelatedMedia()
     m.relatedMediaApi = createObject("roSGNode","FeatureMediaApiHandler")
     m.relatedMediaApi.setField("uri",baseUrl)
     m.relatedMediaApi.setField("dataType","related")
-    m.relatedMediaApi.observeField("content","onApiResponse")
+    m.relatedMediaApi.observeField("content","onRelatedMediaApiResponse")
     m.relatedMediaApi.control = "RUN"
 end sub
 
-sub onApiResponse()
-    updateCounter()
-    if m.counter = m.counterMaxValue
-        m.counter = 0
+'sub onApiResponse()
+'    updateCounter()
+'    if m.counter = m.counterMaxValue
+'        m.counter = 0
+'        m.Error_text.visible = false
+'        hideProgressDialog()
+'        m.mediaDetailRectangle.visible = true
+'        onMediaDetailApiResponse()
+'        onRelatedMediaApiResponse()
+'        
+'        
+'        'initializing the currentFocus id 
+'        if m.isDocument
+'            m.currentFocusID ="buttonFavRight"
+'            initFocusWithout()
+'            handlebuttonSelectedState()
+'            m.buttonFavRight.SetFocus(true)
+'        else
+'            m.currentFocusID ="buttonPlay"
+'            initFocus()
+'            handlebuttonSelectedState()
+'            m.buttonPlay.SetFocus(true)
+'        end if
+'        
+'        startMoreTimer()
+'    end if
+'end sub
+
+sub onMediaDetailApiResponse()
+    m.mediaDetailModel = m.mediaDetailApi.content
+    if m.mediaDetailModel <> invalid AND m.mediaDetailModel.success
+        getRelatedMedia()
+        m.mediaDetailBgPoster.uri = m.mediaDetailModel.small
+        m.labelTitle.text = m.mediaDetailModel.title
+        m.descLabel.text = m.mediaDetailModel.description       
+    else
+        hideProgressDialog()
+        showRetryDialog(apiErrorMessage(), networkErrorMessage())
+    end if
+End sub
+
+sub onRelatedMediaApiResponse()
+    m.relatedMediaModel = m.relatedMediaApi.content
+    if m.relatedMediaModel <> invalid AND m.relatedMediaModel.success
+        if m.relatedMediaModel.relatedMediaArray.count() <> 0
+            relatedContentList()
+        end if
+        
         m.Error_text.visible = false
         hideProgressDialog()
         m.mediaDetailRectangle.visible = true
-        onMediaDetailApiResponse()
-        onRelatedMediaApiResponse()
         
-        
-        'initializing the currentFocus id 
-        if m.isDocument
-            m.currentFocusID ="buttonFavRight"
-            initFocusWithout()
-            handlebuttonSelectedState()
-            m.buttonFavRight.SetFocus(true)
-        else
-            m.currentFocusID ="buttonPlay"
-            initFocus()
-            handlebuttonSelectedState()
-            m.buttonPlay.SetFocus(true)
-        end if
-        
-        startMoreTimer()
-    end if
-end sub
-
-sub onMediaDetailApiResponse()
-    mediaDetailModel = m.mediaDetailApi.content
-    if mediaDetailModel <> invalid AND mediaDetailModel.success
-        m.mediaDetailBgPoster.uri = mediaDetailModel.small
-        m.labelTitle.text = mediaDetailModel.title
-        m.descLabel.text = mediaDetailModel.description
-  
-        if mediaDetailModel.is_media
+        if m.mediaDetailModel.is_media
             m.isDocument = false
-            m.labelMediaTime.text = getMediaTimeFromSeconds(mediaDetailModel.duration)
+            m.labelMediaTime.text = getMediaTimeFromSeconds(m.mediaDetailModel.duration)
             showPlayFavButton()
         else
             m.isDocument = true
@@ -263,7 +280,7 @@ sub onMediaDetailApiResponse()
             showFavDescText()
         end if
         
-        if mediaDetailModel.favorite
+        if m.mediaDetailModel.favorite
             m.isFav = true
             if m.isDocument
                 setButtonUnFocusedState(m.favButtonRightrectangle, true)
@@ -277,18 +294,25 @@ sub onMediaDetailApiResponse()
             else
                 setButtonFocusedState(m.favButtonRightrectangle, true)
             end if
-        end if            
-    else
-        showRetryDialog(mediaDetailModel.error, networkErrorMessage())
-    end if
-End sub
-
-sub onRelatedMediaApiResponse()
-    m.relatedMediaModel = m.relatedMediaApi.content
-    if m.relatedMediaModel <> invalid AND m.relatedMediaModel.success
-        if m.relatedMediaModel.relatedMediaArray.count() <> 0
-            relatedContentList()
+        end if     
+        
+        if m.isDocument
+            m.currentFocusID ="buttonFavRight"
+            initFocusWithout()
+            handlebuttonSelectedState()
+            m.buttonFavRight.SetFocus(true)
+        else
+            m.currentFocusID ="buttonPlay"
+            initFocus()
+            handlebuttonSelectedState()
+            m.buttonPlay.SetFocus(true)
         end if
+        
+        startMoreTimer()
+    
+    else
+        hideProgressDialog()
+        showRetryDialog(apiErrorMessage(), networkErrorMessage())
     end if
 end sub
 
@@ -329,24 +353,25 @@ end sub
 
 function getGridRowListContent() as object
     parentContentNode = CreateObject("roSGNode", "ContentNode")
-    row = parentContentNode.CreateChild("ContentNode")
-    row.title = "Related Content"
-     for index= 0 to m.relatedMediaModel.relatedMediaArray.Count()-1
-        rowItem = row.CreateChild("RelatedMediaItemData")
-        dataObjet = m.relatedMediaModel.relatedMediaArray[index]
-        rowItem.id = dataObjet.resource_id
-        rowItem.title = dataObjet.title
-        rowItem.imageUri = dataObjet.small
-        rowItem.coverBgColor = m.top.getScene().appConfigContent.primary_color
-        rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
-        rowItem.isViewAll = false
-        if dataObjet.type = "Video" OR dataObjet.type = "Audio"
-            rowItem.isMedia = true
-        else
-            rowItem.isMedia = false
-        end if
-    end for
-    print "List loop completed"
+    if m.relatedMediaModel <> invalid
+        row = parentContentNode.CreateChild("ContentNode")
+        row.title = "Related Content"
+         for index= 0 to m.relatedMediaModel.relatedMediaArray.Count()-1
+            rowItem = row.CreateChild("RelatedMediaItemData")
+            dataObjet = m.relatedMediaModel.relatedMediaArray[index]
+            rowItem.id = dataObjet.resource_id
+            rowItem.title = dataObjet.title
+            rowItem.imageUri = dataObjet.small
+            rowItem.coverBgColor = m.top.getScene().appConfigContent.primary_color
+            rowItem.mediaTime = getMediaTimeFromSeconds(dataObjet.duration)
+            rowItem.isViewAll = false
+            if dataObjet.type = "Video" OR dataObjet.type = "Audio"
+                rowItem.isMedia = true
+            else
+                rowItem.isMedia = false
+            end if
+        end for
+    end if
 '    if m.relatedMediaModel.relatedMediaArray.Count() = 0
 '       m.focusIDArray.AddReplace("buttonPlay","buttonMore-N-N-buttonFavRight")
 '        m.focusIDArray.AddReplace("buttonFavRight","buttonMore-N-buttonPlay-N") 

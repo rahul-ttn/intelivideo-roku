@@ -35,7 +35,7 @@
 			
 			<Label 
 				id="Error_text" 
-				translation="[550,100]" 
+				translation="[550,450]" 
 				visible="false"/>
 		</Rectangle>
 		

@@ -40,7 +40,7 @@ end sub
 
 sub onUserApiResponse()
     userApiModel = m.userApi.content
-    if userApiModel.success
+    if userApiModel <> invalid AND userApiModel.success
         showFields()
         m.appConfig =  m.userApi.content.appConfigModel
         m.userData =  m.userApi.content.userModel
