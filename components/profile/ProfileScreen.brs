@@ -65,6 +65,8 @@ function getGridRowListContent() as object
                       rowItem.coverBgColor = m.appConfig.primary_color
                       rowItem.isMedia = false
                       rowItem.is_vertical_image = dataObjet.is_vertical_image
+                      rowItem.isItem = dataObjet.is_item
+                      rowItem.favorite = dataObjet.favorite
                       if getPostedVideoDayDifference(dataObjet.created_at) < 11
                           rowItem.isNew = true
                       else

@@ -212,6 +212,7 @@ function getGridRowListContent() as object
             rowItem.isViewAll = false
             rowItem.isItem = dataObjet.is_item
             rowItem.is_vertical_image = dataObjet.is_vertical_image
+            rowItem.favorite = dataObjet.favorite
             if(getPostedVideoDayDifference(dataObjet.created_at) < 11)
                 rowItem.isNew = true
             else
@@ -238,6 +239,7 @@ function getGridRowListContent() as object
             rowItem.isItem = dataObjet.is_item
             rowItem.isViewAll = false
             rowItem.isMedia = dataObjet.is_media
+            rowItem.favorite = dataObjet.favorite
             
             if getPostedVideoDayDifference(dataObjet.created_at) < 11
                 rowItem.isNew = true

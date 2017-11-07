@@ -201,6 +201,7 @@ function getGridRowListContent() as object
                   rowItem.isMedia = dataObjet.is_media
                   rowItem.isItem = dataObjet.is_item
                   rowItem.isViewAll = false
+                  rowItem.favorite = dataObjet.favorite
                   if getPostedVideoDayDifference(dataObjet.created_at) < 11
                       rowItem.isNew = true
                   else

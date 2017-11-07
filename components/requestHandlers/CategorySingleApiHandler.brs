@@ -32,6 +32,7 @@ sub parseApiResponse(response As Object)
             categoryItemModel.created_at = item.created_at
             categoryItemModel.title = item.title
             categoryItemModel.item_type = item.item_type
+            categoryItemModel.favorite = item.favorite
             
             if item.item_type = "product"
                 categoryItemModel.product_id = item.product_id
