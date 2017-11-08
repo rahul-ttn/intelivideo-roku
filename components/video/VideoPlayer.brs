@@ -1,7 +1,6 @@
 sub init()
     m.top.SetFocus(true)
     m.video = m.top.findNode("videoPlayer")
-    setVideo()
 End sub
 
 sub onVideoUri()
@@ -11,21 +10,32 @@ End sub
 sub onResourceId()
     m.resourceId = m.top.resourceId
     addRecentlyViewedAPI()
-    m.video.enableUI = true
-    m.video.setFocus(true)
+    m.videoUri = getApiBaseUrl() +"media/"+m.resourceId+"/streaming_url?access_token="+getValueInRegistryForKey("authTokenValue")
+    setVideo()
 End sub
 
 function setVideo() as void
   ? "set video node >>>>>"
   videoContent = createObject("RoSGNode", "ContentNode")
-  videoContent.url = "pkg:/videos/login_video.mov"
+  videoContent.url = m.videoUri
   videoContent.title = ""
-  videoContent.streamformat = "mov"
+  videoContent.streamformat = "m3u8"
 
   m.video.content = videoContent
   m.video.control = "play"
-  m.video.loop = false
+  m.video.enableUI = true
+  m.video.observeField("state", "OnVideoPlaybackFinished")
+  m.video.setFocus(true)
+  
+  
+  
 end function
+
+sub OnVideoPlaybackFinished()
+    if m.video.state = "finished"
+    onKeyEvent("back",true)
+  end if
+end sub
 
 sub addRecentlyViewedAPI()
     m.top.getScene().isRefreshOnBack = true

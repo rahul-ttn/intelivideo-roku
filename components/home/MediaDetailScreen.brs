@@ -132,6 +132,7 @@ sub onButtonPlay()
     m.videoPlayer = m.top.createChild("VideoPlayer")
     m.videoPlayer.setFocus(true)
     m.videoPlayer.resourceId = StrI(m.resourceId).Trim()
+    
 End sub
 
 sub showMoreLabel()
