@@ -129,7 +129,6 @@ end function
 sub onButtonPlay()
     print "onButtonPlay() >>>>> "
     m.videoPlayer = m.top.createChild("VideoPlayer")
-    m.top.setFocus(false)
     m.videoPlayer.setFocus(true)
     m.videoPlayer.resourceId = StrI(m.resourceId).Trim()
 End sub
@@ -442,6 +441,7 @@ end sub
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
+        ? "focus is in Media Details screen >>>>>>>>> "
         if key="up" OR key="down" OR key="left" OR key="right" Then
             handleFocus(key)
             handlebuttonSelectedState()

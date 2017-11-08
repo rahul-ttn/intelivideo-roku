@@ -102,7 +102,7 @@ sub goToHomeScreen()
         m.authApi.setField("params",parmas)
         m.authApi.observeField("content","onAuthToken")
         m.authApi.control = "RUN"
-        showProgressDialog()
+        showProgressDialogPassword()
     else
         printValue("No Network")
         showHideError(true,02)
@@ -118,7 +118,7 @@ sub goToHomeScreen()
     end if
 end sub
 
-sub showProgressDialog()
+sub showProgressDialogPassword()
      dialog = createObject("roSGNode", "ProgressDialog")
      dialog.backgroundUri = ""
      dialog.title = "Loading..."
