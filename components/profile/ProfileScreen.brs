@@ -10,6 +10,9 @@ sub init()
     m.buttonHomeOpen.setFocus(false)
     m.buttonProfileOpen.setFocus(true)
     
+    message = createAccountParams("rahul@gmail.com", "abcdef",getCurrentTimeStamp())
+    print "encrypted base64String >>> "generateCypher(message, "y]zaByUr@BKmwk/&2bqbCfm4")
+    
    initFields()
 End sub
 

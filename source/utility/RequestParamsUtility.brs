@@ -38,4 +38,12 @@ Function createRecentlyViewedParams(item_id as String, item_type as String) as O
     return params
 end Function
 
+Function createAccountParams(email as String, password as String, iat as Integer) as Object
+    headerParam = CreateObject("roAssociativeArray")
+    headerValueParam = CreateObject("roAssociativeArray")
+    headerValueParam = {"email":email, "password":password, "send_user_welcome_email":"false", "iat":iat}
+    params = SimpleJSONAssociativeArray(headerValueParam)
+    return params
+end Function
+
 

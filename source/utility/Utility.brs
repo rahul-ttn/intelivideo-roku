@@ -208,3 +208,42 @@ function getMediaTimeFromSeconds(totalSeconds as Integer) as String
     
 end function
 
+Function generateCypher(sUrlAsMessage as String,secretKey as String) as String
+    If sUrlAsMessage=invalid Then
+        return "Not A Valid Encryption"
+    End IF
+     
+    cipher = CreateObject("roEVPCipher") 
+    privateKey = CreateObject("roByteArray") 
+    privateKey.fromAsciiString(secretKey)
+    result = cipher.Setup(true, "bf-cbc", privateKey, "", 1)
+    If result = 0 Then 
+        message = CreateObject("roByteArray") 
+        message.fromAsciiString(sUrlAsMessage)
+        result = cipher.Process(message)
+        print "encrypted cypher >>> "result
+        return result.toBase64String()  
+    else 
+        return "Not A Valid Encryption"
+    End if
+End Function
+
+Function generateHMAC(sUrlAsMessage as String,secretKey as String) as String
+    If sUrlAsMessage=invalid Then
+        return "Not A Valid Encryption"
+    End IF
+     
+    hmac = CreateObject("roHMAC") 
+    privateKey = CreateObject("roByteArray") 
+    privateKey.fromAsciiString(secretKey)
+    result = hmac.Setup("sha1", privateKey)
+    If result = 0 Then 
+        message = CreateObject("roByteArray") 
+        message.fromAsciiString(sUrlAsMessage)
+        result = hmac.Process(message)
+        return result.toBase64String()  
+    else 
+        return "Not A Valid Encryption"
+    End if
+End Function
+
