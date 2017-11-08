@@ -50,7 +50,7 @@ sub goToSelectScreen()
             m.fetchMerchantApi.setField("uri",finalUrl)
             m.fetchMerchantApi.observeField("content","onFetchMerchant")
             m.fetchMerchantApi.control = "RUN"
-            showProgressDialog()
+            showProgressDialogLogin()
         else
             printValue("No Network")
             showHideError(true,02)
@@ -103,7 +103,7 @@ sub showspinner()
       end if
 end sub
 
-sub showProgressDialog()
+sub showProgressDialogLogin()
      dialog = createObject("roSGNode", "ProgressDialog")
      dialog.backgroundUri = ""
      dialog.title = "Loading..."

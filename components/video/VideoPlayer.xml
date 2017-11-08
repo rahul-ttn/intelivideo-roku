@@ -19,7 +19,7 @@
 
 	<children>
 
-		<Video id="videoPlayer" width="0.0" height="0.0" translation="[0,0]"/>
+		<Video id="videoPlayer" width="0.0" height="0.0" />
 
 	</children>
 </component>
