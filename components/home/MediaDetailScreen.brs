@@ -7,6 +7,9 @@ sub init()
     m.counter = 0
     m.counterMaxValue = 2
     m.isDocument = false
+    message = createAccountParams("rahul@gmail.com", "abcdef",getCurrentTimeStamp())
+    print "message >>>> "message
+   print "encrypted base64String >>> "generateCipher(message, "y]zaByUr@BKmwk/&2bqbCfm4")
     
 End sub
 

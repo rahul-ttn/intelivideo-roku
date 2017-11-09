@@ -25,10 +25,7 @@ function setVideo() as void
   m.video.control = "play"
   m.video.enableUI = true
   m.video.observeField("state", "OnVideoPlaybackFinished")
-  m.video.setFocus(true)
-  
-  
-  
+  m.video.setFocus(true) 
 end function
 
 sub OnVideoPlaybackFinished()
