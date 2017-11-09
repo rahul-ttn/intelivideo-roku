@@ -3,14 +3,22 @@
 sub init()
     m.top.SetFocus(true)
     m.isLoggedIn = getValueInRegistryForKey("isLoginValue")
+    m.top.isWhiteLabel = true
     
-    
-    print "m.isLoggedIn " ; m.isLoggedIn
-    if m.isLoggedIn = "true"
-       moveToHomeScreen()
+    if m.top.isWhiteLabel
+        setConfigData()
+        if m.isLoggedIn = "true"
+            moveToHomeScreen()
+        else
+            moveToWelcomeScreen()
+        end if
     else
-       moveToLoginScreen()
-   end if
+        if m.isLoggedIn = "true"
+            moveToHomeScreen()
+        else
+            moveToWelcomeScreen()
+        end if
+    end if
 End sub
 
 sub moveToHomeScreen()
@@ -27,6 +35,27 @@ sub moveToLoginScreen()
     loginScreen.setFocus(true)
     loginScreen.buttonFocus = true
 End sub
+
+sub moveToWelcomeScreen()
+    welcomeScreen = m.top.createChild("WelcomeScreen")
+    welcomeScreen.visible = true
+    m.top.setFocus(false)
+    welcomeScreen.setFocus(true)
+End sub
+
+sub setConfigData()
+    appConfigModel = CreateObject("roSGNode", "AppConfigModel")
+    appConfigModel.primary_color = "#14a6df"
+    appConfigModel.non_focus_color = "#565656"
+    appConfigModel.account_id = 1782
+    appConfigModel.account_name = "ToTheNew"
+    appConfigModel.account_secret_key = "y]zaByUr@BKmwk/&2bqbCfm4"
+    appConfigModel.inapp_purchase_flag = true
+    appConfigModel.forgot_password = true
+    appConfigModel.pin_only = false
+    appConfigModel.password_only = true
+    m.top.appConfigContent = appConfigModel   
+end sub
 
 'function setMyContent(data as object)
 '    m.Global.myContent = data
