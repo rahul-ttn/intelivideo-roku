@@ -7,7 +7,6 @@ sub init()
     m.counter = 0
     m.counterMaxValue = 2
     m.isDocument = false
-    
 End sub
 
 sub getResourceId()
