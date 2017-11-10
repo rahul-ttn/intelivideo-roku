@@ -4,6 +4,15 @@ Function emailValidation(textToDisplay as String) as boolean
      return checkRegex.IsMatch(textToDisplay)
 End Function
 
+Function passwordValidation(textToDisplay as String) as boolean 
+    count = Len(textToDisplay)
+    if count >= 6
+        return true
+    else
+        return false
+    end if
+End Function
+
 Function phoneValidation(textToDisplay as String)
     checkRegex = CreateObject("roRegex", "[0-9]", "i")
     arrayForValidation =[]

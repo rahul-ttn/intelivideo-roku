@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="CreateAccountScreen" extends="Group"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/RequestParamsUtility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
+	<script type="text/brightscript" uri="pkg:/source/Utility/FocusUtility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Validation.brs"/>
+	<script type="text/brightscript" uri="pkg:/components/signup/CreateAccountScreen.brs" />
+	
+	<interface>
+		<field type="Boolean" id="buttonFocus" alwaysNotify="true"
+			onChange="onCreateAccountScreen" />
+	</interface>
+
+	<children>
+
+		<Poster id="createAccountBackground" width="1960" height="1080"
+			translation="[0,0]" uri="pkg:/images/splash_fhd.png" />
+
+		<Rectangle id="loginRectangle" width="180" height="60"
+			translation="[1600,100]">
+
+			<Button id="loginButton" height="50" translation="[0,0]"
+				textFont="font:LargeSystemFont" iconUri="" focusedIconUri=""
+				focusBitmapUri="pkg:/images/img_transparent"
+				focusFootprintBitmapUri="pkg:/images/img_transparent" />
+
+			<Label id="loginLabel" text="Log In" height="60" width="180"
+				horizAlign="center" vertAlign="center" color="0xffffffff">
+			</Label>
+		</Rectangle>
+
+		<Poster id="accountLogo" width="200" height="200"
+			uri="pkg:/images/ttnd.png" />
+
+		<Rectangle id="welcomeRectangle" width="1920" height="150"
+			color="0xf7dc6f00" translation="[0.0,350]">
+
+			<Label id="labelNewWay" text="Sign Up to Start Watching" width="1920"
+				horizAlign="center" vertAlign="center" font="font:LargeBoldSystemFont" />
+		</Rectangle>
+
+		<Label id="labelDiscription" width="1000" wrap="true"
+			lineSpacing="5" horizAlign="center" font="font:SmallSystemFont" />
+
+		<Rectangle id="emailRectangle" width="600" height="60">
+			<Button id="emailButton" height="50" translation="[0,0]"
+				textFont="font:LargeSystemFont" iconUri=""
+				focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
+				focusFootprintBitmapUri="" />
+			<Label id="emailHintlabel" text="Email" width="585"
+				ellipsizeOnBoundary="false" translation="[15,12]" horizAlign="left"
+				vertAlign="center" color="0xB4B4B1ff" />
+		</Rectangle>
+
+		<Rectangle id="passwordRectangle" width="600" height="60">
+			<Button id="passwordButton" height="50" translation="[0,0]"
+				textFont="font:LargeSystemFont" iconUri=""
+				focusedIconUri="pkg:/images/img_transparent" focusBitmapUri="pkg:/images/img_transparent"
+				focusFootprintBitmapUri="" />
+			<Label id="passwordHintlabel" text="Password" width="585"
+				ellipsizeOnBoundary="false" translation="[15,12]" horizAlign="left"
+				vertAlign="center" color="0xB4B4B1ff" />
+		</Rectangle>
+
+		<Rectangle id="createAccountRectangle" width="220" height="80">
+
+			<Button id="createAccountButton" height="50" translation="[0,0]"
+				textFont="font:LargeSystemFont" iconUri="" focusedIconUri=""
+				focusBitmapUri="pkg:/images/img_transparent"
+				focusFootprintBitmapUri="pkg:/images/img_transparent" />
+
+			<Label id="createAccountLabel" text="Continue" height="80"
+				width="220" horizAlign="center" vertAlign="center" color="0xffffffff">
+			</Label>
+		</Rectangle>
+
+		<Rectangle id="keyboardTheme" color="#252222" width="1420"
+			height="470" translation="[225,450]" visible="false">
+			<Keyboard id="keyboard" translation="[0,20]"
+				showTextEditBox="true" keyboardBitmapUri="pkg:/images/KeyboardTemplatebgfhd"
+				visible="false" focusedKeyColor="0x000000ff">
+			</Keyboard>
+		</Rectangle>
+
+	</children>
+</component>

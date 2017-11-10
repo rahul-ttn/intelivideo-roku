@@ -34,15 +34,15 @@ sub initFields()
     m.browseCatalogRectangle.translation = [browseCatalogRectangleX,820]
     
     m.loginButton = m.top.findNode("loginButton")
-    m.loginButton.observeField("buttonSelected","showPinDialog")
+    m.loginButton.observeField("buttonSelected","showLoginScreen")
     m.loginButton.setFocus(false)
     
     m.createAccountButton = m.top.findNode("createAccountButton")
-    m.createAccountButton.observeField("buttonSelected","showPinDialog")
+    m.createAccountButton.observeField("buttonSelected","showCreateAccountScreen")
     m.createAccountButton.setFocus(true)
     
     m.browseCatalogButton = m.top.findNode("browseCatalogButton")
-    m.browseCatalogButton.observeField("buttonSelected","showPinDialog")
+    m.browseCatalogButton.observeField("buttonSelected","showBrowseScreen")
     m.browseCatalogButton.setFocus(false)
     
     'initializing the currentFocus id 
@@ -55,6 +55,26 @@ sub initFields()
                      }
                      
     handleVisibility()
+end sub
+
+sub onWelcomeScreen()
+    m.createAccountButton.setFocus(true)
+end sub
+
+sub showLoginScreen()
+
+end sub
+
+sub showCreateAccountScreen()
+    m.createAccount = m.top.createChild("CreateAccountScreen")
+    m.createAccount.visible = true
+    m.top.setFocus(false)
+    m.createAccount.setFocus(true)
+    m.createAccount.buttonFocus = true
+end sub
+
+sub showBrowseScreen()
+
 end sub
 
 function handleVisibility() as void
@@ -83,7 +103,15 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             handleVisibility()
             return true
         else if key = "back"
-            return false
+            if m.createAccount <> invalid
+                m.createAccount.setFocus(false)
+                m.createAccount = invalid
+                m.createAccountButton.setFocus(true)
+                return true
+            else
+                m.top.visible = false
+                return false
+            end if
         end if
     end if
     return result 

@@ -41,6 +41,7 @@ sub moveToWelcomeScreen()
     welcomeScreen.visible = true
     m.top.setFocus(false)
     welcomeScreen.setFocus(true)
+    welcomeScreen.buttonFocus = true
 End sub
 
 sub setConfigData()
@@ -48,12 +49,12 @@ sub setConfigData()
     appConfigModel.primary_color = "#14a6df"
     appConfigModel.non_focus_color = "#565656"
     appConfigModel.account_id = 1782
-    appConfigModel.account_name = "ToTheNew"
+    appConfigModel.account_name = "Pure Barre"
     appConfigModel.account_secret_key = "y]zaByUr@BKmwk/&2bqbCfm4"
     appConfigModel.inapp_purchase_flag = true
     appConfigModel.forgot_password = true
     appConfigModel.pin_only = false
-    appConfigModel.password_only = true
+    appConfigModel.password_only = false
     m.top.appConfigContent = appConfigModel   
 end sub
 

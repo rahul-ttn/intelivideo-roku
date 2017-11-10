@@ -8,6 +8,11 @@
 	<script type="text/brightscript" uri="pkg:/source/Utility/FocusUtility.brs" />
 	<script type="text/brightscript" uri="pkg:/components/signup/WelcomeScreen.brs" />
 
+	<interface>
+		<field type="Boolean" id="buttonFocus" alwaysNotify="true"
+			onChange="onWelcomeScreen" />
+	</interface>
+
 	<children>
 
 		<Poster id="welcomeScreenBackground" width="1960" height="1080"
