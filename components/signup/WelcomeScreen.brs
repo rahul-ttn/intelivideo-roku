@@ -62,7 +62,11 @@ sub onWelcomeScreen()
 end sub
 
 sub showLoginScreen()
-
+    loginScreen = m.top.createChild("LoginScreen")
+    loginScreen.visible = true
+    m.top.setFocus(false)
+    loginScreen.setFocus(true)
+    loginScreen.buttonFocus = true
 end sub
 
 sub showCreateAccountScreen()

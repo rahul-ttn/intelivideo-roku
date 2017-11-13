@@ -8,9 +8,9 @@
 	<script type="text/brightscript" uri="pkg:/source/utility/RequestParamsUtility.brs" />
 	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
 	<script type="text/brightscript" uri="pkg:/source/Utility/FocusUtility.brs" />
-	<script type="text/brightscript" uri="pkg:/source/constants/Validation.brs"/>
+	<script type="text/brightscript" uri="pkg:/source/constants/Validation.brs" />
 	<script type="text/brightscript" uri="pkg:/components/signup/CreateAccountScreen.brs" />
-	
+
 	<interface>
 		<field type="Boolean" id="buttonFocus" alwaysNotify="true"
 			onChange="onCreateAccountScreen" />
@@ -87,5 +87,6 @@
 			</Keyboard>
 		</Rectangle>
 
+		<Timer id="timer" repeat="false" duration=".5" />
 	</children>
 </component>

@@ -75,7 +75,35 @@ sub onCreateAccountScreen()
 end sub
 
 sub createAccount()
-    isValid()
+    if isValid()
+        if checkInternetConnection()
+            message = createAccountParams(m.emailHintlabel.text, m.password, getCurrentTimeStamp())
+            showProgressDialog()
+            baseUrl = getApiBaseUrl() + "accounts/" + StrI(m.appConfig.account_id) + "/user"
+            m.userApi = createObject("roSGNode","UserApiHandler")
+            m.userApi.setField("uri",baseUrl)
+            m.userApi.setField("params",generateCipher(message, m.appConfig.account_secret_key))
+            m.userApi.setField("dataType","create_account")
+            m.userApi.observeField("content","onUserApiResponse")
+            m.userApi.control = "RUN"
+        else
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        end if
+    end if
+end sub
+
+sub onUserApiResponse()
+    hideProgressDialog()
+    userApiModel = m.userApi.content
+    if userApiModel <> invalid AND userApiModel.success
+    
+    else
+        if userApiModel <> invalid AND userApiModel.error <> invalid
+            showRetryDialog("Server Error", userApiModel.error)
+        else
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        end if
+    end if
 end sub
 
 Function isValid() as boolean
@@ -187,6 +215,7 @@ sub closeKeyBoard()
             m.passwordHintlabel.font.size = 30
         else
             m.passwordHintlabel.text = enteredText
+            m.password = enteredText
             count = Len(enteredText) 
             astrick = ""
             for i = 0 To count-1 step +1
@@ -196,4 +225,29 @@ sub closeKeyBoard()
             m.passwordHintlabel.font.size = 60
         end if
     end if 
+end sub
+
+Function showRetryDialog(title ,message)
+  dialog = createObject("roSGNode", "Dialog") 
+  dialog.backgroundUri = "" 
+  dialog.title = title
+  dialog.optionsDialog = true 
+  dialog.iconUri = ""
+  dialog.message = message
+  dialog.width = 1200
+  dialog.buttons = ["Retry"]
+  dialog.optionsDialog = true
+  dialog.observeField("buttonSelected", "startTimer") 'The field is set when the dialog close field is set,
+  m.top.getScene().dialog = dialog
+end Function
+
+sub onRetry()
+    createAccount()
+end sub
+
+sub startTimer()
+    m.top.getScene().dialog.close = true
+    m.testtimer = m.top.findNode("timer")
+    m.testtimer.control = "start"
+    m.testtimer.ObserveField("fire","onRetry")
 end sub
