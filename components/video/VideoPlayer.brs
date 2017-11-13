@@ -34,7 +34,7 @@ sub setVideoArray()
     m.resourceIdSelected = m.top.resourceIdSelected
     setVideoContentArray()
     for i=0 To m.videoIndexArray.count() -1
-        if m.resourceIdSelected = m.videoIndexArray[i]
+        if m.resourceIdSelected = m.videoIndexArray[i].resource_id
            m.indexSelected = i
         end if
     end for
@@ -48,7 +48,7 @@ sub setVideoContentArray()
         videoContentChild = createObject("RoSGNode", "ContentNode")
         mediaModel = m.videoArray[i]
         if mediaModel.type = "Video" or mediaModel.type = "Audio"
-            m.videoIndexArray.push(mediaModel.resource_id)
+            m.videoIndexArray.push(mediaModel)
             
             videoContentChild.url = getApiBaseUrl() +"media/"+StrI(mediaModel.resource_id).Trim()+"/streaming_url?access_token="+getValueInRegistryForKey("authTokenValue")
             videoContentChild.title = mediaModel.title
@@ -64,28 +64,22 @@ sub playVideo()
     'm.video.contentIsPlaylist = true
     m.video.control = "play"
     m.video.enableUI = true 
-'    m.video.observeField("position","printPosition")
-'    m.video.observeField("contentIndex","updateUpNextVisibility")
+    m.upNextRectangle.visible = false 
+    m.video.observeField("position","printPosition")
     m.video.observeField("state", "OnVideoPlaybackFinished")
     m.video.setFocus(true) 
 end sub 
 
 sub printPosition()
-    print m.video.position;"========";m.video.contentIndex;"=====";m.video.duration
-    mediaModel = m.videoContentArray[m.video.contentIndex +1]
-    if m.video.contentIndex = m.videoContentArray.count()-1
+    print m.video.position;"=============";m.video.duration
+    mediaModel = m.videoIndexArray[m.indexSelected + 1]
+    if m.indexSelected = m.videoContentArray.count()-1
         m.upNextRectangle.visible = false
     else if Int(m.video.position) = (m.video.duration - 10) or Int(m.video.duration) < 10
         m.upNextRectangle.visible = true
         m.posterUpNext.uri = mediaModel.small
         m.labelTitle.text = mediaModel.title
     end if
-end sub
-
-sub updateUpNextVisibility()
-    print "m.video.nextContentIndex >";m.video.nextContentIndex
-    m.video.nextContentIndex = m.video.contentIndex + 1
-    m.upNextRectangle.visible = false 
 end sub
 
 sub OnVideoPlaybackFinished()
