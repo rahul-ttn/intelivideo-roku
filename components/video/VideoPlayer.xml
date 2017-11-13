@@ -12,14 +12,53 @@
 	<script type="text/brightscript" uri="pkg:/components/video/VideoPlayer.brs" />
 
 	<interface>
-		<field type="String" id="uri" alwaysNotify="true" onChange="onVideoUri" />
 		<field type="String" id="resourceId" alwaysNotify="true"
 			onChange="onResourceId" />
+		<field type="integer" id="resourceIdSelected"/>
+		<field type="nodearray" id="videoArray" alwaysNotify = "true" onChange="setVideoArray"/>
+		
 	</interface>
 
 	<children>
 
 		<Video id="videoPlayer" width="0.0" height="0.0" />
-
+		<Poster id = "audioPoster" width = "1920" height="1080" visible="false">
+		</Poster>
+		<Rectangle
+			id = "outerUpNextRectangle"
+			width = "400"
+			height = "170"
+			color="0x85858500"
+			translation="[1470,550]">
+			<Label
+				id = "labelUpNext"
+				text = "Up Next"
+				color="0xffffffff"
+				translation="[0.0,0.0]">
+			</Label>
+			<Rectangle
+				id = "upNextRectangle"
+				width = "400"
+				height = "150"
+				translation = "[0,40]">
+				<Poster id = "posterUpNext"
+					uri = "pkg:/images/HD/view-all-arrow.png"
+					width = "170"
+					height = "150">
+				</Poster>
+				<Label
+					id = "labelTitle"
+					text = ""
+					width = "220"
+					height = "150"
+					ellipsizeOnBoundary="false"
+					ellipsisText="..."
+					wrap = "true"
+					color = "0x000000ff"
+					translation="[180,0]">
+				</Label>
+			</Rectangle>
+		</Rectangle>
+		<Timer id="timer" repeat="false" duration=".5" />
 	</children>
 </component>
