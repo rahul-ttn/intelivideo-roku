@@ -4,6 +4,7 @@ sub init()
     m.upNextRectangle = m.top.findNode("outerUpNextRectangle")
     m.posterUpNext = m.top.findNode("posterUpNext")
     m.labelTitle = m.top.findNode("labelTitle")
+   ' m.audioPoster = m.top.findNode("audioPoster")
     m.upNextRectangle.visible = false
 End sub
 
@@ -31,6 +32,7 @@ end function
 'This method is called when play button is clicked from ProductDetailScreen
 sub setVideoArray()
     m.videoArray = m.top.videoArray
+    addRecentlyViewedAPI()
     m.resourceIdSelected = m.top.resourceIdSelected
     setVideoContentArray()
     for i=0 To m.videoIndexArray.count() -1
@@ -48,6 +50,10 @@ sub setVideoContentArray()
         videoContentChild = createObject("RoSGNode", "ContentNode")
         mediaModel = m.videoArray[i]
         if mediaModel.type = "Video" or mediaModel.type = "Audio"
+'            if mediaModel.type = "Audio"
+'                m.audioPoster.visible = true
+'                m.audioPoster.uri = mediaModel.small
+'            end if
             m.videoIndexArray.push(mediaModel)
             
             videoContentChild.url = getApiBaseUrl() +"media/"+StrI(mediaModel.resource_id).Trim()+"/streaming_url?access_token="+getValueInRegistryForKey("authTokenValue")

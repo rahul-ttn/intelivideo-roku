@@ -22,6 +22,8 @@
 	<children>
 
 		<Video id="videoPlayer" width="0.0" height="0.0" />
+		<Poster id = "audioPoster" width = "1920" height="1080" visible="false">
+		</Poster>
 		<Rectangle
 			id = "outerUpNextRectangle"
 			width = "400"
