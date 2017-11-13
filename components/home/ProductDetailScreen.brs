@@ -171,7 +171,8 @@ sub onButtonPlay()
     m.videoPlayer = m.top.createChild("VideoPlayer")
     m.top.setFocus(false)
     m.videoPlayer.setFocus(true)
-    m.videoPlayer.resourceId = StrI(m.resourceId).Trim()
+    'm.videoPlayer.resourceId = StrI(m.resourceId).Trim()
+    m.videoPlayer.videoArray = m.productDetailModel.objects
 End sub
 
 sub showProductMoreScreen()
@@ -419,23 +420,18 @@ end sub
 
 sub setFocusOnTopDesc()
     if m.descLabel.isTextEllipsized AND m.longDescriptionLabel.isTextEllipsized
-        print "initFocus()========>"
         initFocus()
         m.moreButtonrectangle.visible = true
         m.moreButtonrectangleRight.visible = true
     else if m.descLabel.isTextEllipsized AND not m.longDescriptionLabel.isTextEllipsized
-        print "initFocusWithoutRightMoreButton()==========>"
-        print "m.longDescriptionLabel.isTextEllipsized=======>";m.longDescriptionLabel.isTextEllipsized
         initFocusWithoutRightMoreButton()
         m.moreButtonrectangle.visible = true
         m.moreButtonrectangleRight.visible = false
     else if not m.descLabel.isTextEllipsized AND m.longDescriptionLabel.isTextEllipsized
-        print "initFocusWithoutLeftMoreButton()==========>"
         initFocusWithoutLeftMoreButton()
         m.moreButtonrectangle.visible = false
         m.moreButtonrectangleRight.visible = true
     else
-        print "initFocusWithoutBothMoreButton()==========>"
         initFocusWithoutBothMoreButton()
         m.moreButtonrectangle.visible = false
         m.moreButtonrectangleRight.visible = false
@@ -446,6 +442,14 @@ sub onListItemSelected()
     
 End sub
 
+sub onBackPressed()
+    print "videoPlayer closed"
+    if m.videoPlayer <> invalid
+        m.videoPlayer.setFocus(false)
+        m.videoPlayer = invalid
+        m.buttonPlay.setFocus(true)
+    end if  
+end sub
 
 Function showRetryDialog(title ,message)
     m.Error_text.visible = true
