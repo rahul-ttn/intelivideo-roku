@@ -32,7 +32,6 @@ end function
 'This method is called when play button is clicked from ProductDetailScreen
 sub setVideoArray()
     m.videoArray = m.top.videoArray
-    addRecentlyViewedAPI()
     m.resourceIdSelected = m.top.resourceIdSelected
     setVideoContentArray()
     for i=0 To m.videoIndexArray.count() -1
@@ -65,9 +64,10 @@ sub setVideoContentArray()
 end sub
 
 sub playVideo()
-     print "resourceIdSelected used to Play video >";m.resourceIdSelected
-     m.video.content = m.videoContentArray[m.indexSelected]
-    'm.video.contentIsPlaylist = true
+    mediaModel = m.videoIndexArray[m.indexSelected]
+    m.resourceId = Stri(mediaModel.resource_id)
+    addRecentlyViewedAPI()
+    m.video.content = m.videoContentArray[m.indexSelected]
     m.video.control = "play"
     m.video.enableUI = true 
     m.upNextRectangle.visible = false 
@@ -81,7 +81,7 @@ sub printPosition()
     mediaModel = m.videoIndexArray[m.indexSelected + 1]
     if m.indexSelected = m.videoContentArray.count()-1
         m.upNextRectangle.visible = false
-    else if Int(m.video.position) = (m.video.duration - 10) or Int(m.video.duration) < 10
+    else if Int(m.video.position) = (m.video.duration - 10) or Int(m.video.duration) < 10 or Int(m.video.position) < 10
         m.upNextRectangle.visible = true
         m.posterUpNext.uri = mediaModel.small
         m.labelTitle.text = mediaModel.title
@@ -120,6 +120,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             return true
         else if key = "back"
             m.video.control = "stop"
+            m.top.getParent().backPressed = 11
             m.top.visible = false
             return false
         end if
