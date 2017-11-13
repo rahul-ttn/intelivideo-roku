@@ -171,7 +171,8 @@ sub onButtonPlay()
     m.videoPlayer = m.top.createChild("VideoPlayer")
     m.top.setFocus(false)
     m.videoPlayer.setFocus(true)
-    'm.videoPlayer.resourceId = StrI(m.resourceId).Trim()
+    print "indexSelected sent to VideoPlayer >";m.productLabelList.itemFocused
+    m.videoPlayer.resourceIdSelected = m.productDetailModel.objects[m.productLabelList.itemFocused].resource_id
     m.videoPlayer.videoArray = m.productDetailModel.objects
 End sub
 

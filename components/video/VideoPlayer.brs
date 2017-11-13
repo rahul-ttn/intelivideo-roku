@@ -14,19 +14,61 @@ sub onResourceId()
     setVideo()
 End sub
 
+'This method is called when play event is launched from MediaDetailsScreen 
+function setVideo() as void
+  m.vidContent = createObject("RoSGNode", "ContentNode")
+  m.vidContent.url = m.videoUri
+  m.vidContent.title = ""
+  m.vidContent.streamformat = "hls"
+
+  m.video.content = m.vidContent
+  m.video.control = "play"
+  m.video.enableUI = true
+  m.video.observeField("state", "OnVideoPlaybackFinished")
+  m.video.setFocus(true) 
+end function
+
+'This method is called when play button is clicked from ProductDetailScreen
 sub setVideoArray()
     m.videoArray = m.top.videoArray
-    print "VideoArray received";m.videoArray
+    m.resourceIdSelected = m.top.resourceIdSelected
     setVideoContentArray()
-    m.video.content = m.videoContent
-    m.video.contentIsPlaylist = true
+    for i=0 To m.videoIndexArray.count() -1
+        if m.resourceIdSelected = m.videoIndexArray[i]
+           m.indexSelected = i
+        end if
+    end for
+    playVideo()
+end sub
+
+sub setVideoContentArray()
+    m.videoContentArray = CreateObject("roArray",0, true) 'array to store videoContent for every node with different model
+    m.videoIndexArray = CreateObject("roArray",0, true) 'array to store only id of elements that are of type either video or audio 
+    for i = 0 TO m.videoArray.count() - 1 
+        videoContentChild = createObject("RoSGNode", "ContentNode")
+        mediaModel = m.videoArray[i]
+        if mediaModel.type = "Video" or mediaModel.type = "Audio"
+            m.videoIndexArray.push(mediaModel.resource_id)
+            
+            videoContentChild.url = getApiBaseUrl() +"media/"+StrI(mediaModel.resource_id).Trim()+"/streaming_url?access_token="+getValueInRegistryForKey("authTokenValue")
+            videoContentChild.title = mediaModel.title
+            videoContentChild.streamformat = "hls"
+            m.videoContentArray.Push(videoContentChild) 
+        end if
+    end for
+end sub
+
+sub playVideo()
+     print "resourceIdSelected used to Play video >";m.resourceIdSelected
+     m.video.content = m.videoContentArray[m.indexSelected]
+    'm.video.contentIsPlaylist = true
     m.video.control = "play"
     m.video.enableUI = true 
-    m.video.observeField("position","printPosition")
-    m.video.observeField("contentIndex","updateUpNextVisibility")
+'    m.video.observeField("position","printPosition")
+'    m.video.observeField("contentIndex","updateUpNextVisibility")
     m.video.observeField("state", "OnVideoPlaybackFinished")
     m.video.setFocus(true) 
-end sub
+end sub 
 
 sub printPosition()
     print m.video.position;"========";m.video.contentIndex;"=====";m.video.duration
@@ -46,46 +88,16 @@ sub updateUpNextVisibility()
     m.upNextRectangle.visible = false 
 end sub
 
-function setVideo() as void
-  m.videoContent = createObject("RoSGNode", "ContentNode")
-  m.videoContent.url = m.videoUri
-  m.videoContent.title = ""
-  m.videoContent.streamformat = "hls"
-
-  m.video.content = videoContent
-  m.video.control = "play"
-  m.video.enableUI = true
-  m.video.observeField("state", "OnVideoPlaybackFinished")
-  m.video.setFocus(true) 
-end function
-
-sub setVideoContentArray()
-     m.videoContent = createObject("RoSGNode", "ContentNode")
-    m.videoContentArray = CreateObject("roArray",0, true)
-    for i = 0 TO m.videoArray.count() - 1 
-        videoContentChild = m.videoContent.createChild("ContentNode")
-        mediaModel = m.videoArray[i]
-        if mediaModel.type = "Video"
-            m.videoContentArray.Push(mediaModel) 
-            print getApiBaseUrl() +"media/"+StrI(mediaModel.resource_id).Trim()+"/streaming_url?access_token="+getValueInRegistryForKey("authTokenValue")
-            videoContentChild.url = getApiBaseUrl() +"media/"+StrI(mediaModel.resource_id).Trim()+"/streaming_url?access_token="+getValueInRegistryForKey("authTokenValue")
-            videoContentChild.title = mediaModel.title
-            videoContentChild.streamformat = "m3u8"
-        else if mediaModel.type = "Audio"
-            m.videoContentArray.Push(mediaModel) 
-            print getApiBaseUrl() +"media/"+StrI(mediaModel.resource_id).Trim()+"/streaming_url?access_token="+getValueInRegistryForKey("authTokenValue")
-            videoContentChild.url = getApiBaseUrl() +"media/"+StrI(mediaModel.resource_id).Trim()+"/streaming_url?access_token="+getValueInRegistryForKey("authTokenValue")
-            videoContentChild.title = mediaModel.title
-            videoContentChild.streamformat = "mp3"
-        end if
-    end for
-end sub
-
 sub OnVideoPlaybackFinished()
     if m.video.state = "finished"
         m.video.control = "stop"
-        m.top.visible = false
-        m.top.getParent().backPressed = 11
+        if m.indexSelected < m.videoContentArray.count()
+            m.indexSelected = m.indexSelected + 1
+            playVideo()
+        else   
+            m.top.visible = false
+            m.top.getParent().backPressed = 11
+        end if
     end if
 end sub
 

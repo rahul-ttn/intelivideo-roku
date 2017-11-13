@@ -14,7 +14,9 @@
 	<interface>
 		<field type="String" id="resourceId" alwaysNotify="true"
 			onChange="onResourceId" />
+		<field type="integer" id="resourceIdSelected"/>
 		<field type="nodearray" id="videoArray" alwaysNotify = "true" onChange="setVideoArray"/>
+		
 	</interface>
 
 	<children>
