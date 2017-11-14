@@ -12,6 +12,7 @@
 	<script type="text/brightscript" uri="pkg:/components/video/VideoPlayer.brs" />
 
 	<interface>
+		<field type="String" id="videoTitle"/>
 		<field type="String" id="resourceId" alwaysNotify="true"
 			onChange="onResourceId" />
 		<field type="integer" id="resourceIdSelected"/>
@@ -42,9 +43,10 @@
 				height = "150"
 				translation = "[0,40]">
 				<Poster id = "posterUpNext"
-					uri = "pkg:/images/HD/view-all-arrow.png"
+					uri = ""
 					width = "170"
-					height = "150">
+					height = "150"
+					loadDisplayMode="scaleToFill">
 				</Poster>
 				<Label
 					id = "labelTitle"
@@ -55,7 +57,7 @@
 					ellipsisText="..."
 					wrap = "true"
 					color = "0x000000ff"
-					translation="[180,0]">
+					translation="[180,10]">
 				</Label>
 			</Rectangle>
 		</Rectangle>

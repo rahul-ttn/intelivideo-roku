@@ -6,11 +6,15 @@ sub init()
     m.labelTitle = m.top.findNode("labelTitle")
    ' m.audioPoster = m.top.findNode("audioPoster")
     m.upNextRectangle.visible = false
+    m.indexSelected = 0
+    m.videoContentArray = CreateObject("roArray",0, true) 'array to store videoContent for every node with different model
+    m.videoIndexArray = CreateObject("roArray",0, true) 'array to store only id of elements that are of type either video or audio 
 End sub
 
 sub onResourceId()
     m.resourceId = m.top.resourceId
     addRecentlyViewedAPI()
+    m.videoTitle = m.top.videoTitle
     m.videoUri = getApiBaseUrl() +"media/"+m.resourceId+"/streaming_url?access_token="+getValueInRegistryForKey("authTokenValue")
     setVideo()
 End sub
@@ -19,12 +23,11 @@ End sub
 function setVideo() as void
   m.vidContent = createObject("RoSGNode", "ContentNode")
   m.vidContent.url = m.videoUri
-  m.vidContent.title = ""
+  m.vidContent.title = m.videoTitle
   m.vidContent.streamformat = "hls"
 
   m.video.content = m.vidContent
   m.video.control = "play"
-  m.video.enableUI = true
   m.video.observeField("state", "OnVideoPlaybackFinished")
   m.video.setFocus(true) 
 end function
@@ -43,8 +46,6 @@ sub setVideoArray()
 end sub
 
 sub setVideoContentArray()
-    m.videoContentArray = CreateObject("roArray",0, true) 'array to store videoContent for every node with different model
-    m.videoIndexArray = CreateObject("roArray",0, true) 'array to store only id of elements that are of type either video or audio 
     for i = 0 TO m.videoArray.count() - 1 
         videoContentChild = createObject("RoSGNode", "ContentNode")
         mediaModel = m.videoArray[i]
@@ -54,7 +55,6 @@ sub setVideoContentArray()
 '                m.audioPoster.uri = mediaModel.small
 '            end if
             m.videoIndexArray.push(mediaModel)
-            
             videoContentChild.url = getApiBaseUrl() +"media/"+StrI(mediaModel.resource_id).Trim()+"/streaming_url?access_token="+getValueInRegistryForKey("authTokenValue")
             videoContentChild.title = mediaModel.title
             videoContentChild.streamformat = "hls"
@@ -66,11 +66,11 @@ end sub
 sub playVideo()
     mediaModel = m.videoIndexArray[m.indexSelected]
     m.resourceId = Stri(mediaModel.resource_id)
+    m.upNextRectangle.visible = false
     addRecentlyViewedAPI()
     m.video.content = m.videoContentArray[m.indexSelected]
     m.video.control = "play"
     m.video.enableUI = true 
-    m.upNextRectangle.visible = false 
     m.video.observeField("position","printPosition")
     m.video.observeField("state", "OnVideoPlaybackFinished")
     m.video.setFocus(true) 
@@ -81,7 +81,11 @@ sub printPosition()
     mediaModel = m.videoIndexArray[m.indexSelected + 1]
     if m.indexSelected = m.videoContentArray.count()-1
         m.upNextRectangle.visible = false
-    else if Int(m.video.position) = (m.video.duration - 10) or Int(m.video.duration) < 10 or Int(m.video.position) < 10
+    else if Int(m.video.position) = Int(m.video.duration - 10) 
+        m.upNextRectangle.visible = true
+        m.posterUpNext.uri = mediaModel.small
+        m.labelTitle.text = mediaModel.title
+    else if Int(m.video.duration) < 10 and Int(m.video.position) > 0
         m.upNextRectangle.visible = true
         m.posterUpNext.uri = mediaModel.small
         m.labelTitle.text = mediaModel.title
@@ -91,7 +95,7 @@ end sub
 sub OnVideoPlaybackFinished()
     if m.video.state = "finished"
         m.video.control = "stop"
-        if m.indexSelected < m.videoContentArray.count()
+        if m.indexSelected < m.videoContentArray.count()-1
             m.indexSelected = m.indexSelected + 1
             playVideo()
         else   
