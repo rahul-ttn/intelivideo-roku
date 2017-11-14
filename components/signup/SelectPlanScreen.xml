@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="SelectPlanScreen" extends="Group" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri = "pkg:/components/signup/SelectPlanScreen.brs"/>
+	
+	<children>
+		<Rectangle
+			id ="rectangleouter"
+			width="1080"
+			height = "1920">
+			
+			<Poster
+				id = "posterBackground"
+				width="1080"
+				height = "1920"
+				uri = "">
+			</Poster>
+			
+		</Rectangle>	
+	</children>
+</component>

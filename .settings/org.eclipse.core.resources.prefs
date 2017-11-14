@@ -62,5 +62,6 @@ encoding//components/screens/ViewAllScreen.xml=UTF-8
 encoding//components/search/SearchRowList.xml=UTF-8
 encoding//components/search/SearchScreen.xml=UTF-8
 encoding//components/signup/CreateAccountScreen.xml=UTF-8
+encoding//components/signup/SelectPlanScreen.xml=UTF-8
 encoding//components/signup/WelcomeScreen.xml=UTF-8
 encoding//components/video/VideoPlayer.xml=UTF-8
