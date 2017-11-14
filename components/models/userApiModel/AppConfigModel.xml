@@ -8,5 +8,15 @@
 		<field id="display_categories" type="boolean" />
 		<field id="privacy_policy" type="String" />
 		<field id="terms_of_service" type="String" />
+		
+		<field id="non_focus_color" type="String" />
+		<field id="account_id" type="Integer" />
+		<field id="account_name" type="String" />
+		<field id="account_secret_key" type="String" />
+		<field id="account_inapp_purchase_secret_key" type="String" />
+		<field id="inapp_purchase_flag" type="Boolean" />
+		<field id="forgot_password" type="Boolean" />
+		<field id="pin_only" type="Boolean" />
+		<field id="password_only" type="Boolean" />
 	</interface>
 </component>

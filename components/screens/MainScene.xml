@@ -11,6 +11,7 @@
     	<field type="nodearray" id="myContent"/>
     	<field type="node" id="appConfigContent"/>
     	<field type="boolean" id="isRefreshOnBack"/>
+    	<field type="boolean" id="isWhiteLabel"/>
     </interface>
     
     <children>

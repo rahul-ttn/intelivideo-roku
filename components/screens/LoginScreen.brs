@@ -114,30 +114,70 @@ end sub
 function onFetchMerchant()  
     merchantModel = m.fetchMerchantApi.content
     if merchantModel.success
-        if m.fetchMerchantApi.content.accountsArray.count() = 0
-            print "No Accounts Found"
-            m.top.getScene().dialog.close = true
-            handleButtonEditTextColorFocus(true)
-            showHideError(true,03)
-            m.textLabel.text = "Account Email"
-        else if m.fetchMerchantApi.content.accountsArray.count() = 1
-            hideViews()
-            m.passwordScreen = m.top.createChild("PasswordScreen")
-            m.top.setFocus(false)
-            m.passwordScreen.setFocus(true)
-            m.passwordScreen.videoNode = m.video
-            m.passwordScreen.emailId = m.email
-            m.passwordScreen.account = m.fetchMerchantApi.content.accountsArray[0] 
+        m.appConfig = m.top.getScene().appConfigContent
+        if m.top.getScene().isWhiteLabel
+            if m.fetchMerchantApi.content.accountsArray.count() = 0
+                print "No Accounts Found"
+                m.top.getScene().dialog.close = true
+                handleButtonEditTextColorFocus(true)
+                showHideError(true,03)
+                m.textLabel.text = "Account Email"
+            else
+                isAccountId = false
+                index = 0
+                accountArray = m.fetchMerchantApi.content.accountsArray
+                for i=0 to accountArray.count()-1
+                    value = m.appConfig.account_id
+                    value1= accountArray[i].id.ToInt()
+                    if value = value1
+                        print "Accounts Found in array "accountArray[i].id
+                        isAccountId = true
+                        index = i
+                    end if
+                end for
+                if isAccountId
+                    isAccountId = false
+                    hideViews()
+                    m.passwordScreen = m.top.createChild("PasswordScreen")
+                    m.top.setFocus(false)
+                    m.passwordScreen.setFocus(true)
+                    m.passwordScreen.videoNode = m.video
+                    m.passwordScreen.emailId = m.email
+                    m.passwordScreen.account = accountArray[index]
+                else
+                    print "No Accounts Found in array"
+                    m.top.getScene().dialog.close = true
+                    handleButtonEditTextColorFocus(true)
+                    showHideError(true,03)
+                    m.textLabel.text = "Account Email"
+                end if
+            end if
         else
-            hideViews()
-            m.selectScreen = m.top.createChild("SelectAccount")
-            print "CHILD COUNT after select screen create child ";m.top.getChildCount()
-            m.top.setFocus(false)
-            m.selectScreen.setFocus(true)
-            m.selectScreen.emailID = m.email
-            'm.selectScreen.emailID = "zoe@barbershop.io"
-            m.selectScreen.videoNode = m.video
-            m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
+            if m.fetchMerchantApi.content.accountsArray.count() = 0
+                print "No Accounts Found"
+                m.top.getScene().dialog.close = true
+                handleButtonEditTextColorFocus(true)
+                showHideError(true,03)
+                m.textLabel.text = "Account Email"
+            else if m.fetchMerchantApi.content.accountsArray.count() = 1
+                hideViews()
+                m.passwordScreen = m.top.createChild("PasswordScreen")
+                m.top.setFocus(false)
+                m.passwordScreen.setFocus(true)
+                m.passwordScreen.videoNode = m.video
+                m.passwordScreen.emailId = m.email
+                m.passwordScreen.account = m.fetchMerchantApi.content.accountsArray[0] 
+            else
+                hideViews()
+                m.selectScreen = m.top.createChild("SelectAccount")
+                print "CHILD COUNT after select screen create child ";m.top.getChildCount()
+                m.top.setFocus(false)
+                m.selectScreen.setFocus(true)
+                m.selectScreen.emailID = m.email
+                'm.selectScreen.emailID = "zoe@barbershop.io"
+                m.selectScreen.videoNode = m.video
+                m.selectScreen.content = m.fetchMerchantApi.content.accountsArray
+            end if
         end if
     else
         m.top.getScene().dialog.close = true

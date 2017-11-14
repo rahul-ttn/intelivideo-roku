@@ -100,6 +100,7 @@ sub goToHomeScreen()
         
         m.authApi.setField("uri",baseUrl)
         m.authApi.setField("params",parmas)
+        m.authApi.setField("dataType","login")
         m.authApi.observeField("content","onAuthToken")
         m.authApi.control = "RUN"
         showProgressDialogPassword()

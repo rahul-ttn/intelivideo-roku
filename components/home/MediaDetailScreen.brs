@@ -7,7 +7,6 @@ sub init()
     m.counter = 0
     m.counterMaxValue = 2
     m.isDocument = false
-    
 End sub
 
 sub getResourceId()
@@ -104,6 +103,14 @@ sub onButtonFavorite()
     end if
 end sub
 
+sub onBackPressed()
+     if m.videoPlayer <> invalid
+        m.videoPlayer.setFocus(false)
+        m.videoPlayer = invalid
+        m.buttonPlay.setFocus(true)
+    end if
+end sub
+
 sub addFavMediaAPI()
     baseUrl = getApiBaseUrl() +"favorites?access_token=" + getValueInRegistryForKey("authTokenValue")
     parmas = createRecentlyViewedParams(StrI(m.resourceId),"media")
@@ -131,8 +138,8 @@ sub onButtonPlay()
     print "onButtonPlay() >>>>> "
     m.videoPlayer = m.top.createChild("VideoPlayer")
     m.videoPlayer.setFocus(true)
+    m.videoPlayer.videoTitle = m.labelTitle.text
     m.videoPlayer.resourceId = StrI(m.resourceId).Trim()
-    
 End sub
 
 sub showMoreLabel()
