@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component name="prices" extends="ContentNode" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
-<interface>
+<component name="PricesModel" extends="ContentNode"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<interface>
 		<field type="integer" id="price_id" />
 		<field type="integer" id="amount" />
 		<field type="integer" id="recurring_amount" />

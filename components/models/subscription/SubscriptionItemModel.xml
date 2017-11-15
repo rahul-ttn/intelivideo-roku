@@ -6,6 +6,7 @@
 		<field type="string" id="title" />
 		<field type="string" id="description" />
 		<field type="string" id="long_description" />
+		<field type="string" id="thumbnail" />
 		<field type="nodearray" id="prices"/>
 	</interface>
 </component>

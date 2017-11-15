@@ -1,7 +1,9 @@
 sub init()
     m.top.SetFocus(true)
     m.appConfig = m.top.getScene().appConfigContent
+    m.subscriptionId = 0
     initFields()
+    getSubscription()
 End sub
 
 sub initFields()
@@ -16,7 +18,7 @@ sub initFields()
     m.labelWatchAnywhere.font.size = 60
     
     m.labelDiscription = m.top.findNode("labelDiscription")
-    m.labelDiscription.text = "You new subscription will provide you with Instant Access to the content you want. After creating an account, you can select a plan to watch anywhere on any device, anytime."
+    'm.labelDiscription.text = "You new subscription will provide you with Instant Access to the content you want. After creating an account, you can select a plan to watch anywhere on any device, anytime."
     labelDiscriptionX = (1920 - m.labelDiscription.width) / 2
     m.labelDiscription.translation = [labelDiscriptionX,520]
     
@@ -55,6 +57,36 @@ sub initFields()
                      }
                      
     handleVisibility()
+end sub
+
+sub getSubscription()
+    if checkInternetConnection()
+        showProgressDialog()
+        baseUrl = getApiBaseUrl() + "store/" + StrI(m.appConfig.account_id).Trim() + "/subscriptions?src_system=roku"
+        m.subscriptionApi = createObject("roSGNode","GetSubscriptionsApiHandler")
+        m.subscriptionApi.setField("uri",baseUrl)
+        m.subscriptionApi.observeField("content","onSubscriptionApiResponse")
+        m.subscriptionApi.control = "RUN"
+    else
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
+    end if
+end sub
+
+sub onSubscriptionApiResponse()
+    hideProgressDialog()
+    subscriptionApiModel = m.subscriptionApi.content
+    if subscriptionApiModel <> invalid AND subscriptionApiModel.success
+        dataObject = subscriptionApiModel.items[0]
+        m.subscriptionId = dataObject.product_id
+        m.labelDiscription.text = dataObject.description
+        m.accountLogo.uri = dataObject.thumbnail
+    else
+        if subscriptionApiModel <> invalid AND subscriptionApiModel.error <> invalid
+            showRetryDialog("Server Error", subscriptionApiModel.error)
+        else
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        end if
+    end if
 end sub
 
 sub onWelcomeScreen()
@@ -125,3 +157,28 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     end if
     return result 
 end function
+
+Function showRetryDialog(title ,message)
+  dialog = createObject("roSGNode", "Dialog") 
+  dialog.backgroundUri = "" 
+  dialog.title = title
+  dialog.optionsDialog = true 
+  dialog.iconUri = ""
+  dialog.message = message
+  dialog.width = 1200
+  dialog.buttons = ["Retry"]
+  dialog.optionsDialog = true
+  dialog.observeField("buttonSelected", "startTimer") 'The field is set when the dialog close field is set,
+  m.top.getScene().dialog = dialog
+end Function
+
+sub onRetry()
+    getSubscription()
+end sub
+
+sub startTimer()
+    m.top.getScene().dialog.close = true
+    m.testtimer = m.top.findNode("timer")
+    m.testtimer.control = "start"
+    m.testtimer.ObserveField("fire","onRetry")
+end sub

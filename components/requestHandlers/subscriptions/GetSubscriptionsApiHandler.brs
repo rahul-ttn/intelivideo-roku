@@ -31,8 +31,16 @@ sub parseApiResponse(response As Object)
             itemModel.description = item.description
             itemModel.long_description = item.long_description
             
-            priceArray = CreateObject("roArray", response.items.prices.count(), false)
-            for each price in response.items.prices
+            if item.images <> invalid AND item.images.horizontal_cover_art <> invalid
+                itemModel.thumbnail = item.images.horizontal_cover_art.thumbnail
+            else if item.images <> invalid AND item.images.vertical_cover_art <> invalid
+                itemModel.thumbnail = item.images.vertical_cover_art.thumbnail
+            else if item.images <> invalid AND item.images.banner_image <> invalid
+                itemModel.thumbnail = item.images.banner_image.thumbnail
+            end if
+            
+            priceArray = CreateObject("roArray", item.prices.count(), false)
+            for each price in item.prices
                 priceModel = CreateObject("roSGNode", "pricesModel")
                 priceModel.price_id = price.price_id
                 priceModel.amount = price.amount
@@ -61,7 +69,7 @@ sub parseApiResponse(response As Object)
         pageInfoModel.out_of_bounds = response.page_info.out_of_bounds
         subscriptionModel.pageInfo =  pageInfoModel 
         
-    else if response.error <> invalid
+    else if response <> invalid AND response.error <> invalid
         subscriptionModel.success = false
         subscriptionModel.error = response.error
     else

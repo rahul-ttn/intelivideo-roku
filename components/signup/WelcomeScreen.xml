@@ -6,6 +6,7 @@
 	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs" />
 	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
 	<script type="text/brightscript" uri="pkg:/source/Utility/FocusUtility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
 	<script type="text/brightscript" uri="pkg:/components/signup/WelcomeScreen.brs" />
 
 	<interface>
@@ -32,7 +33,7 @@
 		</Rectangle>
 
 		<Poster id="accountLogo" width="200" height="200"
-			uri="pkg:/images/ttnd.png" />
+		 />
 
 		<Rectangle id="welcomeRectangle" width="1920" height="150"
 			color="0xf7dc6f00" translation="[0.0,350]">
@@ -45,7 +46,7 @@
 				translation="[0.0,80]" />
 		</Rectangle>
 
-		<Label id="labelDiscription" width="1000" wrap="true"
+		<Label id="labelDiscription" width="1000" wrap="true" maxLines="4"
 			lineSpacing="5" horizAlign="center" font="font:SmallSystemFont" />
 
 		<Rectangle id="createAccountRectangle" width="450" height="80">
@@ -72,6 +73,6 @@
 				width="350" horizAlign="center" vertAlign="center" color="0xffffffff">
 			</Label>
 		</Rectangle>
-
+		<Timer id="timer" repeat="false" duration=".5" />
 	</children>
 </component>
