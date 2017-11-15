@@ -121,7 +121,6 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         if key="up" OR key="down" OR key="left" OR key="right" Then
             return true
         else if key = "ok"
-            
             return true
         else if key = "back"
             m.video.control = "stop"
