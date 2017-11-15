@@ -139,6 +139,7 @@ sub onButtonPlay()
     m.videoPlayer = m.top.createChild("VideoPlayer")
     m.videoPlayer.setFocus(true)
     m.videoPlayer.videoTitle = m.labelTitle.text
+    m.videoPlayer.backgroundUri = m.mediaDetailModel.small
     m.videoPlayer.resourceId = StrI(m.resourceId).Trim()
 End sub
 

@@ -4,7 +4,7 @@ sub init()
     m.upNextRectangle = m.top.findNode("outerUpNextRectangle")
     m.posterUpNext = m.top.findNode("posterUpNext")
     m.labelTitle = m.top.findNode("labelTitle")
-   ' m.audioPoster = m.top.findNode("audioPoster")
+    m.audioPoster = m.top.findNode("audioPoster")
     m.upNextRectangle.visible = false
     m.indexSelected = 0
     m.videoContentArray = CreateObject("roArray",0, true) 'array to store videoContent for every node with different model
@@ -21,6 +21,8 @@ End sub
 
 'This method is called when play event is launched from MediaDetailsScreen 
 function setVideo() as void
+    m.audioPoster.visible = true
+    m.audioPoster.uri = m.top.backgroundUri
   m.vidContent = createObject("RoSGNode", "ContentNode")
   m.vidContent.url = m.videoUri
   m.vidContent.title = m.videoTitle
@@ -50,10 +52,6 @@ sub setVideoContentArray()
         videoContentChild = createObject("RoSGNode", "ContentNode")
         mediaModel = m.videoArray[i]
         if mediaModel.type = "Video" or mediaModel.type = "Audio"
-'            if mediaModel.type = "Audio"
-'                m.audioPoster.visible = true
-'                m.audioPoster.uri = mediaModel.small
-'            end if
             m.videoIndexArray.push(mediaModel)
             videoContentChild.url = getApiBaseUrl() +"media/"+StrI(mediaModel.resource_id).Trim()+"/streaming_url?access_token="+getValueInRegistryForKey("authTokenValue")
             videoContentChild.title = mediaModel.title
@@ -67,6 +65,12 @@ sub playVideo()
     mediaModel = m.videoIndexArray[m.indexSelected]
     m.resourceId = Stri(mediaModel.resource_id)
     m.upNextRectangle.visible = false
+     if mediaModel.type = "Audio"
+        m.audioPoster.visible = true
+        m.audioPoster.uri = mediaModel.small
+    else 
+        m.audioPoster.visible = false
+    end if
     addRecentlyViewedAPI()
     m.video.content = m.videoContentArray[m.indexSelected]
     m.video.control = "play"
@@ -124,7 +128,6 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             return true
         else if key = "back"
             m.video.control = "stop"
-            m.top.getParent().backPressed = 11
             m.top.visible = false
             return false
         end if
