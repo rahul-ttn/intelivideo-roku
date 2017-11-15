@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="prices" extends="ContentNode" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+<interface>
+		<field type="integer" id="price_id" />
+		<field type="integer" id="amount" />
+		<field type="integer" id="recurring_amount" />
+		<field type="integer" id="trial_days" />
+		<field type="string" id="frequency" />
+		<field type="string" id="button_text" />
+		<field type="string" id="name" />
+		<field type="string" id="external_mapping_id" />
+	</interface>
+</component>

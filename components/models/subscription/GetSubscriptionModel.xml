@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="GetSubscriptionModel" extends="BaseModel" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+<interface>
+		<field type="nodearray" id="items"/>
+		<field id="pageInfo" type="node" />
+	</interface>
+</component>

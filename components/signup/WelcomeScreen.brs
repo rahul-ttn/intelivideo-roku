@@ -62,11 +62,11 @@ sub onWelcomeScreen()
 end sub
 
 sub showLoginScreen()
-    loginScreen = m.top.createChild("LoginScreen")
-    loginScreen.visible = true
+    m.loginScreen = m.top.createChild("LoginScreen")
+    m.loginScreen.visible = true
     m.top.setFocus(false)
-    loginScreen.setFocus(true)
-    loginScreen.buttonFocus = true
+    m.loginScreen.setFocus(true)
+    m.loginScreen.buttonFocus = true
 end sub
 
 sub showCreateAccountScreen()
@@ -111,6 +111,11 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 m.createAccount.setFocus(false)
                 m.createAccount = invalid
                 m.createAccountButton.setFocus(true)
+                return true
+            else if m.loginScreen <> invalid
+                m.loginScreen.setFocus(false)
+                m.loginScreen = invalid
+                m.loginButton.setFocus(true)
                 return true
             else
                 m.top.visible = false

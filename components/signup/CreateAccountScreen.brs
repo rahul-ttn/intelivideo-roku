@@ -70,6 +70,14 @@ sub initFields()
     handleVisibility()
 end sub
 
+sub showLoginScreen()
+    m.loginScreen = m.top.createChild("LoginScreen")
+    m.loginScreen.visible = true
+    m.top.setFocus(false)
+    m.loginScreen.setFocus(true)
+    m.loginScreen.buttonFocus = true
+end sub
+
 sub onCreateAccountScreen()
     m.emailButton.setFocus(true)
 end sub
@@ -79,10 +87,10 @@ sub createAccount()
         if checkInternetConnection()
             message = createAccountParams(m.emailHintlabel.text, m.password, getCurrentTimeStamp())
             showProgressDialog()
-            baseUrl = getApiBaseUrl() + "accounts/" + StrI(m.appConfig.account_id) + "/user"
-            m.userApi = createObject("roSGNode","UserApiHandler")
+            baseUrl = getApiBaseUrl() + "accounts/" + StrI(m.appConfig.account_id).Trim() + "/user?payload=" + generateCipher(message, m.appConfig.account_secret_key) + "&strategy=bf-cbc"
+            m.userApi = createObject("roSGNode","AuthTokenApiHandler")
             m.userApi.setField("uri",baseUrl)
-            m.userApi.setField("params",generateCipher(message, m.appConfig.account_secret_key))
+            'm.userApi.setField("params",generateCipher(message, m.appConfig.account_secret_key))
             m.userApi.setField("dataType","create_account")
             m.userApi.observeField("content","onUserApiResponse")
             m.userApi.control = "RUN"
@@ -185,6 +193,11 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         else if key = "back"
             if m.keyboard.visible
                 closeKeyBoard()
+                return true
+            else if m.loginScreen <> invalid
+                m.loginScreen.setFocus(false)
+                m.loginScreen = invalid
+                m.loginButton.setFocus(true)
                 return true
             else
                 m.top.visible = false

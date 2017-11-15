@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="SubscriptionItemModel" extends="ContentNode" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+<interface>
+		<field type="integer" id="product_id" />
+		<field type="string" id="key" />
+		<field type="string" id="title" />
+		<field type="string" id="description" />
+		<field type="string" id="long_description" />
+		<field type="nodearray" id="prices"/>
+	</interface>
+</component>

@@ -19,7 +19,7 @@ Function callDeleteApi(url as String,headers as object,params as String) as obje
 End Function
 
 Function callApi(url as String,headers as Object,isPostApi as boolean,params as String,isDeleteApi as boolean)
-    print "url is :";type(params)
+    print "url is :";url
     print "headers are :";headers
     print "params are :";params
     request = CreateObject("roUrlTransfer")
@@ -30,7 +30,6 @@ Function callApi(url as String,headers as Object,isPostApi as boolean,params as 
     if isDeleteApi
         request.SetRequest("DELETE")
     end if
-    print "url that we are going to hit to servr "+url
     request.SetUrl(url)
     request.SetCertificatesFile("common:/certs/ca-bundle.crt")
     request.AddHeader("Authorization", "Bearer")
