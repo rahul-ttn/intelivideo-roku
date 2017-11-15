@@ -28,18 +28,195 @@
 				horizAlign="center"
 				translation ="[0.0,200]">
 			</Label>
+			
+<!--==============================================Monthly Card===============================================================-->			
 			<Rectangle id = "monthlyRectangle"
 				width = "400"
 				height = "600"
 				color = "0x858585ff"
 				translation = "[150,350]">
 				<Label id = "labelMonthlyPlan"
-					text = "Monthly Plan"
+					text = "Monthly"
 					width = "400"
 					horizAlign="center">
 				</Label>
+				<Label id = "monthlylabelPlan"
+					text = "Plan"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Label id = "labelPoint1"
+					text = "Stream instantly or save offline"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Label id = "labelPoint2"
+					text = "Watch on multiple screens at once"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Label id = "labelPoint3"
+					text = "Unlimited watching"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Label id = "labelPoint4"
+					text = "Cancel Anytime"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Label id = "labelOneMonth"
+					text = "Get One Month FREE"
+					width = "400"
+					horizAlign="center"
+					font = "font:SmallSystemFont">
+				</Label>
+				<Label id = "labelPrice"
+					text = "$9.99/monthly USD"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Rectangle
+					id = "selectButtonRectangle"
+					width="170"
+					height = "60"
+					color="0x00CCB9ff">
+					
+					<Button
+						id="buttonSelectMonthly"
+						height = "50"
+					  	translation="[0,0]"
+					  	textFont = "font:LargeSystemFont"
+					  	iconUri=""
+						focusedIconUri="pkg:/images/img_transparent"
+						focusBitmapUri="pkg:/images/img_transparent"
+						focusFootprintBitmapUri=""/>
+					
+					 <Label
+						id = "selectButtonTextLabel"
+						text = "Select"
+						height = "60"
+						width="170"
+						horizAlign = "center"
+						vertAlign="center"
+						color = "0xffffffff">
+					</Label> 
+				</Rectangle>
 			</Rectangle>
 			
+<!--=================================Yearly card======================================================================-->	
+			<Rectangle id = "yearlyRectangle"
+				width = "400"
+				height = "600"
+				color = "0x858585ff"
+				translation = "[580,350]">
+				<Label id = "labelYearlyPlan"
+					text = "Yearly"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Label id = "labelPlan"
+					text = "Plan"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Label id = "labelYearlyPoint1"
+					text = "Stream instantly or save offline"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Label id = "labelYearlyPoint2"
+					text = "Watch on multiple screens at once"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Label id = "labelYearlyPoint3"
+					text = "Unlimited watching"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Label id = "labelYearlyPoint4"
+					text = "Cancel Anytime"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Label id = "labelYearlyOneMonth"
+					text = "Save BIG Annually"
+					width = "400"
+					horizAlign="center"
+					font = "font:SmallSystemFont">
+				</Label>
+				<Label id = "labelYearlyPrice"
+					text = "$99/annually USD"
+					width = "400"
+					horizAlign="center">
+				</Label>
+				<Rectangle
+					id = "selectButtonYearlyRectangle"
+					width="170"
+					height = "60"
+					color="0x00CCB9ff">
+					
+					<Button
+						id="buttonSelectYearly"
+						height = "50"
+					  	translation="[0,0]"
+					  	textFont = "font:LargeSystemFont"
+					  	iconUri=""
+						focusedIconUri="pkg:/images/img_transparent"
+						focusBitmapUri="pkg:/images/img_transparent"
+						focusFootprintBitmapUri=""/>
+					 
+					 <Label
+						id = "selectButtonYearlyTextLabel"
+						text = "Select"
+						height = "60"
+						width="170"
+						horizAlign = "center"
+						vertAlign="center"
+						color = "0xffffffff">
+					</Label> 
+				</Rectangle>
+			</Rectangle>
+			
+			
+<!--=================================Right Poster======================================================================-->
+			<Rectangle id = "rightRectangle"
+				width = "700"
+				height = "600"
+				color="0xFFFFFF00"
+				translation = "[1100,350]">
+				
+				<Poster id = "posterAccountCard"
+					uri = "pkg:/images/icon_focus_hd.png"
+					width = "700"
+					height = "450">
+				</Poster>
+				<Label
+					id = "labelInfo"
+					text = "Instant Video.Just press play."
+					width = "700"
+					height = "50"
+					translation = "[0,460]"
+					horizAlign="center">
+				</Label>
+				<Label
+					id = "labelInfo2"
+					text = "HD apps for mobile, tablet, mac, PC and TV."
+					width = "700"
+					height = "50"
+					translation = "[0,500]"
+					horizAlign="center">
+				</Label>
+				<Label
+					id = "labelInfo3"
+					text = "Videos that goes with you EveryWhere."
+					width = "700"
+					height = "50"
+					translation = "[0,540]"
+					horizAlign="center">
+				</Label>
+			</Rectangle>
 		</Rectangle>	
 	</children>
 </component>
