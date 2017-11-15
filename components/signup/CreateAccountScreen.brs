@@ -75,8 +75,8 @@ sub onCreateAccountScreen()
 end sub
 
 sub createAccount()
-    if isValid()
-        if checkInternetConnection()
+'    if isValid()
+'        if checkInternetConnection()
 '            message = createAccountParams(m.emailHintlabel.text, m.password, getCurrentTimeStamp())
 '            showProgressDialog()
 '            baseUrl = getApiBaseUrl() + "accounts/" + StrI(m.appConfig.account_id) + "/user"
@@ -87,10 +87,10 @@ sub createAccount()
 '            m.userApi.observeField("content","onUserApiResponse")
 '            m.userApi.control = "RUN"
             goToSelectPlanScreen()
-        else
-            showRetryDialog(networkErrorTitle(), networkErrorMessage())
-        end if
-    end if
+'        else
+'            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+'        end if
+'    end if
 end sub
 
 sub onUserApiResponse()

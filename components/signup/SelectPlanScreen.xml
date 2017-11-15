@@ -5,8 +5,9 @@
 	<children>
 		<Rectangle
 			id ="rectangleouter"
-			width="1080"
-			height = "1920">
+			width="1920"
+			height = "1080"
+			color="0x855855FF">
 			
 			<Poster
 				id = "posterBackground"
@@ -14,6 +15,30 @@
 				height = "1920"
 				uri = "">
 			</Poster>
+			<Label id = "labelTitle"
+				text = "Scratch"
+				width = "1920"
+				horizAlign="center"
+				translation="[0.0,100]">
+			</Label>
+			<Label id = "labelSubTitle"
+				text = "Select Plan That's Right for you"
+				font = "font:LargeBoldSystemFont"
+				width = "1920"
+				horizAlign="center"
+				translation ="[0.0,200]">
+			</Label>
+			<Rectangle id = "monthlyRectangle"
+				width = "400"
+				height = "600"
+				color = "0x858585ff"
+				translation = "[150,350]">
+				<Label id = "labelMonthlyPlan"
+					text = "Monthly Plan"
+					width = "400"
+					horizAlign="center">
+				</Label>
+			</Rectangle>
 			
 		</Rectangle>	
 	</children>
