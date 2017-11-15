@@ -8,6 +8,7 @@ sub initFields()
     m.posterBackground = m.top.findNode("posterBackground")
     m.labelTitle = m.top.findNode("labelTitle")
     m.labelSubTitle = m.top.findNode("labelSubTitle")
+    m.labelSubTitle.font.size = 70
     
     m.monthlyRectangle = m.top.findNode("monthlyRectangle")
     m.labelMonthlyPlan = m.top.findNode("labelMonthlyPlan")
@@ -108,5 +109,14 @@ sub initFields()
     selectButtonYearlyRectangleY = labelYearlyPriceY + 50
     m.selectButtonYearlyRectangle.translation = [selectButtonYearlyRectangleX,selectButtonYearlyRectangleY]
       
+      
+    m.labelInfo = m.top.findNode("labelInfo")
+    m.labelInfo.font.size = 30
+    
+    m.labelInfo2 = m.top.findNode("labelInfo2")
+    m.labelInfo2.font.size = 30
+    
+    m.labelInfo3 = m.top.findNode("labelInfo3")
+    m.labelInfo3.font.size = 30
 end sub
 

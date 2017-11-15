@@ -22,8 +22,8 @@
 				translation="[0.0,100]">
 			</Label>
 			<Label id = "labelSubTitle"
-				text = "Select Plan That's Right for you"
-				font = "font:LargeBoldSystemFont"
+				text = "Select a Plan that's Right for you"
+				font = "font:LargeSystemFont"
 				width = "1920"
 				horizAlign="center"
 				translation ="[0.0,200]">
