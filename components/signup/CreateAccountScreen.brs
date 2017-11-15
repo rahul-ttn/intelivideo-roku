@@ -77,15 +77,16 @@ end sub
 sub createAccount()
     if isValid()
         if checkInternetConnection()
-            message = createAccountParams(m.emailHintlabel.text, m.password, getCurrentTimeStamp())
-            showProgressDialog()
-            baseUrl = getApiBaseUrl() + "accounts/" + StrI(m.appConfig.account_id) + "/user"
-            m.userApi = createObject("roSGNode","UserApiHandler")
-            m.userApi.setField("uri",baseUrl)
-            m.userApi.setField("params",generateCipher(message, m.appConfig.account_secret_key))
-            m.userApi.setField("dataType","create_account")
-            m.userApi.observeField("content","onUserApiResponse")
-            m.userApi.control = "RUN"
+'            message = createAccountParams(m.emailHintlabel.text, m.password, getCurrentTimeStamp())
+'            showProgressDialog()
+'            baseUrl = getApiBaseUrl() + "accounts/" + StrI(m.appConfig.account_id) + "/user"
+'            m.userApi = createObject("roSGNode","UserApiHandler")
+'            m.userApi.setField("uri",baseUrl)
+'            m.userApi.setField("params",generateCipher(message, m.appConfig.account_secret_key))
+'            m.userApi.setField("dataType","create_account")
+'            m.userApi.observeField("content","onUserApiResponse")
+'            m.userApi.control = "RUN"
+            goToSelectPlanScreen()
         else
             showRetryDialog(networkErrorTitle(), networkErrorMessage())
         end if
@@ -104,6 +105,12 @@ sub onUserApiResponse()
             showRetryDialog(networkErrorTitle(), networkErrorMessage())
         end if
     end if
+end sub
+
+sub goToSelectPlanScreen()
+    selectPlanScreen = m.top.createChild("SelectPlanScreen")
+    m.top.setFocus(false)
+    selectPlanScreen.setFocus(true)
 end sub
 
 Function isValid() as boolean
