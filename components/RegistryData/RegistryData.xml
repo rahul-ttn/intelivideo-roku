@@ -46,6 +46,11 @@
 			onChange="setIsHome" />
 		<field id="isHomeValue" type="string" alwaysNotify="true"
 			onChange="getIsHome" />
+			
+		<field id="subscriptionBackground" type="string" alwaysNotify="true"
+			onChange="setSubscriptionBackground" />
+		<field id="subscriptionBackgroundValue" type="string" alwaysNotify="true"
+			onChange="getSubscriptionBackground" />
 
 	</interface>
 </component>

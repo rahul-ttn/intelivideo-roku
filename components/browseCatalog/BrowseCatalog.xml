@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="BrowseCatalog" extends="Group"
+	xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/source/constants/Colors.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Constant.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/RequestParamsUtility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Logger.brs" />
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/components/navigation/NavigationBar.brs" />
+	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
+	<script type="text/brightscript" uri="pkg:/components/browseCatalog/BrowseCatalog.brs" />
+
+	<interface>
+		<field id="subscriptionId" type="string" alwaysNotify="true"
+			onChange="onSubId" />
+	</interface>
+
+	<children>
+
+		<Rectangle id="homeBackground" width="1960" height="1080"
+			translation="[0,0]">
+
+			<Rectangle id="bannerBackground" width="1960" height="240"
+				translation="[0,0]">
+
+				<Rectangle id="welcomeRectangle" width="1920"
+					translation="[0.0,65]">
+
+					<Label id="joinToday" text="Join Today!" width="1920"
+						horizAlign="center" vertAlign="center" font="font:LargeBoldSystemFont" />
+				</Rectangle>
+
+
+				<Rectangle id="loginRectangle" width="250" height="60">
+
+					<Button id="loginButton" height="50" translation="[0,0]"
+						textFont="font:LargeSystemFont" iconUri="" focusedIconUri=""
+						focusBitmapUri="pkg:/images/img_transparent"
+						focusFootprintBitmapUri="pkg:/images/img_transparent" />
+
+					<Label id="loginLabel" text="Continue" height="60" width="250"
+						horizAlign="center" vertAlign="center" color="0xffffffff">
+					</Label>
+				</Rectangle>
+
+			</Rectangle>
+
+			<HomeRowList id="homeRowList" translation="[100,300]" />
+
+			<Label id="Error_text" translation="[600,450]" visible="false" />
+
+		</Rectangle>
+
+		<Timer id="timer" repeat="false" duration=".5" />
+
+	</children>
+</component>

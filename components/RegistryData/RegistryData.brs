@@ -126,3 +126,16 @@ Sub getIsHome()
     End If
 end sub
 
+'---------------------------------------------------------------------------
+Sub setSubscriptionBackground()    
+    m.sec.Write("subscriptionBackground"+m.addNumber,m.top.subscriptionBackground)
+    m.sec.Flush() 'commit it
+end sub
+
+Sub getSubscriptionBackground()   
+    If m.sec.Exists("subscriptionBackground"+m.addNumber) Then
+        m.top.subscriptionBackgroundValue =  m.sec.read("subscriptionBackground"+m.addNumber)
+    else        
+        m.top.subscriptionBackgroundValue = Invalid
+    End If
+end sub

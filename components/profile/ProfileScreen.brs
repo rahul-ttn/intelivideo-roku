@@ -192,14 +192,21 @@ sub onListItemSelected()
 End sub
 
 sub callLoginScreen()
-'    for i = 0 To m.top.getScene().getChildCount() Step +1
-'        child = m.top.getScene().getChild(i)
-'        m.top.getScene().removeChild(child)
-'    end for
+'    if m.top.getScene().isWhiteLabel
+'        m.loginScreen = m.top.createChild("WelcomeScreen")
+'        m.top.setFocus(false)
+'        m.loginScreen.setFocus(true)
+'        m.loginScreen.buttonFocus = true
+'    else
+'        m.loginScreen = m.top.createChild("LoginScreen")
+'        m.top.setFocus(false)
+'        m.loginScreen.setFocus(true)
+'        m.loginScreen.buttonFocus = true
+'    end if
     m.loginScreen = m.top.createChild("LoginScreen")
-    m.top.setFocus(false)
-    m.loginScreen.setFocus(true)
-    m.loginScreen.buttonFocus = true
+        m.top.setFocus(false)
+        m.loginScreen.setFocus(true)
+        m.loginScreen.buttonFocus = true
 end sub
 
 sub addItemsInList(labelList)

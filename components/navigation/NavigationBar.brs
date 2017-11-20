@@ -119,6 +119,10 @@ sub switchAccountOpen()
     m.buttonSwitchAccount.observeField("buttonSelected", "showSwitchAccount")
     
     m.labelSwitchAccount = m.top.FindNode("labelSwitchAccount")
+'    if m.top.getScene().isWhiteLabel
+'        m.labelSwitchAccount.text = "Logout"
+'        m.labelSwitchAccount.translation = [50, 117]
+'    end if
     m.labelSwitchAccount.font.size = 25
 End sub
 
@@ -197,7 +201,18 @@ End sub
 
 sub showSwitchAccount()
     print "Switch Account"
-    
-    m.switchAccount = m.top.createChild("SwitchAccount")
-    m.switchAccount.setFocus(true)
+'    if m.top.getScene().isWhiteLabel
+'        setValueInRegistryForKey("isLogin", "false")
+'        'deleteValue("accountsDelete")
+'        welcomeScreen = m.top.createChild("WelcomeScreen")
+'        welcomeScreen.visible = true
+'        m.top.setFocus(false)
+'        welcomeScreen.setFocus(true)
+'        welcomeScreen.buttonFocus = true
+'    else
+'        m.switchAccount = m.top.createChild("SwitchAccount")
+'        m.switchAccount.setFocus(true)
+'    end if
+m.switchAccount = m.top.createChild("SwitchAccount")
+        m.switchAccount.setFocus(true)
 End sub

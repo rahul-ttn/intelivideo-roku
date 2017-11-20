@@ -219,11 +219,13 @@ Function generateCipher(sUrlAsMessage as String,secretKey as String) as String
         message = CreateObject("roByteArray") 
         message.fromAsciiString(sUrlAsMessage)
         result = cipher.Process(message)
+        print "encrypted cipher >>> "result
         return result.toBase64String()  
     else 
         return "Not A Valid Encryption"
     End if
 End Function
+
 
 Function generateHMAC(sUrlAsMessage as String,secretKey as String) as String
     If sUrlAsMessage=invalid Then

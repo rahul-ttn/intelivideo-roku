@@ -150,7 +150,7 @@ sub onAuthToken()
                 setValueInRegistryForKey("accounts", accountString)
                 print "onAuthToken >>> added account list"
             end if
-            m.video.control = "stop"
+            'm.video.control = "stop"
             'move to Home Screen
             m.top.getScene().dialog.close = true
             m.homeScreen = m.top.createChild("HomeScreen")

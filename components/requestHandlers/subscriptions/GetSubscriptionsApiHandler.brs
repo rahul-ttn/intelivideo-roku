@@ -32,11 +32,11 @@ sub parseApiResponse(response As Object)
             itemModel.long_description = item.long_description
             
             if item.images <> invalid AND item.images.horizontal_cover_art <> invalid
-                itemModel.thumbnail = item.images.horizontal_cover_art.thumbnail
+                itemModel.thumbnail = item.images.horizontal_cover_art.original
             else if item.images <> invalid AND item.images.vertical_cover_art <> invalid
-                itemModel.thumbnail = item.images.vertical_cover_art.thumbnail
+                itemModel.thumbnail = item.images.vertical_cover_art.original
             else if item.images <> invalid AND item.images.banner_image <> invalid
-                itemModel.thumbnail = item.images.banner_image.thumbnail
+                itemModel.thumbnail = item.images.banner_image.original
             end if
             
             priceArray = CreateObject("roArray", item.prices.count(), false)

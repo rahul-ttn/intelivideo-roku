@@ -9,5 +9,8 @@
 		<field id="featuredMediaArray" type="nodearray" />
 		<field id="popularMediaArray" type="nodearray" />
 		<field id="recentlyAddedMediaArray" type="nodearray" />
+		
+		<field id="collectionPageInfo" type="node" />
+		<field id="mediaPageInfo" type="node" />
 	</interface>
 </component>

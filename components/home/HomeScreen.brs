@@ -983,7 +983,7 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                 end if
                 result = true
             else
-                print "Switch Account invalid else block";m.top.getParent().getChildCount()
+                print "Switch Account invalid else block"
                 m.top.visible = false
                 result = false
             end if

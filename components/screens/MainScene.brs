@@ -45,6 +45,7 @@ sub moveToWelcomeScreen()
 End sub
 
 sub setConfigData()
+    print "setting config data >>>>>> "
     appConfigModel = CreateObject("roSGNode", "AppConfigModel")
     appConfigModel.primary_color = "#14a6df"
     appConfigModel.non_focus_color = "#565656"

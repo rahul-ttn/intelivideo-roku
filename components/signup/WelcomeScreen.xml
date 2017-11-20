@@ -17,7 +17,9 @@
 	<children>
 
 		<Poster id="welcomeScreenBackground" width="1960" height="1080"
-			translation="[0,0]" uri="pkg:/images/splash_fhd.png" />
+			translation="[0,0]" loadSync="true"/>
+		<Rectangle id="RectangleBackground" width="1960" height="1080"
+			color="0X000000B3"/>	
 
 		<Rectangle id="loginRectangle" width="180" height="60"
 			translation="[1600,100]">
@@ -32,8 +34,7 @@
 			</Label>
 		</Rectangle>
 
-		<Poster id="accountLogo" width="200" height="200"
-		 />
+		<Poster id="accountLogo" width="200" height="200" loadDisplayMode="scaleToFit" uri="pkg:/images/ttnd.png"/>
 
 		<Rectangle id="welcomeRectangle" width="1920" height="150"
 			color="0xf7dc6f00" translation="[0.0,350]">
@@ -74,5 +75,6 @@
 			</Label>
 		</Rectangle>
 		<Timer id="timer" repeat="false" duration=".5" />
+		<CreateAccountScreen id="CreateAccountScreen" visible="false"/>
 	</children>
 </component>

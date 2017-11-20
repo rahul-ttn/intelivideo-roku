@@ -1,12 +1,13 @@
 sub init()
     m.top.SetFocus(true)
     m.appConfig = m.top.getScene().appConfigContent
-    m.subscriptionId = 0
     initFields()
     getSubscription()
 End sub
 
 sub initFields()
+    m.welcomeScreenBackground = m.top.findNode("welcomeScreenBackground")
+    m.createAccount = m.top.findNode("CreateAccountScreen")
     m.accountLogo = m.top.findNode("accountLogo")
     accountLogoX = (1920 - m.accountLogo.width) / 2
     m.accountLogo.translation = [accountLogoX,120]
@@ -79,7 +80,8 @@ sub onSubscriptionApiResponse()
         dataObject = subscriptionApiModel.items[0]
         m.subscriptionId = dataObject.product_id
         m.labelDiscription.text = dataObject.description
-        m.accountLogo.uri = dataObject.thumbnail
+        m.welcomeScreenBackground.uri = dataObject.thumbnail
+        setValueInRegistryForKey("subscriptionBackground", dataObject.thumbnail)
     else
         if subscriptionApiModel <> invalid AND subscriptionApiModel.error <> invalid
             showRetryDialog("Server Error", subscriptionApiModel.error)
@@ -102,15 +104,17 @@ sub showLoginScreen()
 end sub
 
 sub showCreateAccountScreen()
-    m.createAccount = m.top.createChild("CreateAccountScreen")
     m.createAccount.visible = true
-    m.top.setFocus(false)
     m.createAccount.setFocus(true)
     m.createAccount.buttonFocus = true
 end sub
 
 sub showBrowseScreen()
-
+    m.browseCatalog = m.top.createChild("BrowseCatalog")
+    m.browseCatalog.visible = true
+    m.top.setFocus(false)
+    m.browseCatalog.setFocus(true)
+    m.browseCatalog.subscriptionId = StrI(m.subscriptionId)
 end sub
 
 function handleVisibility() as void
@@ -139,15 +143,21 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             handleVisibility()
             return true
         else if key = "back"
-            if m.createAccount <> invalid
-                m.createAccount.setFocus(false)
-                m.createAccount = invalid
+           
+            if m.createAccount.visible=true
+                'm.top.removeChild(m.createAccount)
+                m.createAccount.visible = false
                 m.createAccountButton.setFocus(true)
                 return true
             else if m.loginScreen <> invalid
-                m.loginScreen.setFocus(false)
+                m.top.removeChild(m.loginScreen)
                 m.loginScreen = invalid
                 m.loginButton.setFocus(true)
+                return true
+            else if m.browseCatalog <> invalid
+                m.browseCatalog.setFocus(false)
+                m.browseCatalog = invalid
+                m.browseCatalogButton.setFocus(true)
                 return true
             else
                 m.top.visible = false

@@ -1,6 +1,9 @@
 sub init()
     m.top.SetFocus(true)
-    setVideo()
+    'setVideo()
+    m.loginBackground = m.top.findNode("loginBackground")
+    m.loginBackground.uri = getValueInRegistryForKey("subscriptionBackgroundValue")
+    
     setValueInRegistryForKey("isHome","false")
     m.top.buttonFocus = false
     m.parentRectangle = m.top.findNode("parentRectangle")
@@ -273,12 +276,12 @@ Function onKeyEvent(key as String,press as Boolean) as Boolean
                     showHideError(false,00)
                     result = true
                 else if getValueInRegistryForKey("isHomeValue") = "true"
-                    m.video.control = "stop"
+                    'm.video.control = "stop"
                     m.top.visible = false
                     return false 
                 else 
                     m.top.visible = false
-                    m.video.control = "stop"
+                    'm.video.control = "stop"
                     result = false
                 end if
         end if

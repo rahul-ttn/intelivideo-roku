@@ -19,7 +19,9 @@
 	<children>
 
 		<Poster id="createAccountBackground" width="1960" height="1080"
-			translation="[0,0]" uri="pkg:/images/splash_fhd.png" />
+			translation="[0,0]"  />
+		<Rectangle id="RectangleBackground" width="1960" height="1080"
+			color="0X000000B3"/>
 
 		<Rectangle id="loginRectangle" width="180" height="60"
 			translation="[1600,100]">

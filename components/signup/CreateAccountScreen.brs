@@ -6,6 +6,8 @@ sub init()
 End sub
 
 sub initFields()
+    m.createAccountBackground = m.top.findNode("createAccountBackground")
+    
     m.accountLogo = m.top.findNode("accountLogo")
     accountLogoX = (1920 - m.accountLogo.width) / 2
     m.accountLogo.translation = [accountLogoX,120]
@@ -14,7 +16,7 @@ sub initFields()
     m.labelNewWay.font.size = 60
     
     m.labelDiscription = m.top.findNode("labelDiscription")
-    m.labelDiscription.text = "You new subscription will provide you with Instant Access to the content you want. After creating an account, you can select a plan to watch anywhere on any device, anytime."
+    m.labelDiscription.text = "Your new subscription will provide you with Instant Access to the content you want. After creating an account, you can select a plan to watch anywhere on any device, anytime."
     labelDiscriptionX = (1920 - m.labelDiscription.width) / 2
     m.labelDiscription.translation = [labelDiscriptionX,430]
     
@@ -80,6 +82,7 @@ end sub
 
 sub onCreateAccountScreen()
     m.emailButton.setFocus(true)
+    m.createAccountBackground.uri = getValueInRegistryForKey("subscriptionBackgroundValue")
 end sub
 
 sub createAccount()
@@ -87,10 +90,10 @@ sub createAccount()
         if checkInternetConnection()
             message = createAccountParams(m.emailHintlabel.text, m.password, getCurrentTimeStamp())
             showProgressDialog()
+            print "HMac base64 >>> " generateCipher("abcxyzbcdsfvsdfnsvdfnsdf", m.appConfig.account_secret_key)
             baseUrl = getApiBaseUrl() + "accounts/" + StrI(m.appConfig.account_id).Trim() + "/user?payload=" + generateCipher(message, m.appConfig.account_secret_key) + "&strategy=bf-cbc"
             m.userApi = createObject("roSGNode","AuthTokenApiHandler")
             m.userApi.setField("uri",baseUrl)
-            'm.userApi.setField("params",generateCipher(message, m.appConfig.account_secret_key))
             m.userApi.setField("dataType","create_account")
             m.userApi.observeField("content","onUserApiResponse")
             m.userApi.control = "RUN"
@@ -200,7 +203,6 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 m.loginButton.setFocus(true)
                 return true
             else
-                m.top.visible = false
                 return false
             end if
         end if

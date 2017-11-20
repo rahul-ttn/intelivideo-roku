@@ -20,6 +20,11 @@
 	  	>
     </Video>
     
+    <Poster id="loginBackground" width="1960" height="1080"
+			translation="[0,0]"  />
+	<Rectangle id="RectangleBackground" width="1960" height="1080"
+			color="0X000000B3"/>
+    
     <Rectangle
     	id = "parentRectangle"
     	width="1920"
