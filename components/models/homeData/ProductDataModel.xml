@@ -11,5 +11,6 @@
 		<field id="is_item" type="bool"></field>
 		<field id="is_vertical_image" type="bool"></field>
 		<field id="favorite" type="bool"></field>
+		<field id="description" type="String"></field>
 	</interface>
 </component>

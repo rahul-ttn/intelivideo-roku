@@ -16,6 +16,7 @@
 		<field type="integer" id="product_id" alwaysNotify="true"
 			onChange="getProductId" />
 		<field type="integer" id="backPressed" alwaysNotify="true" onChange = "onBackPressed"/>
+		<field id = "productDetail" type = "node" alwaysNotify="true" onChange="updateProductDetails"></field>
 	</interface>
 
 	<children>

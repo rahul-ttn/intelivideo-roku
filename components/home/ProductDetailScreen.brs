@@ -16,6 +16,15 @@ sub getProductId()
     'm.buttonFav.SetFocus(true)
 End sub
 
+sub updateProductDetails()
+    initFields()
+    m.productDetails = m.top.productDetail
+    print "m.productDetails ";m.productDetails.title 
+    m.titleLabel.text = m.productDetails.title
+    m.descLabel.text = m.productDetails.description
+       
+end sub
+
 sub initFields() 
     m.productDetailBackground = m.top.FindNode("productDetailBackground")
     m.productDetailBackground.color = homeBackground()

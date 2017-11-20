@@ -290,64 +290,52 @@ function getGridRowListContent() as object
          return parentContentNode 
 end function
 
-'function onRowItemSelected() as void
-'        row = m.homeRowList.rowItemSelected[0]
-'        col = m.homeRowList.rowItemSelected[1]
-'
-'        m.focusedItem = [row,col]
-'        if checkInternetConnection()
-'            if col >= 10
-'                'goTViewAllScreen(m.homeRowList.content.getChild(m.homeRowList.itemFocused).title)
-'            else
-'                listTitle = m.homeRowList.content.getChild(m.homeRowList.itemFocused).title
-'                if listTitle = featuredMedia() OR listTitle = popularMedia() OR listTitle = recentlyAddedMedia()
-'                    goToMediaDetailScreen(listTitle, col)
-'                else
-'                    goToProductDetailScreen(listTitle, col)
-'                end if
-'            end if  
-'        else
-'            showRetryDialog(networkErrorTitle(), networkErrorMessage())
-'        end if
-'end function
-'
-'sub goToProductDetailScreen(titleText as String, column as Integer)
-'    m.productDetail = m.top.createChild("ProductDetailScreen")
-'    m.top.setFocus(false)
-'    m.productDetail.setFocus(true)
-'    if titleText = featuredProducts()
-'        m.productDetail.product_id = m.featureProductsApiModel.featuredProductsArray[column].product_id
-'    else if titleText = popularProducts()
-'        m.productDetail.product_id = m.popularProductApiModel.popularProductsArray[column].product_id
-'    else if titleText = recentlyAddedProducts()
-'        m.productDetail.product_id = m.recentAddedProductApiModel.recentlyAddedProductsArray[column].product_id
-'    else if titleText = myFavorites()
-'        m.productDetail.product_id = m.myFavoriteApiModel.items[column].product_id
-'    else if titleText = myContent()
-'        m.productDetail.product_id = m.productsAarray[column].product_id
-'    else if titleText = basedOnFavorites()
-'        m.productDetail.product_id = m.basedOnFavoriteApiModel.relatedMediaArray[column].product_id
-'    end if
-'end sub
-'
-'sub goToMediaDetailScreen(titleText as String, column as Integer)
-'    m.mediaDetail = m.top.createChild("MediaDetailScreen")
-'    m.top.setFocus(false)
-'    m.mediaDetail.setFocus(true)
-'    if titleText = featuredMedia()
-'        m.mediaDetail.resource_id = m.featureMediaApiModel.featuredMediaArray[column].resource_id
-'    else if titleText = popularMedia()
-'        m.mediaDetail.resource_id = m.popularMediaApiModel.popularMediaArray[column].resource_id
-'    else if titleText = recentlyAddedMedia()
-'        m.mediaDetail.resource_id = m.recentAddedMediaApiModel.recentlyAddedMediaArray[column].resource_id
-'    else if titleText = myFavorites()
-'        m.mediaDetail.resource_id = m.myFavoriteApiModel.items[column].resource_id
-'    else if titleText = featuredRecent()
-'        m.mediaDetail.resource_id = m.recentlyViewedApiModel.recentMediaArray[column].resource_id
-'    else if titleText = basedOnFavorites()
-'        m.mediaDetail.resource_id = m.basedOnFavoriteApiModel.relatedMediaArray[column].resource_id  
-'    end if
-'end sub
+function onRowItemSelected() as void
+        row = m.homeRowList.rowItemSelected[0]
+        col = m.homeRowList.rowItemSelected[1]
+
+        m.focusedItem = [row,col]
+        if checkInternetConnection()
+            if col > 10
+                goTViewAllScreen(m.homeRowList.content.getChild(m.homeRowList.itemFocused).title)
+            else
+                listTitle = m.homeRowList.content.getChild(m.homeRowList.itemFocused).title
+                if listTitle = featuredMedia() OR listTitle = popularMedia() OR listTitle = recentlyAddedMedia()
+                    goToMediaDetailScreen(listTitle, col)
+                else
+                    goToProductDetailScreen(listTitle, col)
+                end if
+            end if  
+        else
+            showRetryDialog(networkErrorTitle(), networkErrorMessage())
+        end if
+end function
+
+sub goToProductDetailScreen(titleText as String, column as Integer)
+    m.productDetail = m.top.createChild("ProductDetailScreen")
+    m.top.setFocus(false)
+    m.productDetail.setFocus(true)
+    if titleText = featuredProducts()
+        m.productDetail.productDetail = m.featureApiModel.featuredProductsArray[column]
+    else if titleText = popularProducts()
+        m.productDetail.productDetail = m.popularApiModel.popularProductsArray[column]
+    else if titleText = recentlyAddedProducts()
+        m.productDetail.productDetail = m.recentApiModel.recentlyAddedProductsArray[column]
+    end if
+end sub
+
+sub goToMediaDetailScreen(titleText as String, column as Integer)
+    m.mediaDetail = m.top.createChild("MediaDetailScreen")
+    m.top.setFocus(false)
+    m.mediaDetail.setFocus(true)
+    if titleText = featuredMedia()
+        m.mediaDetail.resource_id = m.featureApiModel.featuredMediaArray[column].resource_id
+    else if titleText = popularMedia()
+        m.mediaDetail.resource_id = m.popularApiModel.popularMediaArray[column].resource_id
+    else if titleText = recentlyAddedMedia()
+        m.mediaDetail.resource_id = m.recentApiModel.recentlyAddedMediaArray[column].resource_id
+    end if
+end sub
 
 
 
