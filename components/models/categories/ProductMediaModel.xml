@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="ProductMediaModel" extends="ContentNode" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<interface>
+		<field id="resource_id" type="integer" />
+		<field id="type" type="String" />
+		<field id="title" type="string"/>
+		<field id="description"></field>
+		<field id="duration" type=" "/>
+		<field id="created_at" type="integer" />
+		<field id="thumbnail" type="string" />
+		<field id="is_media" type="bool"></field>
+		<field id="is_item" type="bool"></field>
+		<field id="is_vertical_image" type="bool"></field>
+	</interface>
+</component>

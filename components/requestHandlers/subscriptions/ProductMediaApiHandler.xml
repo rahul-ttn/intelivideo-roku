@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="ProductMediaApiHandler" extends="Task" xsi:noNamespaceSchemaLocation="https://devtools.web.roku.com/schema/RokuSceneGraph.xsd">
+	<script type="text/brightscript" uri="pkg:/source/utility/Utility.brs" />
+	<script type="text/brightscript" uri="pkg:/source/constants/Strings.brs" />
+	<script type="text/brightscript" uri="pkg:/source/network/ApiConnection.brs" />
+	<script type="text/brightscript"
+		uri="pkg:/components/requestHandlers/subscriptions/ProductMediaApiHandler.brs" />
+
+	<interface>
+		<field id="uri" type="string" />
+		<field id="content" type="node" />
+		<field id="header" type="assocarray" />
+		<field id="params" type="string" />
+		<field id="dataType" type="string" />
+	</interface>
+</component>

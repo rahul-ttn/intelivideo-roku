@@ -6,25 +6,6 @@ sub init()
     m.isFavMedia = false
 End sub
 
-sub getProductId()
-    m.productId = m.top.product_id
-    initFields()
-    getProductDetails()
-    'initializing the currentFocus id 
-    m.currentFocusID ="productLabelList"
-    handlebuttonSelectedState()
-    'm.buttonFav.SetFocus(true)
-End sub
-
-sub updateProductDetails()
-    initFields()
-    m.productDetails = m.top.productDetail
-    print "m.productDetails ";m.productDetails.title 
-    m.titleLabel.text = m.productDetails.title
-    m.descLabel.text = m.productDetails.description
-       
-end sub
-
 sub initFields() 
     m.productDetailBackground = m.top.FindNode("productDetailBackground")
     m.productDetailBackground.color = homeBackground()
@@ -32,6 +13,7 @@ sub initFields()
     m.productDetailBgPoster = m.top.FindNode("productDetailBgPoster")
     m.Error_text  = m.top.FindNode("Error_text")
     m.leftParentRectangle = m.top.findNode("leftParentRectangle")
+    m.rightParentRectangle = m.top.findNode("rightParentRectangle")
     
     m.titleRectangle = m.top.findNode("titleRectangle")
     m.titleLabel = m.top.findNode("titleLabel")
@@ -103,6 +85,44 @@ sub initFields()
     m.documentInfoLabel = m.top.findNode("documentInfoLabel")
     m.documentInfoLabel.font.size = 30 
 End sub
+
+sub getProductId()
+    m.productId = m.top.product_id
+    initFields()
+    getProductDetails()
+    'initializing the currentFocus id 
+    m.currentFocusID ="productLabelList"
+    handlebuttonSelectedState()
+    'm.buttonFav.SetFocus(true)
+End sub
+
+sub updateProductDetails()
+    initFields()
+    m.productDetailRectangle.visible = true
+    m.rightParentRectangle.visible = false
+    m.productDetails = m.top.productDetail
+    print "m.productDetails ";m.productDetails.title 
+    print "product ID";m.productDetails.product_id
+    m.titleLabel.text = m.productDetails.title
+    m.descLabel.text = m.productDetails.description
+    
+    getProductMediaList()
+       
+end sub
+
+sub getProductMediaList()
+    if checkInternetConnection()
+        m.Error_text.visible = false
+        showProgressDialog()
+        baseUrl = getApiBaseUrl() + "store/"+ StrI(m.top.getScene().appConfigContent.account_id).Trim() +"/collections/"+StrI(m.productDetails.product_id).Trim()+"?per_page=100&page_number=1&access_token=" + getValueInRegistryForKey("authTokenValue")
+        m.productMediaApi = createObject("roSGNode","ProductMediaApiHandler")
+        m.productMediaApi.setField("uri",baseUrl)
+        m.productMediaApi.observeField("content","onProductMediaApiResponse")
+        m.productMediaApi.control = "RUN"
+    else
+        showRetryDialog(networkErrorTitle(), networkErrorMessage())
+    end if
+end sub
 
 sub onProductFavorite()
     m.top.getScene().isRefreshOnBack = true
